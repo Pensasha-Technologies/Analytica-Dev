@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar" id="sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+							th:href="@{/schools/deputyPrincipal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+							th:href="@{/schools/principalHome}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Marks
+							Entry</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex flex-column">
+
+						<div class="row d-flex justify-content-center">
+							<h3 th:text="${school.name}">School Name</h3>
+						</div>
+						<div class="row d-flex justify-content-center">
+							<h4
+								th:text="'Year: ' + ${year} + ' Form: ' + ${form} +' ' + ${stream} "></h4>
+						</div>
+						<div class="row d-flex justify-content-center">
+							<h4 th:text="${subject}"></h4>
+						</div>
+						<div class="row d-flex justify-content-center">
+							<h5 th:text="${exam} + ' Marks Entry'"></h5>
+						</div>
+
+					</div>
+
+					<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+						Student exists</div>
+
+					<div class="alert alert-success" th:if="${success}"
+						th:text="${success}">Student saved</div>
+
+					<div class="table-responsive">
+						<form
+							th:action="@{/adminHome/schools/{code}/marks/{exam}(code=${school.code}, exam=${exam})}"
+							th:method="Post">
+							<input type="hidden" th:value="${subject}" name="subject" /> <input
+								type="hidden" th:value="${form}" name="form" /> <input
+								type="hidden" th:value="${year}" name="year" /> <input
+								type="hidden" th:value="${term}" name="term" />
+
+							<button th:if="${students} and ${students.size()}"
+								class="btn btn-primary fadeIn third" type="submit"
+								style="margin-bottom: 10px; float: right;">Submit</button>
+
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">Admission Number</th>
+											<th scope="col" th:text="${exam} + ' Marks'">Marks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<div th:unless="${students} and ${students.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No
+												Student has been added</p>
+										</div>
+										<tr th:each="student : ${students}">
+											<th scope="row" th:text="${student.name}">1</th>
+											<td th:text="${student.admNo}">Mark</td>
+											<td><input class="form-control" type="number"
+												th:name="${student.admNo} + 'mark'" /></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</form>
+					</div>
+
+				</div>
+				<!-- End of Main Content -->
+
+				<!-- Footer -->
+				<footer th:replace="fragments :: footer2"></footer>
+				<!-- End of Footer -->
+
+				<!-- Add school model -->
+				<!-- Modal -->
+				<div class="modal fade" id="addSchoolModal" tabindex="-1"
+					role="dialog" aria-labelledby="addSchoolModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="addSchoolModalLabel">Add School
+								</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="d-flex justify-content-center">
+									<div id="formContent" style="margin-top: -2px; padding: 10px;">
+										<!-- Login Form -->
+										<form class="addSchoolForm" th:action="@{/adminHome}"
+											method="post" th:object="${school}">
+											<div class="form-group fadeIn first">
+												<label for="name"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													School Name</label> <input type="text" id="name" th:field="*{name}"
+													class="fadeIn first" name="name"
+													placeholder="Enter School Name" required />
+											</div>
+
+											<div class="form-group fadeIn second">
+												<label for="code"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													School Code</label> <input type="text" id="code" th:field="*{code}"
+													class="fadeIn second" name="code"
+													placeholder="Enter School Code" required />
+											</div>
+
+											<button class="btn btn-primary fadeIn fourth" type="submit"
+												style="margin-top: 10px;">Add School</button>
+										</form>
+									</div>
+
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- End of Content Wrapper -->
+
+		</div>
+		<!-- End of Page Wrapper -->
+
+		<!-- Scroll to Top Button-->
+		<a th:replace="fragments :: scroll"></a>
+
+		<!-- Logout modal -->
+		<div th:replace="fragments :: logoutModal"></div>
+
+		<div th:replace="fragments :: endScript"></div>
+</body>
+
+</html>

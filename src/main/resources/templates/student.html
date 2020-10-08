@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'TEACHER'}"><a
+							th:href="@{/schools/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+						<li class="breadcrumb-item active" aria-current="page"
+							th:text="${student.firstname}">Student</li>
+					</ol>
+				</nav>
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-between">
+
+						<section>
+							<h3>Student Details</h3>
+						</section>
+						<nav class="navbar navbar-expand-lg navbar-light">
+							<div class="navbar-nav">
+								<a class="btn btn-primary"
+									th:href="@{/adminHome/schools/{code}/student/{admNo}/yearly(code=${school.code}, admNo=${student.admNo})}"
+									style="margin-left: 10px;"> Yearly Report </a>
+							</div>
+						</nav>
+					</div>
+
+					<div>
+
+						<h4>Basic Information</h4>
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<th>First Name</th>
+									<th>Second Name</th>
+									<th>Third Name</th>
+									<th>Admission Number</th>
+								</thead>
+								<tbody>
+									<tr>
+										<td th:text="${student.firstname}">First Name</td>
+										<td th:text="${student.secondname}">Second Name</td>
+										<td th:text="${student.thirdname}">Third Name</td>
+										<td th:text="${student.admNo}">AdmNo</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+					<div>
+
+						<h4>Additional Information</h4>
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">First</th>
+										<th scope="col">Last</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Mark</td>
+										<td>Otto</td>
+									</tr>
+									<tr>
+										<td>Jacob</td>
+										<td>Thornton</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+					<div class="d-flex justify-content-between">
+						<h4>Subjects</h4>
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target="#addSubjectsModal" style="margin-bottom: 10px;">Add
+							Subjects</button>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col" colspan="2">Subjects</th>
+								</tr>
+							</thead>
+							<tbody>
+								<th style="border-right: solid 1px #FFF">Group I</th>
+								<th></th>
+								<tr th:each="group1 : ${group1}">
+									<td th:text="${group1.name}"
+										style="border-right: solid 1px #FFF">Mark</td>
+									<td style="text-align: center;"><a
+										class="fa fa-trash deleteBtn" aria-hidden="true"
+										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group1.initials})}"></a></td>
+								</tr>
+								<th style="border-right: solid 1px #FFF">Group II</th>
+								<th></th>
+								<tr th:each="group2 : ${group2}">
+									<td th:text="${group2.name}"
+										style="border-right: solid 1px #FFF">Mark</td>
+									<td style="text-align: center;"><a
+										class="fa fa-trash deleteBtn" aria-hidden="true"
+										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group2.initials})}"></a></td>
+								</tr>
+								<th style="border-right: solid 1px #FFF">Group III</th>
+								<th></th>
+								<tr th:each="group3 : ${group3}">
+									<td th:text="${group3.name}"
+										style="border-right: solid 1px #FFF">Mark</td>
+									<td style="text-align: center;"><a
+										class="fa fa-trash deleteBtn" aria-hidden="true"
+										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group3.initials})}"></a></td>
+								</tr>
+								<th style="border-right: solid 1px #FFF">Group IV</th>
+								<th></th>
+								<tr th:each="group4 : ${group4}">
+									<td th:text="${group4.name}"
+										style="border-right: solid 1px #FFF">Mark</td>
+									<td style="text-align: center;"><a
+										class="fa fa-trash deleteBtn" aria-hidden="true"
+										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group4.initials})}"></a></td>
+								</tr>
+								<th style="border-right: solid 1px #FFF">Group V</th>
+								<th></th>
+								<tr th:each="group5 : ${group5}">
+									<td th:text="${group5.name}"
+										style="border-right: solid 1px #FFF">Mark</td>
+									<td style="text-align: center;"><a
+										class="fa fa-trash deleteBtn" aria-hidden="true"
+										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group5.initials})}"></a></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+			<!-- Add subjects model -->
+			<div class="modal fade" id="addSubjectsModal" tabindex="-1"
+				role="dialog" aria-labelledby="addSubjectsModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addSubjectsModalLabel">Add
+								Subjects</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addSubjectsForm"
+										th:action="@{/adminHome/schools/{code}/student/{admNo}/subjects(code = ${school.code}, admNo = ${student.admNo})}"
+										method="post">
+
+										<select id="selectYear" name="year" th:each="year : ${years}">
+											<option th:value="${year.year}"
+												th:text="'Year ' + ${year.year}">One</option>
+										</select> <select id="selectForm" name="form" th:each="form : ${forms}">
+											<option th:value="${form.form}"
+												th:text="'Form ' + ${form.form}">One</option>
+										</select>
+
+										<h5>Subjects</h5>
+										<div
+											th:unless="${schoolSubjects} and ${schoolSubjects.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No
+												Subjects in School</p>
+										</div>
+										<div class="form-check" th:each="subject : ${schoolSubjects}">
+											<input class="form-check-input" type="checkbox"
+												th:value="${subject.initials}" th:id="${subject.initials}"
+												th:name="${subject.initials}"> <label
+												class="form-check-label" th:for="${subject.initials}"
+												th:text="${subject.name}"> Subject Name </label>
+										</div>
+
+										<input type="submit" value="Add Subjects" />
+
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+</body>
+
+</html>

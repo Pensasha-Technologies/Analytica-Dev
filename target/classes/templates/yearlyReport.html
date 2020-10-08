@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'TEACHER'}"><a
+							th:href="@{/schools/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+						<li class="breadcrumb-item"><a th:text="${student.firstname}"
+							th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">Students</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Yearly
+							Report</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<img th:src="@{/img/avataaars.svg}" height="100px" width="100px;"
+						style="display: block; margin-left: auto; margin-right: auto; width: 50%;" />
+					<h3 th:text="${student.firstname}" style="text-align: center;">
+						Name</h3>
+
+					<div class="container-fluid">
+
+						<div th:each="year : ${years}">
+							<h3 th:text="'Year: ' + ${year.year}">Year</h3>
+							<div th:each="form : ${forms}">
+								<div th:each="term : ${form.terms}">
+									<h1 th:text="'Form ' + ${form.form} + ' Term ' +${term.term}"
+										style="text-align: center; padding-top: 20px;"></h1>
+
+									<div class="border border-dark" style="padding: 10px;">
+
+										<div class="table-responsive">
+											<table class="table" style="text-align: center;">
+												<thead>
+													<tr>
+														<th scope="col">SUBJECTS</th>
+														<th scope="col">CAT 1</th>
+														<th scope="col">CAT 2</th>
+														<th scope="col">MAIN</th>
+														<th scope="col">GRADE</th>
+														<th scope="col">PNTS</th>
+														<th scope="col">REMARKS</th>
+														<th scope="col">INITIALS</th>
+													</tr>
+												</thead>
+												<div th:unless="${marks} and ${marks.size()}">
+													<br>
+													<p class="text text-center alert alert-warning">No
+														Student marks has been added</p>
+												</div>
+												<tbody th:each="mark : ${marks}">
+													<tr
+														th:if="${mark.student.admNo == student.admNo and mark.year.year == year.year and mark.form.form == form.form and mark.term.term == term.term}">
+														<td th:text="${mark.subject.name}">Subject Name</td>
+														<td th:text="${mark.cat1}">Cat 1 marks</td>
+														<td th:text="${mark.cat2}">Cat 2 marks</td>
+														<td th:text="${mark.mainExam}">Main Exam</td>
+														<td
+															th:with="isEven=(${mark.cat1 + mark.cat2})/2 + ${mark.mainExam}"
+															th:switch="${9.8}">
+															<p th:case="10" th:text="${'A'}" />
+															<p th:case="9" th:text="${'A'}" />
+															<p th:case="8" th:text="${'A'}" />
+															<p th:case="7.5" th:text="${'A-'}" />
+															<p th:case="7" th:text="${'B+'}" />
+															<p th:case="6.5" th:text="${'B'}" />
+															<p th:case="6" th:text="${'B-'}" />
+															<p th:case="5.5" th:text="${'C+'}" />
+															<p th:case="5" th:text="${'C'}" />
+															<p th:case="4.5" th:text="${'C-'}" />
+															<p th:case="4" th:text="${'D+'}" />
+															<p th:case="3.5" th:text="${'D'}" />
+															<p th:case="3" th:text="${'D-'}" />
+															<p th:case="2" th:text="${'E'}" />
+															<p th:case="1" th:text="${'E'}" />
+															<p th:case="*">----</p>
+														</td>
+														<td
+															th:switch="(${mark.cat1} + ${mark.cat2})/2 + ${mark.mainExam}">
+															<p th:case="100" th:text="${12}">Points</p>
+															<p th:case="90" th:text="${12}">Points</p>
+															<p th:case="80" th:text="${12}">Points</p>
+															<p th:case="75" th:text="${11}">Points</p>
+															<p th:case="70" th:text="${10}">Points</p>
+															<p th:case="65" th:text="${9}">Points</p>
+															<p th:case="60" th:text="${8}">Points</p>
+															<p th:case="55" th:text="${7}">Points</p>
+															<p th:case="50" th:text="${6}">Points</p>
+															<p th:case="45" th:text="${5}">Points</p>
+															<p th:case="40" th:text="${4}">Points</p>
+															<p th:case="35" th:text="${3}">Points</p>
+															<p th:case="30" th:text="${2}">Points</p>
+															<p th:case="20" th:text="${1}">Points</p>
+															<p th:case="10" th:text="${1}" />
+															<p th:case="0" th:text="${1}" />
+															<p th:case="*">----</p>
+														</td>
+														<td>@mdo</td>
+														<td>@mdo</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<h4 style="text-align: center;">Students Progress Report</h4>
+
+										<div class="table-responsive">
+											<table class="table" style="text-align: center;">
+												<thead>
+													<tr>
+														<th colspan="5" th:each="form: ${forms}"
+															th:text="'Form: ' + ${form.form}">Form 1</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<th:block th:each="form: ${forms}">
+															<th>Term</th>
+															<th>Pos</th>
+															<th>Out of</th>
+															<th>MG</th>
+															<th>MPTS</th>
+														</th:block>
+													</tr>
+													<tr th:each="term: ${form.terms}">
+														<th:block th:each="form: ${forms}">
+															<th th:text="${term.term}">1</th>
+															<th>...</th>
+															<th>...</th>
+															<th>...</th>
+															<th>...</th>
+														</th:block>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+
+										<div style="text-align: center;">
+
+											<div class="table-responsive">
+												<table class="table">
+													<thead>
+														<tr class="d-flex">
+															<th scope="col" class="col-2">KCPE MARKS</th>
+															<th scope="col" class="col-3">MIN. EXPECTED MGRADE</th>
+															<th scope="col" class="col-2">Cur. Mean</th>
+															<th scope="col" class="col-2">Prev. Mean</th>
+															<th scope="col" class="col-2">Dev.</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr class="d-flex">
+															<td scope="col" class="col-2">Mark</td>
+															<td scope="col" class="col-3">Otto</td>
+															<td scope="col" class="col-2">Mark</td>
+															<td scope="col" class="col-2">Otto</td>
+															<td scope="col" class="col-2">Otto</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+
+										</div>
+
+										<div style="margin: 20px;">
+											<h4>Class Teacher's Remarks</h4>
+											<div style="width: 100%; height: 70px; position: relative;"
+												class="border">
+
+												<p style="position: absolute; bottom: -20px; right: 4px;">
+													Teacher's Name</p>
+											</div>
+										</div>
+
+										<div style="margin: 20px;">
+											<h4>Principal's/Head Teacher's Remarks</h4>
+											<div style="width: 100%; height: 70px; position: relative;"
+												class="border">
+
+												<p style="position: absolute; bottom: -20px; right: 4px;">
+													Principal's Name</p>
+											</div>
+										</div>
+
+										<div style="margin: 20px;">
+											<h4>Other special Remarks</h4>
+											<div style="width: 100%; height: 70px;" class="border"></div>
+										</div>
+
+										<div style="padding: 10px;">
+											<div style="margin-top: 10px;"
+												class="row d-flex justify-content-between">
+												<h5>Fees arrears Kshs:__________</h5>
+												<h5>Next Term fees Kshs:__________</h5>
+												<h5>Total Kshs:__________</h5>
+												<h5>Sign:_____________</h5>
+											</div>
+										</div>
+									</div>
+
+								</div>
+
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>

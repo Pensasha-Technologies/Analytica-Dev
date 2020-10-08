@@ -1,0 +1,609 @@
+.admissionForm {
+	width: 90%;
+}
+
+.admissionForm form button {
+	margin-bottom: 70px;
+}
+
+#mainNav {
+	background-color: #D1D0D6;
+}
+
+.loginForm button:hover {
+	background-color: #E96830;
+}
+
+.navbar {
+	background-color: #F0F0F0;
+}
+
+li .collapse .collapse-inner a:hover {
+	color: black;
+}
+
+#content {
+	background-color: #F0F0F0;
+	color: #012237;
+}
+
+.table {
+	color: #012237;
+	text-align: center;
+}
+
+.table thead {
+	background-color: #D1D0D6;
+}
+
+.table th, td {
+	border: 1px solid #012237;
+}
+
+.table tr:hover {
+	background-color: #D1D0D6;
+}
+
+.table tr td a:hover {
+	color: black;
+}
+
+.breadcrumb {
+	background-color: #D1D0D6;
+}
+
+.breadcrumb-item a {
+	color: #012237;
+}
+
+.breadcrumb-item a:hover {
+	color: #E96830;
+}
+
+#accordionSidebar {
+	background-color: #012237;
+}
+
+#accordionSidebar a {
+	color: #D1D0D6;
+}
+
+.sidebar-brand-text {
+	color: #012237;
+}
+
+#mainNav .container a {
+	color: #012237;
+}
+
+#mainBody {
+	width: 100%;
+	height: 100%;
+	background-image: url('../img/background.png');
+	background-size: cover;
+}
+
+#navbarResponsive ul li a {
+	color: #012237;
+	font-size: 1rem;
+}
+
+#navbarResponsive ul li .active {
+	background-color: #E96830;
+}
+
+#firstSection {
+	padding-top: 40px;
+	padding-left: 100px;
+	height: 550px;
+	width: 100%;
+	background-image: url('../img/background.png');
+	background-size: cover;
+}
+
+#firstSection h1 {
+	text-align: center;
+}
+
+#navbarResponsive ul li a:hover {
+	background-color: #E96830;
+	color: #012237;
+}
+
+.jumbotron {
+	background: rgba(204, 204, 204, 0.7);
+	text-align: left;
+	width: 543px;
+	height: 90%;
+}
+
+.jumbotron h1 {
+	color: #012237;
+}
+
+.jumbotron a:hover {
+	background-color: #E96830;
+	color: #012237;
+}
+
+@media ( max-width : 800px) {
+	#firstSection {
+		padding: 20px;
+		padding-top: 40px;
+	}
+	.jumbotron {
+		width: 100%;
+	}
+}
+
+#secondSection, #thirdSection, #fourthSection, footer {
+	padding: 20px;
+	padding-top: 40px;
+}
+
+#thirdSection {
+	background-color: #1f2d41;
+	color: #D1D0D6;
+}
+
+footer {
+	background-color: #1f2d41;
+	color: #D1D0D6;
+}
+
+.divider-custom {
+	margin: 1.25rem 0 1.5rem;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.divider-custom .divider-custom-line {
+	width: 100%;
+	max-width: 7rem;
+	height: 0.25rem;
+	background-color: #012237;
+	border-radius: 1rem;
+	border-color: #E96830 !important;
+}
+
+.divider-custom .divider-custom-line:first-child {
+	margin-right: 1rem;
+}
+
+.divider-custom .divider-custom-line:last-child {
+	margin-left: 1rem;
+}
+
+.divider-custom .divider-custom-icon {
+	color: #E96830 !important;
+	font-size: 2rem;
+}
+
+.divider-custom.divider-light .divider-custom-line {
+	background-color: #fff;
+}
+
+.divider-custom.divider-light .divider-custom-icon {
+	color: #fff !important;
+}
+
+.sticky-footer {
+	background-color: #D1D0D6;
+	color: #012237;
+}
+
+.container-fluid {
+	padding-bottom: 50px;
+}
+
+.icon-contact {
+	display: flex;
+	height: 5rem;
+	width: 5rem;
+	align-items: center;
+	justify-content: center;
+	font-size: 2rem;
+	background-color: #012237;
+	color: #D1D0D6;
+	border-radius: 100%;
+}
+
+#social a:hover {
+	background-color: #012237;
+	color: #E96830;
+}
+
+.scroll-to-top {
+	z-index: 1042;
+	right: 1rem;
+	bottom: 1rem;
+	display: none;
+}
+
+.scroll-to-top a {
+	width: 3.5rem;
+	height: 3.5rem;
+	background-color: rgba(33, 37, 41, 0.5);
+	line-height: 3.1rem;
+}
+
+.portfolio {
+	margin-top: 20px;
+}
+
+.portfolio .portfolio-item {
+	cursor: pointer;
+	position: relative;
+	display: block;
+	max-width: 25rem;
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.portfolio .portfolio-item .portfolio-item-caption {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: all 0.2s ease-in-out;
+	opacity: 0;
+	background-color: rgba(31, 45, 65, 0.9);
+}
+
+.portfolio .portfolio-item .portfolio-item-caption:hover {
+	opacity: 1;
+}
+
+.portfolio .portfolio-item .portfolio-item-caption .portfolio-item-caption-content
+	{
+	font-size: 1.5rem;
+}
+
+.portfolio-modal .portfolio-modal-title {
+	font-size: 2.25rem;
+	line-height: 2rem;
+}
+
+@media ( min-width : 992px) {
+	.portfolio-modal .portfolio-modal-title {
+		font-size: 3rem;
+		line-height: 2.5rem;
+	}
+}
+
+.portfolio-modal .close {
+	position: absolute;
+	z-index: 1;
+	right: 1.5rem;
+	top: 1rem;
+	font-size: 3rem;
+	line-height: 3rem;
+	color: #1f2d41;
+	opacity: 1;
+}
+
+.col-lg-8 img {
+	height: 250px;
+}
+
+nav {
+	font-size: 15px;
+	background-color: #D1D0D6;
+}
+
+mainbody img {
+	width: 30;
+	height: 30;
+}
+
+#mainBody {
+	height: 100%;
+	background-image: url('../img/background.png');
+	background-size: cover;
+}
+
+header {
+	padding-top: 60px;
+	padding-bottom: 60px;
+}
+
+header h1 {
+	font-size: 70px;
+}
+
+header p {
+	font-size: 25px;
+}
+
+a {
+	color: #92badd;
+	display: inline-block;
+	text-decoration: none;
+	font-weight: 400;
+}
+
+h2 {
+	text-align: center;
+	font-size: 16px;
+	font-weight: 600;
+	text-transform: uppercase;
+	display: inline-block;
+	margin: 40px 8px 10px 8px;
+	color: #cccccc;
+}
+
+/* STRUCTURE */
+#formContent {
+	margin-top: 60px;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+	background: #fff;
+	width: 90%;
+	max-width: 450px;
+	padding: 30px;
+	position: relative;
+	padding: 0px;
+	-webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+	box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+	text-align: center;
+}
+
+a:active {
+	background: black;
+}
+
+#navbarResponsive li:hover {
+	background-color: #E96830;
+}
+
+#navbarResponsive li a:hover {
+	color: #012237;
+}
+
+.navbar-brand:hover {
+	color: black;
+}
+
+#navbarResponsive a:hover {
+	color: white;
+}
+
+.loginForm {
+	padding: 20px;
+}
+
+#formFooter {
+	background-color: #f6f6f6;
+	border-top: 1px solid #dce8f1;
+	padding: 25px;
+	text-align: center;
+	-webkit-border-radius: 0 0 10px 10px;
+	border-radius: 0 0 10px 10px;
+}
+
+/* TABS */
+h2.inactive {
+	color: #cccccc;
+}
+
+h2.active {
+	color: #0d0d0d;
+	border-bottom: 2px solid #5fbae9;
+}
+
+/* FORM TYPOGRAPHY*/
+input[type=button], input[type=submit], input[type=reset] {
+	background-color: #56baed;
+	border: none;
+	color: white;
+	padding: 15px 80px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	text-transform: uppercase;
+	font-size: 13px;
+	-webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+	box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	margin: 5px 20px 40px 20px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+input[type=button]:hover, input[type=submit]:hover, input[type=reset],
+	select:hover {
+	background-color: #39ace7;
+}
+
+input[type=button]:active, input[type=submit]:active, input[type=reset],
+	select:active {
+	-moz-transform: scale(0.95);
+	-webkit-transform: scale(0.95);
+	-o-transform: scale(0.95);
+	-ms-transform: scale(0.95);
+	transform: scale(0.95);
+}
+
+input[type=text], input[type=password], select {
+	background-color: #f6f6f6;
+	border: none;
+	color: #0d0d0d;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 5px;
+	width: 85%;
+	border: 2px solid #f6f6f6;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus, input[type=password], select:focus {
+	background-color: #fff;
+	border-bottom: 2px solid #5fbae9;
+}
+
+input[type=text]:placeholder, input[type=password], select:placeholder {
+	color: #cccccc;
+}
+
+/* ANIMATIONS */
+
+/* Simple CSS3 Fade-in-down Animation */
+.fadeInDown {
+	-webkit-animation-name: fadeInDown;
+	animation-name: fadeInDown;
+	-webkit-animation-duration: 1s;
+	animation-duration: 1s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInDown { 0% {
+	opacity: 0;
+	-webkit-transform: translate3d(0, -100%, 0);
+	transform: translate3d(0, -100%, 0);
+}
+
+100%{
+	opacity:1;
+	-webkit-transform:none;
+	transform:none;
+	}
+}
+
+@keyframes fadeInDown { 0% {
+	opacity: 0;
+	-webkit-transform: translate3d(0, -100%, 0);
+	transform: translate3d(0, -100%, 0);
+}
+
+100%{
+	opacity:1;
+	-webkit-transform:none;
+	transform:none;
+	}
+}
+
+/* Simple CSS3 Fade-in Animation */
+@-webkit-keyframes fadeIn {from { opacity:0;
+	
+}
+
+to {
+	opacity: 1;
+	}	
+
+}
+@-moz-keyframes fadeIn {
+	from { 
+	opacity:0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
+@keyframes fadeIn {from { opacity:0;
+	
+}
+
+to {
+	opacity: 1;
+}
+
+}
+.fadeIn {
+	opacity: 0;
+	-webkit-animation: fadeIn ease-in 1;
+	-moz-animation: fadeIn ease-in 1;
+	animation: fadeIn ease-in 1;
+	-webkit-animation-fill-mode: forwards;
+	-moz-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+	-webkit-animation-duration: 1s;
+	-moz-animation-duration: 1s;
+	animation-duration: 1s;
+}
+
+.fadeIn.first {
+	-webkit-animation-delay: 0.4s;
+	-moz-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+}
+
+.fadeIn.second {
+	-webkit-animation-delay: 0.6s;
+	-moz-animation-delay: 0.6s;
+	animation-delay: 0.6s;
+}
+
+.fadeIn.third {
+	-webkit-animation-delay: 0.8s;
+	-moz-animation-delay: 0.8s;
+	animation-delay: 0.8s;
+}
+
+.fadeIn.fourth {
+	-webkit-animation-delay: 1s;
+	-moz-animation-delay: 1s;
+	animation-delay: 1s;
+}
+
+/* Simple CSS3 Fade-in Animation */
+.underlineHover:after {
+	display: block;
+	left: 0;
+	bottom: -10px;
+	width: 0;
+	height: 2px;
+	background-color: #56baed;
+	content: "";
+	transition: width 0.2s;
+}
+
+.underlineHover:hover {
+	color: #0d0d0d;
+}
+
+.underlineHover:hover:after {
+	width: 100%;
+}
+
+/* OTHERS */
+*:focus {
+	outline: none;
+}
+
+#icon {
+	width: 60%;
+}
+
+.addSubjectsForm div {
+	text-align: left;
+}
+
+.addSubjectsForm h5 {
+	margin-top: 5px;
+}
+
+.deleteBtn {
+	color: #D84537;
+}
+
+.deleteBtn:hover {
+	color: black;
+}

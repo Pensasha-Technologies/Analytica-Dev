@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head"></head>
+
+<body
+	style="background-color: #D1D0D6; padding-top: 20px; font-family: Sans-Serif; height: 100%; width: 100%; position: absolute;">
+
+	<nav th:replace="fragments :: header"></nav>
+
+	<div class="container-fluid" style="height: 110%;" id="mainBody">
+
+		<div class="d-flex justify-content-center" style="margin-top: 50px;">
+			<div id="formContent" style="background-color: #DDDDDD;">
+				<!-- Tabs Titles -->
+				<section id="loginSection">
+
+					<div class="alert alert-success" th:if="${success}">
+						<p class="text text-center">Registration successful!! Please
+							Sign in to continue</p>
+					</div>
+					<div class="alert alert-danger" th:if="${param.error}">
+						<p class="text text-center">Wrong credentials!! Try again</p>
+					</div>
+					<div class="alert alert-info" th:if="${param.logout}">
+						<p class="text text-center">You have logged out!! Successfully</p>
+					</div>
+					<div class="alert alert-success" th:if="${message}">
+						<p class="text text-center" th:text="${message}">Registration
+							successful!! Please Sign in to continue</p>
+					</div>
+				</section>
+
+				<!-- Icon -->
+				<div class="fadeIn first">
+					<img th:src="@{/img/avataaars.svg}" id="icon" alt="User Icon"
+						height=60px; />
+				</div>
+
+				<!-- Login Form -->
+				<form class="loginForm" th:action="@{/login}" method="post">
+					<div class="form-group fadeIn first">
+						<label for="username"
+							style="display: block; color: black; text-align: left; margin-bottom: -5px;">Enter
+							Username</label> <input type="text" id="username" class="fadeIn second"
+							name="username" placeholder="username">
+					</div>
+					<div class="form-group fadeIn first">
+						<label for="password"
+							style="display: block; color: #012237; text-align: left; margin-bottom: -5px;">Enter
+							Password</label> <input type="password" id="password"
+							class="fadeIn third" name="password" placeholder="password">
+					</div>
+
+					<button class="btn btn-primary fadeIn fourth" id="login">
+						Log in</button>
+				</form>
+
+				<!-- Remind Passowrd -->
+				<div id="formFooter" style="background-color: #D1D0D6;">
+					<a class="underlineHover" href="#">Forgot Password?</a>
+				</div>
+
+
+			</div>
+		</div>
+
+
+	</div>
+
+	<div th:replace="fragments :: footer"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'C.E.O'}"><a
+							th:href="@{/ceoHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
+							th:href="@{/officeAssistantHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
+							th:href="@{/fieldOfficerHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'TEACHER'}"><a
+							th:href="@{/schools/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+							th:href="@{/schools/deputyPrincipal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/schools/dosHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'BURSAR'}"><a
+							th:href="@{/schools/bursarHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}"><a
+							th:href="@{/schools/accountsClerkHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:unless="${activeUser.role.name == 'C.E.O' || activeUser.role.name == 'ADMIN' || activeUser.role.name == 'FIELDOFFICER' || activeUser.role.name == 'OFFICEASSISTANT' || activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
+						<li class="breadcrumb-item active" aria-current="page">My
+							Profile</li>
+					</ol>
+				</nav>
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-between">
+
+						<section th:if="${activeUser.role.name == 'ADMIN'}">
+							<h3>User profile</h3>
+						</section>
+						<section th:if="${activeUser.role.name == 'TEACHER'}">
+							<h3>Teacher's Profile</h3>
+						</section>
+
+					</div>
+
+					<div>
+
+						<h4>Basic Information</h4>
+
+						<div class="table-responsive">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>Name</td>
+										<td th:text="${user.name}">Name</td>
+									</tr>
+									<tr>
+										<td>AdmNo</td>
+										<td th:text="${user.role.name}">AdmNo</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+					<div>
+
+						<h4>Additional Information</h4>
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">First</th>
+										<th scope="col">Last</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Mark</td>
+										<td>Otto</td>
+									</tr>
+									<tr>
+										<td>Jacob</td>
+										<td>Thornton</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+</body>
+
+</html>
