@@ -1,6 +1,9 @@
 package com.pensasha.school.timetable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.pensasha.school.form.Form;
@@ -12,6 +15,8 @@ import com.pensasha.school.year.Year;
 @Entity
 public class Timetable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String time;
 	private String monday;
