@@ -1,10 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.pensasha.school.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 28.135 s <<< FAILURE! - in com.pensasha.school.DemoApplicationTests
-contextLoads  Time elapsed: 0.006 s  <<< ERROR!
-java.lang.IllegalStateException: Failed to load ApplicationContext
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'formRepository' defined in com.pensasha.school.form.FormRepository defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration: Cannot resolve reference to bean 'jpaMappingContext' while setting bean property 'mappingContext'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaMappingContext': Invocation of init method failed; nested exception is org.hibernate.AnnotationException: No identifier specified for entity: com.pensasha.school.timetable.Timetable
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaMappingContext': Invocation of init method failed; nested exception is org.hibernate.AnnotationException: No identifier specified for entity: com.pensasha.school.timetable.Timetable
-Caused by: org.hibernate.AnnotationException: No identifier specified for entity: com.pensasha.school.timetable.Timetable
-
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 36.097 s - in com.pensasha.school.DemoApplicationTests

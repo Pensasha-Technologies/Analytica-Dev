@@ -3,6 +3,7 @@ package com.pensasha.school.interfaceController;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
@@ -35,6 +37,8 @@ import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
+import com.pensasha.school.timetable.Timetable;
+import com.pensasha.school.timetable.TimetableService;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -54,11 +58,12 @@ public class MainController {
 	private RoleService roleService;
 	private StreamService streamService;
 	private FeeStructureService feeStructureService;
+	private TimetableService timetableService;
 
 	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
 			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
 			UserService userService, RoleService roleService, StreamService streamService,
-			FeeStructureService feeStructureService) {
+			FeeStructureService feeStructureService, TimetableService timetableService) {
 		super();
 		this.schoolService = schoolService;
 		this.studentService = studentService;
@@ -71,6 +76,7 @@ public class MainController {
 		this.roleService = roleService;
 		this.streamService = streamService;
 		this.feeStructureService = feeStructureService;
+		this.timetableService = timetableService;
 	}
 
 	@GetMapping("index")
@@ -257,7 +263,9 @@ public class MainController {
 			List<Subject> allSubjects = subjectService.getAllSubjects();
 			Stream stream = new Stream();
 			List<Stream> streams = streamService.getStreamsInSchool(code);
+			List<Year> years = yearService.getAllYearsInSchool(code);
 
+			model.addAttribute("years", years);
 			model.addAttribute("streams", streams);
 			model.addAttribute("stream", stream);
 			model.addAttribute("group1", group1);
@@ -1414,18 +1422,87 @@ public class MainController {
 		return "student";
 	}
 
-	@GetMapping("/adminHome/schools/{code}/timetable")
-	public String getSchoolTimetable(@PathVariable int code, Model model, Principal principal) {
+	@PostMapping("/adminHome/schools/{code}/timetable")
+	public String getSchoolTimetable(@PathVariable int code, Model model, Principal principal, @RequestParam int year,
+			@RequestParam int form, @RequestParam int stream, @RequestParam int term) {
 
 		School school = schoolService.getSchool(code).get();
+		Year yearObj = yearService.getYearFromSchool(year, code).get();
+		Form formObj = formService.getFormByForm(form);
+		Term termObj = termService.getTerm(term, form, year, code);
+		Stream streamObj = streamService.getStream(stream);
+
 		Student student = new Student();
 		User activeUser = userService.getByUsername(principal.getName()).get();
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
 
+		Random rand = new Random();
+
+		List<String> days = new ArrayList<>();
+		days.add("Mon");
+		days.add("Tue");
+		days.add("Wed");
+		days.add("Thu");
+		days.add("Fri");
+
+		Timetable timetable = new Timetable();
+		List<Timetable> timetables = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
+				stream);
+
+		String breaks[] = { "B", "R", "E", "A", "K" };
+		String lunch[] = { "L", "U", "N", "C", "H" };
+
+		if (timetables.isEmpty()) {
+			for (int i = 0; i < days.size(); i++) {
+
+				timetable = new Timetable(days.get(i), subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(),
+						subjects.get(rand.nextInt(subjects.size())).getInitials(), school, yearObj, formObj, termObj,
+						streamObj);
+
+				timetables.add(timetable);
+
+			}
+
+		}
+
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (j == 2) {
+					timetables.get(i).setTime3(breaks[i]);
+				} else if (j == 4) {
+					timetables.get(i).setTime6(breaks[i]);
+				} else if (j == 6) {
+					timetables.get(i).setTime9(lunch[i]);
+				}
+
+			}
+		}
+
+		for (int i = 0; i < timetables.size(); i++) {
+			timetableService.saveTimetableItem(timetable);
+		}
+		
+		List<Timetable> finalTimetables = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
+				stream);
+
+		model.addAttribute("timetables", finalTimetables);
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);
 
 		return "timetable";
+
 	}
 
 	@GetMapping("/adminHome/schools/{code}/student/{admNo}/yearly")
