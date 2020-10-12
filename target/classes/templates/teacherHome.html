@@ -48,9 +48,9 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addStudentModal">Add
-									Student</button>
+								<a class="btn btn-primary"
+									th:href="@{/schools/{code}/addStudent(code=${school.code})}">
+									Add Student </a>
 								<button type="button" class="btn btn-primary"
 									th:if="${students} and ${students.size()}" data-toggle="modal"
 									data-target="#addMarksModal" style="margin-left: 10px;">Add
@@ -82,7 +82,8 @@
 										has been added</p>
 								</div>
 								<tr th:each="student : ${students}">
-									<td th:text="${student.name}">name</td>
+									<td
+										th:text="${student.firstname} + ' ' + ${student.secondname} + ' ' + ${student.thirdname} ">name</td>
 									<td th:text="${student.admNo}">admNo</td>
 									<td>
 										<div class="d-flex justify-content-center">
@@ -113,86 +114,6 @@
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
 
-			<!-- Add school model -->
-			<div class="modal fade" id="addStudentModal" tabindex="-1"
-				role="dialog" aria-labelledby="addStudentModalLabel"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="addStudentModalLabel">Add
-								Student</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-
-							<div class="d-flex justify-content-center">
-								<div id="formContent" style="margin-top: -2px; padding: 10px;">
-									<!-- Login Form -->
-
-									<form class="addStudentForm"
-										th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'TEACHER'}"
-										th:action="@{/schools/students}" th:method="Post"
-										th:object="${student}">
-										<div class="form-group fadeIn first">
-											<label for="name"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Student Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name"
-												placeholder="Enter Student Name">
-										</div>
-										<div class="form-group fadeIn second">
-											<label for="admNo"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Admission Numer</label> <input type="text" id="admNo"
-												th:field="*{admNo}" class="fadeIn second" name="admNo"
-												placeholder="Enter Student Admission">
-										</div>
-										<div class="form-group fadeIn third">
-											<label for="year"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Year Admitted</label> <input type="text" id="year"
-												th:field="*{yearAdmitted}" class="fadeIn third" name="year"
-												placeholder="Enter Academic Year">
-										</div>
-										<div class="form-group fadeIn third">
-											<label for="form"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Current Form</label> <input type="text" id="currentForm"
-												th:field="*{currentForm}" class="fadeIn fourth"
-												name="currentForm" placeholder="Enter current form" />
-										</div>
-										<div class="form-group fadeIn fourth">
-											<label for="stream"
-												style="display: block; text-align: left; margin-bottom: -5px;">
-												Enter Stream </label><select name="stream" id="stream">
-												<option value=0>Select Stream ...</option>
-												<option th:value="${stream.id}"
-													th:each="stream : ${streams}" th:text="${stream.stream}">Stream
-													Name</option>
-											</select>
-										</div>
-
-										<button class="btn btn-primary fadeIn third" type="submit"
-											style="margin-top: 10px;">Add Student</button>
-									</form>
-								</div>
-
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
 			<!-- Add marks model -->
 			<div class="modal fade" id="addMarksModal" tabindex="-1"
 				role="dialog" aria-labelledby="addMarksModalLabel"
@@ -213,11 +134,13 @@
 									<!-- Marks Form -->
 									<form class="addMarksForm"
 										onSubmit="event.preventDefault(); getSubjects();">
-										<input type="hidden" id="code" th:value="${school.code}" /> <input
-											type="text" id="yearInput" class="fadeIn first" name="year"
-											placeholder="Enter Academic Year" required /> <select
-											class="fadeIn second" id="form" name="form" required><option
-												value="">Select Form ...</option>
+										<input type="hidden" id="code" th:value="${school.code}" /> <select
+											class="fadeIn first" name="year" id="yearInput" required>
+											<option value="">Select Academic Year ...</option>
+											<option th:value="${year.year}" th:each="year : ${years}"
+												th:text="${year.year}">Year</option>
+										</select> <select class="fadeIn second" id="formInput" name="form"
+											required><option value="">Select Form ...</option>
 											<option value="1">Form 1</option>
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>
@@ -244,16 +167,7 @@
 											<option th:value="${stream.id}" th:each="stream : ${streams}"
 												th:text="${stream.stream}">Stream Name</option>
 										</select>
-										<!--  <div class="form-group fadeIn fourth">
-											<label for="stream"
-												style="display: block; text-align: left; margin-bottom: -5px;">
-												Enter Stream </label><select name="stream" id="stream">
-												<option>Select Stream ...</option>
-												<option th:value="${stream.id}"
-													th:each="stream : ${streams}" th:text="${stream.stream}">Stream
-													Name</option>
-											</select>
-										</div> -->
+
 										<button class="btn btn-primary fadeIn third" type="submit"
 											style="margin-top: 10px;">Add Marks</button>
 									</form>

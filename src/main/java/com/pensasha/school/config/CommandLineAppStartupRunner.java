@@ -109,10 +109,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 		 * spring.datasource.password=${RDS_PASSWORD}
 		 */
 
-		/*
-		 * spring.jpa.hibernate.ddl-auto=update
-		 * spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/learn
-		 * spring.datasource.username=sobunge spring.datasource.password=Samuel@1234
-		 */
+	
 	}
 }

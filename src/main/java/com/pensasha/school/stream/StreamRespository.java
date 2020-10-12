@@ -9,4 +9,6 @@ public interface StreamRespository extends JpaRepository<Stream, Integer>{
 	public List<Stream> findBySchoolCode(int code);
 	
 	public boolean existsByIdAndSchoolCode(int id, int code);
+	
+	public Stream findByStream(String stream);
 }

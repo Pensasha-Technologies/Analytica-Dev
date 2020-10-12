@@ -147,11 +147,13 @@
 									<!-- Marks Form -->
 									<form class="addMarksForm"
 										onSubmit="event.preventDefault(); getSubjects();">
-										<input type="hidden" id="code" th:value="${school.code}" /> <input
-											type="text" id="yearInput" class="fadeIn first" name="year"
-											placeholder="Enter Academic Year" required /> <select
-											class="fadeIn second" id="form" name="form" required><option
-												value="">Select Form ...</option>
+										<input type="hidden" id="code" th:value="${school.code}" /> <select
+											class="fadeIn first" name="year" id="yearInput" required>
+											<option value="">Select Academic Year ...</option>
+											<option th:value="${year.year}" th:each="year : ${years}"
+												th:text="${year.year}">Year</option>
+										</select> <select class="fadeIn second" id="formInput" name="form"
+											required><option value="">Select Form ...</option>
 											<option value="1">Form 1</option>
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>

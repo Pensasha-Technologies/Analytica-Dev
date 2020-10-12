@@ -1,6 +1,6 @@
 function getSubjects() {
 
-	var $form = $('#form');
+	var $form = $('#formInput');
 	var $year = $('#yearInput');
 	var $stream = $('#streamInput');
 	var $subject = $('#subjectInput');

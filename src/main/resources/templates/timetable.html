@@ -54,57 +54,68 @@
 						<h3 th:text="${school.name}">School Name</h3>
 					</div>
 					<div class="d-flex justify-content-center">
-						<h4 th:text="'Form: ' + ${timetables[1].form.form} + ' - Term: ' + ${timetables[1].term.term}"> Form 1 Term 1</h4>
+						<h4 th:text="'Form: ' + ${form} + ' - Term: ' + ${term}">
+							Form 1 Term 1</h4>
 					</div>
 					<div class="d-flex justify-content-center">
-						<h5 th:text="'Stream: ' + ${timetables[1].stream.stream} + ' timetable'"> Stream: White  Timetable</h5>
+						<h5 th:text="'Stream: ' + ${stream} + ' timetable'">Stream:
+							White Timetable</h5>
 					</div>
 
 					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr>
-									<th scope="col" style="font-size: 25px; text-align: center;">#</th>
-									<th scope="col">8:20-8:55</th>
-									<th scope="col">8:55-9:30</th>
-									<th scope="col">9:30-9:50</th>
-									<th scope="col">9:50-10:25</th>
-									<th scope="col">10:25-11:00</th>
-									<th scope="col">11:00-11:30</th>
-									<th scope="col">11:30-12:05</th>
-									<th scope="col">12:05-12:40</th>
-									<th scope="col">12:40-1:30</th>
-									<th scope="col">1:30-2:00</th>
-									<th scope="col">2:00-2:35</th>
-									<th scope="col">2:35-3:10</th>
-									<th scope="col">3:10-4:10</th>
-								</tr>
-							</thead>
-							<tbody>
-								<div th:unless="${timetables} and ${timetables.size()}">
-									<br>
-									<p class="text text-center alert alert-warning">No Student
-										has been added</p>
-								</div>
-								<tr th:each="timetable : ${timetables}">
-									<th th:text="${timetable.day}">1</th>
-									<td th:text="${timetable.time1}">time 1</td>
-									<td th:text="${timetable.time2}">time 2</td>
-									<td th:text="${timetable.time3}">time 3</td>
-									<td th:text="${timetable.time4}">time 4</td>
-									<td th:text="${timetable.time5}">time 5</td>
-									<td th:text="${timetable.time6}">time 6</td>
-									<td th:text="${timetable.time7}">time 7</td>
-									<td th:text="${timetable.time8}">time 8</td>
-									<td th:text="${timetable.time9}">time 9</td>
-									<td th:text="${timetable.time10}">time 10</td>
-									<td th:text="${timetable.time11}">time 11</td>
-									<td th:text="${timetable.time12}">time 12</td>
-									<td th:text="${timetable.time13}">time 13</td>
+						<form>
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col" style="font-size: 25px; text-align: center;">#</th>
+										<th scope="col">8:20-8:55</th>
+										<th scope="col">8:55-9:30</th>
+										<th scope="col">9:30-9:50</th>
+										<th scope="col">9:50-10:25</th>
+										<th scope="col">10:25-11:00</th>
+										<th scope="col">11:00-11:30</th>
+										<th scope="col">11:30-12:05</th>
+										<th scope="col">12:05-12:40</th>
+										<th scope="col">12:40-1:30</th>
+										<th scope="col">1:30-2:00</th>
+										<th scope="col">2:00-2:35</th>
+										<th scope="col">2:35-3:10</th>
+										<th scope="col">3:10-4:10</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<div th:unless="${timetables} and ${timetables.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No Student
+											has been added</p>
+									</div>
+									<tr th:each="timetable : ${timetables}">
+										<th th:text="${timetable.day}">1</th>
 
-								</tr>
-							</tbody>
-						</table>
+										<td style="padding:1px; box-sizing: border-box;"><input
+											style="text-align: left; padding-left: 1px;"
+											type="text" class="form-control" th:value="${timetable.time1}"></td>
+										<td th:text="${timetable.time2}">time 2</td>
+										<td th:text="${timetable.time3}">time 3</td>
+										<td th:text="${timetable.time4}">time 4</td>
+										<td th:text="${timetable.time5}">time 5</td>
+										<td th:text="${timetable.time6}">time 6</td>
+										<td th:text="${timetable.time7}">time 7</td>
+										<td th:text="${timetable.time8}">time 8</td>
+										<td th:text="${timetable.time9}">time 9</td>
+										<td th:text="${timetable.time10}">time 10</td>
+										<td th:text="${timetable.time11}">time 11</td>
+										<td th:text="${timetable.time12}">time 12</td>
+										<td th:text="${timetable.time13}">time 13</td>
+										<td>
+											<button class="btn btn-primary">Edit</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+
 					</div>
 
 				</div>

@@ -48,7 +48,7 @@ public class MarkController {
 
 	// Get All student marks
 	@GetMapping("/api/schools/{code}/years/{year}/forms/{form}/terms/{term}/students/{admNo}/marks")
-	public List<Mark> getAllStudentMarks(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String admNo){
+	public Mark getAllStudentMarks(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String admNo){
 		return markService.getAllSubjectMarks(admNo, year, form, term);
 	}
 

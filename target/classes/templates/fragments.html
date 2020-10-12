@@ -456,6 +456,10 @@
 			th:href="@{/adminHome/school/{code}(code=${school.code})}"> <i
 				class="fas fa-fw fa-table"></i> <span> My School </span>
 		</a></li>
+		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"><a
+			class="nav-link" data-toggle="modal" data-target="#addMarksModal">
+				<i class="fas fa-fw fa-table"></i> <span> Add Marks </span>
+		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/principal' ? 'active':''}"><a
 			class="nav-link" th:href="@{/schools/principal}"> <i
@@ -471,20 +475,22 @@
 			class="nav-link" th:href="@{/schools/students}"> <i
 				class="fas fa-fw fa-table"></i> <span> Students </span></a></li>
 
-		<li th:if="${activeUser.role.name == 'PRINCIPAL'}" class="nav-item"><a
-			class="nav-link collapsed" href="#" data-toggle="collapse"
-			data-target="#reportUtilities" aria-expanded="true"
-			aria-controls="reportUtilities"> <i class="fas fa-fw fa-wrench"></i>
-				<span> Reports </span>
+		<li
+			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'TEACHER'}"
+			class="nav-item"><a class="nav-link collapsed" href="#"
+			data-toggle="collapse" data-target="#reportUtilities"
+			aria-expanded="true" aria-controls="reportUtilities"> <i
+				class="fas fa-fw fa-wrench"></i> <span> Reports </span>
 		</a>
 			<div id="reportUtilities" class="collapse"
 				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Menu:</h6>
+					<h6 class="collapse-header" style="color: #012237;">Menu:</h6>
 					<a class="collapse-item" data-toggle="modal"
-						data-target="#classListModal"> Class List </a> <a
-						class="collapse-item" data-toggle="modal"
-						data-target="#marksSheetModal"> Marks Sheet </a>
+						data-target="#classListModal" style="color: #012237;"> Class
+						List </a> <a class="collapse-item" data-toggle="modal"
+						style="color: #012237;" data-target="#marksSheetModal"> Marks
+						Sheet </a>
 				</div>
 			</div></li>
 

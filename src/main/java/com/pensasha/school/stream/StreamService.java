@@ -40,6 +40,11 @@ public class StreamService {
 		return streamRespository.findById(id).get();
 	}
 	
+	//Getting stream by stream
+	public Stream getStreamByStream(String stream) {
+		return streamRespository.findByStream(stream);
+	}
+	
 	//Does stream exist
 	public boolean doesStreamExistInSchool(int id, int code) {
 		return streamRespository.existsByIdAndSchoolCode(id, code);
