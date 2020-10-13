@@ -1562,9 +1562,10 @@ public class MainController {
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 
+		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
-		model.addAttribute("stream", stream);
+		model.addAttribute("stream", streamObj);
 		model.addAttribute("years", years);
 		model.addAttribute("streams", streams);
 		model.addAttribute("timetables", finalTimetables);
@@ -1574,6 +1575,51 @@ public class MainController {
 
 		return "timetable";
 
+	}
+	
+	@PostMapping("schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable")
+	public String addTimetableElements(@PathVariable int code, @PathVariable int year, @PathVariable int form,
+			@PathVariable int term, @PathVariable int stream, HttpServletRequest request, Model model, Principal principal) {
+
+		School school = schoolService.getSchool(code).get();
+		Stream streamObj = streamService.getStream(stream);
+		List<Year> years = yearService.getAllYearsInSchool(code);
+		List<Stream> streams = streamService.getStreamsInSchool(code);
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		Student student = new Student();
+		
+		List<Timetable> savedTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream);
+		
+		for(int i=0; i<5; i++) {
+			
+			savedTimetable.get(i).setTime1(request.getParameter(i+1 + "time1"));
+			savedTimetable.get(i).setTime2(request.getParameter(i+1 + "time2"));
+			savedTimetable.get(i).setTime4(request.getParameter(i+1 + "time4"));
+			savedTimetable.get(i).setTime5(request.getParameter(i+1 + "time5"));
+			savedTimetable.get(i).setTime7(request.getParameter(i+1 + "time7"));
+			savedTimetable.get(i).setTime8(request.getParameter(i+1 + "time8"));
+			savedTimetable.get(i).setTime10(request.getParameter(i+1 + "time10"));
+			savedTimetable.get(i).setTime11(request.getParameter(i+1 + "time11"));
+			savedTimetable.get(i).setTime12(request.getParameter(i+1 + "time12"));
+			savedTimetable.get(i).setTime13(request.getParameter(i+1 + "time13"));
+			
+			timetableService.saveTimetableItem(savedTimetable.get(i));
+		}
+		
+		List<Timetable> finalTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream);
+		
+		model.addAttribute("year", year);
+		model.addAttribute("form", form);
+		model.addAttribute("term", term);
+		model.addAttribute("stream", streamObj);
+		model.addAttribute("years", years);
+		model.addAttribute("streams", streams);
+		model.addAttribute("timetables", finalTimetable);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "timetable";
 	}
 
 	@GetMapping("/adminHome/schools/{code}/student/{admNo}/yearly")

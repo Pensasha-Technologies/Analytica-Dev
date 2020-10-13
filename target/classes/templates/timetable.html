@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragment2 :: head">
 <!-- Custom styles for this template-->
@@ -58,12 +59,21 @@
 							Form 1 Term 1</h4>
 					</div>
 					<div class="d-flex justify-content-center">
-						<h5 th:text="'Stream: ' + ${stream} + ' timetable'">Stream:
+						<h5 th:text="'Stream: ' + ${stream.stream} + ' timetable'">Stream:
 							White Timetable</h5>
 					</div>
 
+					<div style="padding: 10px 20px;"
+						class="d-flex flex-row-reverse bd-highlight">
+						<button class="btn btn-primary" id="edit">Edit</button>
+						<button class="btn btn-primary" style="display: none;" id="save" form="changeTimetable">
+							Save</button>
+					</div>
+
 					<div class="table-responsive">
-						<form>
+						<form
+							th:action="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable(code=${school.code}, year=${year}, form=${form}, term=${term}, stream = ${stream.id})}"
+							method="Post" id="changeTimetable">
 							<table class="table">
 								<thead>
 									<tr>
@@ -81,41 +91,74 @@
 										<th scope="col">2:00-2:35</th>
 										<th scope="col">2:35-3:10</th>
 										<th scope="col">3:10-4:10</th>
-										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									<div th:unless="${timetables} and ${timetables.size()}">
+									<th:head th:unless="${timetables} and ${timetables.size()}">
 										<br>
 										<p class="text text-center alert alert-warning">No Student
 											has been added</p>
-									</div>
-									<tr th:each="timetable : ${timetables}">
-										<th th:text="${timetable.day}">1</th>
+									</th:head>
+									<tr th:each="timetable,iter : ${timetables}">
+										<th th:text="${timetable.day}">#</th>
 
-										<td style="padding:1px; box-sizing: border-box;"><input
-											style="text-align: left; padding-left: 1px;"
-											type="text" class="form-control" th:value="${timetable.time1}"></td>
-										<td th:text="${timetable.time2}">time 2</td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time1'"
+											th:value="${timetable.time1}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time1}"> time1 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time2'"
+											th:value="${timetable.time2}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time2}"> time2 </span></td>
 										<td th:text="${timetable.time3}">time 3</td>
-										<td th:text="${timetable.time4}">time 4</td>
-										<td th:text="${timetable.time5}">time 5</td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time4'"
+											th:value="${timetable.time4}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time4}"> time4 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time5'"
+											th:value="${timetable.time5}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time5}"> time5 </span></td>
 										<td th:text="${timetable.time6}">time 6</td>
-										<td th:text="${timetable.time7}">time 7</td>
-										<td th:text="${timetable.time8}">time 8</td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time7'"
+											th:value="${timetable.time7}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time7}"> time7 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time8'"
+											th:value="${timetable.time8}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time8}"> time8 </span></td>
 										<td th:text="${timetable.time9}">time 9</td>
-										<td th:text="${timetable.time10}">time 10</td>
-										<td th:text="${timetable.time11}">time 11</td>
-										<td th:text="${timetable.time12}">time 12</td>
-										<td th:text="${timetable.time13}">time 13</td>
-										<td>
-											<button class="btn btn-primary">Edit</button>
-										</td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time10'"
+											th:value="${timetable.time10}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time10}"> time10 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time11'"
+											th:value="${timetable.time11}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time11}"> time11 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time12'"
+											th:value="${timetable.time12}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time12}"> time12 </span></td>
+										<td><input class="change form-control" type="text"
+											th:name="${iter.index + 1} + 'time13'"
+											th:value="${timetable.time13}"
+											style="display: none; font-size: 16px; padding: 6px 1px;">
+											<span class="spanChange" th:text="${timetable.time13}"> time13 </span></td>
 									</tr>
 								</tbody>
 							</table>
 						</form>
-
 					</div>
 
 				</div>
@@ -141,6 +184,20 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	<script>
+		$(document).ready(function() {
+			$("#save").click(function() {
+				$("#edit").show();
+				$("#save").hide();
+			});
+			$("#edit").click(function() {
+				$("#save").show();
+				$(".change").show()
+				$(".spanChange").hide();
+				$("#edit").hide();
+			});
+		});
+	</script>
 
 </body>
 
