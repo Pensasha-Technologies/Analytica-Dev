@@ -58,10 +58,10 @@
 						</div>
 						<div class="row d-flex justify-content-center">
 							<h4
-								th:text="'Year: ' + ${year} + ' Form: ' + ${form} +' ' + ${stream} "></h4>
+								th:text="'Year: ' + ${year} + ' Form: ' + ${form} +' ' + ${stream.stream} "></h4>
 						</div>
 						<div class="row d-flex justify-content-center">
-							<h4 th:text="${subject}"></h4>
+							<h4 th:text="${subject.name}"></h4>
 						</div>
 						<div class="row d-flex justify-content-center">
 							<h5 th:text="${exam} + ' Marks Entry'"></h5>
@@ -79,11 +79,12 @@
 						<form
 							th:action="@{/adminHome/schools/{code}/marks/{exam}(code=${school.code}, exam=${exam})}"
 							th:method="Post">
-							<input type="hidden" th:value="${subject}" name="subject" /> <input
-								type="hidden" th:value="${form}" name="form" /> <input
-								type="hidden" th:value="${year}" name="year" /> <input
-								type="hidden" th:value="${term}" name="term" />
-								<input type="hidden" th:value="${stream}" name="stream"/>
+							<input type="hidden" th:value="${subject.initials}"
+								name="subject" /> <input type="hidden" th:value="${form}"
+								name="form" /> <input type="hidden" th:value="${year}"
+								name="year" /> <input type="hidden" th:value="${term}"
+								name="term" /> <input type="hidden" th:value="${stream.id}"
+								name="stream" />
 
 							<button th:if="${students} and ${students.size()}"
 								class="btn btn-primary fadeIn third" type="submit"
@@ -99,22 +100,25 @@
 										</tr>
 									</thead>
 									<tbody>
-										<div th:unless="${students} and ${students.size()}">
+										<div th:unless="${marks} and ${marks.size()}">
 											<br>
 											<p class="text text-center alert alert-warning">No
-												Student has been added</p>
+												Student has been added doing this subject</p>
 										</div>
-										<tr th:if="${marks} and ${marks.size()}" th:each="student : ${students}">
-											<th scope="row" th:text="${student.firstname} + ' ' + ${student.thirdname}">1</th>
-											<td th:text="${student.admNo}">Mark</td>
-											<td><input class="form-control" type="number"
-												th:name="${student.admNo} + 'mark'"/></td>
-										</tr>
-										<tr th:unless="${marks} and ${marks.size()}" th:each="mark : ${marks}">
-											<th scope="row" th:text="${mark.student.firstname} + ' ' + ${mark.student.thirdname}">1</th>
+
+										<tr th:each="mark : ${marks}">
+											<th scope="row"
+												th:text="${mark.student.firstname} + ' ' + ${mark.student.thirdname}">1</th>
 											<td th:text="${mark.student.admNo}">Mark</td>
-											<td><input class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'" /></td>
+											<td th:if="${exam == 'Cat1'}"><input class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:Value="${mark.cat1}" /></td>
+											<td th:if="${exam == 'Cat2'}"><input class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:Value="${mark.cat2}" /></td>
+											<td th:if="${exam == 'mainExam'}"><input class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:Value="${mark.mainExam}" /></td>
 										</tr>
 									</tbody>
 								</table>

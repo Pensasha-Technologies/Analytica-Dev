@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
@@ -1283,61 +1284,70 @@ public class MainController {
 		int form = Integer.parseInt(request.getParameter("form"));
 		int year = Integer.parseInt(request.getParameter("year"));
 		int term = Integer.parseInt(request.getParameter("term"));
-		String stream = request.getParameter("stream");
+		int stream = Integer.parseInt(request.getParameter("stream"));
 		String subject = request.getParameter("subject");
-		Subject subjectObj = subjectService.getSubjectByName(subject);
+
+		Subject subjectObj = subjectService.getSubject(subject);
 
 		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term,
 				subjectObj.getInitials());
 
 		Year yearObj = yearService.getYearFromSchool(year, code).get();
 		Term termObj = termService.getTerm(term, form, year, code);
+		Form formObj = formService.getFormByForm(form);
+
+		Mark mark = new Mark();
+		List<Mark> marks = new ArrayList<>();
 
 		for (int i = 0; i < students.size(); i++) {
 
-			Form formObj = formService.getStudentForm(form, students.get(i).getAdmNo());
+			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
 
-			Mark mark = new Mark(students.get(i), yearObj, formObj, termObj);
-			mark.setSubject(subjectObj);
+				mark = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject);
+
+			} else {
+				mark = new Mark(students.get(i), yearObj, formObj, termObj);
+				mark.setSubject(subjectObj);
+			}
 
 			switch (exam) {
 			case "Cat1":
-				if (markService.getMarkByStudentOnAsubject(students.get(0).getAdmNo(), year, form, term,
+				if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
 						subject) == null) {
 
-					mark.setCat1(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
-				} else if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject)
-						.getCat1() == 0) {
-					mark.setCat1(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
+					mark.setCat1(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
+				} else if (mark.getCat1() == 0) {
+					mark.setCat1(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
 				}
 				break;
 			case "Cat2":
-				if (markService.getMarkByStudentOnAsubject(students.get(0).getAdmNo(), year, form, term,
+				if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
 						subject) == null) {
 
-					mark.setCat2(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
+					mark.setCat2(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
 				} else if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject)
 						.getCat2() == 0) {
-					mark.setCat2(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
+					mark.setCat2(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
 				}
 				break;
 			case "mainExam":
-				if (markService.getMarkByStudentOnAsubject(students.get(0).getAdmNo(), year, form, term,
+				if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
 						subject) == null) {
 
-					mark.setMainExam(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
+					mark.setMainExam(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
 				} else if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject)
 						.getMainExam() == 0) {
-					mark.setMainExam(Integer.parseInt(request.getParameter(students.get(0).getAdmNo() + "mark")));
+					mark.setMainExam(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
 				}
 				break;
 			default:
 				break;
 			}
 
-			markService.addMarksToSubject(mark);
-			model.addAttribute("success", "Marks saved successfully");
+			marks.add(markService.addMarksToSubject(mark));
 		}
+
+		model.addAttribute("success", "Marks saved successfully");
 
 		if (students.size() == 0) {
 			model.addAttribute("fail", "No student. Cannot add marks");
@@ -1346,28 +1356,22 @@ public class MainController {
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
-		Stream streamObj = streamService.getStreamByStream(stream);
+		Stream streamObj = streamService.getStream(stream);
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
 
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 
-		List<Mark> marks = new ArrayList<>();
-
-		for (int i = 0; i < students.size(); i++) {
-			marks.add(markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
-		}
-
 		model.addAttribute("marks", marks);
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("students", students);
-		model.addAttribute("subject", subjectObj.getName());
+		model.addAttribute("subject", subjectObj);
 		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("streams", streams);
 		model.addAttribute("years", years);
 		model.addAttribute("term", term);
-		model.addAttribute("stream", streamObj.getStream());
+		model.addAttribute("stream", streamObj);
 		model.addAttribute("exam", exam);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);
@@ -1576,10 +1580,11 @@ public class MainController {
 		return "timetable";
 
 	}
-	
+
 	@PostMapping("schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable")
 	public String addTimetableElements(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, @PathVariable int stream, HttpServletRequest request, Model model, Principal principal) {
+			@PathVariable int term, @PathVariable int stream, HttpServletRequest request, Model model,
+			Principal principal) {
 
 		School school = schoolService.getSchool(code).get();
 		Stream streamObj = streamService.getStream(stream);
@@ -1587,27 +1592,29 @@ public class MainController {
 		List<Stream> streams = streamService.getStreamsInSchool(code);
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		Student student = new Student();
-		
-		List<Timetable> savedTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream);
-		
-		for(int i=0; i<5; i++) {
-			
-			savedTimetable.get(i).setTime1(request.getParameter(i+1 + "time1"));
-			savedTimetable.get(i).setTime2(request.getParameter(i+1 + "time2"));
-			savedTimetable.get(i).setTime4(request.getParameter(i+1 + "time4"));
-			savedTimetable.get(i).setTime5(request.getParameter(i+1 + "time5"));
-			savedTimetable.get(i).setTime7(request.getParameter(i+1 + "time7"));
-			savedTimetable.get(i).setTime8(request.getParameter(i+1 + "time8"));
-			savedTimetable.get(i).setTime10(request.getParameter(i+1 + "time10"));
-			savedTimetable.get(i).setTime11(request.getParameter(i+1 + "time11"));
-			savedTimetable.get(i).setTime12(request.getParameter(i+1 + "time12"));
-			savedTimetable.get(i).setTime13(request.getParameter(i+1 + "time13"));
-			
+
+		List<Timetable> savedTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
+				stream);
+
+		for (int i = 0; i < 5; i++) {
+
+			savedTimetable.get(i).setTime1(request.getParameter(i + 1 + "time1"));
+			savedTimetable.get(i).setTime2(request.getParameter(i + 1 + "time2"));
+			savedTimetable.get(i).setTime4(request.getParameter(i + 1 + "time4"));
+			savedTimetable.get(i).setTime5(request.getParameter(i + 1 + "time5"));
+			savedTimetable.get(i).setTime7(request.getParameter(i + 1 + "time7"));
+			savedTimetable.get(i).setTime8(request.getParameter(i + 1 + "time8"));
+			savedTimetable.get(i).setTime10(request.getParameter(i + 1 + "time10"));
+			savedTimetable.get(i).setTime11(request.getParameter(i + 1 + "time11"));
+			savedTimetable.get(i).setTime12(request.getParameter(i + 1 + "time12"));
+			savedTimetable.get(i).setTime13(request.getParameter(i + 1 + "time13"));
+
 			timetableService.saveTimetableItem(savedTimetable.get(i));
 		}
-		
-		List<Timetable> finalTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream);
-		
+
+		List<Timetable> finalTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
+				stream);
+
 		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
@@ -2369,6 +2376,9 @@ public class MainController {
 		Subject subjectObj = subjectService.getSubject(subject);
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
+		Term termObj = termService.getTerm(term, form, year, code);
+		Year yearObj = yearService.getYearFromSchool(year, code).get();
+		Form formObj = formService.getFormByForm(form);
 		Stream streamObj = streamService.getStream(stream);
 
 		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term, subject);
@@ -2377,9 +2387,24 @@ public class MainController {
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 
 		List<Mark> marks = new ArrayList<>();
+		Mark mark = new Mark();
 
 		for (int i = 0; i < students.size(); i++) {
-			marks.add(markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
+
+		}
+
+		for (int i = 0; i < students.size(); i++) {
+			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
+				marks.add(
+						markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
+			} else {
+				mark.setStudent(students.get(i));
+				mark.setSubject(subjectObj);
+				mark.setTerm(termObj);
+				mark.setYear(yearObj);
+				mark.setForm(formObj);
+				marks.add(mark);
+			}
 		}
 
 		model.addAttribute("marks", marks);
@@ -2387,17 +2412,18 @@ public class MainController {
 		model.addAttribute("streams", streams);
 		model.addAttribute("years", years);
 		model.addAttribute("students", students);
-		model.addAttribute("subject", subjectObj.getInitials());
+		model.addAttribute("subject", subjectObj);
 		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
-		model.addAttribute("stream", streamObj.getStream());
+		model.addAttribute("stream", streamObj);
 		model.addAttribute("exam", exam);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);
 		model.addAttribute("activeUser", activeUser);
 
 		return "marksEntry";
+
 	}
 
 	@PostMapping("/schools/{code}/classList")
@@ -2444,25 +2470,40 @@ public class MainController {
 		Stream streamObj = streamService.getStream(stream);
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
 
+		Year yearObj = yearService.getYearFromSchool(year, code).get();
+		Term termObj = termService.getTerm(term, form, year, code);
+		Form formObj = formService.getFormByForm(form);
+
 		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term, subject);
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Mark> marks = new ArrayList<>();
+		Mark mark = new Mark();
 
 		for (int i = 0; i < students.size(); i++) {
-			marks.add(markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
+			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
+				marks.add(
+						markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
+			} else {
+				mark.setStudent(students.get(i));
+				mark.setSubject(subjectObj);
+				mark.setTerm(termObj);
+				mark.setYear(yearObj);
+				mark.setForm(formObj);
+				marks.add(mark);
+			}
 		}
 
 		model.addAttribute("marks", marks);
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("students", students);
-		model.addAttribute("subject", subjectObj.getName());
+		model.addAttribute("subject", subjectObj);
 		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("streams", streams);
 		model.addAttribute("years", years);
 		model.addAttribute("term", term);
-		model.addAttribute("stream", streamObj.getStream());
+		model.addAttribute("stream", streamObj);
 		model.addAttribute("exam", exam);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);

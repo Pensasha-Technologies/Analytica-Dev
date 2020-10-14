@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
@@ -28,18 +29,22 @@ public class Mark {
 	private Student student;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "year")
 	private Year year;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "form")
 	private Form form;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "term")
 	private Term term;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "subject")
 	private Subject subject;
 

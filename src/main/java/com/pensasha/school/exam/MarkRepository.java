@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MarkRepository extends JpaRepository<Mark, Integer> {
 
-	public Mark findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitials(String admNo, int year, int form,
-			int term, String subject);
+	public Mark findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitials(String admNo, int year, int form,int term, String subject);
 	
 	public Mark findByStudentAdmNoAndYearYearAndFormFormAndTermTerm(String admNo, int year, int form,
 			int term);

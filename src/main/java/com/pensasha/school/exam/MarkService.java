@@ -21,9 +21,9 @@ public class MarkService {
 	public Mark getAllSubjectMarks(String admNo, int year, int form, int term) {
 		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTerm(admNo, year, form, term);
 	}
-	
-	//Getting all marks
-	public List<Mark> allMarks(String admNo){
+
+	// Getting all marks
+	public List<Mark> allMarks(String admNo) {
 		return markRepository.findByStudentAdmNo(admNo);
 	}
 
