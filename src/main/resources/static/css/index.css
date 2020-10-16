@@ -37,7 +37,11 @@ li .collapse .collapse-inner a:hover {
 }
 
 .table th, td {
-	border: 1px solid #012237;
+	border-bottom:1px solid #B4B4B4;
+}
+
+#userTable tr th{
+	text-align:center;
 }
 
 .table tr:hover {
