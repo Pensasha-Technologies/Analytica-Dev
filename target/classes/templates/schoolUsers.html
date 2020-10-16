@@ -79,7 +79,7 @@
 									</div>
 
 									<tr th:each="user : ${users}">
-										<td th:text="${user.name}">User name</td>
+										<td th:text="${user.firstname}">User name</td>
 										<td th:text="${user.role.name}">User role</td>
 										<td th:text="${user.school.name}">School Name</td>
 										<td>
@@ -138,7 +138,7 @@
 										<div class="form-group fadeIn first">
 											<label for="name"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
+												Name</label> <input type="text" id="name" th:field="*{firstname}"
 												class="fadeIn first" name="name" placeholder="Enter Name"
 												required />
 										</div>

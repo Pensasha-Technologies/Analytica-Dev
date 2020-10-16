@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
-import com.pensasha.school.user.User;
+import com.pensasha.school.user.SchoolUser;
 import com.pensasha.school.year.Year;
 
 @Entity
@@ -24,7 +24,7 @@ public class School {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
-	private Collection<User> users;
+	private Collection<SchoolUser> users;
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
@@ -48,7 +48,7 @@ public class School {
 		this.code = code;
 	}
 
-	public School(String name, int code, Collection<User> users, Collection<Subject> subjects, Collection<Year> years,
+	public School(String name, int code, Collection<SchoolUser> users, Collection<Subject> subjects, Collection<Year> years,
 			Collection<Student> students) {
 		super();
 		this.name = name;
@@ -75,11 +75,11 @@ public class School {
 		this.code = code;
 	}
 
-	public Collection<User> getUsers() {
+	public Collection<SchoolUser> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Collection<User> users) {
+	public void setUsers(Collection<SchoolUser> users) {
 		this.users = users;
 	}
 

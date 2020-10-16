@@ -73,7 +73,7 @@ public class UserController {
 
 	// Getting all users from school
 	@GetMapping("/api/schools/{code}/users")
-	public List<User> getUserBySchoolCode(@PathVariable int code) {
+	public List<SchoolUser> getUserBySchoolCode(@PathVariable int code) {
 		return userService.getUsersBySchoolCode(code);
 	}
 
@@ -85,37 +85,37 @@ public class UserController {
 
 	// Adding school principal
 	@PostMapping("/api/schools/{code}/users/principal")
-	public User addPrincipalBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addPrincipalBySchoolCode(@PathVariable int code, @RequestBody SchoolUser user) {
 		return userService.addPrincipal(code, user);
 	}
 
 	// Adding deputy principal
 	@PostMapping("/api/schools/{code}/users/deputy")
-	public User addDeputyBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addDeputyBySchoolCode(@PathVariable int code, @RequestBody SchoolUser user) {
 		return userService.addDeputyPricipal(code, user);
 	}
 
 	// Addding Director Academics
 	@PostMapping("/api/schools/{code}/users/academics")
-	public User addDirectorAcademicsBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addDirectorAcademicsBySchoolCode(@PathVariable int code, @RequestBody SchoolUser user) {
 		return userService.addDirectorAcademic(code, user);
 	}
 
 	// Adding school bursar
 	@PostMapping("/api/schools/{code}/users/bursar")
-	public User addBursarBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addBursarBySchoolCode(@PathVariable int code, @RequestBody SchoolUser user) {
 		return userService.addBursar(code, user);
 	}
 
 	// Adding school accounts clerk
 	@PostMapping("/api/schools/{code}/users/clerk")
-	public User addAccountClerkBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addAccountClerkBySchoolCode(@PathVariable int code, @RequestBody SchoolUser user) {
 		return userService.addAccountsClerk(code, user);
 	}
 
 	// Adding school teachers
 	@PostMapping("/api/schools/{code}/users/teacher")
-	public User addTeacherBySchoolCode(@PathVariable int code, @RequestBody User user) {
+	public User addTeacherBySchoolCode(@PathVariable int code, @RequestBody Teacher user) {
 		return userService.addTeacher(code, user);
 	}
 

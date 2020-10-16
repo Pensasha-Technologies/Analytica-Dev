@@ -1,8 +1,10 @@
+com/pensasha/school/user/SchoolUser.class
 com/pensasha/school/student/Student.class
 com/pensasha/school/stream/Stream.class
 com/pensasha/school/exam/MarkService.class
 com/pensasha/school/subject/SubjectService.class
 com/pensasha/school/role/Role.class
+com/pensasha/school/user/TeacherRepository.class
 com/pensasha/school/DemoApplication.class
 com/pensasha/school/finance/FeeStructure.class
 com/pensasha/school/user/User.class
@@ -22,6 +24,7 @@ com/pensasha/school/subject/Subject.class
 com/pensasha/school/school/SchoolController.class
 com/pensasha/school/config/CommandLineAppStartupRunner.class
 com/pensasha/school/role/RoleRepository.class
+com/pensasha/school/user/SchoolUserRepository.class
 com/pensasha/school/stream/StreamRespository.class
 com/pensasha/school/term/TermRepository.class
 com/pensasha/school/finance/FeeStructureService.class
@@ -46,6 +49,7 @@ com/pensasha/school/student/StudentRepository.class
 com/pensasha/school/config/MvcConfig.class
 com/pensasha/school/config/CustomSuccessHandler.class
 com/pensasha/school/student/StudentController.class
+com/pensasha/school/user/Teacher.class
 com/pensasha/school/role/RoleService.class
 com/pensasha/school/exam/MarkRepository.class
 com/pensasha/school/exam/MarkController.class

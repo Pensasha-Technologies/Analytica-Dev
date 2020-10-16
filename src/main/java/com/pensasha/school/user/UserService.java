@@ -16,6 +16,8 @@ public class UserService {
 
 	private RoleRepository roleRepository;
 	private UserRepository userRepository;
+	private TeacherRepository teacherRepository;
+	private SchoolUserRepository schoolUserRepository;
 	private SchoolRepository schoolRepository;
 
 	public UserService(RoleRepository roleRepository, UserRepository userRepository,
@@ -29,6 +31,16 @@ public class UserService {
 	//Get user by username
 	public Optional<User> getByUsername(String username) {
 		return userRepository.findById(username);
+	}
+	
+	//Getting school user by username
+	public Optional<SchoolUser> getSchoolUserByUsername(String username){
+		return schoolUserRepository.findById(username);
+	}
+	
+	//Getting teachers by username
+	public Optional<Teacher> getTeacherByUsername(String username){
+		return teacherRepository.findById(username);
 	}
 
 	// Getting all users in the system
@@ -49,8 +61,8 @@ public class UserService {
 	}
 	
 	//Getting user with role in school
-	public List<User> userWithRoleInSchool(String role, int code){
-		return userRepository.findByRoleNameAndSchoolCode(role, code);
+	public List<SchoolUser> userWithRoleInSchool(String role, int code){
+		return schoolUserRepository.findByRoleNameAndSchoolCode(role, code);
 	}
 
 	// Getting one user by username
@@ -64,8 +76,8 @@ public class UserService {
 	}
 
 	// Getting users in a school
-	public List<User> getUsersBySchoolCode(int code) {
-		return userRepository.findBySchoolCode(code);
+	public List<SchoolUser> getUsersBySchoolCode(int code) {
+		return schoolUserRepository.findBySchoolCode(code);
 	}
 
 	//// Adding System Users ////
@@ -108,11 +120,11 @@ public class UserService {
 	}
 
 	// Adding school principal
-	public User addPrincipal(int code, User user) {
+	public SchoolUser addPrincipal(int code, SchoolUser user) {
 		roleRepository.save(new Role("PRINCIPAL"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("PRINCIPAL"));
@@ -124,11 +136,11 @@ public class UserService {
 	}
 
 	// Adding a Deputy Principal
-	public User addDeputyPricipal(int code, User user) {
+	public SchoolUser addDeputyPricipal(int code, SchoolUser user) {
 		roleRepository.save(new Role("DEPUTY_PRINCIPAL"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("DEPUTY_PRINCIPAL"));
@@ -140,11 +152,11 @@ public class UserService {
 	}
 
 	// Adding Director Academic Affairs
-	public User addDirectorAcademic(int code, User user) {
+	public SchoolUser addDirectorAcademic(int code, SchoolUser user) {
 		roleRepository.save(new Role("DIRECTOR_ACADEMIC"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("DIRECTOR_ACADEMIC"));
@@ -156,11 +168,11 @@ public class UserService {
 	}
 
 	// Adding a teacher
-	public User addTeacher(int code, User user) {
+	public Teacher addTeacher(int code, Teacher user) {
 		roleRepository.save(new Role("TEACHER"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("TEACHER"));
@@ -172,11 +184,11 @@ public class UserService {
 	}
 
 	// Adding bursar
-	public User addBursar(int code, User user) {
+	public SchoolUser addBursar(int code, SchoolUser user) {
 		roleRepository.save(new Role("BURSAR"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("BURSAR"));
@@ -188,11 +200,11 @@ public class UserService {
 	}
 
 	// Adding Accounts Clerk
-	public User addAccountsClerk(int code, User user) {
+	public SchoolUser addAccountsClerk(int code, SchoolUser user) {
 		roleRepository.save(new Role("ACCOUNTS_CLERK"));
 		School school = schoolRepository.findById(code).get();
 
-		List<User> users = new ArrayList<>();
+		List<SchoolUser> users = new ArrayList<>();
 		users.add(user);
 		school.setUsers(users);
 		user.setRole(new Role("ACCOUNTS_CLERK"));

@@ -2,56 +2,63 @@ package com.pensasha.school.user;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.role.Role;
-import com.pensasha.school.school.School;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class User {
 
 	@Id
 	private String username;
-	private String name;
+	private String firstname;
+	private String secondname;
+	private String thirdname;
 	private String password;
-
+	private String email;
+	private int phoneNumber;
+	private String address;
 	
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
+	
+	public User(String username, String firstname, String secondname, String thirdname, String password, String email,
+			int phoneNumber, String address) {
+		super();
+		this.username = username;
+		this.firstname = firstname;
+		this.secondname = secondname;
+		this.thirdname = thirdname;
+		this.password = password;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+	}
+	
+	public User(String username, String firstname, String secondname, String thirdname, String password,
+			int phoneNumber) {
+		super();
+		this.username = username;
+		this.firstname = firstname;
+		this.secondname = secondname;
+		this.thirdname = thirdname;
+		this.password = password;
+		this.phoneNumber = phoneNumber;
+	}
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "school_code")
-	private School school;
+	public User(String username, String password) {
+		super();
+		this.username = username;
+		this.password = password;
+	}
 
 	public User() {
 		super();
-	}
-
-	public User(String username, String name, String password) {
-		super();
-		this.username = username;
-		this.name = name;
-		this.password = password;
-	}
-
-	public User(String username, String name, String password, Role role) {
-		super();
-		this.username = username;
-		this.name = name;
-		this.password = password;
-		this.role = role;
-	}
-
-	public User(String username, String name, String role, int code) {
-		super();
-		this.username = username;
-		this.name = name;
-		this.role = new Role(role);
-		this.school = new School("", code);
 	}
 
 	public String getUsername() {
@@ -62,14 +69,6 @@ public class User {
 		this.username = username;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Role getRole() {
 		return role;
 	}
@@ -77,15 +76,7 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	public School getSchool() {
-		return school;
-	}
-
-	public void setSchool(School school) {
-		this.school = school;
-	}
-
+	
 	public String getPassword() {
 		return password;
 	}
@@ -94,4 +85,52 @@ public class User {
 		this.password = password;
 	}
 
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getSecondname() {
+		return secondname;
+	}
+
+	public void setSecondname(String secondname) {
+		this.secondname = secondname;
+	}
+
+	public String getThirdname() {
+		return thirdname;
+	}
+
+	public void setThirdname(String thirdname) {
+		this.thirdname = thirdname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(int phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 }

@@ -47,8 +47,10 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-		User admin = new User("sobunge", "Samuel", encoder.encode("samuel1995"));
-		User admin1 = new User("vmalala", "Victor", encoder.encode("victor2020"));
+		User admin = new User("sobunge", "Samuel", "Odhiambo", "Obunge", encoder.encode("samuel1995"),
+				707335375);
+		User admin1 = new User("vmalala", "Victor", "", "Malala", encoder.encode("victor2020"),
+				717858286);
 
 		userService.addAdmin(admin);
 		userService.addAdmin(admin1);
@@ -101,14 +103,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
 			subjectService.addSubject(subjects.get(i));
 		}
-
-		/*
-		 * server.port=5000 spring.jpa.hibernate.ddl-auto=update
-		 * spring.datasource.url=jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DB_NAME}
-		 * spring.datasource.username=${RDS_USERNAME}
-		 * spring.datasource.password=${RDS_PASSWORD}
-		 */
-
 	
 	}
 }
