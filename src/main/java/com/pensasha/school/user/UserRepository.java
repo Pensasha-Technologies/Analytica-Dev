@@ -8,4 +8,6 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 	public List<User> findByRoleName(String role);
 
+	public List<User> findBySchoolCode(int code);
+	
 }

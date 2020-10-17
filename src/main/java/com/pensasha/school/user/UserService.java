@@ -16,8 +16,6 @@ public class UserService {
 
 	private RoleRepository roleRepository;
 	private UserRepository userRepository;
-	private TeacherRepository teacherRepository;
-	private SchoolUserRepository schoolUserRepository;
 	private SchoolRepository schoolRepository;
 
 	public UserService(RoleRepository roleRepository, UserRepository userRepository,
@@ -31,16 +29,6 @@ public class UserService {
 	//Get user by username
 	public Optional<User> getByUsername(String username) {
 		return userRepository.findById(username);
-	}
-	
-	//Getting school user by username
-	public Optional<SchoolUser> getSchoolUserByUsername(String username){
-		return schoolUserRepository.findById(username);
-	}
-	
-	//Getting teachers by username
-	public Optional<Teacher> getTeacherByUsername(String username){
-		return teacherRepository.findById(username);
 	}
 
 	// Getting all users in the system
@@ -60,14 +48,9 @@ public class UserService {
 		return users;
 	}
 	
-	//Getting user with role in school
-	public List<SchoolUser> userWithRoleInSchool(String role, int code){
-		return schoolUserRepository.findByRoleNameAndSchoolCode(role, code);
-	}
-
 	// Getting one user by username
-	public User findOneUser(String username) {
-		return userRepository.findById(username).get();
+	public Optional<User> findOneUser(String username) {
+		return userRepository.findById(username);
 	}
 	
 	//does user with username exits
@@ -76,8 +59,8 @@ public class UserService {
 	}
 
 	// Getting users in a school
-	public List<SchoolUser> getUsersBySchoolCode(int code) {
-		return schoolUserRepository.findBySchoolCode(code);
+	public List<User> getUsersBySchoolCode(int code) {
+		return userRepository.findBySchoolCode(code);
 	}
 
 	//// Adding System Users ////

@@ -61,7 +61,6 @@ public class MainController {
 	private FeeStructureService feeStructureService;
 	private TimetableService timetableService;
 
-	
 	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
 			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
 			UserService userService, RoleService roleService, StreamService streamService,
@@ -670,7 +669,7 @@ public class MainController {
 
 		Student student = new Student();
 		School school = new School();
-		User user = new User();
+		SchoolUser user = new SchoolUser();
 
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("schools", schools);
@@ -702,9 +701,6 @@ public class MainController {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
 
-			SchoolUser schoolUser = new SchoolUser(user.getUsername(), user.getFirstname(), user.getSecondname(),
-					user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
-
 			Role roleObj = new Role();
 
 			switch (role) {
@@ -719,57 +715,6 @@ public class MainController {
 				break;
 			case "fieldAssistant":
 				roleObj.setName("FIELDOFFICER");
-				break;
-			case "Principal":
-				if (userService.userWithRoleInSchool(role, schoolUser.getSchool().getCode()).isEmpty()) {
-					roleObj.setName("PRINCIPAL");
-					break;
-				} else {
-
-					model.addAttribute("fail",
-							schoolService.getSchool(school).get().getName() + " already has a principal");
-
-					List<User> users = userService.findAllUsers();
-
-					model.addAttribute("activeUser", activeUser);
-					model.addAttribute("schools", schools);
-					model.addAttribute("user", Systemuser);
-					model.addAttribute("school", schoolObj);
-					model.addAttribute("student", student);
-					model.addAttribute("users", users);
-
-					return "users";
-				}
-			case "deputyPrincipal":
-				if (userService.userWithRoleInSchool(role, schoolUser.getSchool().getCode()).isEmpty()) {
-					roleObj.setName("DEPUTYPRINCIPAL");
-					break;
-				} else if (userService.userWithRoleInSchool("D.O.S", schoolUser.getSchool().getCode()).size() < 1) {
-					roleObj.setName("D.O.S");
-					break;
-				} else {
-					model.addAttribute("fail",
-							schoolService.getSchool(school).get().getName() + " already has two Deputy principal");
-
-					List<User> users = userService.findAllUsers();
-
-					model.addAttribute("activeUser", activeUser);
-					model.addAttribute("schools", schools);
-					model.addAttribute("user", Systemuser);
-					model.addAttribute("school", schoolObj);
-					model.addAttribute("student", student);
-					model.addAttribute("users", users);
-
-					return "users";
-				}
-			case "teacher":
-				roleObj.setName("TEACHER");
-				break;
-			case "bursar":
-				roleObj.setName("BURSAR");
-				break;
-			case "accountsClerk":
-				roleObj.setName("ACCOUNTSCLERK");
 				break;
 			default:
 				break;
@@ -810,28 +755,8 @@ public class MainController {
 
 			model.addAttribute("users", systemUsers);
 
-			return "users";
-		} else {
-
-			List<User> schoolUsers = new ArrayList<>();
-
-			for (int i = 0; i < users.size(); i++) {
-				if (users.get(i).getRole().getName().contains("PRINCIPAL")
-						|| users.get(i).getRole().getName().contains("DEPUTYPRINCIPAL")
-						|| users.get(i).getRole().getName().contains("D.O.S")
-						|| users.get(i).getRole().getName().contains("TEACHER")
-						|| users.get(i).getRole().getName().contains("BURSAR")
-						|| users.get(i).getRole().getName().contains("ACCOUNTSCLERK")) {
-
-					schoolUsers.add(users.get(i));
-				}
-			}
-
-			model.addAttribute("users", schoolUsers);
-
-			return "schoolUsers";
 		}
-
+		return "users";
 	}
 
 	@GetMapping("/adminHome/user/{username}")
@@ -931,7 +856,7 @@ public class MainController {
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
 		School school = new School();
-		
+
 		if (userService.userExists(username) == true) {
 
 			User user = userService.getByUsername(username).get();
@@ -1697,15 +1622,15 @@ public class MainController {
 	}
 
 	@PostMapping("/school/users")
-	public String addSchoolUsers(Model model, @RequestParam String role, @RequestParam int school,
-			@ModelAttribute SchoolUser user, Principal principal) {
+	public String addSchoolUsers(Model model, @RequestParam String role, @ModelAttribute SchoolUser user,
+			@RequestParam int code, Principal principal) {
 
 		Student student = new Student();
 		School schoolObj = new School();
 		List<School> schools = schoolService.getAllSchools();
 		User Systemuser = new User();
 		Role roleObj = new Role();
-		SchoolUser activeUser = userService.getSchoolUserByUsername(user.getUsername()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
 
 		if (userService.userExists(user.getUsername()) == true) {
 
@@ -1716,7 +1641,7 @@ public class MainController {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
 
-			user.setSchool(new School("", school));
+			user.setSchool(new School("", code));
 
 			switch (role) {
 			case "Principal":
@@ -1738,10 +1663,10 @@ public class MainController {
 			model.addAttribute("success", user.getUsername() + " saved successfully");
 		}
 
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(activeUser.getSchool().getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(code);
 
-		List<Year> years = yearService.getAllYearsInSchool(school);
-		List<Stream> streams = streamService.getStreamsInSchool(school);
+		List<Year> years = yearService.getAllYearsInSchool(code);
+		List<Stream> streams = streamService.getStreamsInSchool(code);
 
 		model.addAttribute("streams", streams);
 		model.addAttribute("years", years);
@@ -1752,14 +1677,14 @@ public class MainController {
 		model.addAttribute("student", student);
 		model.addAttribute("schoolUsers", schoolUsers);
 
-		return "principalHome";
+		return "schoolUsers";
 
 	}
 
 	@GetMapping("/schools/users/{username}")
 	public String deleteSchoolUser(@PathVariable String username, Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(username).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(username).get();
 		Student student = new Student();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		User user = new User();
@@ -1782,7 +1707,7 @@ public class MainController {
 		}
 
 		List<School> schools = schoolService.getAllSchools();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(activeUser.getSchool().getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(activeUser.getSchool().getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -1803,11 +1728,11 @@ public class MainController {
 	@GetMapping("/schools/principal")
 	public String principalHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -1828,7 +1753,7 @@ public class MainController {
 	@GetMapping("/schools/students")
 	public String schoolStudents(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 
@@ -1851,7 +1776,7 @@ public class MainController {
 	@GetMapping("/schools/students/{admNo}")
 	public String schoolStudents(Model model, Principal principal, @PathVariable String admNo) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 
@@ -1912,7 +1837,7 @@ public class MainController {
 	public String addSchoolStudents(Model model, @Valid Student student, BindingResult bindingResult,
 			Principal principal, @RequestParam int stream) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		student.setSchool(school);
@@ -2041,7 +1966,7 @@ public class MainController {
 	@GetMapping("/school/teachers")
 	public String schoolTeachers(Model model, Principal principal) {
 
-		Teacher activeUser = userService.getTeacherByUsername(principal.getName()).get();
+		Teacher activeUser = (Teacher) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		Teacher user = new Teacher();
@@ -2104,7 +2029,7 @@ public class MainController {
 
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		Student student = new Student();
-		Teacher teacher = userService.getTeacherByUsername(username).get();
+		Teacher teacher = (Teacher) userService.getByUsername(username).get();
 		School school = schoolService.getSchool(teacher.getSchool().getCode()).get();
 		User user = new User();
 
@@ -2126,11 +2051,11 @@ public class MainController {
 	@GetMapping("/schools/deputyPrincipal")
 	public String deputyHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2144,11 +2069,11 @@ public class MainController {
 	@GetMapping("/schools/dosHome")
 	public String dosHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2162,11 +2087,11 @@ public class MainController {
 	@GetMapping("/schools/bursarHome")
 	public String bursarHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2197,11 +2122,11 @@ public class MainController {
 			break;
 		}
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 		List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchoolAndForm(school.getCode(), form);
 
 		model.addAttribute("feeStructures", feeStructures);
@@ -2218,8 +2143,8 @@ public class MainController {
 	public String addItemToFeeStructure(Model model, Principal principal, @PathVariable int classes,
 			@ModelAttribute FeeStructure feeStructure) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 
 		Form formObj = formService.getFormByForm(classes);
 
@@ -2235,7 +2160,7 @@ public class MainController {
 
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 		List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchoolAndForm(school.getCode(), classes);
 
 		model.addAttribute("form", classes);
@@ -2254,12 +2179,12 @@ public class MainController {
 	public String deleteFeeStructureItem(Principal principal, Model model, @PathVariable int classes,
 			@PathVariable int id) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		feeStructureService.deleteFeeStructureItem(id);
 
@@ -2279,11 +2204,11 @@ public class MainController {
 	@GetMapping("/schools/accountsClerkHome")
 	public String accountsClerkHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2297,12 +2222,12 @@ public class MainController {
 	@GetMapping("/schools/teacherHome")
 	public String teacherHome(Model model, Principal principal) {
 
-		Teacher activeUser = userService.getTeacherByUsername(principal.getName()).get();
-		School school = activeUser.getSchool();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = ((SchoolUser) activeUser).getSchool();
 		List<Student> students = studentService.getAllStudentsInSchool(school.getCode());
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
-		List<Year> years = yearService.getAllYearsInSchool(activeUser.getSchool().getCode());
+		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 
 		model.addAttribute("years", years);
 		model.addAttribute("streams", streams);
@@ -2318,8 +2243,8 @@ public class MainController {
 	@GetMapping("/schools/teachers/{username}")
 	public String teacherProfile(Principal principal, Model model) {
 
-		Teacher activeUser = userService.getTeacherByUsername(principal.getName()).get();
-		School school = activeUser.getSchool();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = ((SchoolUser) activeUser).getSchool();
 
 		model.addAttribute("activeUser", activeUser);
 
@@ -2419,11 +2344,11 @@ public class MainController {
 	public String classListByYearFormAndStream(Model model, Principal principal, @PathVariable int code,
 			@RequestParam int year, @RequestParam int form, @RequestParam String stream) {
 
-		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
 		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());

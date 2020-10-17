@@ -26,7 +26,7 @@ public class UserController {
 	// Getting user by username
 	@GetMapping("/api/users/{username}")
 	public User getUser(@PathVariable String username) {
-		return userService.findOneUser(username);
+		return userService.findOneUser(username).get();
 	}
 
 	// Getting users by role
@@ -73,14 +73,14 @@ public class UserController {
 
 	// Getting all users from school
 	@GetMapping("/api/schools/{code}/users")
-	public List<SchoolUser> getUserBySchoolCode(@PathVariable int code) {
+	public List<User> getUserBySchoolCode(@PathVariable int code) {
 		return userService.getUsersBySchoolCode(code);
 	}
 
 	// Getting a user by username from school
 	@GetMapping("/api/schools/{code}/users/{username}")
 	public User getOneUserBySchoolCode(@PathVariable String username) {
-		return userService.findOneUser(username);
+		return userService.findOneUser(username).get();
 	}
 
 	// Adding school principal
