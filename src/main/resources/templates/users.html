@@ -140,23 +140,23 @@
 										<div class="form-group fadeIn first">
 											<label for="firstname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												First Name</label> <input type="text" id="firstname" th:field="*{firstname}"
-												class="fadeIn first" name="firstname" placeholder="Enter First Name"
-												required />
+												First Name</label> <input type="text" id="firstname"
+												th:field="*{firstname}" class="fadeIn first"
+												name="firstname" placeholder="Enter First Name" required />
 										</div>
 										<div class="form-group fadeIn first">
 											<label for="secondname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Second Name</label> <input type="text" id="secondname" th:field="*{secondname}"
-												class="fadeIn first" name="secondname" placeholder="Enter Second Name"
-												required />
+												Second Name</label> <input type="text" id="secondname"
+												th:field="*{secondname}" class="fadeIn first"
+												name="secondname" placeholder="Enter Second Name" required />
 										</div>
 										<div class="form-group fadeIn first">
 											<label for="thirdname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Third Name</label> <input type="text" id="name" th:field="*{thirdname}"
-												class="fadeIn first" name="thirdname" placeholder="Enter Third Name"
-												required />
+												Third Name</label> <input type="text" id="name"
+												th:field="*{thirdname}" class="fadeIn first"
+												name="thirdname" placeholder="Enter Third Name" required />
 										</div>
 										<div class="form-group fadeIn second">
 											<label for="username"
@@ -176,15 +176,15 @@
 											<label for="phoneNumber"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Phone Number</label> <input type="text" id="phoneNumber"
-												th:field="*{phoneNumber}" class="fadeIn third" name="phoneNumber"
-												placeholder="Enter Phone Number" required />
+												th:field="*{phoneNumber}" class="fadeIn third"
+												name="phoneNumber" placeholder="Enter Phone Number" required />
 										</div>
 										<div class="form-group fadeIn third">
 											<label for="email"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Email</label> <input type="email" id="email"
-												th:field="*{email}" class="fadeIn third" name="email"
-												placeholder="Enter Email" required />
+												Email</label> <input type="email" id="email" th:field="*{email}"
+												class="fadeIn third" name="email" placeholder="Enter Email"
+												required />
 										</div>
 										<div class="form-group fadeIn third">
 											<label for="address"
@@ -196,23 +196,12 @@
 										<div class="form-group fadeIn fourth">
 											<label for="role"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												role </label> <select class="fadeIn fourth" name="role" id="role"
-												required onchange="yesnoCheck(this);"><option>Select
+												role </label> <select class="fadeIn fourth" name="role" id="role"><option>Select
 													Role ...</option>
 												<option value="admin">System Admin</option>
 												<option value="ceo">C.E.O</option>
 												<option value="officeAssistant">Office Assistant</option>
 												<option value="fieldAssistant">Field Assistant</option>
-											</select>
-										</div>
-										<div class="form-group" id="schoolDiv" style="display: none;">
-											<label for="school"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												school </label> <select name="school" id="school">
-												<option value=0>Select School ...</option>
-												<option th:value="${school.code}"
-													th:each="school : ${schools}" th:text="${school.name}">School
-													Name</option>
 											</select>
 										</div>
 
@@ -246,16 +235,6 @@
 
 	<div th:replace="fragments :: endScript"></div>
 
-	<script>
-		function yesnoCheck(that) {
-			if (that.value == "Principal" || that.value == "deputyPrincipal"
-					|| that.value == "teacher") {
-				document.getElementById("schoolDiv").style.display = "block";
-			} else {
-				document.getElementById("schoolDiv").style.display = "none";
-			}
-		}
-	</script>
 
 </body>
 

@@ -103,18 +103,18 @@
 							<div class="mt-auto">
 								<h1 style="font-size: 26px;">
 									<i class="fa fa-user" aria-hidden="true"></i> <span
-										th:text="${activeUser.firstname + ' ' + activeUser.secondname + ' ' + activeUser.thirdname}"></span>
+										th:text="${user.firstname + ' ' + user.secondname + ' ' + user.thirdname}"></span>
 								</h1>
 								<h3 style="font-size: 20px;">
 									<i class="fa fa-briefcase" aria-hidden="true"></i> <span
-										th:text="${activeUser.role.name}"> Role </span>, <span
-										th:if="${school.name == null}"> Analytica Soft </span> <span
-										th:if="${school.name != null}" th:text="${school.name}">
+										th:text="${user.role.name}"> Role </span>, <span
+										th:if="${user.role.name == 'ADMIN' || user.role.name == 'C.E.O' || user.role.name == 'FIELDOFFICER' || user.role.name == 'OFFICEASSISTANT'}"> Analytica Soft </span> <span
+										th:if="${user.role.name == 'PRINCIPAL' || user.role.name == 'DEPUTYPRINCIPAL' || user.role.name == 'BURSAR' || user.role.name == 'ACCOUNTSCLERK' || user.role.name == 'D.O.S' || user.role.name == 'TEACHER'}" th:text="${user.school.name}">
 										School </span>
 								</h3>
 								<h4 style="font-size: 20px;">
 									<i class="fa fa-mobile" aria-hidden="true"></i> <span
-										th:text="${'Tel: 0' + activeUser.phoneNumber}"></span>
+										th:text="${'Tel: 0' + user.phoneNumber}"></span>
 								</h4>
 							</div>
 						</div>
@@ -122,13 +122,13 @@
 				</div>
 				<div class="container d-flex justify-content-center">
 
-					<table th:if="${activeUser.role.name == 'ADMIN'}" id="userTable"
+					<table id="userTable" th:if="${user.role.name != 'TEACHER'}"
 						class="table" style="width: 70%; margin-bottom:60px;">
 
 						<tbody>
 							<tr>
 								<th>Username</th>
-								<td th:text="${activeUser.username}">username</td>
+								<td th:text="${user.username}">username</td>
 							</tr>
 							<tr>
 								<th>Password</th>
@@ -136,16 +136,18 @@
 							</tr>
 							<tr>
 								<th>Address</th>
-								<td colspan="2">305 Kisumu</td>
+								<td colspan="2" th:text="${user.address}">Address</td>
 							</tr>
 							<tr>
 								<th>Email</th>
-								<td colspan="2">samuelobunge@gmail.com</td>
+								<td colspan="2" th:text="${user.email}">Email</td>
 							</tr>
+						
 						</tbody>
+						
 					</table>
 
-					<table th:if="${activeUser.role.name == 'TEACHER'}" id="userTable"
+					<table th:if="${user.role.name == 'TEACHER'}" id="userTable"
 						class="table" style="width: 70%;">
 
 						<tbody>

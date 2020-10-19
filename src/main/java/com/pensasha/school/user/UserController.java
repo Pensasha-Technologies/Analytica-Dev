@@ -73,7 +73,7 @@ public class UserController {
 
 	// Getting all users from school
 	@GetMapping("/api/schools/{code}/users")
-	public List<User> getUserBySchoolCode(@PathVariable int code) {
+	public List<SchoolUser> getUserBySchoolCode(@PathVariable int code) {
 		return userService.getUsersBySchoolCode(code);
 	}
 

@@ -64,7 +64,9 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">Name</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
 										<th scope="col">Role</th>
 										<th scope="col">School</th>
 										<th></th>
@@ -79,9 +81,12 @@
 									</div>
 
 									<tr th:each="user : ${users}">
-										<td th:text="${user.firstname}">User name</td>
+										<td th:text="${user.firstname}">User First Name</td>
+										<td th:text="${user.secondname}">User Second Name</td>
+										<td th:text="${user.thirdname}">User Third Name</td>
 										<td th:text="${user.role.name}">User role</td>
-										
+										<td th:text="${user.school.name}">School Name</td>
+
 										<td>
 											<div class="d-flex justify-content-center">
 												<a
@@ -195,7 +200,8 @@
 											<label for="role"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												role </label> <select class="fadeIn fourth" name="role" id="role"
-												required><option>Select Role ...</option>
+												required onchange="yesnoCheck(this);"><option>Select
+													Role ...</option>
 												<option value="Principal">Principal</option>
 												<option value="deputyPrincipal">Deputy Principal</option>
 												<option value="teacher">Teacher</option>
@@ -203,7 +209,7 @@
 												<option value="accountsClerk">Accounts Clerk</option>
 											</select>
 										</div>
-										<div class="form-group fadeIn fourth" id="schoolDiv">
+										<div class="form-group fadeIn fourth">
 											<label for="code"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												school </label> <select name="code" id="code">
@@ -212,6 +218,29 @@
 													th:each="school : ${schools}" th:text="${school.name}">School
 													Name</option>
 											</select>
+										</div>
+										<div id="schoolDiv" style="display: none;">
+											<div class="form-group">
+												<label for="teacherNumber"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													Teachers Number</label> <input type="text" id="teacherNumber"
+													name="teacherNumber" placeholder="Enter Teacher's Number"
+													/>
+											</div>
+											<div class="form-group">
+												<label for="tscNumber"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													T.S.C Number</label> <input type="text" id="tscNumber"
+												  name="tscNumber"
+													placeholder="Enter T.S.C Number" />
+											</div>
+											<div class="form-check" th:each="subject : ${subjects}">
+												<input class="form-check-input" type="checkbox"
+													th:value="${subject.initials}" th:id="${subject.initials}"
+													th:name="${subject.initials}"> <label
+													class="form-check-label" th:for="${subject.initials}"
+													th:text="${subject.name}"> Subject Name </label>
+											</div>
 										</div>
 
 										<button class="btn btn-primary fadeIn fourth" type="submit"
@@ -243,6 +272,16 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+
+	<script>
+		function yesnoCheck(that) {
+			if (that.value == "teacher") {
+				document.getElementById("schoolDiv").style.display = "block";
+			} else {
+				document.getElementById("schoolDiv").style.display = "none";
+			}
+		}
+	</script>
 
 </body>
 

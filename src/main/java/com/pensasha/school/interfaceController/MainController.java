@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
@@ -184,6 +185,9 @@ public class MainController {
 				for (int j = 0; j < marks.size(); j++) {
 					markService.deleteMark(marks.get(j).getId());
 				}
+
+				studentService.deleteStudent(students.get(i).getAdmNo());
+
 			}
 
 			List<Stream> streams = streamService.getStreamsInSchool(code);
@@ -1623,10 +1627,11 @@ public class MainController {
 
 	@PostMapping("/school/users")
 	public String addSchoolUsers(Model model, @RequestParam String role, @ModelAttribute SchoolUser user,
-			@RequestParam int code, Principal principal) {
+			@RequestParam int code, Principal principal, HttpServletRequest request) {
 
 		Student student = new Student();
 		School schoolObj = new School();
+		Teacher teacher = new Teacher();
 		List<School> schools = schoolService.getAllSchools();
 		User Systemuser = new User();
 		Role roleObj = new Role();
@@ -1650,20 +1655,40 @@ public class MainController {
 			case "deputyPrincipal":
 				roleObj.setName("DEPUTYPRINCIPAL");
 				break;
+			case "bursar":
+				roleObj.setName("BURSAR");
+				break;
+			case "accountsClerk":
+				roleObj.setName("ACCOUNTSCLERK");
+				break;
 			case "teacher":
+				teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(),
+						user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(),
+						user.getAddress());
+				teacher.setSchool(user.getSchool());
+				teacher.setTeacherNumber(request.getParameter("teacherNumber"));
+				teacher.setTscNumber(request.getParameter("tscNumber"));
+				teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
+						+ user.getThirdname().charAt(0));
 				roleObj.setName("TEACHER");
+				teacher.setRole(roleObj);
+				break;
 			default:
 				break;
 			}
 
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
-			userService.addUser(user);
+			if (user.getRole().getName() == "TEACHER") {
+				userService.addUser(teacher);
+			} else {
+				userService.addUser(user);
+			}
 
 			model.addAttribute("success", user.getUsername() + " saved successfully");
 		}
 
-		List<User> schoolUsers = userService.getUsersBySchoolCode(code);
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(code);
 
 		List<Year> years = yearService.getAllYearsInSchool(code);
 		List<Stream> streams = streamService.getStreamsInSchool(code);
@@ -1675,9 +1700,13 @@ public class MainController {
 		model.addAttribute("user", Systemuser);
 		model.addAttribute("school", schoolObj);
 		model.addAttribute("student", student);
-		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("users", schoolUsers);
 
-		return "schoolUsers";
+		if (activeUser.getRole().getName() == "PRINCIPAL") {
+			return "principalHome";
+		} else {
+			return "schoolUsers";
+		}
 
 	}
 
@@ -1707,7 +1736,7 @@ public class MainController {
 		}
 
 		List<School> schools = schoolService.getAllSchools();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(activeUser.getSchool().getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(activeUser.getSchool().getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -1732,7 +1761,7 @@ public class MainController {
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -2055,7 +2084,7 @@ public class MainController {
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2073,7 +2102,7 @@ public class MainController {
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2091,7 +2120,7 @@ public class MainController {
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2126,7 +2155,7 @@ public class MainController {
 		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 		List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchoolAndForm(school.getCode(), form);
 
 		model.addAttribute("feeStructures", feeStructures);
@@ -2160,7 +2189,7 @@ public class MainController {
 
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 		List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchoolAndForm(school.getCode(), classes);
 
 		model.addAttribute("form", classes);
@@ -2184,7 +2213,7 @@ public class MainController {
 
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		feeStructureService.deleteFeeStructureItem(id);
 
@@ -2208,7 +2237,7 @@ public class MainController {
 		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);
@@ -2348,7 +2377,7 @@ public class MainController {
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
 		User user = new User();
-		List<User> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());

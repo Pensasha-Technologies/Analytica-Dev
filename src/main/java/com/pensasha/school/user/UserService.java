@@ -17,16 +17,18 @@ public class UserService {
 	private RoleRepository roleRepository;
 	private UserRepository userRepository;
 	private SchoolRepository schoolRepository;
+	private SchoolUserRepository schoolUserRepository;
 
-	public UserService(RoleRepository roleRepository, UserRepository userRepository,
-			SchoolRepository schoolRepository) {
+	public UserService(RoleRepository roleRepository, UserRepository userRepository, SchoolRepository schoolRepository,
+			SchoolUserRepository schoolUserRepository) {
 		super();
 		this.roleRepository = roleRepository;
 		this.userRepository = userRepository;
 		this.schoolRepository = schoolRepository;
+		this.schoolUserRepository = schoolUserRepository;
 	}
-	
-	//Get user by username
+
+	// Get user by username
 	public Optional<User> getByUsername(String username) {
 		return userRepository.findById(username);
 	}
@@ -47,20 +49,20 @@ public class UserService {
 
 		return users;
 	}
-	
+
 	// Getting one user by username
 	public Optional<User> findOneUser(String username) {
 		return userRepository.findById(username);
 	}
-	
-	//does user with username exits
+
+	// does user with username exits
 	public Boolean userExists(String username) {
 		return userRepository.existsById(username);
 	}
 
 	// Getting users in a school
-	public List<User> getUsersBySchoolCode(int code) {
-		return userRepository.findBySchoolCode(code);
+	public List<SchoolUser> getUsersBySchoolCode(int code) {
+		return schoolUserRepository.findBySchoolCode(code);
 	}
 
 	//// Adding System Users ////
@@ -97,7 +99,7 @@ public class UserService {
 	}
 
 	//// Adding School users ////
-	
+
 	public User addUser(User user) {
 		return userRepository.save(user);
 	}
