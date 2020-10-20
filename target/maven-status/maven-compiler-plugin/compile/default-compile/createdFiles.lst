@@ -4,7 +4,6 @@ com/pensasha/school/stream/Stream.class
 com/pensasha/school/exam/MarkService.class
 com/pensasha/school/subject/SubjectService.class
 com/pensasha/school/role/Role.class
-com/pensasha/school/user/TeacherRepository.class
 com/pensasha/school/DemoApplication.class
 com/pensasha/school/finance/FeeStructure.class
 com/pensasha/school/user/User.class
