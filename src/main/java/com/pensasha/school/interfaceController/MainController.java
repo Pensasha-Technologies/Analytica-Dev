@@ -1,5 +1,6 @@
 package com.pensasha.school.interfaceController;
 
+import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,7 @@ import com.pensasha.school.finance.FeeStructure;
 import com.pensasha.school.finance.FeeStructureService;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
+import com.pensasha.school.report.ReportService;
 import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleService;
 import com.pensasha.school.school.School;
@@ -46,9 +49,14 @@ import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
 
+import net.sf.jasperreports.engine.JRException;
+
 @Controller
 public class MainController {
 
+	@Autowired
+	ReportService reportService;
+	
 	private SchoolService schoolService;
 	private StudentService studentService;
 	private TermService termService;
@@ -2453,5 +2461,12 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 
 		return "marksEntry";
+	}
+	
+	@GetMapping("/report/{format}")
+	@ResponseBody
+	public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
+		
+		return reportService.exportReport(format);
 	}
 }
