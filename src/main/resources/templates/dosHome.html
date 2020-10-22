@@ -40,14 +40,6 @@
 						<section>
 							<h3>D.O.S Dashboard</h3>
 						</section>
-						<nav class="navbar navbar-expand-lg navbar-light">
-							<div class="d-flex justify-content-end"
-								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addSchoolModal">Add
-									Staff</button>
-							</div>
-						</nav>
 					</div>
 
 					<div>
@@ -62,9 +54,10 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">Name</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
 										<th scope="col">Role</th>
-										<th></th>
 										<th></th>
 									</tr>
 								</thead>
@@ -76,7 +69,9 @@
 									</div>
 
 									<tr th:each="user : ${schoolUsers}">
-										<td th:text="${user.name}">User name</td>
+										<td th:text="${user.firstname}">User firstname</td>
+										<td th:text="${user.secondname}">User secondname</td>
+										<td th:text="${user.thirdname}">User thirdname</td>
 										<td th:text="${user.role.name}">User role</td>
 										<td>
 											<div class="d-flex justify-content-center">
@@ -85,13 +80,7 @@
 													class="btn btn-primary"> View </a>
 											</div>
 										</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a th:if="${activeUser.username != user.username}"
-													th:href="@{/schools/users/{username}(username = ${user.username})}"
-													class="btn btn-danger"> Delete </a>
-											</div>
-										</td>
+
 									</tr>
 								</tbody>
 							</table>
@@ -133,7 +122,7 @@
 										<div class="form-group fadeIn first">
 											<label for="name"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
+												Name</label> <input type="text" id="name" th:field="*{firstname}"
 												class="fadeIn first" name="name" placeholder="Enter Name"
 												required />
 										</div>

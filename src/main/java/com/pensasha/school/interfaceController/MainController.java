@@ -1,6 +1,7 @@
 package com.pensasha.school.interfaceController;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleService;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.sms.Gateway;
 import com.pensasha.school.stream.Stream;
 import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
@@ -56,7 +58,7 @@ public class MainController {
 
 	@Autowired
 	ReportService reportService;
-	
+
 	private SchoolService schoolService;
 	private StudentService studentService;
 	private TermService termService;
@@ -129,11 +131,12 @@ public class MainController {
 	@PostMapping("/adminHome")
 	public String addSchool(@ModelAttribute School school, Model model, Principal principal) {
 
+		User activeUser = userService.getByUsername(principal.getName()).get();
+
 		if (schoolService.doesSchoolExists(school.getCode()) == true) {
 
 			Student student = new Student();
 
-			User activeUser = userService.getByUsername(principal.getName()).get();
 			List<School> schools = schoolService.getAllSchools();
 			School schoolObj = new School();
 			Stream stream = new Stream();
@@ -152,7 +155,6 @@ public class MainController {
 			schoolService.addSchool(school);
 			Student student = new Student();
 
-			User activeUser = userService.getByUsername(principal.getName()).get();
 			List<School> schools = schoolService.getAllSchools();
 			School schoolObj = new School();
 			Stream stream = new Stream();
@@ -850,7 +852,9 @@ public class MainController {
 			if (users.get(i).getRole().getName().contains("PRINCIPAL")
 					|| users.get(i).getRole().getName().contains("DEPUTYPRINCIPAL")
 					|| users.get(i).getRole().getName().contains("D.O.S")
-					|| users.get(i).getRole().getName().contains("TEACHER")) {
+					|| users.get(i).getRole().getName().contains("TEACHER")
+					|| users.get(i).getRole().getName().contains("BURSAR")
+					|| users.get(i).getRole().getName().contains("ACCOUNTSCLERK")) {
 
 				schoolUsers.add(users.get(i));
 			}
@@ -871,6 +875,18 @@ public class MainController {
 
 		if (userService.userExists(username) == true) {
 
+			if (activeUser.getRole().getName().equals("PRINCIPAL")
+					|| activeUser.getRole().getName().equals("DEPUTYPRINCIPAL")
+					|| activeUser.getRole().getName().equals("D.O.S") || activeUser.getRole().getName().equals("BURSAR")
+					|| activeUser.getRole().getName().equals("ACCOUNTSCLERK")) {
+
+				SchoolUser schoolUser = (SchoolUser) activeUser;
+
+				school = schoolUser.getSchool();
+			} else {
+
+				school = new School();
+			}
 			User user = userService.getByUsername(username).get();
 
 			Student student = new Student();
@@ -1663,6 +1679,9 @@ public class MainController {
 			case "deputyPrincipal":
 				roleObj.setName("DEPUTYPRINCIPAL");
 				break;
+			case "d.o.s":
+				roleObj.setName("D.O.S");
+				break;
 			case "bursar":
 				roleObj.setName("BURSAR");
 				break;
@@ -1706,13 +1725,22 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("schools", schools);
 		model.addAttribute("user", Systemuser);
-		model.addAttribute("school", schoolObj);
-		model.addAttribute("student", student);
-		model.addAttribute("users", schoolUsers);
 
-		if (activeUser.getRole().getName() == "PRINCIPAL") {
+		model.addAttribute("student", student);
+
+		if (activeUser.getRole().getName().equals("PRINCIPAL")) {
+
+			SchoolUser schoolUser = (SchoolUser) activeUser;
+
+			model.addAttribute("school", schoolUser.getSchool());
+			model.addAttribute("schoolUsers", schoolUsers);
+
 			return "principalHome";
 		} else {
+
+			model.addAttribute("school", schoolObj);
+			model.addAttribute("users", schoolUsers);
+
 			return "schoolUsers";
 		}
 
@@ -1721,7 +1749,7 @@ public class MainController {
 	@GetMapping("/schools/users/{username}")
 	public String deleteSchoolUser(@PathVariable String username, Model model, Principal principal) {
 
-		SchoolUser activeUser = (SchoolUser) userService.getByUsername(username).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		Student student = new Student();
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		User user = new User();
@@ -2003,10 +2031,11 @@ public class MainController {
 	@GetMapping("/school/teachers")
 	public String schoolTeachers(Model model, Principal principal) {
 
-		Teacher activeUser = (Teacher) userService.getByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+
 		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		Student student = new Student();
-		Teacher user = new Teacher();
+		SchoolUser user = new SchoolUser();
 
 		List<User> teachers = userService.findUserByRole("TEACHER");
 
@@ -2017,22 +2046,23 @@ public class MainController {
 		model.addAttribute("school", school);
 
 		return "teachers";
+
 	}
 
 	@PostMapping("/school/teachers")
-	public String addTeacher(Model model, @RequestParam String role, @RequestParam int school,
-			@ModelAttribute Teacher user, Principal principal) {
+	public String addTeacher(Model model, @RequestParam String role, @RequestParam int code,
+			@ModelAttribute SchoolUser user, Principal principal) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
 
 		Student student = new Student();
-		School schoolObj = schoolService.getSchool(school).get();
+		School schoolObj = schoolService.getSchool(code).get();
 		List<School> schools = schoolService.getAllSchools();
 		User Systemuser = new User();
 		Role roleObj = new Role();
 		User activeUser = userService.getByUsername(principal.getName()).get();
-		user.setSchool(new School("", school));
+		user.setSchool(new School("", code));
 		roleObj.setName("TEACHER");
 
 		user.setRole(roleObj);
@@ -2064,15 +2094,29 @@ public class MainController {
 	@GetMapping("/school/teachers/{username}")
 	public String deleteTeacher(@PathVariable String username, Model model, Principal principal) {
 
-		User activeUser = userService.getByUsername(principal.getName()).get();
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
 		Student student = new Student();
-		Teacher teacher = (Teacher) userService.getByUsername(username).get();
-		School school = schoolService.getSchool(teacher.getSchool().getCode()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
 		User user = new User();
 
-		userService.deleteUser(username);
+		if (userService.userExists(username) == true) {
 
-		List<User> users = userService.findAllUsers();
+			if (username.contentEquals(principal.getName())) {
+
+				model.addAttribute("fail", "You cannot delete yourself");
+			} else {
+
+				userService.deleteUser(username);
+
+				model.addAttribute("success", username + " successfully deleted");
+			}
+
+		} else {
+
+			model.addAttribute("fail", "A teacher with username " + username + " does not exist");
+		}
+
+		List<User> teachers = userService.findUserByRole("TEACHER");
 		List<School> schools = schoolService.getAllSchools();
 
 		model.addAttribute("activeUser", activeUser);
@@ -2080,7 +2124,7 @@ public class MainController {
 		model.addAttribute("user", user);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);
-		model.addAttribute("users", users);
+		model.addAttribute("teachers", teachers);
 
 		return "teachers";
 	}
@@ -2462,11 +2506,33 @@ public class MainController {
 
 		return "marksEntry";
 	}
-	
+
 	@GetMapping("/report/{format}")
 	@ResponseBody
 	public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
-		
+
 		return reportService.exportReport(format);
 	}
+
+	@GetMapping("message/send")
+	@ResponseBody
+	public String sendMessage() {
+
+		String baseUrl = "https://quicksms.advantasms.com/api/services/sendsms/";
+		int partnerId = 0; // your ID here
+		String apiKey = "0"; // your API key
+		String shortCode = ""; // sender ID here e.g INFOTEXT, Celcom, e.t.c
+
+		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+		try {
+			String res = gateway.sendSingleSms("Hello From Single sms Java", "0707335375");
+			System.out.println(res);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "Sent";
+	}
+
 }

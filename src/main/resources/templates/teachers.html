@@ -74,7 +74,9 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">Name</th>
+									<th scope="col">First Name</th>
+									<th scope="col">Second Name</th>
+									<th scope="col">Third Name</th>
 									<th scope="col">Adm No.</th>
 									<th></th>
 									<th></th>
@@ -87,7 +89,9 @@
 										has been added</p>
 								</div>
 								<tr th:each="teacher : ${teachers}">
-									<td th:text="${teacher.name}">name</td>
+									<td th:text="${teacher.firstname}">first name</td>
+									<td th:text="${teacher.secondname}">second name</td>
+									<td th:text="${teacher.thirdname}">third name</td>
 									<td th:text="${teacher.role.name}">role</td>
 									<td>
 										<div class="d-flex justify-content-center">
@@ -140,18 +144,32 @@
 									<form class="addUserForm" th:action="@{/school/teachers}"
 										method="post" th:object="${user}">
 										<div class="form-group fadeIn first">
-											<label for="name"
+											<label for="firstname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name" placeholder="Enter Name"
-												required />
+												First Name</label> <input type="text" id="firstname"
+												th:field="*{firstname}" class="fadeIn first"
+												name="firstname" placeholder="Enter First Name" required />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="secondname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Second Name</label> <input type="text" id="secondname"
+												th:field="*{secondname}" class="fadeIn first"
+												name="secondname" placeholder="Enter Second Name" required />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="thirdname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Third Name</label> <input type="text" id="thirdname"
+												th:field="*{thirdname}" class="fadeIn first"
+												name="thirdname" placeholder="Enter Third Name" required />
 										</div>
 										<div class="form-group fadeIn second">
 											<label for="username"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												userame</label> <input type="text" id="username"
+												Username</label> <input type="text" id="username"
 												th:field="*{username}" class="fadeIn second" name="username"
-												placeholder="Enter username" required />
+												placeholder="Enter Username" required />
 										</div>
 										<div class="form-group fadeIn third">
 											<label for="password"
@@ -160,9 +178,43 @@
 												th:field="*{password}" class="fadeIn second" name="password"
 												placeholder="Enter Password" required />
 										</div>
+										<div class="form-group fadeIn third">
+											<label for="phoneNumber"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Phone Number</label> <input type="text" id="phoneNumber"
+												th:field="*{phoneNumber}" class="fadeIn third"
+												name="phoneNumber" placeholder="Enter Phone Number" required />
+										</div>
+										<div class="form-group fadeIn second">
+											<label for="address"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Address</label> <input type="text" id="address"
+												th:field="*{address}" class="fadeIn second" name="address"
+												placeholder="Enter Address" required />
+										</div>
+										<div class="form-group fadeIn second">
+											<label for="email"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Email</label> <input type="email" id="email" th:field="*{email}"
+												class="fadeIn second" name="email" placeholder="Enter Email"
+												required />
+										</div>
+										<div class="form-group">
+											<label for="teacherNumber"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Teachers Number</label> <input type="text" id="teacherNumber"
+												name="teacherNumber" placeholder="Enter Teacher's Number" />
+										</div>
+										<div class="form-group">
+											<label for="tscNumber"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												T.S.C Number</label> <input type="text" id="tscNumber"
+												name="tscNumber" placeholder="Enter T.S.C Number" />
+										</div>
+
 										<input type="hidden" th:value="teacher" name="role" id="role" />
-										<input type="hidden" th:value="${school.code}" name="school"
-											id="school" />
+										<input type="hidden" th:value="${school.code}" name="code"
+											id="code" />
 
 										<button class="btn btn-primary fadeIn fourth" type="submit"
 											style="margin-top: 10px;">Add Teacher</button>

@@ -62,7 +62,9 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">Name</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
 										<th scope="col">Role</th>
 										<th></th>
 										<th></th>
@@ -76,7 +78,9 @@
 									</div>
 
 									<tr th:each="user : ${schoolUsers}">
-										<td th:text="${user.name}">User name</td>
+										<td th:text="${user.firstname}">User firstname</td>
+										<td th:text="${user.secondname}">User secondname</td>
+										<td th:text="${user.thirdname}">User thirdname</td>
 										<td th:text="${user.role.name}">User role</td>
 										<td>
 											<div class="d-flex justify-content-center">
@@ -131,11 +135,25 @@
 									<form class="addUserForm" th:action="@{/school/users}"
 										method="post" th:object="${user}">
 										<div class="form-group fadeIn first">
-											<label for="name"
+											<label for="firstname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name" placeholder="Enter Name"
-												required />
+												First Name</label> <input type="text" id="firstname"
+												th:field="*{firstname}" class="fadeIn first"
+												name="firstname" placeholder="Enter First Name" required />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="secondname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Second Name</label> <input type="text" id="secondname"
+												th:field="*{secondname}" class="fadeIn first"
+												name="secondname" placeholder="Enter Second Name" required />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="thirdname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Third Name</label> <input type="text" id="thirdname"
+												th:field="*{thirdname}" class="fadeIn first"
+												name="thirdname" placeholder="Enter Third Name" required />
 										</div>
 										<div class="form-group fadeIn second">
 											<label for="username"
@@ -155,13 +173,32 @@
 											<label for="role"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												role </label> <select class="fadeIn fourth" name="role" id="role"
-												required><option>Select Role ...</option>
+												required onchange="yesnoCheck(this);"><option>Select
+													Role ...</option>
 												<option value="deputyPrincipal">Deputy Principal</option>
+												<option value="d.o.s">D.O.S</option>
 												<option value="teacher">Teacher</option>
+												<option value="bursar">Bursar</option>
+												<option value="accountsClerk">Accounts Clerk</option>
 											</select>
 										</div>
-										<input type="hidden" th:value="${school.code}" name="school"
-											id="school" />
+										<div id="schoolDiv" style="display: none;">
+											<div class="form-group">
+												<label for="teacherNumber"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													Teachers Number</label> <input type="text" id="teacherNumber"
+													name="teacherNumber" placeholder="Enter Teacher's Number" />
+											</div>
+											<div class="form-group">
+												<label for="tscNumber"
+													style="display: block; text-align: left; margin-bottom: -5px;">Enter
+													T.S.C Number</label> <input type="text" id="tscNumber"
+													name="tscNumber" placeholder="Enter T.S.C Number" />
+											</div>
+
+										</div>
+										<input type="hidden" th:value="${school.code}" name="code"
+											id="code" />
 
 										<button class="btn btn-primary fadeIn fourth" type="submit"
 											style="margin-top: 10px;">Add User</button>
@@ -192,6 +229,16 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+
+	<script>
+		function yesnoCheck(that) {
+			if (that.value == "teacher") {
+				document.getElementById("schoolDiv").style.display = "block";
+			} else {
+				document.getElementById("schoolDiv").style.display = "none";
+			}
+		}
+	</script>
 
 </body>
 

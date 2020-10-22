@@ -179,7 +179,8 @@
 				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"
+			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/principal' ? 'active':''}"><a
 			class="nav-link" th:href="@{/schools/principal}"> <i
 				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
@@ -242,7 +243,7 @@
 
 		<li class="nav-item"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome/users/' + activeUser.username  ? 'active':''}"
-			th:if="${activeUser.role.name == 'ADMIN'}"><a class="nav-link"
+			th:if="${activeUser.role.name != 'TEACHER'}"><a class="nav-link"
 			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
 				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
 		</a></li>
@@ -266,12 +267,6 @@
 			class="nav-link" th:href="@{/ceoHome}"> <i
 				class="fas fa-fw fa-chart-area"></i> <span> Schools </span></a></li>
 
-		<li class="nav-item"
-			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'BURSAR'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#createStructureModal"
@@ -361,38 +356,12 @@
 			th:href="@{/schools/teachers/{username}(username=${activeUser.username})}">
 				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
 		</a></li>
-		<li class="nav-item"
-			th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'D.O.S'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'C.E.O'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
-		<li class="nav-item"
-			th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
-			class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
+
 
 		<!-- Nav Item - Utilities Collapse Menu -->
 		<li class="nav-item"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome/school/' + school.code  ? 'active':''}"
-			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'D.O.S' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null}"><a
+			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null}"><a
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#schoolUtilities" aria-expanded="true"
 			aria-controls="schoolUtilities"> <i class="fas fa-fw fa-wrench"></i>
@@ -460,7 +429,7 @@
 			</div></li>
 
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'  }"><a
 			class="nav-link"
 			th:href="@{/adminHome/school/{code}(code=${school.code})}"> <i
 				class="fas fa-fw fa-table"></i> <span> My School </span>
@@ -469,10 +438,6 @@
 			class="nav-link" data-toggle="modal" data-target="#addMarksModal">
 				<i class="fas fa-fw fa-table"></i> <span> Add Marks </span>
 		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"
-			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/principal' ? 'active':''}"><a
-			class="nav-link" th:href="@{/schools/principal}"> <i
-				class="fas fa-fw fa-table"></i> <span> Staff </span></a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/school/teachers' ? 'active':''}"><a

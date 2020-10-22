@@ -62,7 +62,9 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">Name</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
 										<th scope="col">Role</th>
 										<th></th>
 										<th></th>
@@ -76,7 +78,9 @@
 									</div>
 
 									<tr th:each="user : ${schoolUsers}">
-										<td th:text="${user.name}">User name</td>
+										<td th:text="${user.firstname}">User firstname</td>
+										<td th:text="${user.secondname}">User secondname</td>
+										<td th:text="${user.thirdname}">User thirdname</td>
 										<td th:text="${user.role.name}">User role</td>
 										<td>
 											<div class="d-flex justify-content-center">
@@ -132,7 +136,7 @@
 										<div class="form-group fadeIn first">
 											<label for="name"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
+												Name</label> <input type="text" id="name" th:field="*{firstname}"
 												class="fadeIn first" name="name" placeholder="Enter Name"
 												required />
 										</div>

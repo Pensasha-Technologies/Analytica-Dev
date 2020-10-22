@@ -69,7 +69,9 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">Name</th>
+									<th scope="col">First Name</th>
+									<th scope="col">Second Name</th>
+									<th scope="col">Third Name</th>
 									<th scope="col">Adm No.</th>
 									<th></th>
 									<th></th>
@@ -82,8 +84,9 @@
 										has been added</p>
 								</div>
 								<tr th:each="student : ${students}">
-									<td
-										th:text="${student.firstname} + ' ' + ${student.secondname} + ' ' + ${student.thirdname} ">name</td>
+									<td th:text="${student.firstname}">firstname</td>
+									<td th:text="${student.secondname}">secondname</td>
+									<td th:text="${student.thirdname}">thirdname</td>
 									<td th:text="${student.admNo}">admNo</td>
 									<td>
 										<div class="d-flex justify-content-center">
