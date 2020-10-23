@@ -2,12 +2,14 @@ package com.pensasha.school.interfaceController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,8 @@ import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 @Controller
 public class MainController {
@@ -2507,11 +2511,37 @@ public class MainController {
 		return "marksEntry";
 	}
 
-	@GetMapping("/report/{format}")
+	@GetMapping("/report/print")
 	@ResponseBody
-	public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
+	public void generateReport(HttpServletResponse response) throws JRException, IOException {
 
-		return reportService.exportReport(format);
+		JasperPrint jasperPrint = null;
+
+		response.setContentType("application/x-download");
+		response.setHeader("Content-Disposition", String.format("attachment; filename=\"users.pdf\""));
+
+		OutputStream out = response.getOutputStream();
+		jasperPrint = reportService.exportReport();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+
+	}
+
+	@GetMapping("/report/school/{code}/years/{year}/form/{form}/stream/{stream}/classList")
+	@ResponseBody
+	public void generateClassList(HttpServletResponse response, @PathVariable int code, @PathVariable int year, @PathVariable int form,
+			@PathVariable String stream) throws JRException, IOException {
+
+		JasperPrint jasperPrint = null;
+
+		List<Student> students = studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
+
+		response.setContentType("application/x-download");
+		response.setHeader("Content-Disposition", String.format("attachment; filename=\"classList.pdf\""));
+
+		OutputStream out = response.getOutputStream();
+		jasperPrint = reportService.exportClassList(students);
+		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+
 	}
 
 	@GetMapping("message/send")

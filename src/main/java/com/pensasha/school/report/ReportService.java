@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import com.pensasha.school.student.Student;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -27,12 +27,10 @@ public class ReportService {
 	@Autowired
 	private UserService userService;
 
-	public String exportReport(String reportFormat) throws FileNotFoundException, JRException {
+	public JasperPrint exportReport() throws FileNotFoundException, JRException {
 
 		List<User> users = userService.findAllUsers();
 
-		
-		// Load file and compile it
 		File file = ResourceUtils.getFile("classpath:users.jrxml");
 		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
 
@@ -42,15 +40,22 @@ public class ReportService {
 		
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
-		if (reportFormat.equalsIgnoreCase("html")) {
-			
-			JasperExportManager.exportReportToHtmlFile(jasperPrint, "/home/sobunge/Desktop"+"/users.html" );
-		}
-		if (reportFormat.equalsIgnoreCase("pdf")) {
-			JasperExportManager.exportReportToPdfFile(jasperPrint, "/home/sobunge/Desktop"+"/users.pdf");
-		}
-
-		return "report generated in path : /home/sobunge/Desktop";
+		return jasperPrint;
 
 	}
+	
+	public JasperPrint exportClassList(List<Student> students) throws FileNotFoundException, JRException {
+		
+		File file = ResourceUtils.getFile("classpath:classList.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+
+		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(students);
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put("createdBy", "Sobunge");
+		
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+		
+		return jasperPrint;
+	}
+
 }

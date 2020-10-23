@@ -55,6 +55,14 @@
 					</div>
 
 					<div>
+						<form method="get"
+							th:action="@{/report/school/{code}/years/{year}/form/{form}/stream/{stream}/classList(code = ${school.code},year = ${year}, form = ${form}, stream = ${stream})}">
+							<button type="submit" class="btn btn-info">Export</button>
+						</form>
+					</div>
+
+
+					<div>
 
 						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
 							Staff exists</div>

@@ -87,14 +87,16 @@
 								name="stream" />
 
 							<button th:if="${students} and ${students.size()}"
-								class="btn btn-primary fadeIn third" type="submit"
+								class="btn btn-primary fadeIn first" type="submit"
 								style="margin-bottom: 10px; float: right;">Submit</button>
 
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">Name</th>
+											<th scope="col">First Name</th>
+											<th scope="col">Second Name</th>
+											<th scope="col">Third Name</th>
 											<th scope="col">Admission Number</th>
 											<th scope="col" th:text="${exam} + ' Marks'">Marks</th>
 										</tr>
@@ -107,16 +109,23 @@
 										</div>
 
 										<tr th:each="mark : ${marks}">
-											<th scope="row"
-												th:text="${mark.student.firstname} + ' ' + ${mark.student.thirdname}">1</th>
+											<td scope="row" th:text="${mark.student.secondname}">
+												First Name</td>
+											<td scope="row" th:text="${mark.student.thirdname}">
+												Second Name</td>
+											<td scope="row" th:text="${mark.student.thirdname}">
+												Third Name</td>
 											<td th:text="${mark.student.admNo}">Mark</td>
-											<td th:if="${exam == 'Cat1'}"><input class="form-control" type="number"
+											<td th:if="${exam == 'Cat1'}"><input
+												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
 												th:Value="${mark.cat1}" /></td>
-											<td th:if="${exam == 'Cat2'}"><input class="form-control" type="number"
+											<td th:if="${exam == 'Cat2'}"><input
+												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
 												th:Value="${mark.cat2}" /></td>
-											<td th:if="${exam == 'mainExam'}"><input class="form-control" type="number"
+											<td th:if="${exam == 'mainExam'}"><input
+												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
 												th:Value="${mark.mainExam}" /></td>
 										</tr>
