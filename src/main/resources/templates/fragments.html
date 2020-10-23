@@ -626,6 +626,12 @@
 				<i class="fas fa-fw fa-table"></i> <span> Timetable </span>
 		</a></li>
 
+		<li class="nav-item"
+			th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+			class="nav-link" th:href="@{/comingSoon}">
+				<i class="fas fa-fw fa-table"></i> <span> SMS </span>
+		</a></li>
+
 		<!-- Timetable Model -->
 		<!-- Modal -->
 		<div class="modal fade" id="timetableModal" tabindex="-1"

@@ -2154,37 +2154,41 @@ public class MainController {
 	@GetMapping("/schools/dosHome")
 	public String dosHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
-		Student student = new Student();
-		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
-
-		model.addAttribute("schoolUsers", schoolUsers);
-		model.addAttribute("user", user);
-		model.addAttribute("activeUser", activeUser);
-		model.addAttribute("student", student);
-		model.addAttribute("school", school);
-
-		return "dosHome";
+		return "comingSoon";
+		/*
+		 * SchoolUser activeUser = (SchoolUser)
+		 * userService.getByUsername(principal.getName()).get(); School school =
+		 * schoolService.getSchool(activeUser.getSchool().getCode()).get(); Student
+		 * student = new Student(); User user = new User(); List<SchoolUser> schoolUsers
+		 * = userService.getUsersBySchoolCode(school.getCode());
+		 * 
+		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
+		 * user); model.addAttribute("activeUser", activeUser);
+		 * model.addAttribute("student", student); model.addAttribute("school", school);
+		 * 
+		 * return "dosHome";
+		 * 
+		 */
 	}
 
 	@GetMapping("/schools/bursarHome")
 	public String bursarHome(Model model, Principal principal) {
 
-		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
-		Student student = new Student();
-		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
-
-		model.addAttribute("schoolUsers", schoolUsers);
-		model.addAttribute("user", user);
-		model.addAttribute("activeUser", activeUser);
-		model.addAttribute("student", student);
-		model.addAttribute("school", school);
-
-		return "bursarHome";
+		return "comingSoon";
+		/*
+		 * SchoolUser activeUser = (SchoolUser)
+		 * userService.getByUsername(principal.getName()).get(); School school =
+		 * schoolService.getSchool(activeUser.getSchool().getCode()).get(); Student
+		 * student = new Student(); User user = new User(); List<SchoolUser> schoolUsers
+		 * = userService.getUsersBySchoolCode(school.getCode());
+		 * 
+		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
+		 * user); model.addAttribute("activeUser", activeUser);
+		 * model.addAttribute("student", student); model.addAttribute("school", school);
+		 * 
+		 * return "bursarHome";
+		 * 
+		 */
 	}
 
 	@GetMapping("schools/bursarHome/createStructure/{form}")
@@ -2289,19 +2293,21 @@ public class MainController {
 	@GetMapping("/schools/accountsClerkHome")
 	public String accountsClerkHome(Model model, Principal principal) {
 
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
-		Student student = new Student();
-		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		return "comingSoon";
 
-		model.addAttribute("schoolUsers", schoolUsers);
-		model.addAttribute("user", user);
-		model.addAttribute("activeUser", activeUser);
-		model.addAttribute("student", student);
-		model.addAttribute("school", school);
-
-		return "accountsClerkHome";
+		/*
+		 * User activeUser = userService.getByUsername(principal.getName()).get();
+		 * School school = schoolService.getSchool(((SchoolUser)
+		 * activeUser).getSchool().getCode()).get(); Student student = new Student();
+		 * User user = new User(); List<SchoolUser> schoolUsers =
+		 * userService.getUsersBySchoolCode(school.getCode());
+		 * 
+		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
+		 * user); model.addAttribute("activeUser", activeUser);
+		 * model.addAttribute("student", student); model.addAttribute("school", school);
+		 * 
+		 * return "accountsClerkHome";
+		 */
 	}
 
 	@GetMapping("/schools/teacherHome")
@@ -2528,8 +2534,8 @@ public class MainController {
 
 	@GetMapping("/report/school/{code}/years/{year}/form/{form}/stream/{stream}/classList")
 	@ResponseBody
-	public void generateClassList(HttpServletResponse response, @PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable String stream) throws JRException, IOException {
+	public void generateClassList(HttpServletResponse response, @PathVariable int code, @PathVariable int year,
+			@PathVariable int form, @PathVariable String stream) throws JRException, IOException {
 
 		JasperPrint jasperPrint = null;
 
@@ -2563,6 +2569,12 @@ public class MainController {
 		}
 
 		return "Sent";
+	}
+
+	@GetMapping("/comingSoon")
+	public String comingSoon() {
+
+		return "comingSoon";
 	}
 
 }
