@@ -86,7 +86,17 @@
 						class="d-inline-block align-top" alt="" loading="lazy">
 				</div>
 				<div class="sidebar-brand-text mx-3">Analytica Soft</div>
-			</a> <a th:if="${activeUser.role.name == 'PRINCIPAL'}"
+			</a> 
+			<a th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
+				class="sidebar-brand d-flex align-items-center justify-content-center"
+				th:href="@{/schools/deputyPrincipal}">
+				<div class="sidebar-brand-icon">
+					<img th:src="@{/img/logo.png}" width="50" height="30"
+						class="d-inline-block align-top" alt="" loading="lazy">
+				</div>
+				<div class="sidebar-brand-text mx-3">Analytica Soft</div>
+			</a>
+			<a th:if="${activeUser.role.name == 'PRINCIPAL'}"
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				th:href="@{/schools/principal}">
 				<div class="sidebar-brand-icon">
@@ -275,7 +285,7 @@
 					Structure</span>
 		</a></li>
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
+			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL' ||  activeUser.role.name == 'DEPUTYPRINCIPAL' ||  activeUser.role.name == 'TEACHER' ||  activeUser.role.name == 'D.O.S'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#viewStructureModal"> <i
 				class="fas fa-fw fa-chart-area"></i> <span> View Fee
@@ -298,10 +308,10 @@
 					</div>
 					<div class="modal-body d-flex justify-content-between">
 
-						<a class="btn btn-primary" th:href="@{#}"> Form 1 </a> <a
-							class="btn btn-primary" th:href="@{#}"> Form 2 </a> <a
-							class="btn btn-primary" th:href="@{#}"> Form 3 </a> <a
-							class="btn btn-primary" th:href="@{#}"> Form 4 </a>
+						<a class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/1}"> Form 1 </a> <a
+							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/2}"> Form 2 </a> <a
+							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/3}"> Form 3 </a> <a
+							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/4}"> Form 4 </a>
 
 					</div>
 					<div class="modal-footer">
@@ -433,10 +443,6 @@
 			class="nav-link"
 			th:href="@{/adminHome/school/{code}(code=${school.code})}"> <i
 				class="fas fa-fw fa-table"></i> <span> My School </span>
-		</a></li>
-		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"><a
-			class="nav-link" data-toggle="modal" data-target="#addMarksModal">
-				<i class="fas fa-fw fa-table"></i> <span> Add Marks </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"
@@ -628,7 +634,7 @@
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
-			class="nav-link" th:href="@{/comingSoon}">
+			class="nav-link" th:href="@{/schools/{code}/sms(code=${school.code})}">
 				<i class="fas fa-fw fa-table"></i> <span> SMS </span>
 		</a></li>
 

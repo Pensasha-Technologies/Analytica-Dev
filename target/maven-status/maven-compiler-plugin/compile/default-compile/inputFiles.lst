@@ -18,6 +18,7 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/RoleRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/RoleService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/Term.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/report/ReportService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/User.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/TermRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/Role.java
@@ -34,6 +35,7 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/StudentService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/Timetable.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStructureService.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/sms/Gateway.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/Subject.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/YearRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/UserRepository.java

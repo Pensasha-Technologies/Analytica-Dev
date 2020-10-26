@@ -14,5 +14,8 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 	public Boolean existsByStudentAdmNo(String admNo);
 	
 	public List<Mark> findByStudentAdmNo(String admNo);
+
+	public List<Mark> findByYearYearAndFormFormAndTermTermAndSubjectInitials(int year, int form, int term,
+			String subject);
 	
 }

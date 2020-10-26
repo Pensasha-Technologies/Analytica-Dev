@@ -99,7 +99,8 @@
 									<td th:text="${student.thirdname}">thirdname</td>
 									<td th:text="${student.currentForm}"></td>
 									<td th:text="${student.stream.stream}">stream</td>
-									<td th:text="${student.admNo}">admNo</td>
+									<td
+										th:utext="${#strings.substringAfter(student.admNo,'_')}">admNo</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
@@ -109,9 +110,9 @@
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
-											<a
-												th:href="@{/adminHome/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
-												class="btn btn-danger"> Delete </a>
+											<a class="btn btn-danger" data-toggle="modal" href="#"
+												th:data-href="@{/adminHome/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												data-target="#deleteStudentModal"> Delete </a>
 										</div>
 									</td>
 								</tr>
@@ -199,6 +200,35 @@
 				</div>
 			</div>
 
+			<!-- Delete Model -->
+			<!-- Modal -->
+			<div class="modal fade" id="deleteStudentModal" tabindex="-1"
+				role="dialog" aria-labelledby="deleteStudentModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteStudentModalLabel">Delete
+								Student</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">All student details and information
+								will be deleted and will not be recovered. Are you sure you want
+								to delete?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete</button>
+							<a class="btn btn-danger ok-button">Yes! Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!-- End of Content Wrapper -->
 
@@ -212,6 +242,14 @@
 	<div th:replace="fragments :: logoutModal"></div>
 	<div th:replace="fragments :: endScript"></div>
 	<script th:src="@{/js/index.js}"></script>
+	<script>
+		$('#deleteStudentModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 
 </body>
 

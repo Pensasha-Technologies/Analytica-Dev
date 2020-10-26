@@ -99,6 +99,7 @@
 											<th scope="col">Third Name</th>
 											<th scope="col">Admission Number</th>
 											<th scope="col" th:text="${exam} + ' Marks'">Marks</th>
+											<th scope="col">Out Of</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -109,9 +110,9 @@
 										</div>
 
 										<tr th:each="mark : ${marks}">
-											<td scope="row" th:text="${mark.student.secondname}">
+											<td scope="row" th:text="${mark.student.firstname}">
 												First Name</td>
-											<td scope="row" th:text="${mark.student.thirdname}">
+											<td scope="row" th:text="${mark.student.secondname}">
 												Second Name</td>
 											<td scope="row" th:text="${mark.student.thirdname}">
 												Third Name</td>
@@ -119,15 +120,35 @@
 											<td th:if="${exam == 'Cat1'}"><input
 												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
-												th:Value="${mark.cat1}" /></td>
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.cat1 ==0}" value=0 min="1" max="30" /> <input
+												class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.cat1 !=0}" th:value="${mark.cat1}" min="1"
+												max="30" /></td>
 											<td th:if="${exam == 'Cat2'}"><input
 												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
-												th:Value="${mark.cat2}" /></td>
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.cat2 == 0}" th:Value=0 min="1" max="30" /> <input
+												class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.cat2 != 0}" th:Value="${mark.cat2}" min="1"
+												max="30" /></td>
+											<td th:if="${exam =='Cat1' || exam == 'Cat2'}">/ 30%</td>
 											<td th:if="${exam == 'mainExam'}"><input
 												class="form-control" type="number"
 												th:name="${mark.student.admNo} + 'mark'"
-												th:Value="${mark.mainExam}" /></td>
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.mainExam == 0}" th:Value=0 min="1" max="70" /><input
+												class="form-control" type="number"
+												th:name="${mark.student.admNo} + 'mark'"
+												th:id="${mark.student.admNo} + 'mark'"
+												th:if="${mark.mainExam != 0}" th:Value="${mark.mainExam}"
+												min="1" max="70" /></td>
+											<td th:if="${exam == 'mainExam'}">/ 70%</td>
 										</tr>
 									</tbody>
 								</table>

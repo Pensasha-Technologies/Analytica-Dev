@@ -17,6 +17,7 @@ com/pensasha/school/year/YearService.class
 com/pensasha/school/year/YearRepository.class
 com/pensasha/school/school/SchoolRepository.class
 com/pensasha/school/term/Term.class
+com/pensasha/school/report/ReportService.class
 com/pensasha/school/timetable/Timetable.class
 com/pensasha/school/form/Form.class
 com/pensasha/school/subject/Subject.class
@@ -32,6 +33,7 @@ com/pensasha/school/stream/StreamService.class
 com/pensasha/school/subject/SubjectController.class
 com/pensasha/school/user/UserController.class
 com/pensasha/school/interfaceController/MyErrorController.class
+com/pensasha/school/sms/Gateway.class
 com/pensasha/school/exam/Mark.class
 com/pensasha/school/finance/FeeStructureRepository.class
 com/pensasha/school/school/SchoolService.class

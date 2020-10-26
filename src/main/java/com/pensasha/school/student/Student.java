@@ -9,12 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.Type;
+import javax.validation.constraints.*;
 
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
@@ -25,27 +20,32 @@ import com.pensasha.school.year.Year;
 @Entity
 public class Student {
 
-	@Size(min = 2, max = 30)
+	@NotBlank(message = "First Name should not be blank")
+	@Size(min = 2, max = 24, message = "First Name should have a minimum character of 2 and maximum 24")
 	private String firstname;
 
-	@Size(min = 2, max = 30)
+	@Size(max = 24, message = "Second Name should have a maximum of 24 characters")
 	private String secondname;
 
-	@Size(min = 2, max = 30)
+	@NotBlank(message = "Third Name should not be blank")
+	@Size(min = 2, max = 24, message = "Third Name should have a minimum character of 2 and maximum 24")
 	private String thirdname;
 
 	@Id
-	@Min(1)
+	@NotBlank(message = "First Name should not be blank")
+	@Size(min = 1, max = 24)
 	private String admNo;
 
-	private int upiNo;
+	@Size(max = 8)
+	private String upiNo;
 
-	private int hudumaNo;
+	@Size(max = 12)
+	private String hudumaNo;
 
-	private int birthNo;
+	@Size(max = 13)
+	private String birthNo;
 
-	@NotEmpty
-	@Type(type = "date")
+	@NotNull
 	private Date dob;
 
 	private String f_firstname;
@@ -80,12 +80,19 @@ public class Student {
 
 	private String gender;
 
+	@Size(max = 30)
 	private String sponsor;
 
+	@NotNull
+	@Min(value = 1)
+	@Max(value = 500)
 	private int kcpeMarks;
 
 	private int scholar;
 
+	@NotNull
+	@Min(value = 1000, message="Year entered has an invalid format")
+	@Max(value = 9999, message="Year entered has an invalid format")
 	private int yearAdmitted;
 
 	private int currentForm;
@@ -106,13 +113,12 @@ public class Student {
 	@JoinTable(name = "Student_Subject", joinColumns = @JoinColumn(name = "admNo"), inverseJoinColumns = @JoinColumn(name = "initials"))
 	private Collection<Subject> subjects;
 
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "school_code")
 	private School school;
 
-	public Student(String firstname, String secondname, String thirdname, String admNo, int upiNo, int hudumaNo,
-			int birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
+	public Student(String firstname, String secondname, String thirdname, String admNo, String upiNo, String hudumaNo,
+			String birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
 			String f_email, String m_firstname, String m_secondname, String m_thirdname, int m_phoneNumber,
 			String m_email, String g_firstname, String g_secondname, String g_thirdname, int g_phoneNumber,
 			String g_email, String gender, String sponsor, int kcpeMarks, int scholar, int yearAdmitted,
@@ -155,8 +161,8 @@ public class Student {
 		this.school = school;
 	}
 
-	public Student(String firstname, String secondname, String thirdname, String admNo, int upiNo, int hudumaNo,
-			int birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
+	public Student(String firstname, String secondname, String thirdname, String admNo, String upiNo, String hudumaNo,
+			String birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
 			String f_email, String m_firstname, String m_secondname, String m_thirdname, int m_phoneNumber,
 			String m_email, String g_firstname, String g_secondname, String g_thirdname, int g_phoneNumber,
 			String g_email, String gender, String sponsor, int kcpeMarks, int scholar, int yearAdmitted,
@@ -229,27 +235,27 @@ public class Student {
 		this.admNo = admNo;
 	}
 
-	public int getUpiNo() {
+	public String getUpiNo() {
 		return upiNo;
 	}
 
-	public void setUpiNo(int upiNo) {
+	public void setUpiNo(String upiNo) {
 		this.upiNo = upiNo;
 	}
 
-	public int getHudumaNo() {
+	public String getHudumaNo() {
 		return hudumaNo;
 	}
 
-	public void setHudumaNo(int hudumaNo) {
+	public void setHudumaNo(String hudumaNo) {
 		this.hudumaNo = hudumaNo;
 	}
 
-	public int getBirthNo() {
+	public String getBirthNo() {
 		return birthNo;
 	}
 
-	public void setBirthNo(int birthNo) {
+	public void setBirthNo(String birthNo) {
 		this.birthNo = birthNo;
 	}
 

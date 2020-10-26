@@ -24,9 +24,11 @@ public class Mark {
 	private int cat2;
 	private int mainExam;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "Stud_AdmNo")
 	private Student student;
+
 
 	@ManyToOne
 	@JsonIgnore

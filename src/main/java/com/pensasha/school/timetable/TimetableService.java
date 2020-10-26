@@ -13,17 +13,22 @@ public class TimetableService {
 
 	public List<Timetable> getTimetableBySchoolYearFormStream(int code, int year, int form, int term, int stream) {
 
-		return timetableRepository.findBySchoolCodeAndYearYearAndFormFormAndTermTermAndStreamId(code, year, form,
-				term, stream);
+		return timetableRepository.findBySchoolCodeAndYearYearAndFormFormAndTermTermAndStreamId(code, year, form, term,
+				stream);
+	}
+
+	public List<Timetable> getALlTimetableItemsInSchoolByCode(int code) {
+
+		return timetableRepository.findBySchoolCode(code);
 	}
 
 	public Timetable saveTimetableItem(Timetable timetable) {
 
 		return timetableRepository.save(timetable);
 	}
-	
+
 	public void deleteTimetableItem(int id) {
-		
+
 		timetableRepository.deleteById(id);
 	}
 

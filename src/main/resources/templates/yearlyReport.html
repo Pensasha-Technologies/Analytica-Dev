@@ -94,44 +94,35 @@
 														<td th:text="${mark.cat2}">Cat 2 marks</td>
 														<td th:text="${mark.mainExam}">Main Exam</td>
 														<td
-															th:with="isEven=(${mark.cat1 + mark.cat2})/2 + ${mark.mainExam}"
-															th:switch="${9.8}">
-															<p th:case="10" th:text="${'A'}" />
-															<p th:case="9" th:text="${'A'}" />
-															<p th:case="8" th:text="${'A'}" />
-															<p th:case="7.5" th:text="${'A-'}" />
-															<p th:case="7" th:text="${'B+'}" />
-															<p th:case="6.5" th:text="${'B'}" />
-															<p th:case="6" th:text="${'B-'}" />
-															<p th:case="5.5" th:text="${'C+'}" />
-															<p th:case="5" th:text="${'C'}" />
-															<p th:case="4.5" th:text="${'C-'}" />
-															<p th:case="4" th:text="${'D+'}" />
-															<p th:case="3.5" th:text="${'D'}" />
-															<p th:case="3" th:text="${'D-'}" />
-															<p th:case="2" th:text="${'E'}" />
-															<p th:case="1" th:text="${'E'}" />
-															<p th:case="*">----</p>
+															th:with="isEven=(${mark.cat1 + mark.cat2})/2 + ${mark.mainExam}">
+															<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+															<p th:if="${isEven<80 && isEven>=75}">A-</p>
+															<p th:if="${isEven<75 && isEven>=70}">B+</p>
+															<p th:if="${isEven<70 && isEven>=65}">B</p>
+															<p th:if="${isEven<65 && isEven>=60}">B-</p>
+															<p th:if="${isEven<60 && isEven>=55}">C+</p>
+															<p th:if="${isEven<55 && isEven>=50}">C</p>
+															<p th:if="${isEven<50 && isEven>=45}">C-</p>
+															<p th:if="${isEven<45 && isEven>=40}">D+</p>
+															<p th:if="${isEven<40 && isEven>=35}">D</p>
+															<p th:if="${isEven<35 && isEven>=30}">D-</p>
+															<p th:if="${isEven<30 && isEven>0}">E</p>
+
 														</td>
 														<td
-															th:switch="(${mark.cat1} + ${mark.cat2})/2 + ${mark.mainExam}">
-															<p th:case="100" th:text="${12}">Points</p>
-															<p th:case="90" th:text="${12}">Points</p>
-															<p th:case="80" th:text="${12}">Points</p>
-															<p th:case="75" th:text="${11}">Points</p>
-															<p th:case="70" th:text="${10}">Points</p>
-															<p th:case="65" th:text="${9}">Points</p>
-															<p th:case="60" th:text="${8}">Points</p>
-															<p th:case="55" th:text="${7}">Points</p>
-															<p th:case="50" th:text="${6}">Points</p>
-															<p th:case="45" th:text="${5}">Points</p>
-															<p th:case="40" th:text="${4}">Points</p>
-															<p th:case="35" th:text="${3}">Points</p>
-															<p th:case="30" th:text="${2}">Points</p>
-															<p th:case="20" th:text="${1}">Points</p>
-															<p th:case="10" th:text="${1}" />
-															<p th:case="0" th:text="${1}" />
-															<p th:case="*">----</p>
+															th:with="isOdd = (${mark.cat1} + ${mark.cat2})/2 + ${mark.mainExam}">
+															<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+															<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+															<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+															<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+															<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+															<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+															<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+															<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+															<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+															<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+															<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+															<p th:if="${isOdd<30 && isOdd>0}">1</p>
 														</td>
 														<td>@mdo</td>
 														<td>@mdo</td>

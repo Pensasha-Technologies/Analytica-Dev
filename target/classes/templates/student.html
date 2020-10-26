@@ -77,7 +77,7 @@
 										<td th:text="${student.firstname}">First Name</td>
 										<td th:text="${student.secondname}">Second Name</td>
 										<td th:text="${student.thirdname}">Third Name</td>
-										<td th:text="${student.admNo}">AdmNo</td>
+										<td th:utext="${#strings.substringAfter(student.admNo,'_')}">AdmNo</td>
 									</tr>
 								</tbody>
 							</table>
@@ -106,8 +106,9 @@
 									<td th:text="${group1.name}"
 										style="border-right: solid 1px #FFF">Mark</td>
 									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" aria-hidden="true"
-										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group1.initials})}"></a></td>
+										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group1.initials})}"
+										data-target="#deleteSubjectModal"></a></td>
 								</tr>
 								<th style="border-right: solid 1px #FFF">Group II</th>
 								<th></th>
@@ -115,8 +116,9 @@
 									<td th:text="${group2.name}"
 										style="border-right: solid 1px #FFF">Mark</td>
 									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" aria-hidden="true"
-										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group2.initials})}"></a></td>
+										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group2.initials})}"
+										data-target="#deleteSubjectModal"></a></td>
 								</tr>
 								<th style="border-right: solid 1px #FFF">Group III</th>
 								<th></th>
@@ -124,8 +126,9 @@
 									<td th:text="${group3.name}"
 										style="border-right: solid 1px #FFF">Mark</td>
 									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" aria-hidden="true"
-										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group3.initials})}"></a></td>
+										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group3.initials})}"
+										data-target="#deleteSubjectModal"></a></td>
 								</tr>
 								<th style="border-right: solid 1px #FFF">Group IV</th>
 								<th></th>
@@ -133,8 +136,9 @@
 									<td th:text="${group4.name}"
 										style="border-right: solid 1px #FFF">Mark</td>
 									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" aria-hidden="true"
-										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group4.initials})}"></a></td>
+										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group4.initials})}"
+										data-target="#deleteSubjectModal"></a></td>
 								</tr>
 								<th style="border-right: solid 1px #FFF">Group V</th>
 								<th></th>
@@ -142,8 +146,9 @@
 									<td th:text="${group5.name}"
 										style="border-right: solid 1px #FFF">Mark</td>
 									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" aria-hidden="true"
-										th:href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group5.initials})}"></a></td>
+										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group5.initials})}"
+										data-target="#deleteSubjectModal"></a></td>
 								</tr>
 
 							</tbody>
@@ -212,11 +217,11 @@
 										th:action="@{/adminHome/schools/{code}/student/{admNo}/subjects(code = ${school.code}, admNo = ${student.admNo})}"
 										method="post">
 
-										<select id="selectYear" name="year" th:each="year : ${years}">
-											<option th:value="${year.year}"
+										<select id="selectYear" name="year">
+											<option th:each="year : ${years}" th:value="${year.year}"
 												th:text="'Year ' + ${year.year}">One</option>
-										</select> <select id="selectForm" name="form" th:each="form : ${forms}">
-											<option th:value="${form.form}"
+										</select> <select id="selectForm" name="form">
+											<option th:each="form : ${forms}" th:value="${form.form}"
 												th:text="'Form ' + ${form.form}">One</option>
 										</select>
 
@@ -250,6 +255,33 @@
 				</div>
 			</div>
 
+			<!-- Delete Subject Model -->
+			<div class="modal fade" id="deleteSubjectModal" tabindex="-1"
+				role="dialog" aria-labelledby="deleteSubjectModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteSubjectModalLabel">Delete
+								Subject</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">Are you sure you want to delete this
+								subject?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete</button>
+							<a class="btn btn-danger ok-button">Yes! Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!-- End of Content Wrapper -->
 
@@ -263,6 +295,14 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	<script>
+		$('#deleteSubjectModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 </body>
 
 </html>

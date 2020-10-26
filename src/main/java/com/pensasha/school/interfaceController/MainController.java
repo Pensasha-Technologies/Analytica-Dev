@@ -1,6 +1,5 @@
 package com.pensasha.school.interfaceController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
@@ -204,6 +203,12 @@ public class MainController {
 
 			}
 
+			List<Timetable> timetableItems = timetableService.getALlTimetableItemsInSchoolByCode(code);
+			for (int i = 0; i < timetableItems.size(); i++) {
+
+				timetableService.deleteTimetableItem(timetableItems.get(i).getId());
+			}
+
 			List<Stream> streams = streamService.getStreamsInSchool(code);
 			for (int i = 0; i < streams.size(); i++) {
 				streamService.deleteStream(streams.get(i).getId());
@@ -240,7 +245,15 @@ public class MainController {
 		if (schoolService.doesSchoolExists(code) == true) {
 
 			School school = schoolService.getSchool(code).get();
+
 			List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+
+			List<Subject> allSubjects = subjectService.getAllSubjects();
+
+			for (int i = 0; i < subjects.size(); i++) {
+				allSubjects.remove(subjects.get(i));
+			}
+
 			Student student = new Student();
 			List<Subject> group1 = new ArrayList<>();
 			List<Subject> group2 = new ArrayList<>();
@@ -279,7 +292,6 @@ public class MainController {
 				}
 			}
 
-			List<Subject> allSubjects = subjectService.getAllSubjects();
 			Stream stream = new Stream();
 			List<Stream> streams = streamService.getStreamsInSchool(code);
 			List<Year> years = yearService.getAllYearsInSchool(code);
@@ -318,7 +330,6 @@ public class MainController {
 
 			return "adminHome";
 		}
-
 	}
 
 	// Adding stream to school
@@ -375,6 +386,9 @@ public class MainController {
 			}
 
 			List<Subject> allSubjects = subjectService.getAllSubjects();
+			for (int i = 0; i < subjects.size(); i++) {
+				allSubjects.remove(subjects.get(i));
+			}
 			Stream streamObj = new Stream();
 			List<Stream> streams = streamService.getStreamsInSchool(code);
 
@@ -462,6 +476,9 @@ public class MainController {
 		}
 
 		List<Subject> allSubjects = subjectService.getAllSubjects();
+		for (int i = 0; i < subjects.size(); i++) {
+			allSubjects.remove(subjects.get(i));
+		}
 		Stream streamObj = new Stream();
 		List<Stream> streams = streamService.getStreamsInSchool(code);
 
@@ -485,6 +502,7 @@ public class MainController {
 
 		List<Subject> subjects = new ArrayList<>();
 		List<Subject> allSubjects = subjectService.getAllSubjects();
+
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
 		for (int i = 0; i < allSubjects.size(); i++) {
@@ -510,6 +528,9 @@ public class MainController {
 		}
 
 		List<Subject> subjects1 = subjectService.getAllSubjectInSchool(code);
+		for (int i = 0; i < subjects1.size(); i++) {
+			allSubjects.remove(subjects1.get(i));
+		}
 		Student student = new Student();
 
 		List<Subject> group1 = new ArrayList<>();
@@ -617,6 +638,11 @@ public class MainController {
 		Stream stream = new Stream();
 		List<Stream> streams = streamService.getStreamsInSchool(code);
 
+		List<Subject> allSubjects = subjectService.getAllSubjects();
+		for (int i = 0; i < subjects1.size(); i++) {
+			allSubjects.remove(subjects1.get(i));
+		}
+
 		model.addAttribute("streams", streams);
 		model.addAttribute("stream", stream);
 		model.addAttribute("group1", group1);
@@ -626,7 +652,7 @@ public class MainController {
 		model.addAttribute("group5", group5);
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("student", student);
-		model.addAttribute("subjects", subjects1);
+		model.addAttribute("subjects", allSubjects);
 		model.addAttribute("addSubjects", subjectService.getAllSubjects());
 		model.addAttribute("school", school);
 
@@ -700,8 +726,8 @@ public class MainController {
 	}
 
 	@PostMapping("/adminHome/users")
-	public String addSystemUsers(Model model, @RequestParam String role, @RequestParam int school,
-			@ModelAttribute User user, Principal principal) {
+	public String addSystemUsers(Model model, @RequestParam String role, @ModelAttribute User user,
+			Principal principal) {
 
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		Student student = new Student();
@@ -935,6 +961,11 @@ public class MainController {
 		School school = schoolService.getSchool(code).get();
 		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
 		List<Subject> schoolSubjects = subjectService.getAllSubjectInSchool(code);
+
+		for (int i = 0; i < subjects.size(); i++) {
+			schoolSubjects.remove(subjects.get(i));
+		}
+
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		List<Subject> group1 = new ArrayList<>();
 		List<Subject> group2 = new ArrayList<>();
@@ -1029,102 +1060,120 @@ public class MainController {
 	public String addStudent(@PathVariable int code, @Valid Student student, BindingResult bindingResult, Model model,
 			Principal principal, @RequestParam int stream) {
 
-		List<School> schools = new ArrayList<>();
-		School school = schoolService.getSchool(code).get();
-		schools.add(school);
+		if (bindingResult.hasErrors()) {
 
-		if (studentService.ifStudentExistsInSchool(code + "_" + student.getAdmNo(), code) == true) {
+			School school = schoolService.getSchool(code).get();
+			User activeUser = userService.getByUsername(principal.getName()).get();
+			List<Stream> streams = streamService.getStreamsInSchool(code);
 
-			model.addAttribute("fail", "Student with admision number:" + student.getAdmNo() + " already exists");
+			model.addAttribute("streams", streams);
+			model.addAttribute("student", student);
+			model.addAttribute("school", school);
+			model.addAttribute("activeUser", activeUser);
 
+			return "addStudent";
 		} else {
+			List<School> schools = new ArrayList<>();
+			School school = schoolService.getSchool(code).get();
+			schools.add(school);
 
-			if (student.getAdmNo() == "" || Integer.parseInt(student.getAdmNo()) < 1) {
+			String[] admString = student.getAdmNo().split("_");
 
-				model.addAttribute("fail", "Admission number cannot be less than 1");
+			if (studentService.ifStudentExistsInSchool(code + "_" + student.getAdmNo(), code) == true) {
+
+				model.addAttribute("fail", "Student with admision number: " + admString[0] + " already exists");
 
 			} else {
 
-				student.setSchool(schoolService.getSchool(code).get());
+				if (student.getAdmNo() == "" || Integer.parseInt(student.getAdmNo()) < 1) {
 
-				Stream streamObj = streamService.getStream(stream);
-				student.setStream(streamObj);
+					model.addAttribute("fail", "Admission number cannot be less than 1");
 
-				List<Year> years = new ArrayList<>();
-				years.add(new Year(student.getYearAdmitted()));
-				student.setYears(years);
+				} else {
 
-				List<Term> terms = new ArrayList<>();
-				terms.add(new Term(1));
-				terms.add(new Term(2));
-				terms.add(new Term(3));
+					student.setSchool(schoolService.getSchool(code).get());
 
-				for (int i = 0; i < terms.size(); i++) {
-					termService.addTerm(terms.get(i));
+					Stream streamObj = streamService.getStream(stream);
+					student.setStream(streamObj);
+
+					List<Year> years = new ArrayList<>();
+					years.add(new Year(student.getYearAdmitted()));
+					student.setYears(years);
+
+					List<Term> terms = new ArrayList<>();
+					terms.add(new Term(1));
+					terms.add(new Term(2));
+					terms.add(new Term(3));
+
+					for (int i = 0; i < terms.size(); i++) {
+						termService.addTerm(terms.get(i));
+					}
+
+					List<Form> forms = new ArrayList<>();
+
+					switch (student.getCurrentForm()) {
+					case 1:
+						forms.add(new Form(1, terms));
+						break;
+					case 2:
+						forms.add(new Form(1, terms));
+						forms.add(new Form(2, terms));
+						break;
+					case 3:
+						forms.add(new Form(1, terms));
+						forms.add(new Form(2, terms));
+						forms.add(new Form(3, terms));
+					case 4:
+						forms.add(new Form(1, terms));
+						forms.add(new Form(2, terms));
+						forms.add(new Form(3, terms));
+						forms.add(new Form(4, terms));
+					default:
+						break;
+					}
+
+					for (int i = 0; i < forms.size(); i++) {
+						formService.addForm(forms.get(i));
+					}
+
+					Year year = new Year(student.getYearAdmitted());
+					year.setSchools(schools);
+					year.setForms(forms);
+
+					yearService.addYear(year);
+
+					student.setForms(forms);
+					student.setAdmNo(school.getCode() + "_" + student.getAdmNo());
+
+					studentService.addStudent(student);
+
+					model.addAttribute("success",
+							"Student with admision number: " + admString[0] + " saved successfully");
+
 				}
-
-				List<Form> forms = new ArrayList<>();
-
-				switch (student.getCurrentForm()) {
-				case 1:
-					forms.add(new Form(1, terms));
-					break;
-				case 2:
-					forms.add(new Form(1, terms));
-					forms.add(new Form(2, terms));
-					break;
-				case 3:
-					forms.add(new Form(1, terms));
-					forms.add(new Form(2, terms));
-					forms.add(new Form(3, terms));
-				case 4:
-					forms.add(new Form(1, terms));
-					forms.add(new Form(2, terms));
-					forms.add(new Form(3, terms));
-					forms.add(new Form(4, terms));
-				default:
-					break;
-				}
-
-				for (int i = 0; i < forms.size(); i++) {
-					formService.addForm(forms.get(i));
-				}
-
-				Year year = new Year(student.getYearAdmitted());
-				year.setSchools(schools);
-				year.setForms(forms);
-
-				yearService.addYear(year);
-
-				student.setForms(forms);
-				student.setAdmNo(school.getCode() + "_" + student.getAdmNo());
-
-				studentService.addStudent(student);
-
-				model.addAttribute("success",
-						"Student with admision number:" + student.getAdmNo() + " saved successfully");
 
 			}
 
+			Student student2 = new Student();
+			User activeUser = userService.getByUsername(principal.getName()).get();
+
+			List<Student> students = studentService.getAllStudentsInSchool(code);
+			List<Stream> streams = streamService.getStreamsInSchool(code);
+			List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+			List<Year> years = yearService.getAllYearsInSchool(code);
+
+			model.addAttribute("years", years);
+			model.addAttribute("subjects", subjects);
+			model.addAttribute("streams", streams);
+			model.addAttribute("activeUser", activeUser);
+			model.addAttribute("student", student2);
+			model.addAttribute("students", students);
+			model.addAttribute("school", school);
+
+			return "students";
+
 		}
 
-		Student student2 = new Student();
-		User activeUser = userService.getByUsername(principal.getName()).get();
-
-		List<Student> students = studentService.getAllStudentsInSchool(code);
-		List<Stream> streams = streamService.getStreamsInSchool(code);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-		List<Year> years = yearService.getAllYearsInSchool(code);
-
-		model.addAttribute("years", years);
-		model.addAttribute("subjects", subjects);
-		model.addAttribute("streams", streams);
-		model.addAttribute("activeUser", activeUser);
-		model.addAttribute("student", student2);
-		model.addAttribute("students", students);
-		model.addAttribute("school", school);
-
-		return "students";
 	}
 
 	@GetMapping("/adminHome/schools/{code}/students/{admNo}")
@@ -1165,6 +1214,7 @@ public class MainController {
 		}
 
 		return "students";
+
 	}
 
 	@GetMapping("/adminHome/schools/{code}/student/{admNo}")
@@ -1174,6 +1224,11 @@ public class MainController {
 		School school = schoolService.getSchool(code).get();
 		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
 		List<Subject> schoolSubjects = subjectService.getAllSubjectInSchool(code);
+
+		for (int i = 0; i < subjects.size(); i++) {
+			schoolSubjects.remove(subjects.get(i));
+		}
+
 		List<Form> forms = formService.studentForms(admNo);
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
@@ -1354,7 +1409,7 @@ public class MainController {
 		Student student = studentService.getStudentInSchool(admNo, code);
 		School school = schoolService.getSchool(code).get();
 		List<Subject> schoolSubjects = subjectService.getAllSubjectInSchool(code);
-		List<Subject> studentSubjects = new ArrayList<>();
+		List<Subject> studentSubjects = subjectService.getSubjectDoneByStudent(admNo);
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
 		List<String> paramList = new ArrayList<>();
@@ -1363,7 +1418,9 @@ public class MainController {
 			paramList.add(request.getParameter(schoolSubjects.get(i).getInitials()));
 
 			if (paramList.get(i) != null) {
-				studentSubjects.add(subjectService.getSubject(paramList.get(i)));
+				if (!studentSubjects.contains(subjectService.getSubject(paramList.get(i)))) {
+					studentSubjects.add(subjectService.getSubject(paramList.get(i)));
+				}
 			}
 		}
 
@@ -1377,6 +1434,10 @@ public class MainController {
 
 		student.setSubjects(studentSubjects);
 		studentService.addStudent(student);
+
+		for (int i = 0; i < studentSubjects.size(); i++) {
+			schoolSubjects.remove(studentSubjects.get(i));
+		}
 
 		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
 		List<Form> forms = formService.studentForms(admNo);
@@ -1819,6 +1880,73 @@ public class MainController {
 		return "principalHome";
 	}
 
+	@GetMapping("/schools/{code}/sms")
+	public String schoolSms(Model model, Principal principal) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		User user = new User();
+		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
+		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
+
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("streams", streams);
+		model.addAttribute("years", years);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "smsHome";
+	}
+
+	@PostMapping("/schools/{code}/sms")
+	public String sendSchoolSms(Model model, @PathVariable int code, Principal principal,
+			@RequestParam String recipientPhoneNumber, @RequestParam String message) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+
+		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
+		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
+
+		String baseUrl = "https://quicksms.advantasms.com/api/services/sendsms/";
+		int partnerId = 1989; // your ID here
+		String apiKey = "analytica"; // your API key
+		String shortCode = "da383ff9c9edfb614bc7d1abfe8b1599"; // sender ID here e.g INFOTEXT, Celcom, e.t.c
+
+		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+		try {
+			String res = gateway.sendSingleSms("Hey You", "707335375");
+			System.out.println(res);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("streams", streams);
+		model.addAttribute("years", years);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		model.addAttribute("success", "Message sent successfully");
+
+		return "principalHome";
+
+	}
+
 	@GetMapping("/schools/students")
 	public String schoolStudents(Model model, Principal principal) {
 
@@ -2154,41 +2282,79 @@ public class MainController {
 	@GetMapping("/schools/dosHome")
 	public String dosHome(Model model, Principal principal) {
 
-		return "comingSoon";
-		/*
-		 * SchoolUser activeUser = (SchoolUser)
-		 * userService.getByUsername(principal.getName()).get(); School school =
-		 * schoolService.getSchool(activeUser.getSchool().getCode()).get(); Student
-		 * student = new Student(); User user = new User(); List<SchoolUser> schoolUsers
-		 * = userService.getUsersBySchoolCode(school.getCode());
-		 * 
-		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
-		 * user); model.addAttribute("activeUser", activeUser);
-		 * model.addAttribute("student", student); model.addAttribute("school", school);
-		 * 
-		 * return "dosHome";
-		 * 
-		 */
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "dosHome";
+
 	}
 
 	@GetMapping("/schools/bursarHome")
 	public String bursarHome(Model model, Principal principal) {
 
-		return "comingSoon";
-		/*
-		 * SchoolUser activeUser = (SchoolUser)
-		 * userService.getByUsername(principal.getName()).get(); School school =
-		 * schoolService.getSchool(activeUser.getSchool().getCode()).get(); Student
-		 * student = new Student(); User user = new User(); List<SchoolUser> schoolUsers
-		 * = userService.getUsersBySchoolCode(school.getCode());
-		 * 
-		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
-		 * user); model.addAttribute("activeUser", activeUser);
-		 * model.addAttribute("student", student); model.addAttribute("school", school);
-		 * 
-		 * return "bursarHome";
-		 * 
-		 */
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+
+		List<Student> students = studentService.getAllStudentsInSchool(activeUser.getSchool().getCode());
+
+		model.addAttribute("students", students);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "bursarHome";
+
+	}
+
+	@GetMapping("schools/bursarHome/viewFeeStructure/{form}")
+	public String viewFeeStructure(Model model, Principal principal, @PathVariable int form) {
+
+		switch (form) {
+		case 1:
+			model.addAttribute("form", "1");
+			break;
+		case 2:
+			model.addAttribute("form", "2");
+			break;
+		case 3:
+			model.addAttribute("form", "3");
+			break;
+		case 4:
+			model.addAttribute("form", "4");
+			break;
+		default:
+			break;
+		}
+
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchoolAndForm(school.getCode(), form);
+
+		model.addAttribute("feeStructures", feeStructures);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "viewFeeStructure";
 	}
 
 	@GetMapping("schools/bursarHome/createStructure/{form}")
@@ -2293,21 +2459,23 @@ public class MainController {
 	@GetMapping("/schools/accountsClerkHome")
 	public String accountsClerkHome(Model model, Principal principal) {
 
-		return "comingSoon";
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
-		/*
-		 * User activeUser = userService.getByUsername(principal.getName()).get();
-		 * School school = schoolService.getSchool(((SchoolUser)
-		 * activeUser).getSchool().getCode()).get(); Student student = new Student();
-		 * User user = new User(); List<SchoolUser> schoolUsers =
-		 * userService.getUsersBySchoolCode(school.getCode());
-		 * 
-		 * model.addAttribute("schoolUsers", schoolUsers); model.addAttribute("user",
-		 * user); model.addAttribute("activeUser", activeUser);
-		 * model.addAttribute("student", student); model.addAttribute("school", school);
-		 * 
-		 * return "accountsClerkHome";
-		 */
+		List<Student> students = studentService.getAllStudentsInSchool(school.getCode());
+		
+		model.addAttribute("students", students);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "accountsClerkHome";
+
 	}
 
 	@GetMapping("/schools/teacherHome")
@@ -2392,13 +2560,9 @@ public class MainController {
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 
 		List<Mark> marks = new ArrayList<>();
-		Mark mark = new Mark();
 
 		for (int i = 0; i < students.size(); i++) {
-
-		}
-
-		for (int i = 0; i < students.size(); i++) {
+			Mark mark = new Mark();
 			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
 				marks.add(
 						markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
@@ -2408,8 +2572,13 @@ public class MainController {
 				mark.setTerm(termObj);
 				mark.setYear(yearObj);
 				mark.setForm(formObj);
+
 				marks.add(mark);
+
+				markService.addMarksToSubject(mark);
+
 			}
+
 		}
 
 		model.addAttribute("marks", marks);
@@ -2495,6 +2664,9 @@ public class MainController {
 				mark.setTerm(termObj);
 				mark.setYear(yearObj);
 				mark.setForm(formObj);
+
+				markService.addMarksToSubject(mark);
+
 				marks.add(mark);
 			}
 		}

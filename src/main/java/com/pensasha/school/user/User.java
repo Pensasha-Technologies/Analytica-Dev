@@ -6,6 +6,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.pensasha.school.role.Role;
 
@@ -15,6 +17,9 @@ public class User {
 
 	@Id
 	private String username;
+	
+	@NotNull
+	@Size(min=3,max=24)
 	private String firstname;
 	private String secondname;
 	private String thirdname;

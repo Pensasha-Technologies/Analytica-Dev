@@ -40,14 +40,6 @@
 						<section>
 							<h3>Bursar Dashboard</h3>
 						</section>
-						<nav class="navbar navbar-expand-lg navbar-light">
-							<div class="d-flex justify-content-end"
-								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addSchoolModal">Add
-									Staff</button>
-							</div>
-						</nav>
 					</div>
 
 					<div>
@@ -58,6 +50,43 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
+										<th scope="col">Form</th>
+										<th scope="col">Stream</th>
+										<th scope="col">Adm No.</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<div th:unless="${students} and ${students.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No Student
+											has been added</p>
+									</div>
+									<tr th:each="student : ${students}">
+										<td th:text="${student.firstname}">firstname</td>
+										<td th:text="${student.secondname}">secondname</td>
+										<td th:text="${student.thirdname}">thirdname</td>
+										<td th:text="${student.currentForm}"></td>
+										<td th:text="${student.stream.stream}">stream</td>
+										<td th:utext="${#strings.substringAfter(student.admNo,'_')}">admNo</td>
+										<td>
+											<div class="d-flex justify-content-center">
+												<a
+													th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+													class="btn btn-primary"> View </a>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
 
 					</div>
@@ -71,76 +100,6 @@
 			<!-- Footer -->
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
-
-			<!-- Add school model -->
-			<!-- Modal -->
-			<div class="modal fade" id="addSchoolModal" tabindex="-1"
-				role="dialog" aria-labelledby="addSchoolModalLabel"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="addSchoolModalLabel">Add Staff</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-
-							<div class="d-flex justify-content-center">
-								<div id="formContent" style="margin-top: -2px; padding: 10px;">
-									<!-- Login Form -->
-									<form class="addUserForm" th:action="@{/school/users}"
-										method="post" th:object="${user}">
-										<div class="form-group fadeIn first">
-											<label for="name"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name" placeholder="Enter Name"
-												required />
-										</div>
-										<div class="form-group fadeIn second">
-											<label for="username"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												userame</label> <input type="text" id="username"
-												th:field="*{username}" class="fadeIn second" name="username"
-												placeholder="Enter username" required />
-										</div>
-										<div class="form-group fadeIn third">
-											<label for="password"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												password </label> <input type="password" id="password"
-												th:field="*{password}" class="fadeIn second" name="password"
-												placeholder="Enter Password" required />
-										</div>
-										<div class="form-group fadeIn fourth">
-											<label for="role"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												role </label> <select class="fadeIn fourth" name="role" id="role"
-												required><option>Select Role ...</option>
-												<option value="deputyPrincipal">Deputy Principal</option>
-												<option value="teacher">Teacher</option>
-											</select>
-										</div>
-										<input type="hidden" th:value="${school.code}" name="school"
-											id="school" />
-
-										<button class="btn btn-primary fadeIn fourth" type="submit"
-											style="margin-top: 10px;">Add User</button>
-									</form>
-								</div>
-
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
 
 		</div>
 		<!-- End of Content Wrapper -->
