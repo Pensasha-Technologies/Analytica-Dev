@@ -1,6 +1,11 @@
 package com.pensasha.school.interfaceController;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
@@ -1031,6 +1037,7 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 
 		return "addStudent";
+
 	}
 
 	@GetMapping("/adminHome/schools/{code}/students")
@@ -1057,8 +1064,9 @@ public class MainController {
 	}
 
 	@PostMapping("/adminHome/schools/{code}/students")
-	public String addStudent(@PathVariable int code, @Valid Student student, BindingResult bindingResult, Model model,
-			Principal principal, @RequestParam int stream) {
+	public String addStudent(@RequestParam("file") MultipartFile file, @PathVariable int code, @Valid Student student,
+			BindingResult bindingResult, Model model, Principal principal, @RequestParam int stream)
+			throws IOException {
 
 		if (bindingResult.hasErrors()) {
 
@@ -1093,6 +1101,36 @@ public class MainController {
 
 					student.setSchool(schoolService.getSchool(code).get());
 
+					final String path = new File("src/main/resources/static/studImg").getAbsolutePath();
+					final String fileName = school.getCode() + "_" + student.getAdmNo();
+
+					OutputStream out = null;
+					InputStream filecontent = null;
+
+					try {
+						out = new FileOutputStream(new File(path + File.separator + fileName));
+						filecontent = file.getInputStream();
+
+						int read = 0;
+						final byte[] bytes = new byte[1024];
+
+						while ((read = filecontent.read(bytes)) != -1) {
+							out.write(bytes, 0, read);
+						}
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						if (out != null) {
+							out.close();
+						}
+						if (filecontent != null) {
+							filecontent.close();
+						}
+					}
+
+					student.setPhoto(student.getAdmNo());
 					Stream streamObj = streamService.getStream(stream);
 					student.setStream(streamObj);
 
@@ -1171,7 +1209,6 @@ public class MainController {
 			model.addAttribute("school", school);
 
 			return "students";
-
 		}
 
 	}
@@ -2466,7 +2503,7 @@ public class MainController {
 		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
 
 		List<Student> students = studentService.getAllStudentsInSchool(school.getCode());
-		
+
 		model.addAttribute("students", students);
 		model.addAttribute("schoolUsers", schoolUsers);
 		model.addAttribute("user", user);

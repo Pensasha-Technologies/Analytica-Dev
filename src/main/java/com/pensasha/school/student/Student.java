@@ -19,7 +19,10 @@ import com.pensasha.school.year.Year;
 
 @Entity
 public class Student {
-
+	
+	
+	private String photo;
+	
 	@NotBlank(message = "First Name should not be blank")
 	@Size(min = 2, max = 24, message = "First Name should have a minimum character of 2 and maximum 24")
 	private String firstname;
@@ -474,5 +477,15 @@ public class Student {
 	public void setSchool(School school) {
 		this.school = school;
 	}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
+	
 
 }
