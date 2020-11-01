@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item active" aria-current="page">Home</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-between">
+						<section>
+							<h3>Student Fee Statement</h3>
+						</section>
+						<nav class="navbar navbar-expand navbar-light">
+							<div class="d-flex justify-content-end">
+								<a class="btn btn-primary" th:href="@{/schools/{code}/students/{admNo}/statements(code=${school.code}, admNo=${feeRecord.student.admNo})}">All
+									Statements</a>
+							</div>
+						</nav>
+					</div>
+
+					<div>
+
+						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+							Staff exists</div>
+
+						<div class="alert alert-success" th:if="${success}"
+							th:text="${success}">Staff saved</div>
+
+						<div style="text-align: center;padding-top:20px;">
+							<h3
+								th:text="${feeRecord.student.firstname + ' ' + feeRecord.student.secondname + ' ' + feeRecord.student.thirdname}">
+								Student Name</h3>
+							<h4 th:text="${feeRecord.student.school.name}">School Name</h4>
+							<h5
+								th:text="${'Form: ' + feeRecord.form.form + ' Term: ' + feeRecord.term.term}">
+								Form Term</h5>
+								<h5 th:text="${'Admission Number: ' + #strings.substringAfter(feeRecord.student.admNo,'_')}"> Adm No </h5>
+						</div>
+
+						<div style="padding-top:30px; padding-left:30px;">
+
+							<h5 th:text="${'Fee id: ' + feeRecord.id}">Fee id:</h5>
+							<h5 th:text="${'Receipt Number: ' + feeRecord.receiptNo}">Receipt Number</h5>
+
+							<h5 th:text="${'Amount Paid: Ksh' + feeRecord.amount + '/-'}">Amount Paid</h5>
+							<h5 th:text="${'Date Paid: ' + feeRecord.datePaid}">Date Paid</h5>
+
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>
