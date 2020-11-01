@@ -86,8 +86,7 @@
 						class="d-inline-block align-top" alt="" loading="lazy">
 				</div>
 				<div class="sidebar-brand-text mx-3">Analytica Soft</div>
-			</a> 
-			<a th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
+			</a> <a th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				th:href="@{/schools/deputyPrincipal}">
 				<div class="sidebar-brand-icon">
@@ -95,8 +94,7 @@
 						class="d-inline-block align-top" alt="" loading="lazy">
 				</div>
 				<div class="sidebar-brand-text mx-3">Analytica Soft</div>
-			</a>
-			<a th:if="${activeUser.role.name == 'PRINCIPAL'}"
+			</a> <a th:if="${activeUser.role.name == 'PRINCIPAL'}"
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				th:href="@{/schools/principal}">
 				<div class="sidebar-brand-icon">
@@ -308,10 +306,14 @@
 					</div>
 					<div class="modal-body d-flex justify-content-between">
 
-						<a class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/1}"> Form 1 </a> <a
-							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/2}"> Form 2 </a> <a
-							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/3}"> Form 3 </a> <a
-							class="btn btn-primary" th:href="@{/schools/bursarHome/viewFeeStructure/4}"> Form 4 </a>
+						<a class="btn btn-primary"
+							th:href="@{/schools/bursarHome/viewFeeStructure/1}"> Form 1 </a>
+						<a class="btn btn-primary"
+							th:href="@{/schools/bursarHome/viewFeeStructure/2}"> Form 2 </a>
+						<a class="btn btn-primary"
+							th:href="@{/schools/bursarHome/viewFeeStructure/3}"> Form 3 </a>
+						<a class="btn btn-primary"
+							th:href="@{/schools/bursarHome/viewFeeStructure/4}"> Form 4 </a>
 
 					</div>
 					<div class="modal-footer">
@@ -393,6 +395,84 @@
 						data-target="#timetableModal"> Timetable </a>
 				</div>
 			</div></li>
+
+		<li th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
+			class="nav-item"><a class="nav-link collapsed" href="#"
+			data-toggle="collapse" data-target="#disciplineUtilities"
+			aria-expanded="true" aria-controls="disciplineUtilities"> <i
+				class="fas fa-fw fa-wrench"></i> <span> Discipline </span>
+		</a>
+			<div id="disciplineUtilities" class="collapse"
+				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<h6 class="collapse-header">Menu:</h6>
+					<a class="collapse-item" style="color: black;"
+						th:href="@{/schools/{code}/discipline(code=${school.code})}">
+						Leave Out Reports </a> <a class="collapse-item" data-toggle="modal"
+						style="color: black;" data-target="#leaveOutModal"> Add Leave
+						Out </a> <a class="collapse-item" th:href="@{#}"> Reports </a>
+				</div>
+			</div></li>
+
+		<!-- Leave out model -->
+		<div class="modal fade" id="leaveOutModal" tabindex="-1" role="dialog"
+			aria-labelledby="leaveOutModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="leaveOutModalLabel">Leave Out</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form id="addDiscipline"
+							th:action="@{/schools/{code}/discipline(code=${school.code})}"
+							method="post">
+							<div class="form-group">
+								<label for="admNo"> Student's AdmNo </label> <input type="number"
+									class="form-control" id="admNo" name="admNo" required
+									placeholder="Enter Student's AdmNo">
+							</div>
+							<div class="form-group">
+								<label for="type"> Leave out type </label> <select
+									class="form-control" required name="type">
+									<option value="">Select ...</option>
+									<option value="Leave Out">Leave Out</option>
+									<option value="Suspension">Suspension</option>
+									<option value="Expulsion">Expulsion</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="depature"> Depature Date </label> <input type="date"
+									class="form-control" id="depature" name="depature"
+									placeholder="Enter Depature Date" required>
+							</div>
+							<div class="form-group">
+								<label for="arrival"> Return Date </label> <input type="date"
+									class="form-control" id="arrival" required name="arrival"
+									placeholder="Enter Return Date">
+							</div>
+							<div class="form-group">
+								<label><i class="fa fa-comment" aria-hidden="true"></i>
+									Reason</label>
+								<textarea rows="3" name="reason" class="form-control" required
+									placeholder="Type Your Reason"></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Leave out model -->
 
 		<li
 			th:if="${activeUser.role.name == 'ADMIN' && student.firstname != null}"
@@ -632,10 +712,10 @@
 				<i class="fas fa-fw fa-table"></i> <span> Timetable </span>
 		</a></li>
 
-		<li class="nav-item"
-			th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
-			class="nav-link" th:href="@{/schools/{code}/sms(code=${school.code})}">
-				<i class="fas fa-fw fa-table"></i> <span> SMS </span>
+		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+			class="nav-link"
+			th:href="@{/schools/{code}/sms(code=${school.code})}"> <i
+				class="fas fa-fw fa-table"></i> <span> SMS </span>
 		</a></li>
 
 		<!-- Timetable Model -->

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +29,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
+import com.pensasha.school.discipline.Discipline;
+import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.finance.FeeStructure;
@@ -80,12 +86,15 @@ public class MainController {
 	private StreamService streamService;
 	private FeeStructureService feeStructureService;
 	private TimetableService timetableService;
+	private DisciplineService disciplineService;
 
-	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
-			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
-			UserService userService, RoleService roleService, StreamService streamService,
-			FeeStructureService feeStructureService, TimetableService timetableService) {
+	public MainController(ReportService reportService, SchoolService schoolService, StudentService studentService,
+			TermService termService, SubjectService subjectService, FormService formService, YearService yearService,
+			MarkService markService, UserService userService, RoleService roleService, StreamService streamService,
+			FeeStructureService feeStructureService, TimetableService timetableService,
+			DisciplineService disciplineService) {
 		super();
+		this.reportService = reportService;
 		this.schoolService = schoolService;
 		this.studentService = studentService;
 		this.termService = termService;
@@ -98,6 +107,7 @@ public class MainController {
 		this.streamService = streamService;
 		this.feeStructureService = feeStructureService;
 		this.timetableService = timetableService;
+		this.disciplineService = disciplineService;
 	}
 
 	@GetMapping("index")
@@ -1955,10 +1965,10 @@ public class MainController {
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 
-		String baseUrl = "https://quicksms.advantasms.com/api/services/sendsms/";
-		int partnerId = 1989; // your ID here
-		String apiKey = "analytica"; // your API key
-		String shortCode = "da383ff9c9edfb614bc7d1abfe8b1599"; // sender ID here e.g INFOTEXT, Celcom, e.t.c
+		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
+		int partnerId = 968; // your ID here
+		String apiKey = "EMAKHWALEHS"; // your API key
+		String shortCode = "b265e61be950dd6733c82e35b614213a"; // sender ID here e.g INFOTEXT, Celcom, e.t.c
 
 		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
 
@@ -2759,25 +2769,84 @@ public class MainController {
 
 	}
 
-	@GetMapping("message/send")
+	@GetMapping("/schools/{code}/discipline")
+	public String disciplineReports(@PathVariable int code, Principal principal, Model model) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
+		User user = new User();
+		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
+		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
+		List<Discipline> allDisciplineReport = disciplineService.allDisciplineReportBySchoolCode(code);
+
+		model.addAttribute("disciplines", allDisciplineReport);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("streams", streams);
+		model.addAttribute("years", years);
+		model.addAttribute("schoolUsers", schoolUsers);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "discipline";
+	}
+
+	@GetMapping("/schools/{code}/discipline/{id}")
+	public String disciplineReport(@PathVariable int code, @PathVariable int id, Principal principal, Model model) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Discipline discipline = disciplineService.getDisciplineReportById(id).get();
+
+		Student student = discipline.getStudent();
+
+		User user = new User();
+		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
+		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
+
+		model.addAttribute("discipline", discipline);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("streams", streams);
+		model.addAttribute("years", years);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "viewDiscipline";
+	}
+
+	@GetMapping("/schools/{code}/disciplines/{id}")
+	public RedirectView deleteDisciplineReport(@PathVariable int code, @PathVariable int id, RedirectAttributes redit) {
+
+		disciplineService.deleteDisciplineReport(id);
+
+		RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
+		redit.addFlashAttribute("success", "Discipline Report successfully deleted");
+
+		return redirectView;
+	}
+
+	@PostMapping("/schools/{code}/discipline")
 	@ResponseBody
-	public String sendMessage() {
+	public RedirectView addDisciplineReport(@PathVariable int code, RedirectAttributes redit, @RequestParam int admNo,
+			@RequestParam String type, @RequestParam String depature, @RequestParam String arrival,
+			@RequestParam String reason) {
 
-		String baseUrl = "https://quicksms.advantasms.com/api/services/sendsms/";
-		int partnerId = 0; // your ID here
-		String apiKey = "0"; // your API key
-		String shortCode = ""; // sender ID here e.g INFOTEXT, Celcom, e.t.c
+		Student student = studentService.getStudentInSchool(code + "_" + admNo, code);
+		Discipline discipline = new Discipline(depature, arrival, reason, type, student);
 
-		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+		disciplineService.saveDisciplineReport(discipline);
 
-		try {
-			String res = gateway.sendSingleSms("Hello From Single sms Java", "0707335375");
-			System.out.println(res);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
+		redit.addFlashAttribute("success", "Discipline Report successfully added");
 
-		return "Sent";
+		return redirectView;
 	}
 
 	@GetMapping("/comingSoon")
