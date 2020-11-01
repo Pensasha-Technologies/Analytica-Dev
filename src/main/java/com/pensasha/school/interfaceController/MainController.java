@@ -2842,13 +2842,18 @@ public class MainController {
 			@RequestParam String type, @RequestParam String depature, @RequestParam String arrival,
 			@RequestParam String reason) {
 
-		Student student = studentService.getStudentInSchool(code + "_" + admNo, code);
-		Discipline discipline = new Discipline(depature, arrival, reason, type, student);
+		if (studentService.ifStudentExistsInSchool(code + "_" + admNo, code) == true) {
+			Student student = studentService.getStudentInSchool(code + "_" + admNo, code);
+			Discipline discipline = new Discipline(depature, arrival, reason, type, student);
 
-		disciplineService.saveDisciplineReport(discipline);
+			disciplineService.saveDisciplineReport(discipline);
+
+			redit.addFlashAttribute("success", "Discipline Report successfully added");
+		} else {
+			redit.addFlashAttribute("fail", "Student with Admission Number: " + admNo + " does not exist");
+		}
 
 		RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
-		redit.addFlashAttribute("success", "Discipline Report successfully added");
 
 		return redirectView;
 	}
@@ -2912,7 +2917,6 @@ public class MainController {
 	}
 
 	@PostMapping("/schools/{code}/statements")
-	@ResponseBody
 	public RedirectView addFeeStatement(@PathVariable int code, RedirectAttributes redit, Model model,
 			Principal principal, @RequestParam String receiptNo, @RequestParam int admNo, @RequestParam int amount,
 			@RequestParam int form, @RequestParam int term) {
@@ -2955,10 +2959,10 @@ public class MainController {
 		return redirectView;
 
 	}
-	
+
 	@GetMapping("/schools/{code}/students/{admNo}/statements/{id}")
-	public RedirectView deleteStudentStatement(@PathVariable int code, @PathVariable int id, @PathVariable String admNo, RedirectAttributes redit,
-			Principal principal, Model model) {
+	public RedirectView deleteStudentStatement(@PathVariable int code, @PathVariable int id, @PathVariable String admNo,
+			RedirectAttributes redit, Principal principal, Model model) {
 
 		feeRecordService.deleteFeeRecord(id);
 
