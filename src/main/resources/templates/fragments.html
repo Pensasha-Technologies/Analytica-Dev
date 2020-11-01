@@ -357,6 +357,98 @@
 		</div>
 
 		<li class="nav-item"
+			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
+			class="nav-link"
+			th:href="@{/schools/{code}/statements(code=${school.code})}"> <i
+				class="fas fa-fw fa-chart-area"></i> <span> View Fee
+					Statements </span>
+		</a></li>
+
+		<li class="nav-item"
+			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
+			class="nav-link" data-toggle="modal" data-target="#addFeeModal">
+				<i class="fas fa-fw fa-chart-area"></i> <span> Add Fees </span>
+		</a></li>
+
+		<!-- Create Statement -->
+		<div class="modal fade" id="addFeeModal" tabindex="-1" role="dialog"
+			aria-labelledby="addFeeModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addFeeModalLabel">Add Student Fee
+						</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<div class="d-flex justify-content-center">
+							<div id="formContent" style="margin-top: -2px; padding: 10px;">
+								<!-- Login Form -->
+								<form class="addUserForm" th:action="@{/schools/{code}/statements(code=${school.code})}" method="post">
+
+									<div class="form-group">
+										<label for="receiptNo"
+											style="display: block; text-align: left; margin-bottom: -5px;">Enter
+											Receipt Number</label> <input type="text" id="receiptNo"
+											class="fadeIn first" name="receiptNo"
+											placeholder="Enter Receipt Number" required />
+									</div>
+									<div class="form-group">
+										<label for="admNo"
+											style="display: block; text-align: left; margin-bottom: -5px;">Enter
+											Student Admission Number</label> <input type="number" id="admNo"
+											class="fadeIn first" name="admNo"
+											placeholder="Enter Student Number" required />
+									</div>
+									<div class="form-group">
+										<label for="amount"
+											style="display: block; text-align: left; margin-bottom: -5px;">Enter
+											Fee Amount</label> <input type="number" id="amount"
+											class="fadeIn first" name="amount"
+											placeholder="Enter Fee Amount" required />
+									</div>
+									<div class="form-group">
+										<label for="form"
+											style="display: block; text-align: left; margin-bottom: -5px;">Enter
+											Form </label> <select class="fadeIn first" name="form" id="form"
+											required><option value="">Select Form ...</option>
+											<option value="1">Form 1</option>
+											<option value="2">Form 2</option>
+											<option value="3">Form 3</option>
+											<option value="4">Form 4</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="term"
+											style="display: block; text-align: left; margin-bottom: -5px;">Enter
+											Term</label> <select class="fadeIn first" name="term" id="term"
+											required><option value="">Select Term ...</option>
+											<option value="1">Term 1</option>
+											<option value="2">Term 2</option>
+											<option value="3">Term 3</option>
+										</select>
+									</div>
+
+									<button class="btn btn-primary fadeIn second" type="submit"
+										style="margin-top: 10px;">Add Fee</button>
+								</form>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<li class="nav-item"
 			th:if="${activeUser.role.name == 'ADMIN' && school.name != null}"><a
 			class="nav-link"
 			th:href="@{/schools/{code}/addStudent(code=${school.code})}"> <i
@@ -432,9 +524,9 @@
 							th:action="@{/schools/{code}/discipline(code=${school.code})}"
 							method="post">
 							<div class="form-group">
-								<label for="admNo"> Student's AdmNo </label> <input type="number"
-									class="form-control" id="admNo" name="admNo" required
-									placeholder="Enter Student's AdmNo">
+								<label for="admNo"> Student's AdmNo </label> <input
+									type="number" class="form-control" id="admNo" name="admNo"
+									required placeholder="Enter Student's AdmNo">
 							</div>
 							<div class="form-group">
 								<label for="type"> Leave out type </label> <select

@@ -8,7 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -20,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -37,6 +38,8 @@ import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
+import com.pensasha.school.finance.FeeRecord;
+import com.pensasha.school.finance.FeeRecordService;
 import com.pensasha.school.finance.FeeStructure;
 import com.pensasha.school.finance.FeeStructureService;
 import com.pensasha.school.form.Form;
@@ -87,12 +90,13 @@ public class MainController {
 	private FeeStructureService feeStructureService;
 	private TimetableService timetableService;
 	private DisciplineService disciplineService;
+	private FeeRecordService feeRecordService;
 
 	public MainController(ReportService reportService, SchoolService schoolService, StudentService studentService,
 			TermService termService, SubjectService subjectService, FormService formService, YearService yearService,
 			MarkService markService, UserService userService, RoleService roleService, StreamService streamService,
 			FeeStructureService feeStructureService, TimetableService timetableService,
-			DisciplineService disciplineService) {
+			DisciplineService disciplineService, FeeRecordService feeRecordService) {
 		super();
 		this.reportService = reportService;
 		this.schoolService = schoolService;
@@ -108,6 +112,7 @@ public class MainController {
 		this.feeStructureService = feeStructureService;
 		this.timetableService = timetableService;
 		this.disciplineService = disciplineService;
+		this.feeRecordService = feeRecordService;
 	}
 
 	@GetMapping("index")
@@ -2833,7 +2838,6 @@ public class MainController {
 	}
 
 	@PostMapping("/schools/{code}/discipline")
-	@ResponseBody
 	public RedirectView addDisciplineReport(@PathVariable int code, RedirectAttributes redit, @RequestParam int admNo,
 			@RequestParam String type, @RequestParam String depature, @RequestParam String arrival,
 			@RequestParam String reason) {
@@ -2847,6 +2851,123 @@ public class MainController {
 		redit.addFlashAttribute("success", "Discipline Report successfully added");
 
 		return redirectView;
+	}
+
+	@GetMapping("/schools/{code}/statements")
+	public String getAllSchoolStatement(@PathVariable int code, Principal principal, Model model) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+
+		List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordInSchool(code);
+
+		model.addAttribute("feeRecords", feeRecords);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "feeStatements";
+	}
+
+	@GetMapping("/schools/{code}/statements/{id}")
+	public String getFeeStatement(Model model, Principal principal, @PathVariable int code, @PathVariable int id) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+
+		FeeRecord feeRecord = feeRecordService.getFeeRecord(id).get();
+
+		model.addAttribute("feeRecord", feeRecord);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "feeStatement";
+	}
+
+	@GetMapping("/schools/{code}/students/{admNo}/statements")
+	public String getStudentFeeStatements(Model model, Principal principal, @PathVariable int code,
+			@PathVariable String admNo) {
+
+		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		Student student = new Student();
+		User user = new User();
+
+		List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(admNo);
+
+		model.addAttribute("feeRecords", feeRecords);
+		model.addAttribute("user", user);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "studentFeeStatement";
+	}
+
+	@PostMapping("/schools/{code}/statements")
+	@ResponseBody
+	public RedirectView addFeeStatement(@PathVariable int code, RedirectAttributes redit, Model model,
+			Principal principal, @RequestParam String receiptNo, @RequestParam int admNo, @RequestParam int amount,
+			@RequestParam int form, @RequestParam int term) {
+
+		if (studentService.ifStudentExistsInSchool(code + "_" + admNo, code) == true) {
+			Student student = studentService.getStudentInSchool(code + "_" + admNo, code);
+			Form formObj = new Form(form);
+			Term termObj = new Term(term);
+
+			LocalDate datePaid = LocalDate.now();
+			DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+			FeeRecord feeRecord = new FeeRecord(receiptNo, amount, datePaid.format(myFormatObj), student, formObj,
+					termObj);
+
+			feeRecordService.saveFeeRecord(feeRecord);
+
+			redit.addFlashAttribute("success", admNo + " Fee successfully added");
+
+		} else {
+
+			redit.addFlashAttribute("fail", "Student with admNo: " + admNo + " could not be found");
+		}
+
+		RedirectView redirectView = new RedirectView("/schools/" + code + "/statements", true);
+
+		return redirectView;
+	}
+
+	@GetMapping("/schools/{code}/statement/{id}")
+	public RedirectView deleteSchoolStatement(@PathVariable int code, @PathVariable int id, RedirectAttributes redit,
+			Principal principal, Model model) {
+
+		feeRecordService.deleteFeeRecord(id);
+
+		redit.addFlashAttribute("success", "Fee Record successfully added");
+
+		RedirectView redirectView = new RedirectView("/schools/" + code + "/statements", true);
+
+		return redirectView;
+
+	}
+	
+	@GetMapping("/schools/{code}/students/{admNo}/statements/{id}")
+	public RedirectView deleteStudentStatement(@PathVariable int code, @PathVariable int id, @PathVariable String admNo, RedirectAttributes redit,
+			Principal principal, Model model) {
+
+		feeRecordService.deleteFeeRecord(id);
+
+		redit.addFlashAttribute("success", "Fee Record successfully added");
+
+		RedirectView redirectView = new RedirectView("/schools/" + code + "/students/" + admNo + "/statements", true);
+
+		return redirectView;
+
 	}
 
 	@GetMapping("/comingSoon")
