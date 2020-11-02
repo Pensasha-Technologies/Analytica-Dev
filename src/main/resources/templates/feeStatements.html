@@ -40,7 +40,7 @@
 						<section>
 							<h3>School Fee Statement</h3>
 						</section>
-						<nav class="navbar navbar-expand navbar-light">
+						<nav class="navbar navbar-expand navbar-light" th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
 							<div class="d-flex justify-content-end">
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#addFeeModal">Add
