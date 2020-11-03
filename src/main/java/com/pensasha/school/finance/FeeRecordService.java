@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,10 +15,12 @@ public class FeeRecordService {
 	@Autowired
 	private FeeRecordRepository feeRecordRepository;
 
+	Pageable pageable = PageRequest.of(0, 5); 
+	
 	//Get all fee records in school
-	public List<FeeRecord> getAllFeeRecordInSchool(int code){
+	public Page<FeeRecord> getAllFeeRecordInSchool(int code){
 		
-		return feeRecordRepository.findByStudentSchoolCode(code);
+		return feeRecordRepository.findByStudentSchoolCode(code, pageable);
 	}
 	
 	// Get all fee records for student.

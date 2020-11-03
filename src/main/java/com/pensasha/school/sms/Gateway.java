@@ -12,78 +12,72 @@ import java.util.Arrays;
 
 public class Gateway {
 
-	 private String mBaseUrl;
-	    private int mPartnerId;
-	    private String mApiKey;
-	    private String mShortCode;
-	    private HttpURLConnection connection;
+	private String mBaseUrl;
+	private int mPartnerId;
+	private String mApiKey;
+	private String mShortCode;
+	private HttpURLConnection connection;
 
-	    public Gateway(String baseUrl, int partnerId, String apiKey, String shortCode) {
-	        this.mBaseUrl = baseUrl;
-	        this.mPartnerId = partnerId;
-	        this.mApiKey = apiKey;
-	        this.mShortCode = shortCode;
-	    }
+	public Gateway(String baseUrl, int partnerId, String apiKey, String shortCode) {
+		this.mBaseUrl = baseUrl;
+		this.mPartnerId = partnerId;
+		this.mApiKey = apiKey;
+		this.mShortCode = shortCode;
+	}
 
+	private String getFinalURL(String mobile, String message) {
 
-	    private String getFinalURL(String mobile, String message) {
+		String encodedMessage = URLEncoder.encode(message, StandardCharsets.UTF_8);
+		String encodedMobiles = URLEncoder.encode(mobile, StandardCharsets.UTF_8);
 
-	        String encodedMessage = URLEncoder.encode(message, StandardCharsets.UTF_8);
-	        String encodedMobiles = URLEncoder.encode(mobile, StandardCharsets.UTF_8);
+		return mBaseUrl + "?apikey=" + mApiKey + "&partnerID=" + mPartnerId + "&shortcode=" + mShortCode + "&mobile="
+				+ encodedMobiles + "&message=" + encodedMessage;
+	}
 
-	        return mBaseUrl + "?apikey=" + mApiKey + "&partnerID=" + mPartnerId + "&shortcode=" +
-	                mShortCode + "&mobile=" + encodedMobiles + "&message=" + encodedMessage;
-	    }
+	public String sendSingleSms(String message, String mobile) throws IOException {
 
-	    public String sendSingleSms(String message, String mobile) throws IOException {
+		String finalUrl = getFinalURL(mobile, message);
 
-	        String finalUrl = getFinalURL(mobile, message);
+		return makeHttpGetRequest(finalUrl);
+	}
 
-	        return makeHttpGetRequest(finalUrl);
-	    }
+	public String sendBulkSms(String message, String[] mobiles) throws IOException {
 
-	    public String sendBulkSms(String message, String[] mobiles) throws IOException {
+		String numbers = Arrays.toString(mobiles).replace("[", "").replace("]", "").replace(" ", "");
 
-	        String numbers = Arrays.toString(mobiles)
-	                .replace("[", "")
-	                .replace("]", "")
-	                .replace(" ", "");
+		String finalUrl = getFinalURL(numbers, message);
 
-	        String finalUrl = getFinalURL(numbers, message);
+		return makeHttpGetRequest(finalUrl);
+	}
 
-	        return makeHttpGetRequest(finalUrl);
-	    }
+	private String makeHttpGetRequest(String urlString) throws IOException {
+		URL url = makeURL(urlString);
 
+		if (connection == null) {
 
-	    private String makeHttpGetRequest(String urlString) throws IOException {
-	        URL url = makeURL(urlString);
+			connection = (HttpURLConnection) url.openConnection();
 
-	        if (connection == null) {
+			connection.setRequestMethod("GET");
+			connection.setReadTimeout(15000);
+		}
 
-	            connection = (HttpURLConnection) url.openConnection();
+		StringBuilder content;
 
-	            connection.setRequestMethod("GET");
-	            connection.setReadTimeout(15000);
-	        }
+		BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-	        StringBuilder content;
+		String line;
 
-	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		content = new StringBuilder();
 
-	        String line;
+		while ((line = in.readLine()) != null) {
+			content.append(line);
+			content.append(System.lineSeparator());
+		}
 
-	        content = new StringBuilder();
+		return content.toString();
+	}
 
-	        while ((line = in.readLine()) != null) {
-	            content.append(line);
-	            content.append(System.lineSeparator());
-	        }
-
-	        return content.toString();
-	    }
-
-
-	    private URL makeURL(String urlString) throws MalformedURLException {
-	        return new URL(urlString);
-	    }
+	private URL makeURL(String urlString) throws MalformedURLException {
+		return new URL(urlString);
+	}
 }

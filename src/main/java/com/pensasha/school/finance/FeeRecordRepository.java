@@ -2,6 +2,8 @@ package com.pensasha.school.finance;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FeeRecordRepository extends JpaRepository<FeeRecord, Integer>{
@@ -16,7 +18,7 @@ public interface FeeRecordRepository extends JpaRepository<FeeRecord, Integer>{
 
 	List<FeeRecord> findByTermTerm(int term);
 
-	List<FeeRecord> findByStudentSchoolCode(int code);
+	Page<FeeRecord> findByStudentSchoolCode(int code, Pageable pageable);
 
 
 	

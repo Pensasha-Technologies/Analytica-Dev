@@ -1,8 +1,6 @@
 package com.pensasha.school.interfaceController;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +9,6 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -1971,19 +1969,28 @@ public class MainController {
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 
 		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
-		int partnerId = 968; // your ID here
-		String apiKey = "EMAKHWALEHS"; // your API key
-		String shortCode = "b265e61be950dd6733c82e35b614213a"; // sender ID here e.g INFOTEXT, Celcom, e.t.c
+		int partnerId = 1989; // your ID here
+		String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599"; // your API key
+		String shortCode = "analytica"; // sender ID here e.g INFOTEXT, Celcom, e.t.c
 
 		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
 
 		try {
-			String res = gateway.sendSingleSms("Hey You", "707335375");
+			String res = gateway.sendSingleSms("Hello From Single sms Java", "0707335375");
 			System.out.println(res);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		/*
+		 * String[] strings = { "0707335375" };
+		 *
+		 *
+		 * try { String res = gateway.sendBulkSms("Hello Bulk from Java API ", strings);
+		 * System.out.println(res); } catch (IOException e) { e.printStackTrace(); }
+		 * 
+		 */
+		// }
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("streams", streams);
 		model.addAttribute("years", years);
@@ -2866,8 +2873,15 @@ public class MainController {
 		Student student = new Student();
 		User user = new User();
 
-		List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordInSchool(code);
+		Page<FeeRecord> page = feeRecordService.getAllFeeRecordInSchool(code);
+		long totalRecords = page.getTotalElements();
+		int totalPages = page.getTotalPages();
 
+		List<FeeRecord> feeRecords = page.getContent();
+
+		model.addAttribute("currentPage", 1);
+		model.addAttribute("totalRecords", totalRecords);
+		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("feeRecords", feeRecords);
 		model.addAttribute("user", user);
 		model.addAttribute("activeUser", activeUser);

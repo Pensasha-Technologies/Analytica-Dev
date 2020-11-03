@@ -40,7 +40,8 @@
 						<section>
 							<h3>School Fee Statement</h3>
 						</section>
-						<nav class="navbar navbar-expand navbar-light" th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
+						<nav class="navbar navbar-expand navbar-light"
+							th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
 							<div class="d-flex justify-content-end">
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#addFeeModal">Add
@@ -58,48 +59,63 @@
 							th:text="${success}">Staff saved</div>
 
 						<div class="table-responsive">
-							<table class="table" id="allSchools">
-								<thead>
-									<tr>
-										<th scope="col">First Name</th>
-										<th scope="col">Last Name</th>
-										<th scope="col">Adm No.</th>
-										<th scope="col">Form</th>
-										<th scope="col">Term</th>
-										<th scope="col">Amount</th>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody id="allSchoolsTable">
-									<th:block th:unless="${feeRecords} and ${feeRecords.size()}">
-										<br>
-										<p class="text text-center alert alert-warning">No Fee has
-											been paid</p>
-									</th:block>
+							<div>
+								<table class="table" id="allSchools">
+									<thead>
+										<tr>
+											<th scope="col">First Name</th>
+											<th scope="col">Last Name</th>
+											<th scope="col">Adm No.</th>
+											<th scope="col">Form</th>
+											<th scope="col">Term</th>
+											<th scope="col">Amount</th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody id="allSchoolsTable">
+										<th:block th:unless="${feeRecords} and ${feeRecords.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No Fee
+												has been paid</p>
+										</th:block>
 
-									<tr th:each="feeRecord : ${feeRecords}">
-										<td th:text="${feeRecord.student.firstname}">Student
-											first name</td>
-										<td th:text="${feeRecord.student.thirdname}">Student
-											third name</td>
-										<td th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student adm no.</td>
-										<td th:text="${feeRecord.form.form}">Student Form</td>
-										<td th:text="${feeRecord.term.term}">Student Term</td>
-										<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a th:href="@{/schools/{code}/statements/{id}(code=${school.code},id=${feeRecord.id})}" class="btn btn-primary"> View </a>
-											</div>
-										</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a th:href="@{/schools/{code}/statement/{id}(code=${school.code}, id=${feeRecord.id})}" class="btn btn-danger"> Delete </a>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+										<tr th:each="feeRecord : ${feeRecords}">
+											<td th:text="${feeRecord.student.firstname}">Student
+												first name</td>
+											<td th:text="${feeRecord.student.thirdname}">Student
+												third name</td>
+											<td
+												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
+												adm no.</td>
+											<td th:text="${feeRecord.form.form}">Student Form</td>
+											<td th:text="${feeRecord.term.term}">Student Term</td>
+											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a
+														th:href="@{/schools/{code}/statements/{id}(code=${school.code},id=${feeRecord.id})}"
+														class="btn btn-primary"> View </a>
+												</div>
+											</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a
+														th:href="@{/schools/{code}/statement/{id}(code=${school.code}, id=${feeRecord.id})}"
+														class="btn btn-danger"> Delete </a>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div>
+								Total Records: [[${totalRecords}]] - Page [[${currentPage}]] of [[${totalPages}]]
+								&nbsp; -&nbsp;
+								<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+									<a th:href="@{'page/'+${i}}">[[${i}]]</a>&nbsp;&nbsp;
+								</span>
+							</div>
 						</div>
 
 
