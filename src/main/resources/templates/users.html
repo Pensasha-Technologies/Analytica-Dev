@@ -88,14 +88,15 @@
 										<td>
 											<div class="d-flex justify-content-center">
 												<a
-													th:href="@{/adminHome/users/{username}(username = ${user.username})}"
+													th:href="@{profile/{username}(username = ${user.username})}"
 													class="btn btn-primary"> View </a>
 											</div>
 										</td>
 										<td>
 											<div class="d-flex justify-content-center">
 												<a th:if="${activeUser.username} != ${user.username}"
-													th:href="@{/adminHome/user/{username}(username = ${user.username})}"
+													data-toggle="modal" href="#" data-target="#deleteCampUserModal"
+													th:data-href="@{/user/{username}(username = ${user.username})}"
 													class="btn btn-danger"> Delete </a>
 											</div>
 										</td>
@@ -117,7 +118,6 @@
 			<!-- End of Footer -->
 
 			<!-- Add school model -->
-			<!-- Modal -->
 			<div class="modal fade" id="addSchoolModal" tabindex="-1"
 				role="dialog" aria-labelledby="addSchoolModalLabel"
 				aria-hidden="true">
@@ -135,7 +135,7 @@
 							<div class="d-flex justify-content-center">
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
-									<form class="addUserForm" th:action="@{/adminHome/users}"
+									<form class="addUserForm" th:action="@{/users}"
 										onsubmit="return systemUserEntryValidation()" method="post"
 										th:object="${user}">
 										<div class="form-group fadeIn first">
@@ -216,6 +216,33 @@
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
 								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Delete Company User Model -->
+			<div class="modal fade" id="deleteCampUserModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteCampUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteCampUserModalLabel">Delete
+								User</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">All user details and information
+								will be deleted and will not be recovered. Are you sure you want
+								to delete?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete</button>
+							<a class="btn btn-danger ok-button">Yes! Delete</a>
 						</div>
 					</div>
 				</div>
@@ -340,6 +367,13 @@
 				return false;
 			}
 		}
+		
+		$('#deleteCampUserModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
 	</script>
 
 </body>

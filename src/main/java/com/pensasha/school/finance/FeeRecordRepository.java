@@ -19,6 +19,10 @@ public interface FeeRecordRepository extends JpaRepository<FeeRecord, Integer>{
 	List<FeeRecord> findByTermTerm(int term);
 
 	Page<FeeRecord> findByStudentSchoolCode(int code, Pageable pageable);
+	
+	Page<FeeRecord> findByStudentSchoolCodeAndStudentSchoolYearsYear(int code, int year, Pageable pageable);
+
+	List<FeeRecord> findByStudentSchoolCode(int code);
 
 
 	

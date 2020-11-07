@@ -1,28 +1,73 @@
 package com.pensasha.school.term;
 
+import java.security.Principal;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+import com.pensasha.school.exam.Mark;
+import com.pensasha.school.exam.MarkService;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.form.FormService;
+import com.pensasha.school.school.School;
+import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentService;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.subject.SubjectService;
+import com.pensasha.school.user.User;
+import com.pensasha.school.user.UserService;
+import com.pensasha.school.year.Year;
+import com.pensasha.school.year.YearService;
+
+@Controller
 public class TermController {
 
-	@Autowired
-	private TermService termService;
+	private SubjectService subjectService;
+	private SchoolService schoolService;
+	private StudentService studentService;
+	private YearService yearService;
+	private FormService formService;
+	private UserService userService;
+	private MarkService markService;
 
-	// Getting all terms in form, year and school
-	@GetMapping("/api/schools/{code}/years/{year}/forms/{form}/terms")
-	public List<Term> getAllTerms(@PathVariable int form, @PathVariable int year, @PathVariable int code) {
-		return termService.getAllTerms(form, year, code);
+	public TermController(SubjectService subjectService, SchoolService schoolService, StudentService studentService,
+			YearService yearService, FormService formService, UserService userService, MarkService markService) {
+		super();
+		this.subjectService = subjectService;
+		this.schoolService = schoolService;
+		this.studentService = studentService;
+		this.yearService = yearService;
+		this.formService = formService;
+		this.userService = userService;
+		this.markService = markService;
 	}
 
-	// Get term in form, year and school
-	@GetMapping("/api/schools/{code}/years/{year}/forms/{form}/terms/{term}")
-	public Term getTerm(@PathVariable int term, @PathVariable int form, @PathVariable int year,
-			@PathVariable int code) {
-		return termService.getTerm(term, form, year, code);
+	@PostMapping("/schools/{code}/student/{admNo}/termlyReport")
+	public String getTermlyReport(@PathVariable int code, @PathVariable String admNo, @RequestParam int form,
+			@RequestParam int term, Model model, Principal principal) {
+
+		School school = schoolService.getSchool(code).get();
+		Student student = studentService.getStudentInSchool(admNo, code);
+		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
+		List<Year> years = yearService.allYearsForStudent(admNo);
+		List<Form> forms = formService.studentForms(admNo);
+		User activeUser = userService.getByUsername(principal.getName()).get();
+
+		List<Mark> marks = markService.getTermlySubjectMark(admNo, form, term);
+
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("marks", marks);
+		model.addAttribute("forms", forms);
+		model.addAttribute("years", years);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "termlyReport";
 	}
 }

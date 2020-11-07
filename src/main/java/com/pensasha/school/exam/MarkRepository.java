@@ -17,5 +17,7 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 
 	public List<Mark> findByYearYearAndFormFormAndTermTermAndSubjectInitials(int year, int form, int term,
 			String subject);
+
+	public List<Mark> findByStudentAdmNoAndFormFormAndTermTerm(String admNo, int form, int term);
 	
 }

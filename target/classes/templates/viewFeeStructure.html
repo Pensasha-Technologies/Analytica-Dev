@@ -29,8 +29,10 @@
 
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a
-							th:href="@{/schools/bursarHome}">Home</a></li>
+						<li class="breadcrumb-item">
+						<a th:href="@{/schools/bursarHome}" th:if="${activeUser.role.name == 'BURSAR'}">Home</a>
+						<a th:href="@{/schools/principal}" th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a>
+						</li>
 						<li class="breadcrumb-item active" aria-current="page">View
 							Fee Statement</li>
 					</ol>

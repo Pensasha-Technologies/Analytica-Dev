@@ -57,7 +57,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 		}else if (isDos(roles)) {
 			url = "/schools/dosHome";
 		} else if (isTeacher(roles)) {
-			url = "/schools/teacherHome";
+			url = "/teacherHome";
 		} else if(isBursar(roles)) {
 			url = "/schools/bursarHome";
 		} else if(isAccountsClerk(roles)) {

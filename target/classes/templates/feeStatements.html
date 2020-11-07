@@ -29,7 +29,12 @@
 
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item active" aria-current="page">Home</li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/schools/bursarHome}"
+							th:if="${activeUser.role.name == 'BURSAR'}">Home</a> <a
+							th:href="@{/schools/principal}"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">FeeStatement</li>
 					</ol>
 				</nav>
 
@@ -110,11 +115,25 @@
 								</table>
 							</div>
 							<div>
-								Total Records: [[${totalRecords}]] - Page [[${currentPage}]] of [[${totalPages}]]
-								&nbsp; -&nbsp;
-								<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-									<a th:href="@{'page/'+${i}}">[[${i}]]</a>&nbsp;&nbsp;
-								</span>
+								Total Records: [[${totalRecords}]] - Page [[${currentPage}]] of
+								[[${totalPages}]] &nbsp; -&nbsp; <a th:if="${currentPage > 1}"
+									th:href="@{'/schools/' + ${school.code} + '/statements/page/1'}">First</a>
+								<span th:unless="${currentPage > 1}">First</span> &nbsp; <a
+									th:if="${currentPage > 1}"
+									th:href="@{/schools/{code}/statements/page/{currentPage}(code=${school.code}, currentPage = ${currentPage-1})}">Previous</a>
+								<span th:unless="${currentPage > 1}">Previous</span> &nbsp; <span
+									th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+									th:if="${i != currentPage}"
+									th:href="@{'/schools/' + ${school.code} + '/statements/page/'+${i}}">[[${i}]]</a>
+									<span th:unless="${i != currentPage}">[[${i}]]</span>
+									&nbsp;&nbsp;
+								</span> <a th:if="${currentPage < totalPages}"
+									th:href="@{/schools/{code}/statements/page/{currentPage}(code=${school.code}, currentPage = ${currentPage+1})}">Next</a>
+								<span th:unless="${currentPage < totalPages}">Next</span> &nbsp;
+
+								<a th:if="${currentPage < totalPages}"
+									th:href="@{'/schools/' + ${school.code} + '/statements/page/' + ${totalPages}}">Last</a>
+								<span th:unless="${currentPage < totalPages}">Last</span>
 							</div>
 						</div>
 

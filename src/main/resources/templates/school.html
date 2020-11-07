@@ -53,14 +53,16 @@
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item active" aria-current="page"
-							th:text="${school.name}"}>School</li>
+							th:text="${school.name}">School</li>
 					</ol>
 				</nav>
 				<!-- Begin Page Content -->
 				<div class="container-fluid">
 
 					<div style="text-align: center;">
-						<section style="margin: 20px;">
+						<section>
+							<img alt="" width="100"
+								th:src="@{/schImg/{filename}(filename = ${school.logo})}">
 							<h3>School Profile</h3>
 						</section>
 					</div>
@@ -70,11 +72,8 @@
 						<div class="d-flex justify-content-between">
 							<h4>Basic Information</h4>
 							<a class="btn btn-primary" style="margin: 10px;"
-								th:if="${activeUser.role.name == 'ADMIN' && school.name != null}"
-								th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">
-								Students </a> <a class="btn btn-primary" style="margin: 10px;"
-								th:if="${activeUser.role.name == 'TEACHER'}"
-								th:href="@{/schools/teacherHome}"> Students </a>
+								th:href="@{/editSchool/{code}(code=${school.code})}"> Edit
+								School </a>
 						</div>
 
 						<div class="table-responsive">
@@ -104,7 +103,11 @@
 						</div>
 						<table class="table">
 							<thead>
-
+								<div th:unless="${streams} and ${streams.size()}">
+									<br>
+									<p class="text text-center alert alert-warning">No Stream
+										has been added</p>
+								</div>
 							</thead>
 							<tbody>
 								<tr>
@@ -116,7 +119,7 @@
 											<div class="d-flex justify-content-center">
 												<a class="fa fa-trash deleteBtn" data-toggle="modal"
 													href="#"
-													th:data-href="@{/adminHome/school/{code}/streams/{id}(code=${school.code}, id=${stream.id})}"
+													th:data-href="@{/school/{code}/streams/{id}(code=${school.code}, id=${stream.id})}"
 													data-target="#deleteModal"></a>
 
 											</div>
@@ -142,59 +145,71 @@
 
 						<table class="table">
 							<tbody>
-
-								<th style="border-right: solid 1px #FFF">Group I</th>
-								<th></th>
-								<tr th:each="group1 : ${group1}">
-									<td th:text="${group1.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group1.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group II</th>
-								<th></th>
-								<tr th:each="group2 : ${group2}">
-									<td th:text="${group2.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group2.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group III</th>
-								<th></th>
-								<tr th:each="group3 : ${group3}">
-									<td th:text="${group3.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group3.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group IV</th>
-								<th></th>
-								<tr th:each="group4 : ${group4}">
-									<td th:text="${group4.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group4.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group V</th>
-								<th></th>
-								<tr th:each="group5 : ${group5}">
-									<td th:text="${group5.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group5.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-
-
+								<th:block
+									th:unless="${group1} and ${group1.size()} or ${group2} and ${group2.size()} or ${group3} and ${group3.size()} or ${group4} and ${group4.size()} or ${group5} and ${group5.size()}">
+									<p class="text text-center alert alert-warning">No subject
+										added</p>
+								</th:block>
+								<th:block th:if="${group1} and ${group1.size()}">
+									<th style="border-right: solid 1px #FFF">Group I</th>
+									<th></th>
+									<tr th:each="group1 : ${group1}">
+										<td th:text="${group1.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group1.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group2} and ${group2.size()}">
+									<th style="border-right: solid 1px #FFF">Group II</th>
+									<th></th>
+									<tr th:each="group2 : ${group2}">
+										<td th:text="${group2.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group2.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group3} and ${group3.size()}">
+									<th style="border-right: solid 1px #FFF">Group III</th>
+									<th></th>
+									<tr th:each="group3 : ${group3}">
+										<td th:text="${group3.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group3.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group4} and ${group4.size()}">
+									<th style="border-right: solid 1px #FFF">Group IV</th>
+									<th></th>
+									<tr th:each="group4 : ${group4}">
+										<td th:text="${group4.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group4.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group5} and ${group5.size()}">
+									<th style="border-right: solid 1px #FFF">Group V</th>
+									<th></th>
+									<tr th:each="group5 : ${group5}">
+										<td th:text="${group5.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/subjects/{initials}(code=${school.code}, initials=${group5.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
 							</tbody>
 						</table>
 
@@ -231,7 +246,7 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addSubjectsForm"
-										th:action="@{/adminHome/school/{code}/subjects(code = ${school.code})}"
+										th:action="@{/school/{code}/subjects(code = ${school.code})}"
 										method="post">
 
 										<h1>Subjects</h1>
@@ -284,7 +299,7 @@
 									<!-- Login Form -->
 									<form class="addSubjectsForm" th:object="${stream}"
 										onsubmit="return addSubjectValidation()"
-										th:action="@{/adminHome/school/{code}/streams(code = ${school.code})}"
+										th:action="@{/school/{code}/streams(code = ${school.code})}"
 										method="post">
 
 										<h5>Add stream</h5>

@@ -104,7 +104,7 @@
 				<div class="sidebar-brand-text mx-3">Analytica Soft</div>
 			</a><a th:if="${activeUser.role.name == 'TEACHER'}"
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				th:href="@{/schools/teacherHome}">
+				th:href="@{/teacherHome}">
 				<div class="sidebar-brand-icon">
 					<img th:src="@{/img/logo.png}" width="50" height="30"
 						class="d-inline-block align-top" alt="" loading="lazy">
@@ -216,7 +216,7 @@
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"><a
-			class="nav-link" th:href="@{/schools/teacherHome}"> <i
+			class="nav-link" th:href="@{/teacherHome}"> <i
 				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
@@ -249,10 +249,19 @@
 		<div class="sidebar-heading"
 			th:if="${activeUser.role.name == 'TEACHER'}">Teacher</div>
 
+		<!-- All users profile -->
 		<li class="nav-item"
-			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome/users/' + activeUser.username  ? 'active':''}"
+			th:classappend="${#httpServletRequest.getRequestURI() == '/profile/' + activeUser.username  ? 'active':''}"
 			th:if="${activeUser.role.name != 'TEACHER'}"><a class="nav-link"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
+			th:href="@{/profile/{username}(username=${activeUser.username})}">
+				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
+		</a></li>
+
+		<!-- Teachers profile -->
+		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"
+			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/teacherHome/profile' ? 'active':''}"><a
+			class="nav-link"
+			th:href="@{/profile/{username}(username=${activeUser.username})}">
 				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
 		</a></li>
 
@@ -278,12 +287,12 @@
 		<li class="nav-item" th:if="${activeUser.role.name == 'BURSAR'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#createStructureModal"
-			th:href="@{/adminHome/users/{username}(username=${activeUser.username})}">
+			th:href="@{/users/{username}(username=${activeUser.username})}">
 				<i class="fas fa-fw fa-chart-area"></i> <span> Create Fee
 					Structure</span>
 		</a></li>
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL' ||  activeUser.role.name == 'DEPUTYPRINCIPAL' ||  activeUser.role.name == 'TEACHER' ||  activeUser.role.name == 'D.O.S'}"><a
+			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#viewStructureModal"> <i
 				class="fas fa-fw fa-chart-area"></i> <span> View Fee
@@ -358,11 +367,54 @@
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL' ||  activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
-			class="nav-link"
-			th:href="@{/schools/{code}/statements(code=${school.code})}"> <i
+			class="nav-link" data-toggle="modal"
+			data-target="#viewStatementModal"> <i
 				class="fas fa-fw fa-chart-area"></i> <span> View Fee
 					Statements </span>
 		</a></li>
+		<!-- Modal -->
+		<div class="modal fade" id="viewStatementModal" tabindex="-1"
+			role="dialog" aria-labelledby="viewStatementModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="viewStatementModalLabel">Select
+							Academic Year</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form class="viewStatementForm"
+							th:action="@{/schools/{code}/statements(code=${school.code})}"
+							method="Get">
+
+							<div class="form-group">
+								<label for="receiptNo"
+									style="display: block; text-align: left; margin-bottom: -5px;">Enter
+									Academic Year</label> <select name="academicYear" id="academicYear"
+									required>
+									<option value="">Select Academic Year ...</option>
+									<option th:value="${year.year}"
+										th:each="year : ${school.years}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+
+							<button class="btn btn-primary" type="submit"
+								style="margin-top: 10px;">View Statement</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
@@ -388,7 +440,9 @@
 						<div class="d-flex justify-content-center">
 							<div id="formContent" style="margin-top: -2px; padding: 10px;">
 								<!-- Login Form -->
-								<form class="addUserForm" th:action="@{/schools/{code}/statements(code=${school.code})}" method="post">
+								<form class="addUserForm"
+									th:action="@{/schools/{code}/statements(code=${school.code})}"
+									method="post">
 
 									<div class="form-group">
 										<label for="receiptNo"
@@ -453,18 +507,10 @@
 			class="nav-link"
 			th:href="@{/schools/{code}/addStudent(code=${school.code})}"> <i
 				class="fas fa-fw fa-chart-area"></i> <span> Admit Student </span></a></li>
-		<!-- Teachers profile -->
-		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"
-			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/teacherHome/profile' ? 'active':''}"><a
-			class="nav-link"
-			th:href="@{/schools/teachers/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
-		</a></li>
-
 
 		<!-- Nav Item - Utilities Collapse Menu -->
 		<li class="nav-item"
-			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome/school/' + school.code  ? 'active':''}"
+			th:classappend="${#httpServletRequest.getRequestURI() == '/school/' + school.code  ? 'active':''}"
 			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null}"><a
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#schoolUtilities" aria-expanded="true"
@@ -476,10 +522,10 @@
 				<div class=" py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Menu:</h6>
 					<a class="collapse-item" style="color: #E96830;"
-						th:href="@{/adminHome/school/{code}(code=${school.code})}"> My
-						School </a> <a class="collapse-item" style="color: #E96830;"
+						th:href="@{/school/{code}(code=${school.code})}"> My School </a> <a
+						class="collapse-item" style="color: #E96830;"
 						th:if="${activeUser.role.name == 'ADMIN' && school.name != null}"
-						th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">
+						th:href="@{/schools/{code}/students(code=${school.code})}">
 						Students </a> <a class="collapse-item" style="color: #E96830;"
 						th:if="${activeUser.role.name == 'TEACHER'}"
 						th:href="@{/schools/teacherHome}"> Students </a> <a
@@ -567,6 +613,7 @@
 		<!-- End of Leave out model -->
 
 		<li
+			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/' + school.code +'/student/'+ student.admNo  ? 'active':''}"
 			th:if="${activeUser.role.name == 'ADMIN' && student.firstname != null}"
 			class="nav-item"><a class="nav-link collapsed" href="#"
 			data-toggle="collapse" data-target="#studentUtilities"
@@ -579,21 +626,71 @@
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Menu:</h6>
 					<a class="collapse-item"
-						th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">
+						th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">
 						Student Profile </a> <a class="collapse-item"
-						th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">
-						Students </a> <a class="collapse-item" href="#"
-						style="margin-left: 10px;"> Progress Report </a> <a
-						class="collapse-item"
-						th:href="@{/adminHome/schools/{code}/student/{admNo}/yearly(code=${school.code}, admNo=${student.admNo})}"
+						th:href="@{/schools/{code}/students(code=${school.code})}">
+						Students </a> <a class="collapse-item" data-toggle="modal"
+						data-target="#termReportModal" href="#" style="margin-left: 10px;">
+						Termly Report </a> <a class="collapse-item"
+						th:href="@{/schools/{code}/student/{admNo}/yearly(code=${school.code}, admNo=${student.admNo})}"
 						style="margin-left: 10px;"> Yearly Report </a>
 				</div>
 			</div></li>
+		<!-- Report Model -->
+
+		<!-- Termy Report Modal -->
+		<div class="modal fade" id="termReportModal" tabindex="-1"
+			role="dialog" aria-labelledby="termReportModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="termReportModalLabel">Termly
+							Report</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="termlyReport" th:action="@{/schools/{code}/student/{admNo}/termlyReport(code=${school.code}, admNo=${student.admNo})}" method="post">
+							<div class="form-group fadeIn second">
+								<label for="form">Choose Form:</label> <select name="form"
+									id="form" required>
+									<option value="">Select Form...</option>
+									<option value="1">Form 1</option>
+									<option value="2">Form 2</option>
+									<option value="3">Form 3</option>
+									<option value="4">Form 4</option>
+
+								</select>
+							</div>
+							<div class="form-group fadeIn third">
+								<label for="term">Choose Term:</label> <select name="term"
+									id="term" required>
+									<option value="">Select Term...</option>
+									<option th:value="1">Term 1</option>
+									<option th:value="2">Term 2</option>
+									<option th:value="3">Term 3</option>
+
+								</select>
+							</div>
+
+							<button class="btn btn-primary fadeIn fourth" id="termlyReport">
+								Get Report</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- Nav Item - Tables -->
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'ADMIN' || activeUser.role.name == 'C.E.O' }"
-			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome/schoolUsers' || #httpServletRequest.getRequestURI() == '/adminHome/users' ? 'active':''}"><a
+			th:classappend="${#httpServletRequest.getRequestURI() == '/schoolUsers' || #httpServletRequest.getRequestURI() == '/adminHome/users' ? 'active':''}"><a
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#userUtilities" aria-expanded="true"
 			aria-controls="userUtilities"> <i class="fas fa-fw fa-wrench"></i>
@@ -604,16 +701,16 @@
 				<div class=" py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Menu:</h6>
 					<a class="collapse-item" style="color: #E96830;"
-						th:href="@{/adminHome/users}"> System Users </a> <a
-						class="collapse-item" style="color: #E96830;"
-						th:href="@{/adminHome/schoolUsers}"> School Users </a>
+						th:href="@{/users}"> System Users </a> <a class="collapse-item"
+						style="color: #E96830;" th:href="@{/schoolUsers}"> School
+						Users </a>
 				</div>
 			</div></li>
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'  }"><a
 			class="nav-link"
-			th:href="@{/adminHome/school/{code}(code=${school.code})}"> <i
+			th:href="@{/school/{code}(code=${school.code})}"> <i
 				class="fas fa-fw fa-table"></i> <span> My School </span>
 		</a></li>
 		<li class="nav-item"
@@ -669,7 +766,7 @@
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
-									<option th:each="year : ${years}" th:value="${year.year}"
+									<option th:each="year : ${school.years}" th:value="${year.year}"
 										th:text="${year.year}">Year</option>
 								</select>
 							</div>
@@ -827,7 +924,7 @@
 					</div>
 					<div class="modal-body">
 						<form class="classList"
-							th:action="@{/adminHome/schools/{code}/timetable(code=${school.code})}"
+							th:action="@{/schools/{code}/timetable(code=${school.code})}"
 							method="post">
 							<div class="form-group fadeIn first">
 								<label for="year">Choose Year:</label> <select name="year"

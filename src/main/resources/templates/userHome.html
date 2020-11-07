@@ -65,7 +65,10 @@
 							th:href="@{/fieldOfficerHome}">Home</a></li>
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
-							th:href="@{/schools/teacherHome}">Home</a></li>
+							th:href="@{/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
 							th:href="@{/schools/deputyPrincipal}">Home</a></li>
@@ -80,9 +83,9 @@
 							th:href="@{/schools/accountsClerkHome}">Home</a></li>
 						<li class="breadcrumb-item"
 							th:unless="${activeUser.role.name == 'C.E.O' || activeUser.role.name == 'ADMIN' || activeUser.role.name == 'FIELDOFFICER' || activeUser.role.name == 'OFFICEASSISTANT' || activeUser.role.name == 'D.O.S'}"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
-						<li class="breadcrumb-item active" aria-current="page">My
+						<li class="breadcrumb-item active" aria-current="page">User
 							Profile</li>
 					</ol>
 				</nav>
@@ -108,9 +111,10 @@
 								<h3 style="font-size: 20px;">
 									<i class="fa fa-briefcase" aria-hidden="true"></i> <span
 										th:text="${user.role.name}"> Role </span>, <span
-										th:if="${user.role.name == 'ADMIN' || user.role.name == 'C.E.O' || user.role.name == 'FIELDOFFICER' || user.role.name == 'OFFICEASSISTANT'}"> Analytica Soft </span> <span
-										th:if="${user.role.name == 'PRINCIPAL' || user.role.name == 'DEPUTYPRINCIPAL' || user.role.name == 'BURSAR' || user.role.name == 'ACCOUNTSCLERK' || user.role.name == 'D.O.S' || user.role.name == 'TEACHER'}" th:text="${user.school.name}">
-										School </span>
+										th:if="${user.role.name == 'ADMIN' || user.role.name == 'C.E.O' || user.role.name == 'FIELDOFFICER' || user.role.name == 'OFFICEASSISTANT'}">
+										Analytica Soft </span> <span
+										th:if="${user.role.name == 'PRINCIPAL' || user.role.name == 'DEPUTYPRINCIPAL' || user.role.name == 'BURSAR' || user.role.name == 'ACCOUNTSCLERK' || user.role.name == 'D.O.S' || user.role.name == 'TEACHER'}"
+										th:text="${user.school.name}"> School </span>
 								</h3>
 								<h4 style="font-size: 20px;">
 									<i class="fa fa-mobile" aria-hidden="true"></i> <span
@@ -123,14 +127,14 @@
 				<div class="container d-flex justify-content-center">
 
 					<table id="userTable" th:if="${user.role.name != 'TEACHER'}"
-						class="table" style="width: 70%; margin-bottom:60px;">
+						class="table" style="width: 70%; margin-bottom: 60px;">
 
 						<tbody>
 							<tr>
 								<th>Username</th>
 								<td th:text="${user.username}">username</td>
 							</tr>
-							<tr>
+							<tr th:if="${#httpServletRequest.remoteUser == user.username}">
 								<th>Password</th>
 								<td colspan="2"><a href="#"> Change Password </a></td>
 							</tr>
@@ -142,9 +146,9 @@
 								<th>Email</th>
 								<td colspan="2" th:text="${user.email}">Email</td>
 							</tr>
-						
+
 						</tbody>
-						
+
 					</table>
 
 					<table th:if="${user.role.name == 'TEACHER'}" id="userTable"
@@ -164,7 +168,7 @@
 								<th>TSC Number</th>
 								<td colspan="2">132243523</td>
 							</tr>
-							<tr>
+							<tr th:if="${#httpServletRequest.remoteUser == user.username}">
 								<th>Password</th>
 								<td colspan="2"><a href="#"> Change Password </a></td>
 							</tr>

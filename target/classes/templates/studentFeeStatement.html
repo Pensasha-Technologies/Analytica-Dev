@@ -38,7 +38,7 @@
 
 					<div class="d-flex justify-content-between">
 						<section>
-							<h3>Student Fee Statements</h3>
+							<h3>[[${student.firstname}]]'s Fee Statements</h3>
 						</section>
 			
 					</div>
@@ -51,52 +51,114 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
-						<div class="table-responsive">
-							<table class="table" id="allSchools">
-								<thead>
-									<tr>
-										<th scope="col">First Name</th>
-										<th scope="col">Last Name</th>
-										<th scope="col">Adm No.</th>
-										<th scope="col">Form</th>
-										<th scope="col">Term</th>
-										<th scope="col">Amount</th>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody id="allSchoolsTable">
-									<th:block th:unless="${feeRecords} and ${feeRecords.size()}">
-										<br>
-										<p class="text text-center alert alert-warning">No Fee has
-											been paid</p>
-									</th:block>
-
-									<tr th:each="feeRecord : ${feeRecords}">
-										<td th:text="${feeRecord.student.firstname}">Student
-											first name</td>
-										<td th:text="${feeRecord.student.thirdname}">Student
-											third name</td>
-										<td th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student adm no.</td>
-										<td th:text="${feeRecord.form.form}">Student Form</td>
-										<td th:text="${feeRecord.term.term}">Student Term</td>
-										<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a th:href="@{/schools/{code}/statements/{id}(code=${school.code},id=${feeRecord.id})}" class="btn btn-primary"> View </a>
-											</div>
-										</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}" class="btn btn-danger"> Delete </a>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+<!--  
+						<div th:each="i:${#numbers.sequence(1, 4)}" th:if="${feeRecords[i].form.form == i}">
+							<h3 style="text-align:center;"> Form [[${i}]] </h3>
+							<div th:each="j:${#numbers.sequence(1, 3)}" th:if="${feeRecords[i].form.form == i && feeRecords[i].term.term == j}">
+								<h5 style="text-align:center;"> Term [[${j}]] </h5>
+								<div class="table-responsive">
+									<table class="table" id="allSchools">
+										<thead>
+											<tr>
+												<th scope="col">First Name</th>
+												<th scope="col">Last Name</th>
+												<th scope="col">Adm No.</th>
+												<th scope="col">Date Paid</th>
+												<th scope="col">Amount</th>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody id="allSchoolsTable">
+											<th:block th:unless="${feeRecords} and ${feeRecords.size()}">
+												<br>
+												<p class="text text-center alert alert-warning">No Fee has
+													been paid</p>
+											</th:block>
+		
+											<tr th:each="feeRecord : ${feeRecords}">
+												<td th:text="${feeRecord.student.firstname}">Student
+													first name</td>
+												<td th:text="${feeRecord.student.thirdname}">Student
+													third name</td>
+												<td th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student adm no.</td>
+												<td th:text="${feeRecord.datePaid}">Date paid</td>
+												<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
+												<td>
+													<div class="d-flex justify-content-center">
+														<a th:href="@{/schools/{code}/statements/{id}(code=${school.code},id=${feeRecord.id})}" class="btn btn-primary"> View </a>
+													</div>
+												</td>
+												<td>
+													<div class="d-flex justify-content-center">
+														<a th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}" class="btn btn-danger"> Delete </a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										
+										<th:block th:with="total = ${#aggregates.sum(feeRecords.![amount])}, 
+														   form1 = ${#aggregates.sum(feeStructure.?[form.form==1].![cost])},
+														   form2 = ${#aggregates.sum(feeStructure.?[form.form==2].![cost])},
+														   form3 = ${#aggregates.sum(feeStructure.?[form.form==3].![cost])},
+														   form4 = ${#aggregates.sum(feeStructure.?[form.form==4].![cost])}"
+										 >
+											<th:block>
+												<tr>
+													<th scope="col">Total</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col">Amount</th>
+													<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
+											<th:block>
+												<tr>
+													<th scope="col">Fee Payable</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col">Amount</th>
+													<th scope="col" th:if="${i == 1}" th:text="${ 'Ksh ' + form1 + '/-'}">KSh 1000 /-</th>
+													<th scope="col" th:if="${i == 2}" th:text="${ 'Ksh ' + form2 + '/-'}">KSh 1000 /-</th>
+													<th scope="col" th:if="${i == 3}" th:text="${ 'Ksh ' + form3 + '/-'}">KSh 1000 /-</th>
+													<th scope="col" th:if="${i == 4}" th:text="${ 'Ksh ' + form4 + '/-'}">KSh 1000 /-</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
+											<th:block>
+												<tr>
+													<th scope="col">Balance</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col">Amount</th>
+													<th scope="col" th:if="${i == 1}">Ksh <span th:text="${form1} - ${total}">1000</span>/-</th>
+													<th scope="col" th:if="${i == 2}">KSh <span th:text="${form1} - ${total}">1000</span>/-</th>
+													<th scope="col" th:if="${i == 3}">KSh <span th:text="${form1} - ${total}">1000</span>/-</th>
+													<th scope="col" th:if="${i == 4}">KSh <span th:text="${form1} - ${total}">1000</span> /-</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
+										</th:block>
+										<thead>
+											<tr>
+												<th scope="col">First Name</th>
+												<th scope="col">Last Name</th>
+												<th scope="col">Adm No.</th>
+												<th scope="col">Date Paid</th>
+												<th scope="col">Amount</th>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
 						</div>
-
-
+-->
 
 					</div>
 

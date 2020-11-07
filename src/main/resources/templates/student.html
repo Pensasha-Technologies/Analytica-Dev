@@ -35,10 +35,10 @@
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
 							th:href="@{/schools/teacherHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+							th:href="@{/schools/{code}/students(code=${school.code})}">Students</a></li>
 						<li class="breadcrumb-item active" aria-current="page"
 							th:text="${student.firstname}">Student</li>
 					</ol>
@@ -54,8 +54,8 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="navbar-nav">
 								<a class="btn btn-primary"
-									th:href="@{/adminHome/schools/{code}/student/{admNo}/yearly(code=${school.code}, admNo=${student.admNo})}"
-									style="margin-left: 10px;"> Yearly Report </a>
+									th:href="@{/schools/{code}/editStudent/{admNo}(code=${school.code}, admNo = ${student.admNo})}"
+									style="margin-left: 10px;"> Edit Student </a>
 							</div>
 						</nav>
 					</div>
@@ -100,88 +100,73 @@
 								</tr>
 							</thead>
 							<tbody>
-								<th style="border-right: solid 1px #FFF">Group I</th>
-								<th></th>
-								<tr th:each="group1 : ${group1}">
-									<td th:text="${group1.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group1.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group II</th>
-								<th></th>
-								<tr th:each="group2 : ${group2}">
-									<td th:text="${group2.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group2.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group III</th>
-								<th></th>
-								<tr th:each="group3 : ${group3}">
-									<td th:text="${group3.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group3.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group IV</th>
-								<th></th>
-								<tr th:each="group4 : ${group4}">
-									<td th:text="${group4.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group4.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-								<th style="border-right: solid 1px #FFF">Group V</th>
-								<th></th>
-								<tr th:each="group5 : ${group5}">
-									<td th:text="${group5.name}"
-										style="border-right: solid 1px #FFF">Mark</td>
-									<td style="text-align: center;"><a
-										class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
-										th:data-href="@{/adminHome/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group5.initials})}"
-										data-target="#deleteSubjectModal"></a></td>
-								</tr>
-
+								<th:block
+									th:unless="${group1} and ${group1.size()} or ${group2} and ${group2.size()} or ${group3} and ${group3.size()} or ${group4} and ${group4.size()} or ${group5} and ${group5.size()}">
+									<p class="text text-center alert alert-warning">No subject
+										added</p>
+								</th:block>
+								<th:block th:if="${group1} and ${group1.size()}">
+									<th style="border-right: solid 1px #FFF">Group I</th>
+									<th></th>
+									<tr th:each="group1 : ${group1}">
+										<td th:text="${group1.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group1.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group2} and ${group2.size()}">
+									<th style="border-right: solid 1px #FFF">Group II</th>
+									<th></th>
+									<tr th:each="group2 : ${group2}">
+										<td th:text="${group2.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group2.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group3} and ${group3.size()}">
+									<th style="border-right: solid 1px #FFF">Group III</th>
+									<th></th>
+									<tr th:each="group3 : ${group3}">
+										<td th:text="${group3.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group3.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group4} and ${group4.size()}">
+									<th style="border-right: solid 1px #FFF">Group IV</th>
+									<th></th>
+									<tr th:each="group4 : ${group4}">
+										<td th:text="${group4.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code},admNo=${student.admNo}, initials=${group4.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
+								<th:block th:if="${group5} and ${group5.size()}">
+									<th style="border-right: solid 1px #FFF">Group V</th>
+									<th></th>
+									<tr th:each="group5 : ${group5}">
+										<td th:text="${group5.name}"
+											style="border-right: solid 1px #FFF">Mark</td>
+										<td style="text-align: center;"><a
+											class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+											th:data-href="@{/schools/{code}/students/{admNo}/subjects/{initials}(code=${school.code}, admNo=${student.admNo}, initials=${group5.initials})}"
+											data-target="#deleteSubjectModal"></a></td>
+									</tr>
+								</th:block>
 							</tbody>
 						</table>
-					</div>
-
-					<div>
-
-						<h4>Additional Information</h4>
-
-						<div class="table-responsive">
-							<table class="table">
-								<tbody>
-									<tr>
-										<th>Current Form</th>
-										<td th:text="${student.currentForm}">currentForm</td>
-									</tr>
-									<tr>
-										<th>Year Admitted</th>
-										<td th:text="${student.yearAdmitted}">yearAdmitted</td>
-									</tr>
-									<tr>
-										<th>Gender</th>
-										<td th:text="${student.gender}">gender</td>
-									</tr>
-									<tr>
-										<th>KCPE Marks</th>
-										<td th:text="${student.kcpeMarks}">KCPE Marks</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
 					</div>
 
 				</div>
@@ -214,7 +199,7 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addSubjectsForm"
-										th:action="@{/adminHome/schools/{code}/student/{admNo}/subjects(code = ${school.code}, admNo = ${student.admNo})}"
+										th:action="@{/schools/{code}/student/{admNo}/subjects(code = ${school.code}, admNo = ${student.admNo})}"
 										method="post">
 
 										<select id="selectYear" name="year">

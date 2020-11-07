@@ -91,7 +91,7 @@ public class Student {
 	@Max(value = 500)
 	private int kcpeMarks;
 
-	private int scholar;
+	private String scholar;
 
 	@NotNull
 	@Min(value = 1000, message="Year entered has an invalid format")
@@ -124,7 +124,7 @@ public class Student {
 			String birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
 			String f_email, String m_firstname, String m_secondname, String m_thirdname, int m_phoneNumber,
 			String m_email, String g_firstname, String g_secondname, String g_thirdname, int g_phoneNumber,
-			String g_email, String gender, String sponsor, int kcpeMarks, int scholar, int yearAdmitted,
+			String g_email, String gender, String sponsor, int kcpeMarks, String scholar, int yearAdmitted,
 			int currentForm, Collection<Form> forms, Stream stream, Collection<Year> years,
 			Collection<Subject> subjects, School school) {
 		super();
@@ -168,7 +168,7 @@ public class Student {
 			String birthNo, Date dob, String f_firstname, String f_secondname, String f_thirdname, int f_phoneNumber,
 			String f_email, String m_firstname, String m_secondname, String m_thirdname, int m_phoneNumber,
 			String m_email, String g_firstname, String g_secondname, String g_thirdname, int g_phoneNumber,
-			String g_email, String gender, String sponsor, int kcpeMarks, int scholar, int yearAdmitted,
+			String g_email, String gender, String sponsor, int kcpeMarks, String scholar, int yearAdmitted,
 			int currentForm) {
 		super();
 		this.firstname = firstname;
@@ -430,11 +430,11 @@ public class Student {
 		this.kcpeMarks = kcpeMarks;
 	}
 
-	public int getScholar() {
+	public String getScholar() {
 		return scholar;
 	}
 
-	public void setScholar(int scholar) {
+	public void setScholar(String scholar) {
 		this.scholar = scholar;
 	}
 

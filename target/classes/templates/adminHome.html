@@ -43,14 +43,11 @@
 						<nav class="navbar navbar-expand navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addSchoolModal">Add
-									School</button>
+								<a class="btn btn-primary" th:href="@{/addSchool}">Add
+									School</a>
 							</div>
 						</nav>
 					</div>
-
-
 
 					<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
 						School exists</div>
@@ -80,14 +77,14 @@
 									<td th:text="${school.code}">School code</td>
 									<td>
 										<div class="d-flex justify-content-center">
-											<a th:href="@{/adminHome/school/{code}(code=${school.code})}"
+											<a th:href="@{/school/{code}(code=${school.code})}"
 												class="btn btn-primary"> View </a>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a class="btn btn-danger" data-toggle="modal" href="#"
-												th:data-href="@{/adminHome/schools/{code}(code=${school.code})}"
+												th:data-href="@{/schools/{code}(code=${school.code})}"
 												data-target="#deleteModal">Delete</a>
 										</div>
 									</td>
@@ -162,7 +159,6 @@
 			</div>
 
 			<!-- Delete Model -->
-			<!-- Modal -->
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
 				aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">

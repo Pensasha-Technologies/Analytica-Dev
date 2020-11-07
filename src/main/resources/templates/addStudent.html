@@ -58,7 +58,7 @@
 							th:if="${activeUser.role.name == 'C.E.O'}"><a
 							th:href="@{/ceoHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Add
 							Student</li>
@@ -71,8 +71,13 @@
 					<div class="admissionForm">
 
 						<form id="regForm" action="" enctype="multipart/form-data"
-							th:action="@{/adminHome/schools/{code}/students(code=${school.code})}"
+							th:action="@{/schools/{code}/students(code=${school.code})}"
 							th:object="${student}" method="POST">
+
+							<p>
+								<img id="output" width="100"
+									style="display: block; margin-left: auto; margin-right: auto;" />
+							</p>
 
 							<h1>Student Information:</h1>
 							<br />
@@ -80,8 +85,10 @@
 							<!-- One "tab" for each step in the form: -->
 							<div class="tab">
 								<div class="form-group">
+
 									<label for="photo"> Student's Photo </label> <input type="file"
-										name="file" />
+											accept="image/*" name="file" id="file"
+											onchange="loadFile(event)" />
 								</div>
 								<div class="row">
 									<div class="form-group col-lg">
@@ -111,8 +118,11 @@
 								</div>
 								<br />
 								<div class="form-group">
-									<label for="gender"> Gender</label> <select required
-										th:field="*{gender}">
+									<label for="gender"> Gender</label> <input type="text"
+										name="gender" id="gender" placeholder="gender"
+										th:value="${school.gender}" readonly /> <select required
+										th:field="*{gender}"
+										th:unless="${school.gender == 'Male' || school.gender == 'Female'}">
 										<option value="">Select Gender ....</option>
 										<option value="Male">Male</option>
 										<option value="Female">Female</option>
@@ -187,7 +197,11 @@
 								</div>
 								<br />
 								<div class="form-group col-sm">
-									<label for="scholar">Scholar</label> <select id="stream"
+									<label for="scholar">Scholar</label> <input type="text"
+										th:value="${school.scholar}" name="scholar"
+										th:if="${school.scholar == 'Border' || school.scholar == 'Day'}"
+										readonly /> <select id="stream"
+										th:unless="${school.scholar == 'Day' || school.scholar == 'Border'}"
 										required>
 										<option value="">Select Scholar ...</option>
 										<option value="Boarding">Boarding</option>
@@ -412,6 +426,12 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	<script>
+		var loadFile = function(event) {
+			var image = document.getElementById('output');
+			image.src = URL.createObjectURL(event.target.files[0]);
+		};
+	</script>
 
 </body>
 

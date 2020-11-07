@@ -39,7 +39,7 @@
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Teachers</li>
 					</ol>
@@ -96,7 +96,7 @@
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
-												th:href="@{/adminHome/users/{username}(username=${teacher.username})}"
+												th:href="@{/profile/{username}(username=${teacher.username})}"
 												class="btn btn-primary"> View </a>
 										</div>
 									</td>

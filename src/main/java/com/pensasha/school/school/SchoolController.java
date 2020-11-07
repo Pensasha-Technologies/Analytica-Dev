@@ -1,96 +1,357 @@
 package com.pensasha.school.school;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import javax.validation.Valid;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
-@RestController
+import com.pensasha.school.discipline.Discipline;
+import com.pensasha.school.discipline.DisciplineService;
+import com.pensasha.school.exam.Mark;
+import com.pensasha.school.exam.MarkService;
+import com.pensasha.school.finance.FeeRecord;
+import com.pensasha.school.finance.FeeRecordService;
+import com.pensasha.school.finance.FeeStructure;
+import com.pensasha.school.finance.FeeStructureService;
+import com.pensasha.school.stream.Stream;
+import com.pensasha.school.stream.StreamService;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentService;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.subject.SubjectService;
+import com.pensasha.school.timetable.Timetable;
+import com.pensasha.school.timetable.TimetableService;
+import com.pensasha.school.user.User;
+import com.pensasha.school.user.UserService;
+import com.pensasha.school.year.Year;
+import com.pensasha.school.year.YearService;
+
+@Controller
 public class SchoolController {
 
-	@Autowired
 	private SchoolService schoolService;
+	private UserService userService;
+	private SubjectService subjectService;
+	private StudentService studentService;
+	private MarkService markService;
+	private TimetableService timetableService;
+	private StreamService streamService;
+	private YearService yearService;
+	private FeeRecordService feeRecordService;
+	private FeeStructureService feeStructureService;
+	private DisciplineService disciplineService;
 
-	// Getting all schools
-	@GetMapping("/api/schools")
-	public List<School> getAllSchools() {
-		return schoolService.getAllSchools();
+	public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService,
+			StudentService studentService, MarkService markService, TimetableService timetableService,
+			StreamService streamService, YearService yearService, FeeRecordService feeRecordService,
+			FeeStructureService feeStructureService, DisciplineService disciplineService) {
+		super();
+		this.schoolService = schoolService;
+		this.userService = userService;
+		this.subjectService = subjectService;
+		this.studentService = studentService;
+		this.markService = markService;
+		this.timetableService = timetableService;
+		this.streamService = streamService;
+		this.yearService = yearService;
+		this.feeRecordService = feeRecordService;
+		this.feeStructureService = feeStructureService;
+		this.disciplineService = disciplineService;
 	}
 
-	// getting school with school code
-	@GetMapping("/api/school/{code}")
-	public Optional<School> getSchool(@PathVariable int code) {
+	@GetMapping("/addSchool")
+	public String addSchoolGet(Model model, Principal principal) {
 
-		return schoolService.getSchool(code);
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = new School();
+		Student student = new Student();
+
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+		model.addAttribute("activeUser", activeUser);
+
+		return "addSchool";
 	}
 
-	// saving a school if not present
-	@PostMapping("/api/schools")
-	public String addSchool(@RequestBody School school) {
+	@GetMapping("/editSchool/{code}")
+	public String editSchool(@PathVariable int code, Model model, Principal principal) {
 
-		if (school.getCode() < 1) {
-			return "School code entry is incorrect";
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+		model.addAttribute("activeUser", activeUser);
+
+		return "editSchool";
+	}
+
+	@PostMapping("/editSchool/{s_code}")
+	public RedirectView saveSchoolEdits(@Valid School school,
+			BindingResult bindingResult, RedirectAttributes redit, @PathVariable int s_code) {
+
+		if (bindingResult.hasErrors()) {
+
+			RedirectView redirectView = new RedirectView("/editSchool/" + s_code, true);
+
+			return redirectView;
 		} else {
-			List<School> schools = new ArrayList<>();
-			schoolService.getAllSchools().forEach(schools::add);
 
-			for (int i = 0; i < schools.size(); i++) {
-				if (schools.get(i).getCode() == school.getCode()) {
-					return "school with code:" + school.getCode() + " already exists";
+			schoolService.addSchool(school);
+
+			redit.addFlashAttribute("success", "School successfully updated");
+
+			RedirectView redirectView = new RedirectView("/editSchool/" + s_code, true);
+
+			return redirectView;
+		}
+
+	}
+
+	@PostMapping("/schools")
+	public RedirectView addSchool(@RequestParam("file") MultipartFile file, @Valid School school,
+			BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
+
+		if (bindingResult.hasErrors()) {
+
+			RedirectView redirectView = new RedirectView("/adminHome", true);
+
+			return redirectView;
+
+		} else {
+
+			if (schoolService.doesSchoolExists(school.getCode()) == true) {
+
+				redit.addFlashAttribute("fail", "School with code:" + school.getCode() + " already exists");
+				RedirectView redirectView = new RedirectView("/adminHome", true);
+
+				return redirectView;
+
+			} else {
+
+				final String path = new File("src/main/resources/static/schImg").getAbsolutePath();
+				final String fileName = file.getOriginalFilename();
+
+				OutputStream out = null;
+				InputStream filecontent = null;
+
+				try {
+					out = new FileOutputStream(new File(path + File.separator + fileName));
+					filecontent = file.getInputStream();
+
+					int read = 0;
+					final byte[] bytes = new byte[1024];
+
+					while ((read = filecontent.read(bytes)) != -1) {
+						out.write(bytes, 0, read);
+					}
+
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					if (out != null) {
+						out.close();
+					}
+					if (filecontent != null) {
+						filecontent.close();
+					}
+				}
+
+				school.setLogo(fileName);
+
+				schoolService.addSchool(school);
+
+				redit.addFlashAttribute("success", "School with code:" + school.getCode() + " saved successfully");
+				RedirectView redirectView = new RedirectView("/adminHome", true);
+
+				return redirectView;
+			}
+		}
+
+	}
+
+	@GetMapping("/schools/{code}")
+	public RedirectView deleteSchool(@PathVariable int code, RedirectAttributes redit, Principal principal) {
+
+		if (schoolService.doesSchoolExists(code) == true) {
+
+			List<FeeStructure> feeStructures = feeStructureService.allFeeItemInSchool(code);
+
+			for (int j = 0; j < feeStructures.size(); j++) {
+				feeStructureService.deleteFeeStructureItem(feeStructures.get(j).getId());
+			}
+
+			List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+
+			for (int i = 0; i < subjects.size(); i++) {
+				List<School> schools = schoolService.getAllSchoolsWithSubject(subjects.get(i).getInitials());
+
+				schools.remove(schoolService.getSchool(code).get());
+				subjects.get(i).setSchools(schools);
+
+				subjectService.addSubject(subjects.get(i));
+			}
+
+			List<Student> students = studentService.getAllStudentsInSchool(code);
+			for (int i = 0; i < students.size(); i++) {
+
+				List<Mark> marks = markService.allMarks(students.get(i).getAdmNo());
+				for (int j = 0; j < marks.size(); j++) {
+					markService.deleteMark(marks.get(j).getId());
+				}
+
+				List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo());
+				for (int x = 0; x < feeRecords.size(); x++) {
+
+					feeRecordService.deleteFeeRecord(feeRecords.get(i).getId());
+				}
+
+				List<Discipline> disciplines = disciplineService
+						.allDisciplineReportForStudent(students.get(i).getAdmNo());
+
+				for (int k = 0; k < disciplines.size(); k++) {
+					disciplineService.deleteDisciplineReport(disciplines.get(k).getId());
+				}
+
+				studentService.deleteStudent(students.get(i).getAdmNo());
+
+			}
+
+			List<Timetable> timetableItems = timetableService.getALlTimetableItemsInSchoolByCode(code);
+			for (int i = 0; i < timetableItems.size(); i++) {
+
+				timetableService.deleteTimetableItem(timetableItems.get(i).getId());
+			}
+
+			List<Stream> streams = streamService.getStreamsInSchool(code);
+			for (int i = 0; i < streams.size(); i++) {
+				streamService.deleteStream(streams.get(i).getId());
+			}
+
+			schoolService.deleteSchool(code);
+
+			redit.addFlashAttribute("success", "School of code:" + code + " successfully deleted");
+		} else {
+			redit.addFlashAttribute("fail", "School of code:" + code + " does not exist");
+		}
+
+		RedirectView redirectView = new RedirectView("/adminHome", true);
+
+		return redirectView;
+	}
+
+	@GetMapping("/school/{code}")
+	public String school(@PathVariable int code, Model model, Principal principal) {
+
+		User activeUser = userService.getByUsername(principal.getName()).get();
+
+		if (schoolService.doesSchoolExists(code) == true) {
+
+			School school = schoolService.getSchool(code).get();
+
+			List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+
+			List<Subject> allSubjects = subjectService.getAllSubjects();
+
+			for (int i = 0; i < subjects.size(); i++) {
+				allSubjects.remove(subjects.get(i));
+			}
+
+			Student student = new Student();
+			List<Subject> group1 = new ArrayList<>();
+			List<Subject> group2 = new ArrayList<>();
+			List<Subject> group3 = new ArrayList<>();
+			List<Subject> group4 = new ArrayList<>();
+			List<Subject> group5 = new ArrayList<>();
+
+			for (int i = 0; i < subjects.size(); i++) {
+				if (subjects.get(i).getName().contains("Mathematics") || subjects.get(i).getName().contains("English")
+						|| subjects.get(i).getName().contains("Kiswahili")) {
+					group1.add(subjects.get(i));
+				} else if (subjects.get(i).getName().contains("Biology")
+						|| subjects.get(i).getName().contains("Physics")
+						|| subjects.get(i).getName().contains("Chemistry")) {
+					group2.add(subjects.get(i));
+				} else if (subjects.get(i).getInitials().contains("Hist")
+						|| subjects.get(i).getInitials().contains("Geo")
+						|| subjects.get(i).getInitials().contains("C.R.E")
+						|| subjects.get(i).getInitials().contains("I.R.E")
+						|| subjects.get(i).getInitials().contains("H.R.E")) {
+					group3.add(subjects.get(i));
+				} else if (subjects.get(i).getInitials().contains("Hsci")
+						|| subjects.get(i).getInitials().contains("AnD")
+						|| subjects.get(i).getInitials().contains("Agric")
+						|| subjects.get(i).getInitials().contains("Comp")
+						|| subjects.get(i).getInitials().contains("Avi")
+						|| subjects.get(i).getInitials().contains("Elec")
+						|| subjects.get(i).getInitials().contains("Pwr")
+						|| subjects.get(i).getInitials().contains("Wood")
+						|| subjects.get(i).getInitials().contains("Metal")
+						|| subjects.get(i).getInitials().contains("Bc")
+						|| subjects.get(i).getInitials().contains("Dnd")) {
+					group4.add(subjects.get(i));
+				} else {
+					group5.add(subjects.get(i));
 				}
 			}
 
-			schoolService.addSchool(school);
-			return "School with code:" + school.getCode() + " successfully saved";
-		}
-	}
+			Stream stream = new Stream();
+			List<Stream> streams = streamService.getStreamsInSchool(code);
+			List<Year> years = yearService.getAllYearsInSchool(code);
 
-	@PutMapping("/api/schools/{code}")
-	public String updateSchool(@PathVariable int code, @RequestBody School school) {
+			model.addAttribute("years", years);
+			model.addAttribute("streams", streams);
+			model.addAttribute("stream", stream);
+			model.addAttribute("group1", group1);
+			model.addAttribute("group2", group2);
+			model.addAttribute("group3", group3);
+			model.addAttribute("group4", group4);
+			model.addAttribute("group5", group5);
+			model.addAttribute("activeUser", activeUser);
+			model.addAttribute("student", student);
+			model.addAttribute("school", school);
+			model.addAttribute("subjects", allSubjects);
 
-		List<School> schools = new ArrayList<>();
-		schoolService.getAllSchools().forEach(schools::add);
-
-		for (int i = 0; i < schools.size(); i++) {
-
-			if ((schools.get(i).getCode()) == code) {
-				school.setYears(schools.get(i).getYears());
-				school.setUsers(schools.get(i).getUsers());
-
-				schoolService.updateSchool(school);
-				return "School updated successfully";
-			}
+			return "school";
 
 		}
 
-		return "School of code:" + school.getCode() + " not found";
+		else {
 
-	}
+			School school = new School();
+			Student student = new Student();
 
-	@DeleteMapping("/api/schools/{code}")
-	public String deleteSchool(@PathVariable int code) {
+			List<School> schools = schoolService.getAllSchools();
+			Stream stream = new Stream();
 
-		List<School> schools = new ArrayList<>();
-		schoolService.getAllSchools().forEach(schools::add);
+			model.addAttribute("stream", stream);
+			model.addAttribute("school", school);
+			model.addAttribute("activeUser", activeUser);
+			model.addAttribute("student", student);
+			model.addAttribute("schools", schools);
+			model.addAttribute("fail", "School with code:" + code + " does not exist");
 
-		for (int i = 0; i < schools.size(); i++) {
-			if ((schools.get(i).getCode()) == code) {
-
-				schoolService.deleteSchool(code);
-
-				return "Year successfully removed from school";
-			}
+			return "/adminHome";
 		}
-
-		return "Year not found";
 	}
 
 }

@@ -39,7 +39,7 @@
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Students</li>
 					</ol>
@@ -104,14 +104,14 @@
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
-												th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 												class="btn btn-primary"> View </a>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a class="btn btn-danger" data-toggle="modal" href="#"
-												th:data-href="@{/adminHome/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												th:data-href="@{/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 												data-target="#deleteStudentModal"> Delete </a>
 										</div>
 									</td>

@@ -21,7 +21,15 @@ public class School {
 
 	@Id
 	private int code;
-
+	private String address;
+	private int contactNumber;
+	private String logo;
+	private int fax;
+	private String email;
+	private String location;
+	private String gender;
+	private String scholar;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
 	private Collection<SchoolUser> users;
@@ -46,6 +54,26 @@ public class School {
 		super();
 		this.name = name;
 		this.code = code;
+	}
+
+	public School(String name, int code, String address, int contactNumber, String logo, int fax, String email,
+			String location, String gender, String scholar, Collection<SchoolUser> users, Collection<Subject> subjects,
+			Collection<Year> years, Collection<Student> students) {
+		super();
+		this.name = name;
+		this.code = code;
+		this.address = address;
+		this.contactNumber = contactNumber;
+		this.logo = logo;
+		this.fax = fax;
+		this.email = email;
+		this.location = location;
+		this.gender = gender;
+		this.scholar = scholar;
+		this.users = users;
+		this.subjects = subjects;
+		this.years = years;
+		this.students = students;
 	}
 
 	public School(String name, int code, Collection<SchoolUser> users, Collection<Subject> subjects, Collection<Year> years,
@@ -73,6 +101,70 @@ public class School {
 
 	public void setCode(int code) {
 		this.code = code;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getContactNumber() {
+		return contactNumber;
+	}
+
+	public void setContactNumber(int contactNumber) {
+		this.contactNumber = contactNumber;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public int getFax() {
+		return fax;
+	}
+
+	public void setFax(int fax) {
+		this.fax = fax;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getScholar() {
+		return scholar;
+	}
+
+	public void setScholar(String scholar) {
+		this.scholar = scholar;
 	}
 
 	public Collection<SchoolUser> getUsers() {

@@ -39,10 +39,10 @@
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principalHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+							th:href="@{/schools/{code}/students(code=${school.code})}">Students</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Marks
 							Entry</li>
 					</ol>
@@ -77,7 +77,7 @@
 
 					<div class="table-responsive">
 						<form
-							th:action="@{/adminHome/schools/{code}/marks/{exam}(code=${school.code}, exam=${exam})}"
+							th:action="@{/schools/{code}/marks/{exam}(code=${school.code}, exam=${exam})}"
 							th:method="Post">
 							<input type="hidden" th:value="${subject.initials}"
 								name="subject" /> <input type="hidden" th:value="${form}"

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +16,26 @@ public class FeeRecordService {
 	@Autowired
 	private FeeRecordRepository feeRecordRepository;
 
-	Pageable pageable = PageRequest.of(0, 5); 
+	//Get all fee record in school by year
+	public Page<FeeRecord> getAllFeeRecordInSchoolByYear(int pageNumber, int code, int year){
+		
+		Sort sort = Sort.by("amount").descending();
+		
+		Pageable pageable = PageRequest.of(pageNumber -1, 6, sort); 
+		
+		return feeRecordRepository.findByStudentSchoolCodeAndStudentSchoolYearsYear(code, year, pageable);
+	}
 	
-	//Get all fee records in school
-	public Page<FeeRecord> getAllFeeRecordInSchool(int code){
+	public List<FeeRecord>  getFeeRecordsInSchool(int code){
+		return feeRecordRepository.findByStudentSchoolCode(code);
+	}
+	
+	//Get all fee records in school pages
+	public Page<FeeRecord> getAllFeeRecordInSchool(int pageNumber, int code){
+		
+		Sort sort = Sort.by("amount").descending();
+			
+		Pageable pageable = PageRequest.of(pageNumber -1, 6, sort); 
 		
 		return feeRecordRepository.findByStudentSchoolCode(code, pageable);
 	}
