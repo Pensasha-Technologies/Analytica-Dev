@@ -38,6 +38,9 @@
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/schools/dosHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
 							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
@@ -99,8 +102,7 @@
 									<td th:text="${student.thirdname}">thirdname</td>
 									<td th:text="${student.currentForm}"></td>
 									<td th:text="${student.stream.stream}">stream</td>
-									<td
-										th:utext="${#strings.substringAfter(student.admNo,'_')}">admNo</td>
+									<td th:utext="${#strings.substringAfter(student.admNo,'_')}">admNo</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a

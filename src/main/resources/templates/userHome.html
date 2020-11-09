@@ -124,6 +124,13 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+					User exists</div>
+
+				<div class="alert alert-success" th:if="${success}"
+					th:text="${success}">User saved</div>
+
 				<div class="container d-flex justify-content-center">
 
 					<table id="userTable" th:if="${user.role.name != 'TEACHER'}"
@@ -136,7 +143,8 @@
 							</tr>
 							<tr th:if="${#httpServletRequest.remoteUser == user.username}">
 								<th>Password</th>
-								<td colspan="2"><a href="#"> Change Password </a></td>
+								<td colspan="2"><a href="#" data-toggle="modal"
+									data-target="#changePasswordModal"> Change Password </a></td>
 							</tr>
 							<tr>
 								<th>Address</th>
@@ -170,7 +178,8 @@
 							</tr>
 							<tr th:if="${#httpServletRequest.remoteUser == user.username}">
 								<th>Password</th>
-								<td colspan="2"><a href="#"> Change Password </a></td>
+								<td colspan="2"><a href="#" data-toggle="modal"
+									data-target="#changePasswordModal"> Change Password </a></td>
 							</tr>
 							<tr>
 								<th>Address</th>
@@ -196,6 +205,55 @@
 			<!-- Footer -->
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
+
+			<!-- Modal -->
+			<div class="modal fade" id="changePasswordModal" tabindex="-1"
+				role="dialog" aria-labelledby="changePasswordModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="changePasswordModalLabel">Change
+								password</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form class="loginForm"
+								th:action="@{/resetPassword/{username}(username = ${user.username})}"
+								method="post">
+								<div class="form-group">
+									<label for="currentPassword"
+										style="display: block; color: black; text-align: left; margin-bottom: -5px;">Enter
+										Current Password</label> <input type="password" id="currentPassword"
+										name="currentPassword" placeholder="Current Password">
+								</div>
+								<div class="form-group">
+									<label for="newPassword"
+										style="display: block; color: #012237; text-align: left; margin-bottom: -5px;">Enter
+										New Password</label> <input type="password" id="newPassword"
+										name="newPassword" placeholder="Enter New Password">
+								</div>
+								<div class="form-group">
+									<label for="confirmNewPassword"
+										style="display: block; color: #012237; text-align: left; margin-bottom: -5px;">Confirm
+										New Password</label> <input type="password" id="confirmNewPassword"
+										name="confirmNewPassword" placeholder="Confirm New Password">
+								</div>
+
+								<button class="btn btn-primary" id="login">Change
+									Password</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 		<!-- End of Content Wrapper -->

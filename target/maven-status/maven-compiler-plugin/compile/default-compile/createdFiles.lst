@@ -25,6 +25,7 @@ com/pensasha/school/timetable/Timetable.class
 com/pensasha/school/form/Form.class
 com/pensasha/school/subject/Subject.class
 com/pensasha/school/school/SchoolController.class
+com/pensasha/school/stream/StreamController.class
 com/pensasha/school/finance/FeeRecordRepository.class
 com/pensasha/school/config/CommandLineAppStartupRunner.class
 com/pensasha/school/role/RoleRepository.class

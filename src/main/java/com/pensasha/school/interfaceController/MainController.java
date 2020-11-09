@@ -127,7 +127,97 @@ public class MainController {
 
 		return "login";
 	}
-	
+
+	@GetMapping("changePassword")
+	public String changePassword(Model model) {
+
+		User user = new User();
+
+		model.addAttribute("activeUser", user);
+
+		return "changePassword";
+
+	}
+
+	@PostMapping("/resetPassword/{username}")
+	public String postResetPassword(RedirectAttributes redit, @PathVariable String username,
+			@RequestParam String currentPassword, @RequestParam String newPassword,
+			@RequestParam String confirmNewPassword) {
+
+		User user = userService.getByUsername(username).get();
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+		if (newPassword.contentEquals(confirmNewPassword) != true) {
+
+			redit.addFlashAttribute("fail", "New password and Confirm Password do not match");
+		} else if (encoder.matches(currentPassword, user.getPassword()) != true) {
+		
+			redit.addFlashAttribute("fail", "Current Password is incorrect");
+		} else {
+
+			user.setPassword(encoder.encode(newPassword));
+			userService.addUser(user);
+
+			redit.addFlashAttribute("success", "Password changed successfully");
+		}
+
+		return "redirect:/profile/" + username;
+
+	}
+
+	@PostMapping("/changePassword")
+	public String postChangePassword(Model model, @RequestParam int phoneNumber, @RequestParam String username) {
+
+		User user = new User();
+
+		model.addAttribute("activeUser", user);
+
+		if (userService.userExists(username) == true) {
+
+			User testUser = userService.getByUsername(username).get();
+
+			if (testUser.getPhoneNumber() == phoneNumber) {
+
+				String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
+				int partnerId = 1989;
+				String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
+				String shortCode = "analytica";
+
+				Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+				Random random = new Random();
+				int otp = random.nextInt(9999);
+				otp += 1;
+
+				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+				testUser.setPassword(encoder.encode(Integer.toString(otp)));
+				userService.addUser(testUser);
+
+				try {
+					String res = gateway.sendSingleSms(
+							"Your Username is: " + testUser.getUsername() + " password is: " + otp
+									+ "Thanks for Registering with Analytica Soft.",
+							Integer.toString(testUser.getPhoneNumber()));
+					System.out.println(res);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				model.addAttribute("success", "Password send to phone Number");
+				return "login";
+			} else {
+				model.addAttribute("fail", "Phone number does not match");
+				return "changePassword";
+			}
+		} else {
+
+			model.addAttribute("fail", "A user with this username does not exist");
+
+			return "changePassword";
+		}
+
+	}
+
 	@GetMapping("/adminHome")
 	public String allSchool(Model model, Principal principal) {
 
@@ -269,11 +359,10 @@ public class MainController {
 
 		Student student = new Student();
 		User activeUser = userService.getByUsername(principal.getName()).get();
-		
+
 		School school = schoolService.getSchool(code).get();
 		Stream streamObj = streamService.getStream(stream);
 
-		
 		List<Timetable> savedTimetable = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
 				stream);
 
@@ -292,7 +381,7 @@ public class MainController {
 
 			timetableService.saveTimetableItem(savedTimetable.get(i));
 		}
-		
+
 		List<Timetable> finalTimetables = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
 				stream);
 
@@ -395,7 +484,7 @@ public class MainController {
 
 	@GetMapping("/schools/users/{username}")
 	public String deleteSchoolUser(@PathVariable String username, RedirectAttributes redit, Principal principal) {
-	
+
 		if (userService.userExists(username) == true) {
 
 			if (username.contentEquals(principal.getName())) {
@@ -493,7 +582,7 @@ public class MainController {
 		 * 
 		 */
 		// }
-	
+
 		redit.addFlashAttribute("success", "Message sent successfully");
 
 		return "redirect:/principalHome";
@@ -692,7 +781,6 @@ public class MainController {
 			}
 		}
 
-	
 		return "redirect:/teacherHome";
 
 	}
@@ -722,9 +810,28 @@ public class MainController {
 	public String addTeacher(RedirectAttributes redit, @RequestParam String role, @RequestParam int code,
 			@ModelAttribute SchoolUser user, Principal principal) {
 
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
+		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
+		int partnerId = 1989;
+		String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
+		String shortCode = "analytica";
 
+		Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+		Random random = new Random();
+		int otp = random.nextInt(9999);
+		otp += 1;
+
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(Integer.toString(otp)));
+		
+		try {
+			String res = gateway.sendSingleSms("Your Username is: "+ user.getUsername() + " password is:" + otp, Integer.toString(user.getPhoneNumber()));
+			System.out.println(res);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		
 		Role roleObj = new Role();
 		user.setSchool(new School("", code));
 		roleObj.setName("TEACHER");
@@ -766,7 +873,6 @@ public class MainController {
 			redit.addFlashAttribute("fail", "A teacher with username " + username + " does not exist");
 		}
 
-
 		return "redirect:/school/teachers";
 	}
 
@@ -792,7 +898,7 @@ public class MainController {
 	public String dosHome(Model model, Principal principal) {
 
 		SchoolUser activeUser = (SchoolUser) userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(activeUser.getSchool().getCode()).get();
+		School school = activeUser.getSchool();
 		Student student = new Student();
 		User user = new User();
 		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
@@ -922,7 +1028,7 @@ public class MainController {
 
 		feeStructureService.addItem(feeStructure);
 
-		return "redirect:/schools/bursarHome/createStructure/"+classes;
+		return "redirect:/schools/bursarHome/createStructure/" + classes;
 
 	}
 
@@ -931,8 +1037,8 @@ public class MainController {
 			@PathVariable int id) {
 
 		feeStructureService.deleteFeeStructureItem(id);
-		
-		return "redirect:/schools/bursarHome/createStructure/"+classes;
+
+		return "redirect:/schools/bursarHome/createStructure/" + classes;
 	}
 
 	@GetMapping("/schools/accountsClerkHome")
@@ -1349,8 +1455,7 @@ public class MainController {
 
 		List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(admNo);
 		List<FeeStructure> feeStructure = feeStructureService.allFeeItemInSchool(code);
-		
-		
+
 		model.addAttribute("feeStructure", feeStructure);
 		model.addAttribute("feeRecords", feeRecords);
 		model.addAttribute("user", user);

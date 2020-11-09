@@ -896,7 +896,7 @@
 		<!-- End Marks Sheel Model -->
 
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'TEACHER'}"><a
 			class="nav-link" data-toggle="modal" data-target="#timetableModal">
 				<i class="fas fa-fw fa-table"></i> <span> Timetable </span>
 		</a></li>

@@ -32,6 +32,9 @@
 							th:if="${activeUser.role.name == 'ADMIN'}"><a
 							th:href="@{/adminHome}">Home</a></li>
 						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/schools/dosHome}">Home</a></li>
+						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
 							th:href="@{/schools/teacherHome}">Home</a></li>
 						<li class="breadcrumb-item"><a

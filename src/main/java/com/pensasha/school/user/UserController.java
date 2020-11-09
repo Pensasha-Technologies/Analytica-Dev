@@ -1,8 +1,10 @@
 package com.pensasha.school.user;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,7 @@ import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleService;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.sms.Gateway;
 import com.pensasha.school.student.Student;
 
 @Controller
@@ -115,9 +118,6 @@ public class UserController {
 
 		} else {
 
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
-
 			Role roleObj = new Role();
 
 			switch (role) {
@@ -136,6 +136,30 @@ public class UserController {
 			default:
 				break;
 			}
+			
+			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
+			int partnerId = 1989;
+			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
+			String shortCode = "analytica";
+
+			Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+			Random random = new Random();
+			int otp = random.nextInt(9999);
+			otp += 1;
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(encoder.encode(Integer.toString(otp)));
+			
+			try {
+				String res = gateway.sendSingleSms("Your Username is: "+ user.getUsername() + " password is:" + otp, Integer.toString(user.getPhoneNumber()));
+				System.out.println(res);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
+		
 
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
@@ -165,9 +189,6 @@ public class UserController {
 			redit.addFlashAttribute("fail", "A user with username " + user.getUsername() + " already exists");
 
 		} else {
-
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
 
 			user.setSchool(new School("", code));
 
@@ -203,12 +224,35 @@ public class UserController {
 				break;
 			}
 
+			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
+			int partnerId = 1989;
+			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
+			String shortCode = "analytica";
+
+			Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+
+			Random random = new Random();
+			int otp = random.nextInt(9999);
+			otp += 1;
+
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			
+
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
 			if (user.getRole().getName() == "TEACHER") {
+				teacher.setPassword(encoder.encode(Integer.toString(otp)));
 				userService.addUser(teacher);
 			} else {
+				user.setPassword(encoder.encode(Integer.toString(otp)));
 				userService.addUser(user);
+			}
+
+			try {
+				String res = gateway.sendSingleSms("Your Username is: "+ user.getUsername() + " password is:" + otp, Integer.toString(user.getPhoneNumber()));
+				System.out.println(res);
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
@@ -216,7 +260,12 @@ public class UserController {
 
 		if (activeUser.getRole().getName().equals("PRINCIPAL")) {
 
-			RedirectView redirectView = new RedirectView("principalHome", true);
+			RedirectView redirectView = new RedirectView("/schools/principal", true);
+
+			return redirectView;
+
+		} else if (activeUser.getRole().getName().contains("DEPUTYPRINCIPAL")) {
+			RedirectView redirectView = new RedirectView("/schools/deputyPrincipal", true);
 
 			return redirectView;
 
@@ -319,17 +368,15 @@ public class UserController {
 			redit.addFlashAttribute("fail", "A user with username:" + username + " does not exist");
 		}
 
-		
 		if (activeUser.getRole().getName().contains("PRINCIPAL")) {
-			RedirectView redirectView = new RedirectView("principalHome", true);
-			
+			RedirectView redirectView = new RedirectView("/schools/principal", true);
+
 			return redirectView;
 		} else {
 			RedirectView redirectView = new RedirectView("/schoolUsers", true);
-			
+
 			return redirectView;
 		}
-		
 
 	}
 }

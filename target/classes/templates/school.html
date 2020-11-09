@@ -50,6 +50,9 @@
 							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
 							th:href="@{/schools/deputyPrincipal}">Home</a></li>
 						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/schools/dosHome}">Home</a></li>
+						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item active" aria-current="page"
