@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SchoolUserRepository extends JpaRepository<SchoolUser, String>{
 
 	public List<SchoolUser> findBySchoolCode(int code);
+	
+	public SchoolUser findByUsername(String username);
 }

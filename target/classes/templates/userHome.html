@@ -165,16 +165,29 @@
 						<tbody>
 							<tr>
 								<th>Subject Combination</th>
-								<td>Mathematics</td>
-								<td colspan="2">English</td>
+								<th:block th:each="subject : ${teacher.subjects}">
+									<td th:text="${subject.name}">Subjects</td>
+									<td>
+										<div class="d-flex justify-content-center">
+											<a class="fa fa-trash deleteBtn" data-toggle="modal" href="#"
+												th:data-href="@{/teachers/{username}/subjects/{initials}(username=${user.username}, initials=${subject.initials})}"
+												data-target="#deleteModal"></a>
+
+										</div>
+									</td>
+								</th:block>
+								<td th:if="${teacher.subjects.size() < 2}">
+									<button data-toggle="modal" data-target="#addSubjectsModal"
+										class="btn btn-primary">Add Subject</button>
+								</td>
 							</tr>
 							<tr>
 								<th>Teachers Number</th>
-								<td colspan="2">1634</td>
+								<td colspan="2" th:text="${teacher.teacherNumber}">1634</td>
 							</tr>
 							<tr>
 								<th>TSC Number</th>
-								<td colspan="2">132243523</td>
+								<td colspan="2" th:text="${teacher.tscNumber}">132243523</td>
 							</tr>
 							<tr th:if="${#httpServletRequest.remoteUser == user.username}">
 								<th>Password</th>
@@ -183,15 +196,15 @@
 							</tr>
 							<tr>
 								<th>Address</th>
-								<td colspan="2">305 Kisumu</td>
+								<td colspan="2" th:text="${user.address}">305 Kisumu</td>
 							</tr>
 							<tr>
 								<th>Email</th>
-								<td colspan="2">samuelobunge@gmail.com</td>
+								<td colspan="2" th:text="${user.email}">samuelobunge@gmail.com</td>
 							</tr>
 							<tr>
 								<th>Initials</th>
-								<td colspan="2">S.O.O</td>
+								<td colspan="2" th:text="${teacher.initials}">S.O.O</td>
 							</tr>
 						</tbody>
 					</table>
@@ -255,6 +268,86 @@
 				</div>
 			</div>
 
+			<!-- Add subjects model -->
+			<div class="modal fade" id="addSubjectsModal" tabindex="-1"
+				role="dialog" aria-labelledby="addSubjectsModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addSubjectsModalLabel">Add
+								Subjects</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addSubjectsForm"
+										th:action="@{/teachers/{username}/subjects(username=${user.username})}"
+										method="post">
+
+										<h1>Subjects</h1>
+
+										<div th:unless="${subjects} and ${subjects.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No
+												Subjects in School</p>
+										</div>
+										<div class="form-check" th:each="subject : ${subjects}">
+											<input class="form-check-input" type="checkbox"
+												th:value="${subject.initials}" th:id="${subject.initials}"
+												th:name="${subject.initials}"> <label
+												class="form-check-label" th:for="${subject.initials}"
+												th:text="${subject.name}"> Subject Name </label>
+										</div>
+
+										<input type="submit" value="Add Subjects" />
+
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Delete Model -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteModalLabel">Delete
+								Stream</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">Are you sure you want to delete this
+								stream?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete</button>
+							<a class="btn btn-danger ok-button">Yes! Delete</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
 		</div>
 		<!-- End of Content Wrapper -->
 
@@ -268,6 +361,14 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	<script>
+		$('#deleteModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 </body>
 
 </html>

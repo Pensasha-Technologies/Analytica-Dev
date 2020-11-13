@@ -18,19 +18,26 @@ public class UserService {
 	private UserRepository userRepository;
 	private SchoolRepository schoolRepository;
 	private SchoolUserRepository schoolUserRepository;
-
+	private TeacherRepository teacherRepository;
+	
 	public UserService(RoleRepository roleRepository, UserRepository userRepository, SchoolRepository schoolRepository,
-			SchoolUserRepository schoolUserRepository) {
+			SchoolUserRepository schoolUserRepository, TeacherRepository teacherRepository) {
 		super();
 		this.roleRepository = roleRepository;
 		this.userRepository = userRepository;
 		this.schoolRepository = schoolRepository;
 		this.schoolUserRepository = schoolUserRepository;
+		this.teacherRepository = teacherRepository;
 	}
 
 	// Get user by username
 	public Optional<User> getByUsername(String username) {
 		return userRepository.findById(username);
+	}
+	
+	//Get school user by username
+	public SchoolUser getSchoolUserByUsername(String username){
+		return schoolUserRepository.findByUsername(username);
 	}
 
 	// Getting all users in the system
@@ -63,6 +70,11 @@ public class UserService {
 	// Getting users in a school
 	public List<SchoolUser> getUsersBySchoolCode(int code) {
 		return schoolUserRepository.findBySchoolCode(code);
+	}
+	
+	//Getting a teacher in school
+	public Teacher gettingTeacherByUsername(String username) {
+		return teacherRepository.findByUsername(username);
 	}
 
 	//// Adding System Users ////
@@ -102,6 +114,10 @@ public class UserService {
 
 	public User addUser(User user) {
 		return userRepository.save(user);
+	}
+	
+	public Teacher addUser(Teacher teacher) {
+		return userRepository.save(teacher);
 	}
 
 	// Adding school principal

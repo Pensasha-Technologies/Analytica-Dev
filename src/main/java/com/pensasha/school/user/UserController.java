@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -25,6 +26,8 @@ import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.sms.Gateway;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.subject.SubjectService;
 
 @Controller
 public class UserController {
@@ -32,12 +35,15 @@ public class UserController {
 	private UserService userService;
 	private SchoolService schoolService;
 	private RoleService roleService;
+	private SubjectService subjectService;
 
-	public UserController(UserService userService, SchoolService schoolService, RoleService roleService) {
+	public UserController(UserService userService, SchoolService schoolService, RoleService roleService,
+			SubjectService subjectService) {
 		super();
 		this.userService = userService;
 		this.schoolService = schoolService;
 		this.roleService = roleService;
+		this.subjectService = subjectService;
 	}
 
 	// All users function
@@ -136,7 +142,7 @@ public class UserController {
 			default:
 				break;
 			}
-			
+
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -150,16 +156,16 @@ public class UserController {
 
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(Integer.toString(otp)));
-			
+
 			try {
-				String res = gateway.sendSingleSms("Your Username is: "+ user.getUsername() + " password is:" + otp, Integer.toString(user.getPhoneNumber()));
+				String res = gateway.sendSingleSms("Your Username is: " + user.getUsername() + " password is:" + otp,
+						Integer.toString(user.getPhoneNumber()));
 				System.out.println(res);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
-		
 
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
@@ -236,7 +242,6 @@ public class UserController {
 			otp += 1;
 
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			
 
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
@@ -249,7 +254,8 @@ public class UserController {
 			}
 
 			try {
-				String res = gateway.sendSingleSms("Your Username is: "+ user.getUsername() + " password is:" + otp, Integer.toString(user.getPhoneNumber()));
+				String res = gateway.sendSingleSms("Your Username is: " + user.getUsername() + " password is:" + otp,
+						Integer.toString(user.getPhoneNumber()));
 				System.out.println(res);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -302,6 +308,21 @@ public class UserController {
 				school = new School();
 			}
 			User user = userService.getByUsername(username).get();
+
+			if (user.getRole().getName().contains("TEACHER")) {
+				Teacher teacher = userService.gettingTeacherByUsername(username);
+				List<Subject> subjects = subjectService.getAllSubjectInSchool(teacher.getSchool().getCode());
+
+				for (int i = 0; i < teacher.getSubjects().size(); i++) {
+					if (subjects.contains(teacher.getSubjects().get(i))) {
+						subjects.remove(teacher.getSubjects().get(i));
+					}
+				}
+
+				model.addAttribute("subjects", subjects);
+				model.addAttribute("teacher", teacher);
+
+			}
 
 			Student student = new Student();
 

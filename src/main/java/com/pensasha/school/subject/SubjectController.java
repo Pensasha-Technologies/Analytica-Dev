@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
@@ -19,6 +20,8 @@ import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
+import com.pensasha.school.user.Teacher;
+import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
 
@@ -30,15 +33,48 @@ public class SubjectController {
 	private StudentService studentService;
 	private FormService formService;
 	private YearService yearService;
-
+	private UserService userService;
+	
 	public SubjectController(SchoolService schoolService, SubjectService subjectService, StudentService studentService,
-			FormService formService, YearService yearService) {
+			FormService formService, YearService yearService, UserService userService) {
 		super();
 		this.schoolService = schoolService;
 		this.subjectService = subjectService;
 		this.studentService = studentService;
 		this.formService = formService;
 		this.yearService = yearService;
+		this.userService = userService;
+	}
+
+	@PostMapping("teachers/{username}/subjects")
+	public String addSubjectToTeacher(Model model, Principal principal, @PathVariable String username, HttpServletRequest request) {
+		
+		Teacher teacher = userService.gettingTeacherByUsername(username);
+		
+		List<Subject> allSubjects = subjectService.getAllSubjectInSchool(teacher.getSchool().getCode());
+		List<Subject> subjects = teacher.getSubjects();
+		
+		for (int i = 0; i < allSubjects.size(); i++) {
+			if (request.getParameter(allSubjects.get(i).getInitials()) != null) {
+				subjects.add(subjectService.getSubject(allSubjects.get(i).getInitials()));
+			}
+		}
+		
+		teacher.setSubjects(subjects);
+		userService.addUser(teacher);
+		
+		return "redirect:/profile/{username}";
+	}
+	
+	@GetMapping("/teachers/{username}/subjects/{initials}")
+	public String deleteSubjectFromTeacher(RedirectAttributes redit, Principal principal, @PathVariable String username, @PathVariable String initials) {
+
+		Teacher teacher = userService.gettingTeacherByUsername(username);
+		teacher.getSubjects().remove(subjectService.getSubject(initials));
+		
+		userService.addUser(teacher);
+		
+		return "redirect:/profile/{username}";
 	}
 
 	@PostMapping("/school/{code}/subjects")
