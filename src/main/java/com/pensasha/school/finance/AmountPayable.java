@@ -18,6 +18,13 @@ public class AmountPayable {
 	
 	@OneToOne
 	private Term term;
+	
+	public AmountPayable(int id, int amount, Term term) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.term = term;
+	}
 
 	public AmountPayable(int amount, Term term) {
 		super();
@@ -32,6 +39,14 @@ public class AmountPayable {
 
 	public AmountPayable() {
 		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getAmount() {

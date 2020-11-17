@@ -95,27 +95,27 @@
 									</tr>
 									<tr th:if="${feeStructures.size() > 0}">
 										<td>Amount Payable Term 1</td>
-										<td></td>
 										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td></td>
+										<td><a th:if="${term1 != null}" th:href="@{/school/forms/{form}/terms/1/amountPayable/{id}(form = ${form}, id = ${term1.id})}" class="btn btn-danger">Delete</a></td>
 										<td><button th:if="${term1 == null}" class="btn btn-primary" data-toggle="modal"
 											data-target="#addTerm1AmountModal"> Add </button></td>
-											<td></td>
 									</tr>
 									<tr th:if="${feeStructures.size() > 0}">
 										<td>Amount Payable Term 2</td>
+										<td><span th:if="${term2 != null}" th:text="${term2.amount}"></span></td>
 										<td></td>
-										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td><a th:if="${term2 != null}" th:href="@{/school/forms/{form}/terms/2/amountPayable/{id}(form = ${form}, id = ${term2.id} )}" class="btn btn-danger">Delete</a></td>
 										<td><button th:if="${term2 == null}"  class="btn btn-primary" data-toggle="modal"
 											data-target="#addTerm2AmountModal"> Add </button></td>
-										<td></td>
 									</tr>
 									<tr th:if="${feeStructures.size() > 0}">
 										<td>Amount Payable Term 3</td>
+										<td><span th:if="${term3 != null}" th:text="${term3.amount}"></span></td>
 										<td></td>
-										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td><a th:if="${term3 != null}" th:href="@{/school/forms/{form}/terms/3/amountPayable/{id}(form = ${form}, id = ${term3.id})}" class="btn btn-danger">Delete</a></td>
 										<td><button th:if="${term3 == null}"  class="btn btn-primary" data-toggle="modal"
 											data-target="#addTerm3AmountModal"> Add </button></td>
-										<td></td>
 									</tr>
 								</tbody>
 							</table>
@@ -204,14 +204,14 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addUserForm"
-										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										th:action="@{/school/forms/{form}/terms/1/amountPayable(form = ${form})}"
 										method="post">
 
 										<div class="form-group">
 											<label for="cost"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Amount</label> <input type="number" id="term1Amount"
-												name="term1Amount" placeholder="Enter Amount" required />
+												name="amount" placeholder="Enter Amount" required />
 										</div>
 
 										<button class="btn btn-primary" type="submit"
@@ -250,14 +250,14 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addUserForm"
-										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										th:action="@{/school/forms/{form}/terms/2/amountPayable(form = ${form})}"
 										method="post">
 
 										<div class="form-group">
 											<label for="cost"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Amount</label> <input type="number" id="term1Amount"
-												name="term1Amount" placeholder="Enter Amount" required />
+												Amount</label> <input type="number" id="term2Amount"
+												name="amount" placeholder="Enter Amount" required />
 										</div>
 
 										<button class="btn btn-primary" type="submit"
@@ -296,14 +296,14 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addUserForm"
-										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										th:action="@{/school/forms/{form}/terms/3/amountPayable(form = ${form})}"
 										method="post">
 
 										<div class="form-group">
 											<label for="cost"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												Amount</label> <input type="number" id="term1Amount"
-												name="term1Amount" placeholder="Enter Amount" required />
+												Amount</label> <input type="number" id="term3Amount"
+												name="amount" placeholder="Enter Amount" required />
 										</div>
 
 										<button class="btn btn-primary" type="submit"

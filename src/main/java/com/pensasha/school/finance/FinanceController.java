@@ -140,9 +140,29 @@ public class FinanceController {
 		
 	}
 
-	@PostMapping("school/term/amountPayable")
-	public String addTermAmountPayable(RedirectAttributes redit){
+	@PostMapping("/school/forms/{form}/terms/{term}/amountPayable")
+	public String addTermAmountPayable(Principal principal, RedirectAttributes redit, @PathVariable int form,@PathVariable int term, @RequestParam int amount){
 		
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
+		
+		AmountPayable amountPayable = new AmountPayable();
+		amountPayable.setAmount(amount);
+		
+		Term termObj = termService.getOneTerm(term, form, school.getCode());
+		
+		amountPayable.setTerm(termObj);
+		amountPayableService.addAmountPayable(amountPayable);
+		
+		return "redirect:/schools/bursarHome/createStructure/" + form;
+	}
+	
+	@GetMapping("/school/forms/{form}/terms/{term}/amountPayable/{id}")
+	public String deleteAmountPayable(Principal principal, RedirectAttributes redit, @PathVariable int form,@PathVariable int term, @PathVariable int id) {
+		
+		amountPayableService.deleteAmountPayable(id);
+		
+		return "redirect:/schools/bursarHome/createStructure/" + form;
 	}
 	
 	@PostMapping("/schools/bursarHome/createStructure/{classes}/items")
