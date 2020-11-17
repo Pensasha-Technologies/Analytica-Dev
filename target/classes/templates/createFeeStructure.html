@@ -84,6 +84,39 @@
 											th:href="@{/schools/bursarHome/createStructure/{classes}/items/{id}(classes = ${form}, id = ${feeStructure.id})}">
 												Delete </a></td>
 									</tr>
+									<tr th:if="${feeStructures.size() > 0}">
+										<th>Total</th>
+										<td></td>
+										<th
+											th:text="${'Ksh ' + #aggregates.sum(feeStructures.![cost])} + '/-'">
+											total amount</th>
+										<td></td>
+										<td></td>
+									</tr>
+									<tr th:if="${feeStructures.size() > 0}">
+										<td>Amount Payable Term 1</td>
+										<td></td>
+										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td><button th:if="${term1 == null}" class="btn btn-primary" data-toggle="modal"
+											data-target="#addTerm1AmountModal"> Add </button></td>
+											<td></td>
+									</tr>
+									<tr th:if="${feeStructures.size() > 0}">
+										<td>Amount Payable Term 2</td>
+										<td></td>
+										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td><button th:if="${term2 == null}"  class="btn btn-primary" data-toggle="modal"
+											data-target="#addTerm2AmountModal"> Add </button></td>
+										<td></td>
+									</tr>
+									<tr th:if="${feeStructures.size() > 0}">
+										<td>Amount Payable Term 3</td>
+										<td></td>
+										<td><span th:if="${term1 != null}" th:text="${term1.amount}"></span></td>
+										<td><button th:if="${term3 == null}"  class="btn btn-primary" data-toggle="modal"
+											data-target="#addTerm3AmountModal"> Add </button></td>
+										<td></td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -135,7 +168,7 @@
 												name="cost" placeholder="Enter Cost" required />
 										</div>
 
-										<button class="btn btn-primary fadeIn fourth" type="submit"
+										<button class="btn btn-primary" type="submit"
 											style="margin-top: 10px;">Add Item</button>
 									</form>
 								</div>
@@ -149,6 +182,145 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- Add Amount Payable Term 1 model -->
+			<!-- Modal -->
+			<div class="modal fade" id="addTerm1AmountModal" tabindex="-1"
+				role="dialog" aria-labelledby="addTerm1AmountModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addTerm1AmountModalLabel">Add
+								Term 1 Amount Payable</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addUserForm"
+										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										method="post">
+
+										<div class="form-group">
+											<label for="cost"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Amount</label> <input type="number" id="term1Amount"
+												name="term1Amount" placeholder="Enter Amount" required />
+										</div>
+
+										<button class="btn btn-primary" type="submit"
+											style="margin-top: 10px;">Add</button>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Add Amount Payable Term 2 model -->
+			<!-- Modal -->
+			<div class="modal fade" id="addTerm2AmountModal" tabindex="-1"
+				role="dialog" aria-labelledby="addTerm2AmountModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addTerm2AmountModalLabel">Add
+								Term 2 Amount Payable</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addUserForm"
+										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										method="post">
+
+										<div class="form-group">
+											<label for="cost"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Amount</label> <input type="number" id="term1Amount"
+												name="term1Amount" placeholder="Enter Amount" required />
+										</div>
+
+										<button class="btn btn-primary" type="submit"
+											style="margin-top: 10px;">Add</button>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Add Amount Payable Term 3 model -->
+			<!-- Modal -->
+			<div class="modal fade" id="addTerm3AmountModal" tabindex="-1"
+				role="dialog" aria-labelledby="addTerm3AmountModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addTerm3AmountModalLabel">Add
+								Term 3 Amount Payable</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addUserForm"
+										th:action="@{/schools/bursarHome/createStructure/{classes}/items(classes=${form})}"
+										method="post">
+
+										<div class="form-group">
+											<label for="cost"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Amount</label> <input type="number" id="term1Amount"
+												name="term1Amount" placeholder="Enter Amount" required />
+										</div>
+
+										<button class="btn btn-primary" type="submit"
+											style="margin-top: 10px;">Add</button>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 
 		</div>
 		<!-- End of Content Wrapper -->

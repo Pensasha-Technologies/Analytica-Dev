@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -185,8 +184,8 @@ public class UserController {
 	@PostMapping("/schoolUsers")
 	public RedirectView addSchoolUsers(RedirectAttributes redit, @RequestParam String role,
 			@ModelAttribute SchoolUser user, @RequestParam int code, Principal principal, HttpServletRequest request) {
-
-		Teacher teacher = new Teacher();
+		
+		
 		Role roleObj = new Role();
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
@@ -197,6 +196,7 @@ public class UserController {
 		} else {
 
 			user.setSchool(new School("", code));
+			Teacher teacher = new Teacher();
 
 			switch (role) {
 			case "Principal":
@@ -215,6 +215,7 @@ public class UserController {
 				roleObj.setName("ACCOUNTSCLERK");
 				break;
 			case "teacher":
+				
 				teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(),
 						user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(),
 						user.getAddress());

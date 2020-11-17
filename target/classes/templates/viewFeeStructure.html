@@ -78,7 +78,7 @@
 										<td th:text="${feeStructure.name}">Name</td>
 										<td th:text="${'Ksh ' + feeStructure.cost + ' /-'}">Cost</td>
 									</tr>
-									<tr>
+									<tr th:if="${feeStructures.size() > 0}">
 										<th>Total</th>
 										<td></td>
 										<th th:text="${'Ksh ' + #aggregates.sum(feeStructures.![cost])} + '/-'"> total amount </th>
