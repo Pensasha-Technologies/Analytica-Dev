@@ -62,7 +62,7 @@
 								Student Name</h3>
 							<h4 th:text="${feeRecord.student.school.name}">School Name</h4>
 							<h5
-								th:text="${'Form: ' + feeRecord.form.form + ' Term: ' + feeRecord.term.term}">
+								th:text="${'Form: ' + feeRecord.form.form}">
 								Form Term</h5>
 								<h5 th:text="${'Admission Number: ' + #strings.substringAfter(feeRecord.student.admNo,'_')}"> Adm No </h5>
 						</div>

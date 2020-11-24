@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.student.Student;
-import com.pensasha.school.term.Term;
 
 @Entity
 public class FeeRecord {
@@ -24,14 +23,11 @@ public class FeeRecord {
 	@JsonIgnore
 	@ManyToOne
 	private Student student;
-
+	
 	@ManyToOne
 	private Form form;
 
-	@ManyToOne
-	private Term term;
-
-	public FeeRecord(int id, String receiptNo, int amount, String datePaid, Student student, Form form, Term term) {
+	public FeeRecord(int id, String receiptNo, int amount, String datePaid, Student student, Form form) {
 		super();
 		this.id = id;
 		this.receiptNo = receiptNo;
@@ -39,17 +35,15 @@ public class FeeRecord {
 		this.datePaid = datePaid;
 		this.student = student;
 		this.form = form;
-		this.term = term;
 	}
 
-	public FeeRecord(String receiptNo, int amount, String datePaid, Student student, Form form, Term term) {
+	public FeeRecord(String receiptNo, int amount, String datePaid, Student student, Form form) {
 		super();
 		this.receiptNo = receiptNo;
 		this.amount = amount;
 		this.datePaid = datePaid;
 		this.student = student;
 		this.form = form;
-		this.term = term;
 	}
 
 	public FeeRecord() {
@@ -88,21 +82,6 @@ public class FeeRecord {
 		this.student = student;
 	}
 
-	public Form getForm() {
-		return form;
-	}
-
-	public void setForm(Form form) {
-		this.form = form;
-	}
-
-	public Term getTerm() {
-		return term;
-	}
-
-	public void setTerm(Term term) {
-		this.term = term;
-	}
 
 	public String getDatePaid() {
 		return datePaid;
@@ -110,6 +89,14 @@ public class FeeRecord {
 
 	public void setDatePaid(String datePaid) {
 		this.datePaid = datePaid;
+	}
+
+	public Form getForm() {
+		return form;
+	}
+
+	public void setForm(Form form) {
+		this.form = form;
 	}
 
 }

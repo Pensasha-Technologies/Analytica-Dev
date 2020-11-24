@@ -40,6 +40,14 @@
 						<section>
 							<h3>Bursar Dashboard</h3>
 						</section>
+						<nav class="navbar navbar-expand navbar-light"
+							th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
+							<div class="d-flex justify-content-end">
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addFeeModal">Add
+									Fees</button>
+							</div>
+						</nav>
 					</div>
 
 					<div>
@@ -79,7 +87,7 @@
 										<td>
 											<div class="d-flex justify-content-center">
 												<a
-													th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+													th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 													class="btn btn-primary"> View </a>
 											</div>
 										</td>

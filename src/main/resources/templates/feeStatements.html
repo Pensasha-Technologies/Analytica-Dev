@@ -71,8 +71,6 @@
 											<th scope="col">First Name</th>
 											<th scope="col">Last Name</th>
 											<th scope="col">Adm No.</th>
-											<th scope="col">Form</th>
-											<th scope="col">Term</th>
 											<th scope="col">Amount</th>
 											<th></th>
 											<th></th>
@@ -93,13 +91,11 @@
 											<td
 												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
 												adm no.</td>
-											<td th:text="${feeRecord.form.form}">Student Form</td>
-											<td th:text="${feeRecord.term.term}">Student Term</td>
 											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
 											<td>
 												<div class="d-flex justify-content-center">
 													<a
-														th:href="@{/schools/{code}/statements/{id}(code=${school.code},id=${feeRecord.id})}"
+														th:href="@{/schools/{code}/students/{admNo}/statements(code=${school.code},admNo=${feeRecord.student.admNo})}"
 														class="btn btn-primary"> View </a>
 												</div>
 											</td>
@@ -114,27 +110,7 @@
 									</tbody>
 								</table>
 							</div>
-							<div>
-								Total Records: [[${totalRecords}]] - Page [[${currentPage}]] of
-								[[${totalPages}]] &nbsp; -&nbsp; <a th:if="${currentPage > 1}"
-									th:href="@{'/schools/' + ${school.code} + '/statements/page/1'}">First</a>
-								<span th:unless="${currentPage > 1}">First</span> &nbsp; <a
-									th:if="${currentPage > 1}"
-									th:href="@{/schools/{code}/statements/page/{currentPage}(code=${school.code}, currentPage = ${currentPage-1})}">Previous</a>
-								<span th:unless="${currentPage > 1}">Previous</span> &nbsp; <span
-									th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
-									th:if="${i != currentPage}"
-									th:href="@{'/schools/' + ${school.code} + '/statements/page/'+${i}}">[[${i}]]</a>
-									<span th:unless="${i != currentPage}">[[${i}]]</span>
-									&nbsp;&nbsp;
-								</span> <a th:if="${currentPage < totalPages}"
-									th:href="@{/schools/{code}/statements/page/{currentPage}(code=${school.code}, currentPage = ${currentPage+1})}">Next</a>
-								<span th:unless="${currentPage < totalPages}">Next</span> &nbsp;
-
-								<a th:if="${currentPage < totalPages}"
-									th:href="@{'/schools/' + ${school.code} + '/statements/page/' + ${totalPages}}">Last</a>
-								<span th:unless="${currentPage < totalPages}">Last</span>
-							</div>
+							
 						</div>
 
 
@@ -143,6 +119,8 @@
 
 				</div>
 				<!-- /.container-fluid -->
+				
+				
 
 			</div>
 			<!-- End of Main Content -->

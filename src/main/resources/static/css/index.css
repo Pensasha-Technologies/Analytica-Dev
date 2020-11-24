@@ -424,8 +424,7 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset],
 	background-color: #39ace7;
 }
 
-input[type=button]:active, input[type=submit]:active, input[type=reset],
-	select:active {
+input[type=button]:active, input[type=submit]:active, input[type=reset]{
 	-moz-transform: scale(0.95);
 	-webkit-transform: scale(0.95);
 	-o-transform: scale(0.95);

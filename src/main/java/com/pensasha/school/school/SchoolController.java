@@ -26,8 +26,6 @@ import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.finance.FeeRecord;
-import com.pensasha.school.finance.FeeRecordService;
 import com.pensasha.school.finance.FeeStructure;
 import com.pensasha.school.finance.FeeStructureService;
 import com.pensasha.school.stream.Stream;
@@ -54,14 +52,13 @@ public class SchoolController {
 	private TimetableService timetableService;
 	private StreamService streamService;
 	private YearService yearService;
-	private FeeRecordService feeRecordService;
 	private FeeStructureService feeStructureService;
 	private DisciplineService disciplineService;
 
 	public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService,
 			StudentService studentService, MarkService markService, TimetableService timetableService,
-			StreamService streamService, YearService yearService, FeeRecordService feeRecordService,
-			FeeStructureService feeStructureService, DisciplineService disciplineService) {
+			StreamService streamService, YearService yearService, FeeStructureService feeStructureService,
+			DisciplineService disciplineService) {
 		super();
 		this.schoolService = schoolService;
 		this.userService = userService;
@@ -71,7 +68,6 @@ public class SchoolController {
 		this.timetableService = timetableService;
 		this.streamService = streamService;
 		this.yearService = yearService;
-		this.feeRecordService = feeRecordService;
 		this.feeStructureService = feeStructureService;
 		this.disciplineService = disciplineService;
 	}
@@ -218,13 +214,13 @@ public class SchoolController {
 				for (int j = 0; j < marks.size(); j++) {
 					markService.deleteMark(marks.get(j).getId());
 				}
-
+/*
 				List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo());
 				for (int x = 0; x < feeRecords.size(); x++) {
 
 					feeRecordService.deleteFeeRecord(feeRecords.get(i).getId());
 				}
-
+*/
 				List<Discipline> disciplines = disciplineService
 						.allDisciplineReportForStudent(students.get(i).getAdmNo());
 
