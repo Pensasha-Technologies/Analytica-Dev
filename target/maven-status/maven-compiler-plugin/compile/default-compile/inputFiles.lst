@@ -12,6 +12,8 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/UserService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/SubjectRepository.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayableService.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayable.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamController.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/Student.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/SchoolUser.java
@@ -22,6 +24,7 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/RoleService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/Term.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/report/ReportService.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayableRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/User.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/TermRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/Role.java
@@ -52,6 +55,7 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/TimetableService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/discipline/Discipline.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/interfaceController/MainController.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FinanceController.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/SchoolService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/Stream.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/SchoolUserRepository.java
@@ -61,4 +65,4 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamRespository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/Mark.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStatus.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/TeacherRepository.java
