@@ -2,6 +2,7 @@ package com.pensasha.school.subject;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class SubjectController {
 	private FormService formService;
 	private YearService yearService;
 	private UserService userService;
-	
+
 	public SubjectController(SchoolService schoolService, SubjectService subjectService, StudentService studentService,
 			FormService formService, YearService yearService, UserService userService) {
 		super();
@@ -46,34 +47,100 @@ public class SubjectController {
 		this.userService = userService;
 	}
 
+	@PostMapping("/schools/{code}/compF1F2subjects")
+	public String addingCompF1F2Subject(Model model, Principal principal, HttpServletRequest request,
+			@PathVariable int code) {
+
+		School school = schoolService.getSchool(code).get();
+		List<Subject> allSubjects = subjectService.getAllSubjectInSchool(code);
+		Collection<Subject> subjects = school.getCompSubjectF1F2();
+
+		for (int i = 0; i < allSubjects.size(); i++) {
+			if (request.getParameter(allSubjects.get(i).getInitials()) != null) {
+				subjects.add(allSubjects.get(i));
+			}
+		}
+
+		school.setCompSubjectF1F2(subjects);
+
+		schoolService.addSchool(school);
+
+		return "redirect:/school/" + code;
+	}
+	
+	@GetMapping("/schools/{code}/compF1F2subjects/{initials}")
+	public String deleteCompf1f2SubjectFromSchool(RedirectAttributes redit, Principal principal, @PathVariable int code,
+			@PathVariable String initials) {
+
+		School school = schoolService.getSchool(code).get();
+		school.getCompSubjectF1F2().remove(subjectService.getSubject(initials));
+		schoolService.addSchool(school);
+
+		return "redirect:/school/" + code;
+	}
+	
+	@GetMapping("/schools/{code}/compF3F4subjects/{initials}")
+	public String deleteCompf3f4SubjectFromSchool(RedirectAttributes redit, Principal principal, @PathVariable int code,
+			@PathVariable String initials) {
+
+		School school = schoolService.getSchool(code).get();
+		school.getCompSubjectF3F4().remove(subjectService.getSubject(initials));
+		schoolService.addSchool(school);
+
+		return "redirect:/school/" + code;
+	}
+
+	@PostMapping("/schools/{code}/compF3F4subjects")
+	public String addingCompF3F4Subject(Model model, Principal principal, HttpServletRequest request,
+			@PathVariable int code) {
+
+		School school = schoolService.getSchool(code).get();
+		List<Subject> allSubjects = subjectService.getAllSubjectInSchool(code);
+		Collection<Subject> subjects = school.getCompSubjectF3F4();
+
+		for (int i = 0; i < allSubjects.size(); i++) {
+			if (request.getParameter(allSubjects.get(i).getInitials()) != null) {
+				subjects.add(allSubjects.get(i));
+			}
+		}
+
+		school.setCompSubjectF3F4(subjects);
+
+		schoolService.addSchool(school);
+
+		return "redirect:/school/" + code;
+	}
+
 	@PostMapping("teachers/{username}/subjects")
-	public String addSubjectToTeacher(Model model, Principal principal, @PathVariable String username, HttpServletRequest request) {
-		
+	public String addSubjectToTeacher(Model model, Principal principal, @PathVariable String username,
+			HttpServletRequest request) {
+
 		Teacher teacher = userService.gettingTeacherByUsername(username);
-		
+
 		List<Subject> allSubjects = subjectService.getAllSubjectInSchool(teacher.getSchool().getCode());
 		List<Subject> subjects = teacher.getSubjects();
-		
+
 		for (int i = 0; i < allSubjects.size(); i++) {
 			if (request.getParameter(allSubjects.get(i).getInitials()) != null) {
 				subjects.add(subjectService.getSubject(allSubjects.get(i).getInitials()));
 			}
 		}
-		
+
 		teacher.setSubjects(subjects);
 		userService.addUser(teacher);
-		
+
 		return "redirect:/profile/{username}";
 	}
-	
+
 	@GetMapping("/teachers/{username}/subjects/{initials}")
-	public String deleteSubjectFromTeacher(RedirectAttributes redit, Principal principal, @PathVariable String username, @PathVariable String initials) {
+	public String deleteSubjectFromTeacher(RedirectAttributes redit, Principal principal, @PathVariable String username,
+			@PathVariable String initials) {
 
 		Teacher teacher = userService.gettingTeacherByUsername(username);
 		teacher.getSubjects().remove(subjectService.getSubject(initials));
-		
+
 		userService.addUser(teacher);
-		
+
 		return "redirect:/profile/{username}";
 	}
 
@@ -140,15 +207,14 @@ public class SubjectController {
 				group5.add(subjects1.get(i));
 			}
 		}
-	
 
 		return "redirect:/school/" + code;
 	}
-	
+
 	@GetMapping("/schools/{code}/subjects/{initials}")
 	public String deleteSubjectFromSchool(@PathVariable int code, @PathVariable String initials, Model model,
 			Principal principal) {
-		
+
 		if (subjectService.doesSubjectExistsInSchool(initials, code) == true) {
 
 			Subject subject = subjectService.getSubjectInSchool(initials, code);
@@ -162,7 +228,7 @@ public class SubjectController {
 		}
 
 		List<Subject> subjects1 = subjectService.getAllSubjectInSchool(code);
-		
+
 		List<Subject> group1 = new ArrayList<>();
 		List<Subject> group2 = new ArrayList<>();
 		List<Subject> group3 = new ArrayList<>();
@@ -201,7 +267,7 @@ public class SubjectController {
 
 		return "redirect:/school/" + code;
 	}
-	
+
 	@GetMapping("/schools/{code}/students/{admNo}/subjects/{initials}")
 	public String deleteSubjectFromStudent(@PathVariable int code, @PathVariable String admNo,
 			@PathVariable String initials, Model model, Principal principal) {
@@ -249,7 +315,7 @@ public class SubjectController {
 			}
 		}
 
-		return "/schools/" + code + "/student/" + admNo ;
+		return "/schools/" + code + "/student/" + admNo;
 	}
 
 	@PostMapping("/schools/{code}/student/{admNo}/subjects")
@@ -259,7 +325,7 @@ public class SubjectController {
 		Student student = studentService.getStudentInSchool(admNo, code);
 		List<Subject> schoolSubjects = subjectService.getAllSubjectInSchool(code);
 		List<Subject> studentSubjects = subjectService.getSubjectDoneByStudent(admNo);
-	
+
 		List<String> paramList = new ArrayList<>();
 
 		for (int i = 0; i < schoolSubjects.size(); i++) {
@@ -288,7 +354,7 @@ public class SubjectController {
 		}
 
 		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
-		
+
 		List<Subject> group1 = new ArrayList<>();
 		List<Subject> group2 = new ArrayList<>();
 		List<Subject> group3 = new ArrayList<>();

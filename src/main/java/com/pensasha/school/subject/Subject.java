@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
@@ -36,9 +37,17 @@ public class Subject {
 
 	@ManyToMany(mappedBy = "subjects", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<Year> years;
+	
+	@ManyToMany(mappedBy = "compSubjectF1F2", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private Collection<School> compF1F2schools;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "compSubjectF3F4", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private Collection<School> compF3F4schools;
 
 	public Subject(String initials, String name, Collection<School> schools, Collection<Student> students,
-			Collection<Form> forms, Collection<Year> years) {
+			Collection<Form> forms, Collection<Year> years, Collection<School> compF1F2schools,
+			Collection<School> compF3F4schools) {
 		super();
 		this.initials = initials;
 		this.name = name;
@@ -46,6 +55,8 @@ public class Subject {
 		this.students = students;
 		this.forms = forms;
 		this.years = years;
+		this.compF1F2schools = compF1F2schools;
+		this.compF3F4schools = compF3F4schools;
 	}
 
 	public Subject(String initials, String name) {
@@ -104,6 +115,22 @@ public class Subject {
 
 	public void setYears(Collection<Year> years) {
 		this.years = years;
+	}
+
+	public Collection<School> getCompF1F2schools() {
+		return compF1F2schools;
+	}
+
+	public void setCompF1F2schools(Collection<School> compF1F2schools) {
+		this.compF1F2schools = compF1F2schools;
+	}
+
+	public Collection<School> getCompF3F4schools() {
+		return compF3F4schools;
+	}
+
+	public void setCompF3F4schools(Collection<School> compF3F4schools) {
+		this.compF3F4schools = compF3F4schools;
 	}
 
 }

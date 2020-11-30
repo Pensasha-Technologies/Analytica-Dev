@@ -98,39 +98,114 @@
 
 					<div>
 
-						<div class="d-flex justify-content-between">
-							<h4>Additional Information</h4>
-							<button type="button" class="btn btn-primary" data-toggle="modal"
-								data-target="#addStreamModal" style="margin-bottom: 10px;">
-								Add Streams</button>
-						</div>
-						<table class="table">
-							<thead>
-								<div th:unless="${streams} and ${streams.size()}">
-									<br>
-									<p class="text text-center alert alert-warning">No Stream
-										has been added</p>
-								</div>
-							</thead>
-							<tbody>
-								<tr>
-									<th>Streams</th>
-									<th:block th:each="stream : ${streams}">
-										<td th:text="${stream.stream}"
-											style="border-right: solid 1px #F0F0F0">Streams</td>
-										<td>
-											<div class="d-flex justify-content-center">
-												<a class="fa fa-trash deleteBtn" data-toggle="modal"
-													href="#"
-													th:data-href="@{/school/{code}/streams/{id}(code=${school.code}, id=${stream.id})}"
-													data-target="#deleteModal"></a>
+						<div>
+							<div class="d-flex justify-content-between">
+								<h4>Streams</h4>
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addStreamModal"
+									style="margin-bottom: 10px;">Add Streams</button>
+							</div>
+							<table class="table">
+								<thead>
+									<div th:unless="${streams} and ${streams.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No Stream
+											has been added</p>
+									</div>
+								</thead>
+								<tbody>
+									<tr>
+										<th:block th:each="stream : ${streams}">
+											<td th:text="${stream.stream}"
+												style="border-right: solid 1px #F0F0F0">Streams</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a class="fa fa-trash deleteBtn" data-toggle="modal"
+														href="#"
+														th:data-href="@{/school/{code}/streams/{id}(code=${school.code}, id=${stream.id})}"
+														data-target="#deleteModal"></a>
 
-											</div>
-										</td>
+												</div>
+											</td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div>
+							<div class="d-flex justify-content-between">
+								<h4>Compulsory Subjects F1 & F2</h4>
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addCompSubjectF1F2Modal"
+									style="margin-bottom: 10px;">Add Subject</button>
+							</div>
+							<table class="table">
+								<thead>
+									<th:block
+										th:unless="${school.compSubjectF1F2} and ${school.compSubjectF1F2.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No
+											Compulsory Subject has been added for Form 1 and Form 2</p>
 									</th:block>
-								</tr>
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									<tr>
+										<th:block th:each="subject : ${school.compSubjectF1F2}">
+											<td th:text="${subject.initials}"
+												style="border-right: solid 1px #F0F0F0">Subject</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a class="fa fa-trash deleteBtn" data-toggle="modal"
+														href="#"
+														th:data-href="@{/schools/{code}/compF1F2subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
+														data-target="#deleteModal"></a>
+
+												</div>
+											</td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div>
+							<div class="d-flex justify-content-between">
+								<h4>Compulsory Subjects F3 & F4</h4>
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addCompSubjectF3F4Modal"
+									style="margin-bottom: 10px;">Add Subject</button>
+							</div>
+							<table class="table">
+								<thead>
+									<th:block
+										th:unless="${school.compSubjectF3F4} and ${school.compSubjectF3F4.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No
+											Compulsory Subject has been added for Form 3 and Form 4</p>
+									</th:block>
+								</thead>
+								<tbody>
+									<tr>
+
+										<th:block th:each="subject : ${school.compSubjectF3F4}">
+											<td th:text="${subject.initials}"
+												style="border-right: solid 1px #F0F0F0">Subject</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a class="fa fa-trash deleteBtn" data-toggle="modal"
+														href="#"
+														th:data-href="@{/schools/{code}/compF3F4subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
+														data-target="#deleteModal"></a>
+
+												</div>
+											</td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
 
 						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
 							Subject exists</div>
@@ -228,6 +303,112 @@
 			<!-- Footer -->
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
+
+			<!-- Add Form 1 and Form 2 subjects model -->
+			<div class="modal fade" id="addCompSubjectF1F2Modal" tabindex="-1"
+				role="dialog" aria-labelledby="addCompSubjectF1F2ModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addCompSubjectF1F2ModalLabel">
+								Form 1 & Form 2 Compulsory Subjects</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addSubjectsForm"
+										th:action="@{/schools/{code}/compF1F2subjects(code = ${school.code})}"
+										method="post">
+
+										<h1>Subjects</h1>
+
+										<div th:unless="${allCompF1F2Subjects} and ${allCompF1F2Subjects.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No
+												Subjects in School</p>
+										</div>
+										<div class="form-check" th:each="subject : ${allCompF1F2Subjects}">
+											<input class="form-check-input" type="checkbox"
+												th:value="${subject.initials}" th:id="${subject.initials}"
+												th:name="${subject.initials}"> <label
+												class="form-check-label" th:for="${subject.initials}"
+												th:text="${subject.name}"> Subject Name </label>
+										</div>
+
+										<input type="submit" value="Add Subjects" />
+
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Add subjects model -->
+			<div class="modal fade" id="addCompSubjectF3F4Modal" tabindex="-1"
+				role="dialog" aria-labelledby="addCompSubjectF3F4ModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addCompSubjectF3F4ModalLabel">
+								Form 3 and Form 4 Compulsory Subjects</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addSubjectsForm"
+										th:action="@{/schools/{code}/compF3F4subjects(code = ${school.code})}"
+										method="post">
+
+										<h1>Subjects</h1>
+
+										<div th:unless="${allCompF3F4Subjects} and ${allCompF3F4Subjects.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No
+												Subjects in School</p>
+										</div>
+										<div class="form-check" th:each="subject : ${allCompF3F4Subjects}">
+											<input class="form-check-input" type="checkbox"
+												th:value="${subject.initials}" th:id="${subject.initials}"
+												th:name="${subject.initials}"> <label
+												class="form-check-label" th:for="${subject.initials}"
+												th:text="${subject.name}"> Subject Name </label>
+										</div>
+
+										<input type="submit" value="Add Subjects" />
+
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<!-- Add subjects model -->
 			<div class="modal fade" id="addSubjectsModal" tabindex="-1"

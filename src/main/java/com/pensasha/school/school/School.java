@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -37,6 +39,16 @@ public class School {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<Subject> subjects;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "Subject_compf1f2_school", joinColumns = @JoinColumn(name = "initials"), inverseJoinColumns = @JoinColumn(name = "code"))
+	private Collection<Subject> compSubjectF1F2;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "Subject_compf3f4_school", joinColumns = @JoinColumn(name = "initials"), inverseJoinColumns = @JoinColumn(name = "code"))
+	private Collection<Subject> compSubjectF3F4;
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
@@ -58,7 +70,8 @@ public class School {
 
 	public School(String name, int code, String address, int contactNumber, String logo, int fax, String email,
 			String location, String gender, String scholar, Collection<SchoolUser> users, Collection<Subject> subjects,
-			Collection<Year> years, Collection<Student> students) {
+			Collection<Subject> compSubjectF1F2, Collection<Subject> compSubjectF3F4, Collection<Year> years,
+			Collection<Student> students) {
 		super();
 		this.name = name;
 		this.code = code;
@@ -72,6 +85,8 @@ public class School {
 		this.scholar = scholar;
 		this.users = users;
 		this.subjects = subjects;
+		this.compSubjectF1F2 = compSubjectF1F2;
+		this.compSubjectF3F4 = compSubjectF3F4;
 		this.years = years;
 		this.students = students;
 	}
@@ -197,6 +212,22 @@ public class School {
 
 	public void setStudents(Collection<Student> students) {
 		this.students = students;
+	}
+
+	public Collection<Subject> getCompSubjectF1F2() {
+		return compSubjectF1F2;
+	}
+
+	public void setCompSubjectF1F2(Collection<Subject> compSubjectF1F2) {
+		this.compSubjectF1F2 = compSubjectF1F2;
+	}
+
+	public Collection<Subject> getCompSubjectF3F4() {
+		return compSubjectF3F4;
+	}
+
+	public void setCompSubjectF3F4(Collection<Subject> compSubjectF3F4) {
+		this.compSubjectF3F4 = compSubjectF3F4;
 	}
 
 }

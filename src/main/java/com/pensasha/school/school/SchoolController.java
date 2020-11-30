@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -314,6 +315,22 @@ public class SchoolController {
 			List<Stream> streams = streamService.getStreamsInSchool(code);
 			List<Year> years = yearService.getAllYearsInSchool(code);
 
+			Collection<Subject> allCompF1F2Subjects = new ArrayList<>();
+			Collection<Subject> compF1F2Subjects = school.getCompSubjectF1F2();
+			Collection<Subject> allCompF3F4Subjects = new ArrayList<>();
+			Collection<Subject> compF3F4Subjects = school.getCompSubjectF3F4();
+			                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+			for(Subject subject : subjects) {
+				if(!compF1F2Subjects.contains(subject)) {
+					allCompF1F2Subjects.add(subject);
+				}
+				if(!compF3F4Subjects.contains(subject)) {
+					allCompF3F4Subjects.add(subject);
+				}
+			}
+			
+			model.addAttribute("allCompF1F2Subjects", allCompF1F2Subjects);
+			model.addAttribute("allCompF3F4Subjects", allCompF3F4Subjects);
 			model.addAttribute("years", years);
 			model.addAttribute("streams", streams);
 			model.addAttribute("stream", stream);
