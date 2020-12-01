@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -130,9 +131,9 @@ public class StudentController {
 	}
 
 	@PostMapping("/schools/{code}/editStudent/{admNo}")
-	public String updateStudent(@PathVariable int code, @ModelAttribute @Valid Student student, @PathVariable String admNo,
-			BindingResult bindingResult, RedirectAttributes redit, Principal principal, @RequestParam int stream)
-			throws IOException {
+	public String updateStudent(@PathVariable int code, @ModelAttribute @Valid Student student,
+			@PathVariable String admNo, BindingResult bindingResult, RedirectAttributes redit, Principal principal,
+			@RequestParam int stream) throws IOException {
 
 		final String view;
 
@@ -144,9 +145,8 @@ public class StudentController {
 			view = "redirect:/schools/" + code + "/addStudent";
 
 		} else {
-			
+
 			Student studentObj = studentService.getStudentInSchool(admNo, code);
-			
 
 			studentObj.setFirstname(student.getFirstname());
 			studentObj.setSecondname(student.getSecondname());
@@ -154,14 +154,14 @@ public class StudentController {
 			studentObj.setUpiNo(student.getUpiNo());
 			studentObj.setHudumaNo(student.getHudumaNo());
 			studentObj.setBirthNo(student.getBirthNo());
-			studentObj.setDob(student.getDob()) ;
+			studentObj.setDob(student.getDob());
 			studentObj.setF_firstname(student.getF_firstname());
 			studentObj.setF_secondname(student.getF_secondname());
 			studentObj.setF_thirdname(student.getF_thirdname());
 			studentObj.setF_phoneNumber(student.getF_phoneNumber());
 			studentObj.setF_email(student.getF_email());
-			studentObj.setM_firstname(student.getM_firstname()) ;
-			studentObj.setM_secondname(student.getM_secondname()) ;
+			studentObj.setM_firstname(student.getM_firstname());
+			studentObj.setM_secondname(student.getM_secondname());
 			studentObj.setM_thirdname(student.getM_thirdname());
 			studentObj.setM_phoneNumber(student.getM_phoneNumber());
 			studentObj.setM_email(student.getM_email());
@@ -169,7 +169,7 @@ public class StudentController {
 			studentObj.setG_secondname(student.getG_secondname());
 			studentObj.setG_thirdname(student.getG_thirdname());
 			studentObj.setG_phoneNumber(student.getG_phoneNumber());
-			studentObj.setG_email(student.getG_email());	
+			studentObj.setG_email(student.getG_email());
 			studentObj.setStream(streamService.getStream(stream));
 			studentObj.setGender(student.getGender());
 			studentObj.setSponsor(student.getSponsor());
@@ -178,7 +178,6 @@ public class StudentController {
 			studentObj.setYearAdmitted(student.getYearAdmitted());
 			studentObj.setCurrentForm(student.getCurrentForm());
 
-			
 			String[] admString = student.getAdmNo().split("_");
 
 			redit.addFlashAttribute("success", "Student with admision number: " + admString[0] + " saved successfully");
@@ -305,6 +304,17 @@ public class StudentController {
 
 					student.setForms(forms);
 					student.setAdmNo(school.getCode() + "_" + student.getAdmNo());
+
+					if (student.getCurrentForm() == 1 || student.getCurrentForm() == 2) {
+
+						Collection<Subject> subjects = school.getCompSubjectF1F2();
+						student.setSubjects(subjects);
+
+					} else if (student.getCurrentForm() == 3 || student.getCurrentForm() == 4) {
+						
+						Collection<Subject> subjects = school.getCompSubjectF3F4();
+						student.setSubjects(subjects);
+					}
 
 					studentService.addStudent(student);
 

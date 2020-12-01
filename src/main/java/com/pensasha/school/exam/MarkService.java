@@ -32,6 +32,11 @@ public class MarkService {
 	public List<Mark> getTermlySubjectMark(String admNo, int form, int term) {
 		return markRepository.findByStudentAdmNoAndFormFormAndTermTerm(admNo, form, term);
 	}
+	
+	//Getting all students by school, term, form and year
+	public List<Mark> getAllStudentsMarksBySchoolYearFormAndTerm(int code, int form, int term, int year){
+		return markRepository.findByStudentSchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
+	}
 
 	// Getting all marks
 	public List<Mark> allMarks(String admNo) {

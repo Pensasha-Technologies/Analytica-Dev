@@ -22,4 +22,6 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 	
 	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndSubjectsInitials(int code, int year, int form, int term, String initials);
 
+	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTerm(int code, int year, int form, int term);
+
 }

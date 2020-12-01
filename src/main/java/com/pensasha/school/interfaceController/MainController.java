@@ -223,6 +223,39 @@ public class MainController {
 		return "adminHome";
 	}
 
+	@PostMapping("/schools/{code}/meritList")
+	public String studentsMeritList(@PathVariable int code, @RequestParam int year, @RequestParam int form, @RequestParam int term, Model model, Principal principal){
+	
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+		List<Mark> marks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
+		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+		
+		List<Student> studentsWithoutMarks = new ArrayList<>();
+		
+		for(int i = 0; i<students.size(); i++) {
+			if(!markService.getMarkByAdm(students.get(i).getAdmNo())) {
+				studentsWithoutMarks.add(students.get(i));
+			}
+		}
+		
+		
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("school", school);
+		model.addAttribute("student", student);
+		model.addAttribute("year", year);
+		model.addAttribute("form", form);
+		model.addAttribute("term", term);
+		model.addAttribute("marks", marks);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("students", students);
+		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
+		
+		return "meritList";
+	}
+	
 	@GetMapping("/schools/{code}/student/{admNo}/progress")
 	public String viewStudentsProgressReport(@PathVariable int code, @PathVariable String admNo, Model model,
 			Principal principal) {
@@ -231,7 +264,7 @@ public class MainController {
 		Student student = studentService.getStudentInSchool(admNo, code);
 		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
 		User activeUser = userService.getByUsername(principal.getName()).get();
-
+		
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("subjects", subjects);
 		model.addAttribute("student", student);
@@ -1099,7 +1132,7 @@ public class MainController {
 		return "classList";
 	}
 
-	@PostMapping("/schools/{code}/meritList")
+	@PostMapping("/schools/{code}/marksSheet")
 	public String getMeritList(Model model, Principal principal, @PathVariable int code, @RequestParam int year,
 			@RequestParam int form, @RequestParam int term, @RequestParam String subject, @RequestParam int stream,
 			@RequestParam String exam) {

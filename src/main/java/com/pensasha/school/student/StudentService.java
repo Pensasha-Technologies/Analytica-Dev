@@ -25,6 +25,11 @@ public class StudentService {
 	public List<Student> getAllStudentsInSchoolByYearFormandStream(int code, int year, int form, String stream){
 		return studentRepository.findBySchoolCodeAndFormsFormAndYearsYearAndStreamStream(code, form, year, stream);
 	}
+	
+	//Getting all student in school by year, form and term
+	public List<Student> getAllStudentsInSchoolByYearFormTerm(int code, int year, int form, int term){
+		return studentRepository.findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTerm(code, year, form, term);
+	}
 
 	// If student exists
 	public Boolean ifStudentExists(String admNo) {

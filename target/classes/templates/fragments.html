@@ -465,7 +465,7 @@
 											class="fadeIn first" name="amount"
 											placeholder="Enter Fee Amount" required />
 									</div>
-									
+
 									<button class="btn btn-primary fadeIn second" type="submit"
 										style="margin-top: 10px;">Add Fee</button>
 								</form>
@@ -632,7 +632,9 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form class="termlyReport" th:action="@{/schools/{code}/student/{admNo}/termlyReport(code=${school.code}, admNo=${student.admNo})}" method="post">
+						<form class="termlyReport"
+							th:action="@{/schools/{code}/student/{admNo}/termlyReport(code=${school.code}, admNo=${student.admNo})}"
+							method="post">
 							<div class="form-group fadeIn second">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="form" required>
@@ -688,9 +690,8 @@
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'  }"><a
-			class="nav-link"
-			th:href="@{/school/{code}(code=${school.code})}"> <i
-				class="fas fa-fw fa-table"></i> <span> My School </span>
+			class="nav-link" th:href="@{/school/{code}(code=${school.code})}">
+				<i class="fas fa-fw fa-table"></i> <span> My School </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"
@@ -718,7 +719,9 @@
 						data-target="#classListModal" style="color: #012237;"> Class
 						List </a> <a class="collapse-item" data-toggle="modal"
 						style="color: #012237;" data-target="#marksSheetModal"> Marks
-						Sheet </a>
+						Sheet </a> <a class="collapse-item" data-toggle="modal"
+						style="color: #012237;" data-target="#meritListModal"> Merit
+						List </a>
 				</div>
 			</div></li>
 
@@ -745,8 +748,8 @@
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
-									<option th:each="year : ${school.years}" th:value="${year.year}"
-										th:text="${year.year}">Year</option>
+									<option th:each="year : ${school.years}"
+										th:value="${year.year}" th:text="${year.year}">Year</option>
 								</select>
 							</div>
 							<div class="form-group fadeIn second">
@@ -801,7 +804,7 @@
 					</div>
 					<div class="modal-body">
 						<form class="classList"
-							th:action="@{/schools/{code}/meritList(code = ${school.code})}"
+							th:action="@{/schools/{code}/marksSheet(code = ${school.code})}"
 							method="post">
 							<div class="form-group fadeIn first">
 								<label for="year">Choose Year:</label> <select name="year"
@@ -862,6 +865,67 @@
 								</select>
 							</div>
 
+							<button class="btn btn-primary fadeIn fourth" id="classList">
+								Get List</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Marks Sheel Model -->
+
+		<!-- Marks Sheet Model -->
+		<!-- Modal -->
+		<div class="modal fade" id="meritListModal" tabindex="-1"
+			role="dialog" aria-labelledby="meritListModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="meritListModalLabel">Merit List
+						</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="classList"
+							th:action="@{/schools/{code}/meritList(code = ${school.code})}"
+							method="post">
+							<div class="form-group fadeIn first">
+								<label for="year">Choose Year:</label> <select name="year"
+									id="year" required>
+									<option value="">Select Year...</option>
+									<option th:each="year : ${years}" th:value="${year.year}"
+										th:text="${year.year}">Year</option>
+								</select>
+							</div>
+							<div class="form-group fadeIn second">
+								<label for="form">Choose Form:</label> <select name="form"
+									id="form" required>
+									<option value="">Select Form...</option>
+									<option value="1">Form 1</option>
+									<option value="2">Form 2</option>
+									<option value="3">Form 3</option>
+									<option value="4">Form 4</option>
+
+								</select>
+							</div>
+							<div class="form-group fadeIn second">
+								<label for="term">Choose Term:</label> <select name="term"
+									id="term" required>
+									<option value="">Select Term...</option>
+									<option value="1">Term 1</option>
+									<option value="2">Term 2</option>
+									<option value="3">Term 3</option>
+
+								</select>
+							</div>
+						
 							<button class="btn btn-primary fadeIn fourth" id="classList">
 								Get List</button>
 						</form>
