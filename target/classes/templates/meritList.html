@@ -78,6 +78,7 @@
 									<th scope="col">#</th>
 									<th scope="col">First Name</th>
 									<th scope="col">Third Name</th>
+									<th scope="col">Adm No.</th>
 									<th:block th:each="subject : ${subjects}">
 										<th scope="col" th:text="${subject.initials}">subject</th>
 									</th:block>
@@ -88,28 +89,22 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="stud, rank : ${students}">
+								<tr th:each="meritList, rank : ${meritLists}">
 									<th scope="row" th:text="${rank.index + 1}">1</th>
-									<td th:text="${stud.firstname}"></td>
-									<td th:text="${stud.secondname}"></td>
+									<td th:text="${meritList.firstname}"></td>
+									<td th:text="${meritList.secondname}"></td>
+									<td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
 									<th:block th:each="subject : ${subjects}">
-										<th:block th:each="mark : ${marks}">
-											<td
-												th:if="${stud.admNo == mark.student.admNo && mark.subject.initials == subject.initials}"
-												th:text="${mark.cat1 + mark.cat2}/2 + ${mark.mainExam}"></td>
-											<td
-												th:if="${mark.subject.initials != subject.initials && stud.admNo == mark.student.admNo}">
-												-</td>
-										</th:block>
-										<th:block
-											th:each="studentsWithoutMark : ${studentsWithoutMarks}">
-											<td th:if="${stud.admNo == studentsWithoutMark.admNo}">-</td>
-										</th:block>
+										<td th:text="${meritList.__${subject.initials}__}"
+											th:if="${subject.initials != 'C.R.E'}"></td>
+										<td th:text="${meritList.cre}"
+											th:if="${subject.initials == 'C.R.E'}"></td>
 									</th:block>
-									<td th:text="${#aggregates.sum(marks.?[student.admNo == '__${stud.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">Total</td>
-									<td th:text="${#aggregates.avg(marks.?[student.admNo == '__${stud.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">Average</td>
+									<td th:text="${meritList.total}"></td>
 									<td
-										th:with="isEven=${#aggregates.avg(marks.?[student.admNo == '__${stud.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">
+										th:text="${#aggregates.avg(marks.?[student.admNo == '__${meritList.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">Average</td>
+									<td
+										th:with="isEven=${#aggregates.avg(marks.?[student.admNo == '__${meritList.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">
 										<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
 										<p th:if="${isEven<80 && isEven>=75}">A-</p>
 										<p th:if="${isEven<75 && isEven>=70}">B+</p>
@@ -122,10 +117,10 @@
 										<p th:if="${isEven<40 && isEven>=35}">D</p>
 										<p th:if="${isEven<35 && isEven>=30}">D-</p>
 										<p th:if="${isEven<30 && isEven>0}">E</p>
-										<p th:if="${isEven == 0 }"> ... </p>
+										<p th:if="${isEven == 0 }">...</p>
 									</td>
 									<td
-										th:with="isOdd = ${#aggregates.avg(marks.?[student.admNo == '__${stud.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">
+										th:with="isOdd = ${#aggregates.avg(marks.?[student.admNo == '__${meritList.admNo}__'].![(cat1 + cat2)/2 + mainExam])}">
 										<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
 										<p th:if="${isOdd<80 && isOdd>=75}">11</p>
 										<p th:if="${isOdd<75 && isOdd>=70}">10</p>
@@ -138,52 +133,9 @@
 										<p th:if="${isOdd<40 && isOdd>=35}">3</p>
 										<p th:if="${isOdd<35 && isOdd>=30}">2</p>
 										<p th:if="${isOdd<30 && isOdd>0}">1</p>
-										<p th:if="${isOdd == 0 }"> ... </p>
+										<p th:if="${isOdd == 0 }">...</p>
 									</td>
 								</tr>
-								<!-- 
-								<tr th:each="mark : ${marks}">
-									<th scope="row">1</th>
-									<td th:text="${mark.student.firstname}">Mark</td>
-									<td th:text="${mark.student.thirdname}">@mdo</td>
-									<td th:text="${mark.cat1}">@mdo</td>
-									<td th:text="${mark.cat2}">@mdo</td>
-									<td th:text="${mark.mainExam}">@mdo</td>
-									<td th:text="${mark.cat1 + mark.cat2}/2 + ${mark.mainExam}"></td>
-									<td
-										th:with="isEven=(${mark.cat1 + mark.cat2})/2 + ${mark.mainExam}">
-										<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
-										<p th:if="${isEven<80 && isEven>=75}">A-</p>
-										<p th:if="${isEven<75 && isEven>=70}">B+</p>
-										<p th:if="${isEven<70 && isEven>=65}">B</p>
-										<p th:if="${isEven<65 && isEven>=60}">B-</p>
-										<p th:if="${isEven<60 && isEven>=55}">C+</p>
-										<p th:if="${isEven<55 && isEven>=50}">C</p>
-										<p th:if="${isEven<50 && isEven>=45}">C-</p>
-										<p th:if="${isEven<45 && isEven>=40}">D+</p>
-										<p th:if="${isEven<40 && isEven>=35}">D</p>
-										<p th:if="${isEven<35 && isEven>=30}">D-</p>
-										<p th:if="${isEven<30 && isEven>0}">E</p>
-										<p th:if="${isEven == 0 }"> ... </p>
-									</td>
-									<td
-										th:with="isOdd = (${mark.cat1} + ${mark.cat2})/2 + ${mark.mainExam}">
-										<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
-										<p th:if="${isOdd<80 && isOdd>=75}">11</p>
-										<p th:if="${isOdd<75 && isOdd>=70}">10</p>
-										<p th:if="${isOdd<70 && isOdd>=65}">9</p>
-										<p th:if="${isOdd<65 && isOdd>=60}">8</p>
-										<p th:if="${isOdd<60 && isOdd>=55}">7</p>
-										<p th:if="${isOdd<55 && isOdd>=50}">6</p>
-										<p th:if="${isOdd<50 && isOdd>=45}">5</p>
-										<p th:if="${isOdd<45 && isOdd>=40}">4</p>
-										<p th:if="${isOdd<40 && isOdd>=35}">3</p>
-										<p th:if="${isOdd<35 && isOdd>=30}">2</p>
-										<p th:if="${isOdd<30 && isOdd>0}">1</p>
-										<p th:if="${isOdd == 0 }"> ... </p>
-									</td>
-								</tr>
-								-->
 							</tbody>
 						</table>
 					</div>

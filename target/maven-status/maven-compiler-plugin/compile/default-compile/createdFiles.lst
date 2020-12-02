@@ -55,6 +55,7 @@ com/pensasha/school/discipline/DisciplineService.class
 com/pensasha/school/timetable/TimetableService.class
 com/pensasha/school/school/School.class
 com/pensasha/school/form/FormRepository.class
+com/pensasha/school/exam/MeritList.class
 com/pensasha/school/finance/FeeRecord.class
 com/pensasha/school/finance/AmountPayableRepository.class
 com/pensasha/school/student/StudentService.class
