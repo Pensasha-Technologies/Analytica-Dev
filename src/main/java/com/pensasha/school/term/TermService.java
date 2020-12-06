@@ -15,6 +15,11 @@ public class TermService {
 	public List<Term> getAllTerms(int form, int year, int code) {
 		return termRepository.findByFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(form, year, code);
 	}
+	
+	//getting all terms by exam name
+	public List<Term> getAllTermByExamName(String name){
+		return termRepository.findByExamNamesName(name);
+	}
 
 	// get one by in school by form, year and school
 	public Term getTerm(int term, int form, int year, int code) {

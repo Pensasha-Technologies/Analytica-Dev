@@ -509,9 +509,49 @@
 						th:if="${activeUser.role.name == 'TEACHER'}"
 						th:href="@{/schools/teacherHome}"> Students </a> <a
 						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#timetableModal"> Timetable </a>
+						data-target="#timetableModal"> Timetable </a> <a
+						class="collapse-item" style="color: #E96830;" data-toggle="modal"
+						data-target="#examinationModal"> Examination</a>
+
 				</div>
 			</div></li>
+
+		<!-- Examination model -->
+		<div class="modal fade" id="examinationModal" tabindex="-1"
+			role="dialog" aria-labelledby="examinationModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="examinationModalLabel">Examination</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form id="examinations" th:action="@{/schools/{code}/examination(code=${school.code})}" method="post">
+							<div class="form-group">
+								<label for="year">Choose Year:</label> <select name="year"
+									id="year" required>
+									<option value="">Select Year...</option>
+									<option th:each="year : ${school.years}"
+										th:value="${year.year}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Examination model -->
 
 		<li th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
 			class="nav-item"><a class="nav-link collapsed" href="#"
@@ -885,8 +925,7 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="meritListModalLabel">Merit List
-						</h5>
+						<h5 class="modal-title" id="meritListModalLabel">Merit List</h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -925,7 +964,7 @@
 
 								</select>
 							</div>
-						
+
 							<button class="btn btn-primary fadeIn fourth" id="classList">
 								Get List</button>
 						</form>

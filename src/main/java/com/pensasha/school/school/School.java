@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.user.SchoolUser;
@@ -57,6 +58,10 @@ public class School {
 	@JsonIgnore
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
 	private Collection<Student> students;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private Collection<ExamName> examNames;
 
 	public School() {
 		super();
@@ -71,7 +76,7 @@ public class School {
 	public School(String name, int code, String address, int contactNumber, String logo, int fax, String email,
 			String location, String gender, String scholar, Collection<SchoolUser> users, Collection<Subject> subjects,
 			Collection<Subject> compSubjectF1F2, Collection<Subject> compSubjectF3F4, Collection<Year> years,
-			Collection<Student> students) {
+			Collection<Student> students, Collection<ExamName> examNames) {
 		super();
 		this.name = name;
 		this.code = code;
@@ -89,10 +94,13 @@ public class School {
 		this.compSubjectF3F4 = compSubjectF3F4;
 		this.years = years;
 		this.students = students;
+		this.examNames = examNames;
 	}
 
-	public School(String name, int code, Collection<SchoolUser> users, Collection<Subject> subjects, Collection<Year> years,
-			Collection<Student> students) {
+	
+	
+	public School(String name, int code, Collection<SchoolUser> users, Collection<Subject> subjects,
+			Collection<Year> years, Collection<Student> students, Collection<ExamName> examNames) {
 		super();
 		this.name = name;
 		this.code = code;
@@ -100,6 +108,7 @@ public class School {
 		this.subjects = subjects;
 		this.years = years;
 		this.students = students;
+		this.examNames = examNames;
 	}
 
 	public String getName() {
@@ -228,6 +237,14 @@ public class School {
 
 	public void setCompSubjectF3F4(Collection<Subject> compSubjectF3F4) {
 		this.compSubjectF3F4 = compSubjectF3F4;
+	}
+
+	public Collection<ExamName> getExamNames() {
+		return examNames;
+	}
+
+	public void setExamNames(Collection<ExamName> examNames) {
+		this.examNames = examNames;
 	}
 
 }

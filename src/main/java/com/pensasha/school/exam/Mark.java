@@ -1,10 +1,16 @@
 package com.pensasha.school.exam;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,9 +26,7 @@ public class Mark {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private int cat1;
-	private int cat2;
-	private int mainExam;
+	private int mark;
 
 	@JsonIgnore
 	@ManyToOne
@@ -49,42 +53,44 @@ public class Mark {
 	@JsonIgnore
 	@JoinColumn(name = "subject")
 	private Subject subject;
+	
+	@JsonIgnore
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "mark_names", joinColumns = @JoinColumn(name = "mark_id"), inverseJoinColumns = @JoinColumn(name = "examName_id"))
+	private Collection<ExamName> examNames;
 
-	public Mark(int id, int cat1, int cat2, int mainExam, Student student, Year year, Form form, Term term,
-			Subject subject) {
+	public Mark(int id, int mark, Student student, Year year, Form form, Term term, Subject subject,
+			Collection<ExamName> examNames) {
 		super();
 		this.id = id;
-		this.cat1 = cat1;
-		this.cat2 = cat2;
-		this.mainExam = mainExam;
+		this.mark = mark;
 		this.student = student;
 		this.year = year;
 		this.form = form;
 		this.term = term;
 		this.subject = subject;
+		this.examNames = examNames;
 	}
 
-	public Mark(Student student, Year year, Form form, Term term) {
+	public Mark(Student student, Year year, Form form, Term term, Subject subject, List<ExamName> examNames) {
 		super();
 		this.student = student;
 		this.year = year;
 		this.form = form;
 		this.term = term;
+		this.subject = subject;
+		this.examNames = examNames;
 	}
 
-	public Mark(int id, int cat1, int cat2, int mainExam) {
+	public Mark(int id, int mark) {
 		super();
 		this.id = id;
-		this.cat1 = cat1;
-		this.cat2 = cat2;
-		this.mainExam = mainExam;
+		this.mark = mark;
 	}
 
-	public Mark(int cat1, int cat2, int mainExam) {
+	public Mark(int mark) {
 		super();
-		this.cat1 = cat1;
-		this.cat2 = cat2;
-		this.mainExam = mainExam;
+		this.mark = mark;
 	}
 
 	public Mark() {
@@ -99,28 +105,12 @@ public class Mark {
 		this.id = id;
 	}
 
-	public int getCat1() {
-		return cat1;
+	public int getMark() {
+		return mark;
 	}
 
-	public void setCat1(int cat1) {
-		this.cat1 = cat1;
-	}
-
-	public int getCat2() {
-		return cat2;
-	}
-
-	public void setCat2(int cat2) {
-		this.cat2 = cat2;
-	}
-
-	public int getMainExam() {
-		return mainExam;
-	}
-
-	public void setMainExam(int mainExam) {
-		this.mainExam = mainExam;
+	public void setMark(int mark) {
+		this.mark = mark;
 	}
 
 	public Student getStudent() {
@@ -161,6 +151,14 @@ public class Mark {
 
 	public void setSubject(Subject subject) {
 		this.subject = subject;
+	}
+
+	public Collection<ExamName> getExamNames() {
+		return examNames;
+	}
+
+	public void setExamNames(Collection<ExamName> examNames) {
+		this.examNames = examNames;
 	}
 
 }

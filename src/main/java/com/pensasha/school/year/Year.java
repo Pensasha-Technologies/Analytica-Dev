@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
 import com.pensasha.school.student.Student;
@@ -43,14 +44,19 @@ public class Year {
 	@ManyToMany(mappedBy = "years", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<Student> students;
 
+	@JsonIgnore
+	@ManyToMany(mappedBy = "years", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private Collection<ExamName> examNames;
+
 	public Year(int year, Collection<School> schools, Collection<Form> forms, Collection<Subject> subjects,
-			Collection<Student> students) {
+			Collection<Student> students, Collection<ExamName> examNames) {
 		super();
 		this.year = year;
 		this.schools = schools;
 		this.forms = forms;
 		this.subjects = subjects;
 		this.students = students;
+		this.examNames = examNames;
 	}
 
 	public Year(int year, int school_code) {
@@ -106,6 +112,14 @@ public class Year {
 
 	public void setSubjects(Collection<Subject> subjects) {
 		this.subjects = subjects;
+	}
+
+	public Collection<ExamName> getExamNames() {
+		return examNames;
+	}
+
+	public void setExamNames(Collection<ExamName> examNames) {
+		this.examNames = examNames;
 	}
 
 }

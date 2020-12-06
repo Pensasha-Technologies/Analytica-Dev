@@ -30,6 +30,11 @@ public class SchoolService {
 		return schoolRepository.findByYearsYear(year);
 	}
 
+	//Getting all schools with exam name
+	public List<School> getAllSchoolsWithExamName(String name){
+		return schoolRepository.findByExamNamesName(name);
+	}
+	
 	public Optional<School> getSchool(int code) {
 		return schoolRepository.findById(code);
 	}

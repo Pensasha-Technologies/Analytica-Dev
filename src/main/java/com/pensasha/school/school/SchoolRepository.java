@@ -10,4 +10,6 @@ public interface SchoolRepository extends JpaRepository<School, Integer> {
 
 	public List<School> findBySubjectsInitials(String initials);
 
+	public List<School> findByExamNamesName(String name);
+
 }

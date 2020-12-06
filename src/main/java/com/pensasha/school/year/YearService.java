@@ -25,6 +25,11 @@ public class YearService {
 	public List<Year> getAllYearsByForm(int form) {
 		return yearRepository.findByFormsForm(form);
 	}
+	
+	//Getting all years with exam name
+	public List<Year> getAllYearsWithExamName(String name){
+		return yearRepository.findByExamNamesName(name);
+	}
 
 	// Getting one year from school
 	public Optional<Year> getYearFromSchool(int year, int code) {

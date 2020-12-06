@@ -11,4 +11,6 @@ public interface TermRepository extends JpaRepository<Term, Integer> {
 	public Term findByTermAndFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(int term, int form, int year, int code);
 
 	public Term findByTermAndFormsFormAndFormsYearsSchoolsCode(int term, int form, int code);
+
+	public List<Term> findByExamNamesName(String name);
 }

@@ -226,6 +226,7 @@ public class MainController {
 		return "adminHome";
 	}
 
+	/*
 	@PostMapping("/schools/{code}/meritList")
 	public String studentsMeritList(@PathVariable int code, @RequestParam int year, @RequestParam int form,
 			@RequestParam int term, Model model, Principal principal) {
@@ -423,6 +424,7 @@ public class MainController {
 		return "meritList";
 	}
 
+*/
 	@GetMapping("/schools/{code}/student/{admNo}/progress")
 	public String viewStudentsProgressReport(@PathVariable int code, @PathVariable String admNo, Model model,
 			Principal principal) {

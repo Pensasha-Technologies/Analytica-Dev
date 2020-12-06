@@ -16,4 +16,6 @@ public interface YearRepository extends JpaRepository<Year, Integer> {
 	public List<Year> findByStudentsAdmNo(String admNo);
 
 	public List<Year> findBySubjectsInitials(String initials);
+
+	public List<Year> findByExamNamesName(String name);
 }

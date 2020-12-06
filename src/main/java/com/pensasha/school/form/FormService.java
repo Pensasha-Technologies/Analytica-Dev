@@ -26,6 +26,11 @@ public class FormService {
 	public List<Form> getAllFormsBySubject(String initials) {
 		return formRepository.findBySubjectsInitials(initials);
 	}
+	
+	//Getting all form by exam name
+	public List<Form> getAllFormsByExamName(String name){
+		return formRepository.findByExamNamesName(name);
+	}
 
 	// Getting a form
 	public Optional<Form> getForm(int form, int year, int code) {

@@ -21,4 +21,6 @@ public interface FormRepository extends JpaRepository<Form, Integer> {
 	
 	public Form findByForm(int form);
 
+	public List<Form> findByExamNamesName(String name);
+
 }
