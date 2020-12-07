@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
@@ -76,6 +77,13 @@ public class MarkController {
 		model.addAttribute("year", year);
 
 		return "examination";
+	}
+	
+	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/exams")
+	@ResponseBody
+	public List<ExamName> examNames(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term){
+		
+		return examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
 	}
 
 	@PostMapping("/schools/{code}/examination")

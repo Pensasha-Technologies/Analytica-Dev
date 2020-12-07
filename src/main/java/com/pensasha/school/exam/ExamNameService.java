@@ -26,6 +26,11 @@ public class ExamNameService {
 		return examNameRepository.existsById(name);
 	}
 	
+	//Getting all exam in school by year, form and term
+	public List<ExamName> getExamBySchoolYearFormTerm(int code, int year, int form, int term){
+		return examNameRepository.findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(code, year, form, term);
+	}
+	
 	// Getting all exam in school by year, form
 	public List<ExamName> getExamBySchoolYearForm(int code, int year, int form) {
 		return examNameRepository.findBySchoolsCodeAndYearsYearAndFormsForm(code, year, form);

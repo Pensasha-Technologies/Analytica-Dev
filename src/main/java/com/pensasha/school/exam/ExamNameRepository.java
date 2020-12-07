@@ -10,4 +10,6 @@ public interface ExamNameRepository extends JpaRepository<ExamName, String>{
 
 	List<ExamName> findBySchoolsCodeAndYearsYear(int code, int year);
 
+	List<ExamName> findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(int code, int year, int form, int term);
+
 }
