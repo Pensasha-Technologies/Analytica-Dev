@@ -163,7 +163,7 @@
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>
 											<option value="4">Form 4</option>
-										</select> <select class="fadeIn second" name="term" id="termInput"
+										</select> <select class="fadeIn second" onchange="getExams()" name="term" id="termInput"
 											required><option value="">Select Term ...</option>
 											<option value="1">Term 1</option>
 											<option value="2">Term 2</option>
@@ -176,9 +176,6 @@
 												Name</option>
 										</select> <select class="fadeIn third" name="examType" id="examType"
 											required><option value="">Select Exam ...</option>
-											<option value="Cat1">Cat 1</option>
-											<option value="Cat2">Cat 2</option>
-											<option value="mainExam">Main Exam</option>
 										</select> <select class="fadeIn fouth" name="stream" id="streamInput"
 											required>
 											<option value="">Select Stream ...</option>
@@ -244,7 +241,7 @@
 	<div th:replace="fragments :: logoutModal"></div>
 	<div th:replace="fragments :: endScript"></div>
 	<script th:src="@{/js/index.js}"></script>
-	<script>
+	<script th:inline="javascript">
 		$('#deleteStudentModal').on(
 				'show.bs.modal',
 				function(e) {
@@ -252,9 +249,45 @@
 							$(e.relatedTarget).data('href'));
 				});
 		
-		var inp1 = document.getElementById('formInput'),
-	    inp2 = document.getElementById('termInput');
+		function getExams() {
 		
+			var year = document.getElementById("yearInput").value;
+			var form = document.getElementById("formInput").value;
+			var term = document.getElementById("termInput").value;
+		    var code = /*[[${school.code}]]*/ '';
+		    var select = document.getElementById('examType');
+		    
+		    $.ajax({
+		        url: "/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/exams",
+		        method: "GET",
+		        success: function (data) {
+		        	    	
+					if(data.length>0){
+						for (var i = 0; i<data.length; i++){
+							var opt = document.createElement('option');
+							opt.value = data[i].name;
+			        	    opt.innerHTML = data[i].name;
+			        	    select.appendChild(opt);
+			        	}
+					}else{
+
+						while(select.hasChildNodes()){
+							select.removeChild(select.childNodes[1]);
+						}
+						
+						var opt = document.createElement('option');
+						opt.value = "";
+						opt.innerHTML = "No exam added";
+						select.appendChild(opt);
+					}
+		        	
+		        },
+		        error: function (data) {
+		            	alert("No result");
+		        }
+		    });			
+			
+		};
 		
 	</script>
 
