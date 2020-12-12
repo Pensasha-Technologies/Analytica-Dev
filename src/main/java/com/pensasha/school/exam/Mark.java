@@ -71,6 +71,15 @@ public class Mark {
 		this.subject = subject;
 		this.examNames = examNames;
 	}
+	
+	public Mark(Student student, Year year, Form form, Term term, Subject subject) {
+		super();
+		this.student = student;
+		this.year = year;
+		this.form = form;
+		this.term = term;
+		this.subject = subject;
+	}
 
 	public Mark(Student student, Year year, Form form, Term term, Subject subject, List<ExamName> examNames) {
 		super();

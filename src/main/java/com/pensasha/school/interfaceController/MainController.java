@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +30,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.exam.ExamNameService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.exam.MeritList;
@@ -78,11 +81,12 @@ public class MainController {
 	private StreamService streamService;
 	private TimetableService timetableService;
 	private DisciplineService disciplineService;
+	private ExamNameService examNameService;
 
 	public MainController(ReportService reportService, SchoolService schoolService, StudentService studentService,
 			TermService termService, SubjectService subjectService, FormService formService, YearService yearService,
 			MarkService markService, UserService userService, RoleService roleService, StreamService streamService,
-			TimetableService timetableService, DisciplineService disciplineService) {
+			TimetableService timetableService, DisciplineService disciplineService, ExamNameService examNameService) {
 		super();
 		this.reportService = reportService;
 		this.schoolService = schoolService;
@@ -97,6 +101,7 @@ public class MainController {
 		this.streamService = streamService;
 		this.timetableService = timetableService;
 		this.disciplineService = disciplineService;
+		this.examNameService = examNameService;
 	}
 
 	@GetMapping("index")
@@ -227,204 +232,143 @@ public class MainController {
 	}
 
 	/*
-	@PostMapping("/schools/{code}/meritList")
-	public String studentsMeritList(@PathVariable int code, @RequestParam int year, @RequestParam int form,
-			@RequestParam int term, Model model, Principal principal) {
-
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		List<Mark> marks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-
-		List<Student> studentsWithoutMarks = new ArrayList<>();
-
-		for (int i = 0; i < students.size(); i++) {
-			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
-				studentsWithoutMarks.add(students.get(i));
-			}
-		}
-
-		MeritList meritList;
-		List<MeritList> meritLists = new ArrayList<>();
-
-		for (int i = 0; i < students.size(); i++) {
-
-				for (int j = 0; j < marks.size(); j++) {
-
-					for (int k = 0; k < subjects.size(); k++) {
-
-						if (students.get(i).getAdmNo() == marks.get(j).getStudent().getAdmNo()
-								&& marks.get(j).getSubject().getInitials() == subjects.get(k).getInitials()) {
-
-							meritList = new MeritList();
-
-							meritList.setFirstname(students.get(i).getFirstname());
-							meritList.setSecondname(students.get(i).getSecondname());
-							meritList.setAdmNo(students.get(i).getAdmNo());
-
-							switch (subjects.get(k).getInitials()) {
-							case "Maths":
-								meritList.setMaths((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Eng":
-								meritList.setEng((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Kis":
-								meritList.setKis((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Bio":
-								meritList.setBio((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Chem":
-								meritList.setChem((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Phy":
-								meritList.setPhy((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Hist":
-								meritList.setHist((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "C.R.E":
-								meritList.setCre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Geo":
-								meritList.setGeo((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "I.R.E":
-								meritList.setIre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "H.R.E":
-								meritList.setHre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Hsci":
-								meritList.setHsci((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "AnD":
-								meritList.setAnd((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Agric":
-								meritList.setAgric((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Comp":
-								meritList.setComp((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								;
-								break;
-							case "Avi":
-								meritList.setAvi((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Elec":
-								meritList.setElec((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Pwr":
-								meritList.setPwr((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Wood":
-								meritList.setWood((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Metal":
-								meritList.setMetal((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Bc":
-								meritList.setBc((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Fren":
-								meritList.setFren((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Germ":
-								meritList.setGerm((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Arab":
-								meritList.setArab((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Msc":
-								meritList.setMsc((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "Bs":
-								meritList.setBs((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							case "DnD":
-								meritList.setDnd((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2
-										+ marks.get(j).getMainExam());
-								break;
-							}
-
-							meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis()
-									+ meritList.getBio() + meritList.getChem() + meritList.getPhy()
-									+ meritList.getHist() + meritList.getCre() + meritList.getGeo() + meritList.getIre()
-									+ meritList.getHre() + meritList.getHsci() + meritList.getAnd()
-									+ meritList.getAgric() + meritList.getComp() + meritList.getAvi()
-									+ meritList.getElec() + meritList.getPwr() + meritList.getWood()
-									+ meritList.getMetal() + meritList.getBc() + meritList.getFren()
-									+ meritList.getGerm() + meritList.getArab() + meritList.getMsc() + meritList.getBs()
-									+ meritList.getDnd());
-
-							meritLists.add(meritList);
-						}
-
-					}
-
-				}
-
-		}
-
-		Collections.sort(meritLists, new SortByTotal());
-		
-		for( int i=0;i<studentsWithoutMarks.size(); i++) {
-
-			meritList = new MeritList();
-			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
-			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
-			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
-			meritList.setTotal(0);
-		
-			meritLists.add(meritList);
-
-		}
-		
-		model.addAttribute("activeUser", activeUser);
-		model.addAttribute("school", school);
-		model.addAttribute("student", student);
-		model.addAttribute("year", year);
-		model.addAttribute("form", form);
-		model.addAttribute("term", term);
-		model.addAttribute("marks", marks);
-		model.addAttribute("subjects", subjects);
-		model.addAttribute("students", students);
-		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
-		model.addAttribute("meritLists", meritLists);
-
-		return "meritList";
-	}
-
-*/
+	 * @PostMapping("/schools/{code}/meritList") public String
+	 * studentsMeritList(@PathVariable int code, @RequestParam int
+	 * year, @RequestParam int form,
+	 * 
+	 * @RequestParam int term, Model model, Principal principal) {
+	 * 
+	 * User activeUser = userService.getByUsername(principal.getName()).get();
+	 * School school = schoolService.getSchool(code).get(); Student student = new
+	 * Student(); List<Mark> marks =
+	 * markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term,
+	 * year); List<Student> students =
+	 * studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+	 * List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+	 * 
+	 * List<Student> studentsWithoutMarks = new ArrayList<>();
+	 * 
+	 * for (int i = 0; i < students.size(); i++) { if
+	 * (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
+	 * studentsWithoutMarks.add(students.get(i)); } }
+	 * 
+	 * MeritList meritList; List<MeritList> meritLists = new ArrayList<>();
+	 * 
+	 * for (int i = 0; i < students.size(); i++) {
+	 * 
+	 * for (int j = 0; j < marks.size(); j++) {
+	 * 
+	 * for (int k = 0; k < subjects.size(); k++) {
+	 * 
+	 * if (students.get(i).getAdmNo() == marks.get(j).getStudent().getAdmNo() &&
+	 * marks.get(j).getSubject().getInitials() == subjects.get(k).getInitials()) {
+	 * 
+	 * meritList = new MeritList();
+	 * 
+	 * meritList.setFirstname(students.get(i).getFirstname());
+	 * meritList.setSecondname(students.get(i).getSecondname());
+	 * meritList.setAdmNo(students.get(i).getAdmNo());
+	 * 
+	 * switch (subjects.get(k).getInitials()) { case "Maths":
+	 * meritList.setMaths((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Eng":
+	 * meritList.setEng((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Kis":
+	 * meritList.setKis((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Bio":
+	 * meritList.setBio((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Chem":
+	 * meritList.setChem((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Phy":
+	 * meritList.setPhy((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Hist":
+	 * meritList.setHist((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "C.R.E":
+	 * meritList.setCre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Geo":
+	 * meritList.setGeo((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "I.R.E":
+	 * meritList.setIre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "H.R.E":
+	 * meritList.setHre((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Hsci":
+	 * meritList.setHsci((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "AnD":
+	 * meritList.setAnd((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Agric":
+	 * meritList.setAgric((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Comp":
+	 * meritList.setComp((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); ; break; case "Avi":
+	 * meritList.setAvi((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Elec":
+	 * meritList.setElec((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Pwr":
+	 * meritList.setPwr((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Wood":
+	 * meritList.setWood((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Metal":
+	 * meritList.setMetal((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Bc":
+	 * meritList.setBc((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Fren":
+	 * meritList.setFren((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Germ":
+	 * meritList.setGerm((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Arab":
+	 * meritList.setArab((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Msc":
+	 * meritList.setMsc((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "Bs":
+	 * meritList.setBs((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; case "DnD":
+	 * meritList.setDnd((marks.get(j).getCat1() + marks.get(j).getCat2()) / 2 +
+	 * marks.get(j).getMainExam()); break; }
+	 * 
+	 * meritList.setTotal(meritList.getMaths() + meritList.getEng() +
+	 * meritList.getKis() + meritList.getBio() + meritList.getChem() +
+	 * meritList.getPhy() + meritList.getHist() + meritList.getCre() +
+	 * meritList.getGeo() + meritList.getIre() + meritList.getHre() +
+	 * meritList.getHsci() + meritList.getAnd() + meritList.getAgric() +
+	 * meritList.getComp() + meritList.getAvi() + meritList.getElec() +
+	 * meritList.getPwr() + meritList.getWood() + meritList.getMetal() +
+	 * meritList.getBc() + meritList.getFren() + meritList.getGerm() +
+	 * meritList.getArab() + meritList.getMsc() + meritList.getBs() +
+	 * meritList.getDnd());
+	 * 
+	 * meritLists.add(meritList); }
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 * Collections.sort(meritLists, new SortByTotal());
+	 * 
+	 * for( int i=0;i<studentsWithoutMarks.size(); i++) {
+	 * 
+	 * meritList = new MeritList();
+	 * meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
+	 * meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
+	 * meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
+	 * meritList.setTotal(0);
+	 * 
+	 * meritLists.add(meritList);
+	 * 
+	 * }
+	 * 
+	 * model.addAttribute("activeUser", activeUser); model.addAttribute("school",
+	 * school); model.addAttribute("student", student); model.addAttribute("year",
+	 * year); model.addAttribute("form", form); model.addAttribute("term", term);
+	 * model.addAttribute("marks", marks); model.addAttribute("subjects", subjects);
+	 * model.addAttribute("students", students);
+	 * model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
+	 * model.addAttribute("meritLists", meritLists);
+	 * 
+	 * return "meritList"; }
+	 * 
+	 */
 	@GetMapping("/schools/{code}/student/{admNo}/progress")
 	public String viewStudentsProgressReport(@PathVariable int code, @PathVariable String admNo, Model model,
 			Principal principal) {
@@ -1212,7 +1156,7 @@ public class MainController {
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}")
 	public String addingMarksForAllStudentSubjects(Model model, Principal principal, @PathVariable int code,
 			@PathVariable int year, @PathVariable String subject, @PathVariable int form, @PathVariable int term,
-			@PathVariable int stream, @PathVariable String exam) {
+			@PathVariable int stream, @PathVariable int exam) {
 
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		Subject subjectObj = subjectService.getSubject(subject);
@@ -1222,6 +1166,7 @@ public class MainController {
 		Year yearObj = yearService.getYearFromSchool(year, code).get();
 		Form formObj = formService.getFormByForm(form);
 		Stream streamObj = streamService.getStream(stream);
+		ExamName examName = examNameService.getExam(exam);
 
 		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term, subject);
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -1242,8 +1187,12 @@ public class MainController {
 				mark.setYear(yearObj);
 				mark.setForm(formObj);
 
+				List<ExamName> examNames = new ArrayList<>();	
+				examNames.add(examName);
+				
+				mark.setExamNames(examNames);
 				marks.add(mark);
-
+				
 				markService.addMarksToSubject(mark);
 
 			}
@@ -1260,7 +1209,7 @@ public class MainController {
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
 		model.addAttribute("stream", streamObj);
-		model.addAttribute("exam", exam);
+		model.addAttribute("examName", examName);
 		model.addAttribute("student", student);
 		model.addAttribute("school", school);
 		model.addAttribute("activeUser", activeUser);
@@ -1483,8 +1432,8 @@ public class MainController {
 
 }
 
-class SortByTotal implements Comparator<MeritList>{
-	 
+class SortByTotal implements Comparator<MeritList> {
+
 	public int compare(MeritList a, MeritList b) {
 		return a.getTotal() - b.getTotal();
 	}

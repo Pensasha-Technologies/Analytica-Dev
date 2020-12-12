@@ -22,8 +22,14 @@ public class ExamNameService {
 	}
 
 	//Getting all exam with examName
-	public Boolean nameExists(String name){
-		return examNameRepository.existsById(name);
+	public Boolean nameExists(int id){
+		return examNameRepository.existsById(id);
+	}
+
+	//Getting exam in school by id, year, form and term
+	public ExamName getExamByIdSchoolCodeYearFormTerm(int id, int code, int year, int form, int term) {
+		
+		return examNameRepository.findByIdAndSchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(id, code, year, form, term);
 	}
 	
 	//Getting all exam in school by year, form and term
@@ -35,6 +41,8 @@ public class ExamNameService {
 	public List<ExamName> getExamBySchoolYearForm(int code, int year, int form) {
 		return examNameRepository.findBySchoolsCodeAndYearsYearAndFormsForm(code, year, form);
 	}
+	
+	// Getting all exam in school 
 
 	//Getting all exam in school by year
 	public List<ExamName> getExamBySchoolYear(int code, int year){
@@ -42,12 +50,12 @@ public class ExamNameService {
 	}
 	
 	// Getting one exam
-	public ExamName getExam(String name) {
-		return examNameRepository.findById(name).get();
+	public ExamName getExam(int id) {
+		return examNameRepository.findById(id).get();
 	}
 
 	// Deleting exam
-	public void deleteExam(String name) {
-		examNameRepository.deleteById(name);
+	public void deleteExam(int id) {
+		examNameRepository.deleteById(id);
 	}
 }

@@ -59,7 +59,7 @@ public class TermController {
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
 		List<Mark> marks = markService.getTermlySubjectMark(admNo, form, term);
-
+		
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("marks", marks);
 		model.addAttribute("forms", forms);

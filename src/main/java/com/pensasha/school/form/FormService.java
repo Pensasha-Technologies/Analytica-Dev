@@ -37,6 +37,11 @@ public class FormService {
 		return formRepository.findByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
 	}
 
+	//If form exists
+	public Boolean ifFormExists(int form, int year, int code) {
+		return formRepository.existsByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
+	}
+	
 	// Get form by student
 	public Form getStudentForm(int form, String admNo) {
 		return formRepository.findByFormAndStudentsAdmNo(form, admNo);

@@ -64,7 +64,7 @@
 							<h4 th:text="${subject.name}"></h4>
 						</div>
 						<div class="row d-flex justify-content-center">
-							<h5 th:text="${exam} + ' Marks Entry'"></h5>
+							<h5 th:text="${examName.name} + ' Marks Entry'"></h5>
 						</div>
 
 					</div>
@@ -77,7 +77,7 @@
 
 					<div class="table-responsive">
 						<form
-							th:action="@{/schools/{code}/marks/{exam}(code=${school.code}, exam=${exam})}"
+							th:action="@{/schools/{code}/stream/{stream}/marks/{exam}(code=${school.code},stream=${stream.id}, exam=${exam})}"
 							th:method="Post">
 							<input type="hidden" th:value="${subject.initials}"
 								name="subject" /> <input type="hidden" th:value="${form}"
@@ -98,7 +98,7 @@
 											<th scope="col">Second Name</th>
 											<th scope="col">Third Name</th>
 											<th scope="col">Admission Number</th>
-											<th scope="col" th:text="${exam} + ' Marks'">Marks</th>
+											<th scope="col" th:text="${examName.name} + ' Marks'">Marks</th>
 											<th scope="col">Out Of</th>
 										</tr>
 									</thead>
@@ -116,39 +116,12 @@
 												Second Name</td>
 											<td scope="row" th:text="${mark.student.thirdname}">
 												Third Name</td>
-											<td th:text="${mark.student.admNo}">Mark</td>
-											<td th:if="${exam == 'Cat1'}"><input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.cat1 ==0}" value=0 min="1" max="30" /> <input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.cat1 !=0}" th:value="${mark.cat1}" min="1"
-												max="30" /></td>
-											<td th:if="${exam == 'Cat2'}"><input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.cat2 == 0}" th:Value=0 min="1" max="30" /> <input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.cat2 != 0}" th:Value="${mark.cat2}" min="1"
-												max="30" /></td>
-											<td th:if="${exam =='Cat1' || exam == 'Cat2'}">/ 30%</td>
-											<td th:if="${exam == 'mainExam'}"><input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.mainExam == 0}" th:Value=0 min="1" max="70" /><input
-												class="form-control" type="number"
-												th:name="${mark.student.admNo} + 'mark'"
-												th:id="${mark.student.admNo} + 'mark'"
-												th:if="${mark.mainExam != 0}" th:Value="${mark.mainExam}"
-												min="1" max="70" /></td>
-											<td th:if="${exam == 'mainExam'}">/ 70%</td>
+											<td
+												th:utext="${#strings.substringAfter(mark.student.admNo,'_')}">Adm
+												No</td>
+											<td><input class="form-control" th:name="${mark.student.admNo + 'mark'}" type="number" th:value="${mark.mark}"
+												min="0" th:max="${examName.outOf}" /></td>
+											<td th:text="${examName.outOf}">/ 30%</td>
 										</tr>
 									</tbody>
 								</table>

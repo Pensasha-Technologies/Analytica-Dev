@@ -83,18 +83,22 @@
 												<tr>
 													<th scope="col">#</th>
 													<th scope="col">Name</th>
+													<th scope="col">Out Of</th>
 													<th scope="col"></th>
 												</tr>
 											</thead>
 											<tbody>
-												<th:block th:each="examName, strt : ${examNames}">
-													<tr
-														th:if="${not examName.forms.?[form == __${j}__ ].isEmpty() && not examName.terms.?[term == __${i}__].isEmpty()}">
-														<th scope="col" th:text="${strt.index + 1}">1</th>
-														<td scope="col" th:text="${examName.name}">Cat 1</td>
-														<td scope="col"><button class="btn btn-danger">Delete</button></td>
-													</tr>
-												</th:block>
+										
+												<tr th:each="examName : ${examNames}" th:if="${not examName.forms.?[form == __${j}__].isEmpty()} and ${not examName.terms.?[term == __${i}__].isEmpty()}">
+													<th scope="col" th:text="${examName.id}"></th>
+													<td scope="col" th:text="${examName.name}">Cat 1</td>
+													<td scope="col" th:text="${examName.outOf}">Out of</td>
+													<td scope="col"><a class="btn btn-danger"
+														data-toggle="modal" href="#"
+														th:data-href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/examination/{id}(code=${school.code}, year=${year}, form=${j}, term=${i}, id=${examName.id})}"
+														data-target="#deleteExamModal"> Delete </a></td>
+												</tr>
+											
 											</tbody>
 										</table>
 									</div>
@@ -137,6 +141,12 @@
 										placeholder="Enter Name" required />
 								</div>
 								<div class="form-group">
+									<label for="outOf"
+										style="display: block; text-align: left; margin-bottom: -5px;">Enter
+										Total Marks</label> <input type="number" id="outOf" name="outOf"
+										placeholder="Enter Total Marks" required />
+								</div>
+								<div class="form-group">
 									<label for="form">Choose Form:</label> <select name="form"
 										id="form" required>
 										<option value="">Select Form...</option>
@@ -168,6 +178,33 @@
 		</div>
 		<!-- End of Content Wrapper -->
 
+		<!-- Modal -->
+		<div class="modal fade" id="deleteExamModal" tabindex="-1"
+			role="dialog" aria-labelledby="deleteExamModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-danger" id="deleteExamModalLabel">Delete
+							Exam</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p class="text-danger">This exam will be deleted and will not
+							be recovered. Are you sure you want to delete?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal">No!
+							Don't Delete</button>
+						<a class="btn btn-danger ok-button">Yes! Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	<!-- End of Page Wrapper -->
 
@@ -179,33 +216,14 @@
 
 	<div th:replace="fragments :: endScript"></div>
 
-	<!-- Modal -->
-	<div class="modal fade" id="deleteDisciplineReportModal" tabindex="-1"
-		role="dialog" aria-labelledby="deleteDisciplineReportModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title text-danger"
-						id="deleteDisciplineReportModalLabel">Delete Student
-						Discipline Report</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<p class="text-danger">This discipline report will be deleted
-						and will not be recovered. Are you sure you want to delete?</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" data-dismiss="modal">No!
-						Don't Delete</button>
-					<a class="btn btn-danger ok-button">Yes! Delete</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<script>
+		$('#deleteExamModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 
 </body>
 
