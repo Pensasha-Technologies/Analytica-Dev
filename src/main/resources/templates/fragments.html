@@ -531,7 +531,9 @@
 					</div>
 					<div class="modal-body">
 
-						<form id="examinations" th:action="@{/schools/{code}/examination(code=${school.code})}" method="post">
+						<form id="examinations"
+							th:action="@{/schools/{code}/examination(code=${school.code})}"
+							method="post">
 							<div class="form-group">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
@@ -675,6 +677,15 @@
 						<form class="termlyReport"
 							th:action="@{/schools/{code}/student/{admNo}/termlyReport(code=${school.code}, admNo=${student.admNo})}"
 							method="post">
+							<div class="form-group fadeIn first">
+								<label for="form">Choose Academic Year:</label> <select
+									name="year" id="year" required>
+									<option value="">Select Year...</option>
+									<th:block th:each="year : ${school.years}">
+										<option th:value="${year.year}" th:text="${year.year}">Form 1</option>
+									</th:block>
+								</select>
+							</div>
 							<div class="form-group fadeIn second">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="form" required>

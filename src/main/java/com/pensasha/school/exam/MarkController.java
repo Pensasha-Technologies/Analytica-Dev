@@ -143,7 +143,7 @@ public class MarkController {
 	}
 
 	@PostMapping("/schools/{code}/stream/{stream}/marks/{exam}")
-	public String addMarksToStudentSubjects(@PathVariable int code,@PathVariable String stream, @PathVariable String exam,
+	public String addMarksToStudentSubjects(@PathVariable int code,@PathVariable String stream, @PathVariable int exam,
 			HttpServletRequest request, Model model, Principal principal) {
 
 		int form = Integer.parseInt(request.getParameter("form"));
@@ -165,9 +165,9 @@ public class MarkController {
 
 		for (int i = 0; i < students.size(); i++) {
 
-			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
+			if (markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
 
-				mark = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject);
+				mark = markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam);
 
 			} else {
 				mark = new Mark(students.get(i), yearObj, formObj, termObj, subjectObj);

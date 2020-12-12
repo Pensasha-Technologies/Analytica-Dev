@@ -28,29 +28,24 @@ public class Mark {
 	private int id;
 	private int mark;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "Stud_AdmNo")
 	private Student student;
 
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "year")
 	private Year year;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "form")
 	private Form form;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "term")
 	private Term term;
 
 	@ManyToOne
-	@JsonIgnore
 	@JoinColumn(name = "subject")
 	private Subject subject;
 	

@@ -1177,9 +1177,9 @@ public class MainController {
 
 		for (int i = 0; i < students.size(); i++) {
 			Mark mark = new Mark();
-			if (markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject) != null) {
+			if (markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
 				marks.add(
-						markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subject));
+						markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam));
 			} else {
 				mark.setStudent(students.get(i));
 				mark.setSubject(subjectObj);
@@ -1215,7 +1215,7 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 
 		return "marksEntry";
-
+		
 	}
 
 	@PostMapping("/schools/{code}/classList")

@@ -17,10 +17,10 @@ public class MarkService {
 				term, subject);
 	}
 	
-	public List<Mark> getMarkByStudentsOnSubject(int year, int form, int term, String subject){
-
-		return markRepository.findByYearYearAndFormFormAndTermTermAndSubjectInitials( year, form,
-				term, subject);
+	//Getting mark by student in a year, form, term, subject and examName
+	public Mark getMarksByStudentOnSubjectByExamId(String admNo, int year, int form, int term, String subject, int id) {
+		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNamesId(admNo, year, form,
+				term, subject, id);
 	}
 
 	// Get a list of all subject marks
