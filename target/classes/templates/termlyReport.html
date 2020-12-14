@@ -146,7 +146,9 @@
 										<tbody>
 											<tr class="d-flex">
 												<td scope="col" class="col-2" th:text="${student.kcpeMarks}">Mark</td>
-												<td scope="col" class="col-2">-</td>
+												<td
+													th:text="${(#aggregates.sum(marks.![mark]))/subjects.size()}"
+													class="col-2">100</td>
 												<td scope="col" class="col-2">-</td>
 												<td scope="col" class="col-2">-</td>
 
