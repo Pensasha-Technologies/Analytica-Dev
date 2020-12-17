@@ -33,11 +33,12 @@ public class MeritList {
 	private int bs;
 	private int dnd;
 	private int total;
-	
+	private int average;
+
 	public MeritList(String firstname, String secondname, String admNo, int maths, int eng, int kis, int bio, int chem,
 			int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int and, int agric, int comp, int avi,
 			int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd,
-			int total, int average, int points, String grade) {
+			int total, int average) {
 		super();
 		this.firstname = firstname;
 		this.secondname = secondname;
@@ -70,11 +71,12 @@ public class MeritList {
 		this.bs = bs;
 		this.dnd = dnd;
 		this.total = total;
+		this.average = average;
 	}
-	
+
 	public MeritList(int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire,
 			int hre, int hsci, int and, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc,
-			int fren, int germ, int arab, int msc, int bs, int dnd, int total) {
+			int fren, int germ, int arab, int msc, int bs, int dnd, int total, int average) {
 		super();
 		this.maths = maths;
 		this.eng = eng;
@@ -104,9 +106,8 @@ public class MeritList {
 		this.bs = bs;
 		this.dnd = dnd;
 		this.total = total;
+		this.average = average;
 	}
-
-
 
 	public MeritList() {
 		super();
@@ -359,5 +360,13 @@ public class MeritList {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	
+
+	public int getAverage() {
+		return average;
+	}
+
+	public void setAverage(int average) {
+		this.average = average;
+	}
+
 }

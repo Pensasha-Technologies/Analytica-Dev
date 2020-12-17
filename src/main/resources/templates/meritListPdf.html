@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment2 :: head">
+</head>
+<body>
+
+	<!-- Begin Page Content -->
+	<div class="container-fluid">
+
+		<div style="text-align: center; margin-bottom: 30px;">
+			<h3 th:text="${school.name}">School Name</h3>
+			<h4 th:text="'Year: ' + ${year} + ' Form: ' + ${form}"></h4>
+			<h4 th:text="'Term: ' + ${term}"></h4>
+		</div>
+
+		<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+			Student exists</div>
+
+		<div class="alert alert-success" th:if="${success}"
+			th:text="${success}">Student saved</div>
+
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Pos</th>
+						<th scope="col">First Name</th>
+						<th scope="col">Third Name</th>
+						<th scope="col">Adm No.</th>
+						<th:block th:each="subject : ${subjects}">
+							<th scope="col" th:text="${subject.initials}">subject</th>
+						</th:block>
+						<th scope="col">Total</th>
+						<th scope="col">Average</th>
+						<th scope="col">Grade</th>
+						<th scope="col">Points</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="meritList, rank : ${meritLists}">
+						<th scope="row" th:text="${rank.index + 1}">1</th>
+						<td th:text="${meritList.firstname}"></td>
+						<td th:text="${meritList.secondname}"></td>
+						<td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
+						<th:block th:each="subject : ${subjects}">
+							<td th:text="${meritList.__${subject.initials}__}"
+								th:if="${subject.initials != 'C.R.E'}"></td>
+							<td th:text="${meritList.cre}"
+								th:if="${subject.initials == 'C.R.E'}"></td>
+						</th:block>
+						<td th:text="${meritList.total}"></td>
+						<td th:text="${meritList.average}">Average</td>
+						<td th:with="isEven=${meritList.average}">
+							<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+							<p th:if="${isEven<80 && isEven>=75}">A-</p>
+							<p th:if="${isEven<75 && isEven>=70}">B+</p>
+							<p th:if="${isEven<70 && isEven>=65}">B</p>
+							<p th:if="${isEven<65 && isEven>=60}">B-</p>
+							<p th:if="${isEven<60 && isEven>=55}">C+</p>
+							<p th:if="${isEven<55 && isEven>=50}">C</p>
+							<p th:if="${isEven<50 && isEven>=45}">C-</p>
+							<p th:if="${isEven<45 && isEven>=40}">D+</p>
+							<p th:if="${isEven<40 && isEven>=35}">D</p>
+							<p th:if="${isEven<35 && isEven>=30}">D-</p>
+							<p th:if="${isEven<30 && isEven>0}">E</p>
+							<p th:if="${isEven == 0 }">...</p>
+						</td>
+						<td th:with="isOdd = ${meritList.average}">
+							<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+							<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+							<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+							<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+							<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+							<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+							<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+							<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+							<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+							<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+							<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+							<p th:if="${isOdd<30 && isOdd>0}">1</p>
+							<p th:if="${isOdd == 0 }">...</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- End of Main Content -->
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	</script>
+</body>
+</html>

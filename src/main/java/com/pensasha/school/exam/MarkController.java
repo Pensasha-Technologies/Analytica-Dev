@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.*;
@@ -212,7 +214,8 @@ public class MarkController {
 			@RequestParam int form, @RequestParam int term, @RequestParam String subject, @RequestParam int stream,
 			@RequestParam int examType) {
 
-		return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/" + subject + "/streams/" + stream + "/exams/" + examType;
+		return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/"
+				+ subject + "/streams/" + stream + "/exams/" + examType;
 	}
 
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}")
@@ -370,4 +373,904 @@ public class MarkController {
 
 	}
 
+	@PostMapping("/schools/{code}/meritList")
+	public String studentsMeritList(@PathVariable int code, @RequestParam int year, @RequestParam int form,
+			@RequestParam int term, Model model, Principal principal) {
+
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+		List<Mark> allMarks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
+
+		List<Student> studentsWithoutMarks = new ArrayList<>();
+
+		for (int i = 0; i < students.size(); i++) {
+			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
+				studentsWithoutMarks.add(students.get(i));
+			}
+		}
+
+		MeritList meritList = new MeritList();
+		List<MeritList> meritLists = new ArrayList<>();
+
+		for (int i = 0; i < students.size(); i++) {
+
+			int count = 0;
+			
+			for (int j = 0; j < subjects.size(); j++) {
+
+				meritList.setFirstname(students.get(i).getFirstname());
+				meritList.setSecondname(students.get(i).getSecondname());
+				meritList.setAdmNo(students.get(i).getAdmNo());
+
+				List<Mark> marks = new ArrayList<>();
+
+				int sum = 0;
+
+				switch (subjects.get(j).getInitials()) {
+				case "Maths":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+					
+					count++;
+					meritList.setMaths(sum);
+					break;
+				case "Eng":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setEng(sum);
+
+					break;
+				case "Kis":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setKis(sum);
+
+					break;
+				case "Bio":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBio(sum);
+
+					break;
+				case "Chem":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setChem(sum);
+
+					break;
+				case "Phy":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setPhy(sum);
+
+					break;
+				case "Hist":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHist(sum);
+
+					break;
+				case "C.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setCre(sum);
+
+					break;
+				case "Geo":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setGeo(sum);
+
+					break;
+				case "I.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setIre(sum);
+
+					break;
+				case "H.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHre(sum);
+
+					break;
+				case "Hsci":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHsci(sum);
+
+					break;
+				case "AnD":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAnd(sum);
+
+					break;
+				case "Agric":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAgric(sum);
+
+					break;
+				case "Comp":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setComp(sum);
+
+					break;
+				case "Avi":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAvi(sum);
+
+					break;
+				case "Elec":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setElec(sum);
+
+					break;
+				case "Pwr":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setPwr(sum);
+
+					break;
+				case "Wood":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setWood(sum);
+
+					break;
+				case "Metal":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setMetal(sum);
+
+					break;
+				case "Bc":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBc(sum);
+
+					break;
+				case "Fren":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setFren(sum);
+
+					break;
+				case "Germ":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setGerm(sum);
+
+					break;
+				case "Arab":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setArab(sum);
+
+					break;
+				case "Msc":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setMsc(sum);
+
+					break;
+				case "Bs":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBs(sum);
+
+					break;
+				case "DnD":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setDnd(sum);
+
+					break;
+				}
+
+			}
+
+			meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
+					+ meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
+					+ meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
+					+ meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
+					+ meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
+					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
+					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+
+			meritList.setAverage(meritList.getTotal()/count);
+			
+			meritLists.add(meritList);
+
+		}
+
+		Collections.sort(meritLists, new SortByTotal());
+
+		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
+
+			meritList = new MeritList();
+			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
+			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
+			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
+			meritList.setTotal(0);
+
+			meritLists.add(meritList);
+
+		}
+
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("school", school);
+		model.addAttribute("student", student);
+		model.addAttribute("year", year);
+		model.addAttribute("form", form);
+		model.addAttribute("term", term);
+		model.addAttribute("marks", allMarks);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("students", students);
+		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
+		model.addAttribute("meritLists", meritLists);
+
+		return "meritList";
+	}
+	
+	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf")
+	public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
+			@PathVariable int term, 
+			HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+
+		/* Do Business Logic */
+
+		User activeUser = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+		List<Mark> allMarks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
+
+		List<Student> studentsWithoutMarks = new ArrayList<>();
+
+		for (int i = 0; i < students.size(); i++) {
+			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
+				studentsWithoutMarks.add(students.get(i));
+			}
+		}
+
+		MeritList meritList = new MeritList();
+		List<MeritList> meritLists = new ArrayList<>();
+
+		for (int i = 0; i < students.size(); i++) {
+
+			int count = 0;
+			
+			for (int j = 0; j < subjects.size(); j++) {
+
+				meritList.setFirstname(students.get(i).getFirstname());
+				meritList.setSecondname(students.get(i).getSecondname());
+				meritList.setAdmNo(students.get(i).getAdmNo());
+
+				List<Mark> marks = new ArrayList<>();
+
+				int sum = 0;
+
+				switch (subjects.get(j).getInitials()) {
+				case "Maths":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+					
+					count++;
+					meritList.setMaths(sum);
+					break;
+				case "Eng":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setEng(sum);
+
+					break;
+				case "Kis":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setKis(sum);
+
+					break;
+				case "Bio":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBio(sum);
+
+					break;
+				case "Chem":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setChem(sum);
+
+					break;
+				case "Phy":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setPhy(sum);
+
+					break;
+				case "Hist":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHist(sum);
+
+					break;
+				case "C.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setCre(sum);
+
+					break;
+				case "Geo":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setGeo(sum);
+
+					break;
+				case "I.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setIre(sum);
+
+					break;
+				case "H.R.E":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHre(sum);
+
+					break;
+				case "Hsci":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setHsci(sum);
+
+					break;
+				case "AnD":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAnd(sum);
+
+					break;
+				case "Agric":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAgric(sum);
+
+					break;
+				case "Comp":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setComp(sum);
+
+					break;
+				case "Avi":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setAvi(sum);
+
+					break;
+				case "Elec":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setElec(sum);
+
+					break;
+				case "Pwr":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setPwr(sum);
+
+					break;
+				case "Wood":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setWood(sum);
+
+					break;
+				case "Metal":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setMetal(sum);
+
+					break;
+				case "Bc":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBc(sum);
+
+					break;
+				case "Fren":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setFren(sum);
+
+					break;
+				case "Germ":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setGerm(sum);
+
+					break;
+				case "Arab":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setArab(sum);
+
+					break;
+				case "Msc":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setMsc(sum);
+
+					break;
+				case "Bs":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setBs(sum);
+
+					break;
+				case "DnD":
+
+					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
+							subjects.get(j).getInitials());
+
+					for (int k = 0; k < marks.size(); k++) {
+						sum = sum + marks.get(k).getMark();
+					}
+
+					count++;
+					meritList.setDnd(sum);
+
+					break;
+				}
+
+			}
+
+			meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
+					+ meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
+					+ meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
+					+ meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
+					+ meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
+					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
+					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+
+			meritList.setAverage(meritList.getTotal()/count);
+			
+			meritLists.add(meritList);
+
+		}
+
+		Collections.sort(meritLists, new SortByTotal());
+
+		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
+
+			meritList = new MeritList();
+			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
+			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
+			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
+			meritList.setTotal(0);
+
+			meritLists.add(meritList);
+
+		}
+
+		/* Create HTML using Thymeleaf template Engine */
+
+		WebContext context = new WebContext(request, response, servletContext);
+		context.setVariable("activeUser", activeUser);
+		context.setVariable("school", school);
+		context.setVariable("student", student);
+		context.setVariable("year", year);
+		context.setVariable("form", form);
+		context.setVariable("term", term);
+		context.setVariable("marks", allMarks);
+		context.setVariable("subjects", subjects);
+		context.setVariable("students", students);
+		context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
+		context.setVariable("meritLists", meritLists);
+		String meritListHtml = templateEngine.process("meritListPdf", context);
+
+		/* Setup Source and target I/O streams */
+
+		ByteArrayOutputStream target = new ByteArrayOutputStream();
+
+		/* Setup converter properties. */
+		ConverterProperties converterProperties = new ConverterProperties();
+		converterProperties.setBaseUri("http://localhost:8080");
+
+		/* Call convert method */
+
+		HtmlConverter.convertToPdf(meritListHtml, target, converterProperties);
+
+		/* extract output as bytes */
+		byte[] bytes = target.toByteArray();
+
+		/* Send the response as downloadable PDF */
+
+		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
+
+	}
+
+}
+
+class SortByTotal implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getTotal() - b.getTotal();
+	}
 }

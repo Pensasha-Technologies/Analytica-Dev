@@ -12,7 +12,7 @@ public class MarkService {
 	private MarkRepository markRepository;
 
 	// Getting mark by student in a year, form, term, subject
-	public Mark getMarkByStudentOnAsubject(String admNo, int year, int form, int term, String subject) {
+	public List<Mark> getMarkByStudentOnAsubject(String admNo, int year, int form, int term, String subject) {
 		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitials(admNo, year, form,
 				term, subject);
 	}
