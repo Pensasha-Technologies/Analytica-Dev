@@ -53,12 +53,9 @@
 
 					</div>
 
-					<div>
-						<form method="get"
-							th:action="@{/report/school/{code}/years/{year}/form/{form}/stream/{stream}/classList(code = ${school.code},year = ${year}, form = ${form}, stream = ${stream})}">
-							<button type="submit" class="btn btn-info">Export</button>
-						</form>
-					</div>
+					<a
+						th:href="@{/schools/{code}/years/{year}/forms/{form}/streams/{stream}/classList/pdf(code=${school.code},year=${year}, form=${form},stream=${stream})}"
+						class="btn btn-primary"> Download</a>
 
 
 					<div>
@@ -90,7 +87,8 @@
 										<td th:text="${student.firstname}">Student first name</td>
 										<td th:text="${student.secondname}">Student second name</td>
 										<td th:text="${student.thirdname}">Student third name</td>
-										<td th:text="${student.admNo}">Student Admission Number</td>
+										<td th:text="${#strings.substringAfter(student.admNo,'_')}">Student
+											Admission Number</td>
 									</tr>
 								</tbody>
 							</table>

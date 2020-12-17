@@ -16,6 +16,7 @@ com/pensasha/school/term/TermController.class
 com/pensasha/school/user/UserRepository.class
 com/pensasha/school/year/YearController.class
 com/pensasha/school/form/FormService.class
+com/pensasha/school/exam/ExamNameRepository.class
 com/pensasha/school/year/YearService.class
 com/pensasha/school/year/YearRepository.class
 com/pensasha/school/school/SchoolRepository.class
@@ -39,6 +40,7 @@ com/pensasha/school/finance/FeeStructureService.class
 com/pensasha/school/form/FormController.class
 com/pensasha/school/stream/StreamService.class
 com/pensasha/school/subject/SubjectController.class
+com/pensasha/school/exam/ExamName.class
 com/pensasha/school/user/UserController.class
 com/pensasha/school/interfaceController/MyErrorController.class
 com/pensasha/school/sms/Gateway.class
@@ -50,6 +52,7 @@ com/pensasha/school/timetable/TimetableRepository.class
 com/pensasha/school/config/WebSecurityConfig.class
 com/pensasha/school/term/TermService.class
 com/pensasha/school/year/Year.class
+com/pensasha/school/exam/ExamNameService.class
 com/pensasha/school/subject/SubjectRepository.class
 com/pensasha/school/discipline/DisciplineService.class
 com/pensasha/school/timetable/TimetableService.class
@@ -58,6 +61,7 @@ com/pensasha/school/form/FormRepository.class
 com/pensasha/school/exam/MeritList.class
 com/pensasha/school/finance/FeeRecord.class
 com/pensasha/school/finance/AmountPayableRepository.class
+com/pensasha/school/interfaceController/SortByTotal.class
 com/pensasha/school/student/StudentService.class
 com/pensasha/school/student/StudentRepository.class
 com/pensasha/school/config/MvcConfig.class

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -62,10 +63,10 @@ public class UserController {
 
 	// Company Users
 	@GetMapping("/users")
-	public String systemUsers(Model model, Principal principal) {
+	public List<User> systemUsers(Model model, Principal principal) {
 
 		List<User> systemUsers = new ArrayList<>();
-		User user = new User();
+		User user = userService.getByUsername(principal.getName()).get();
 		List<User> users = userService.findAllUsers();
 
 		AllUsers(principal, model);
@@ -82,7 +83,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("users", systemUsers);
 
-		return "users";
+		return users;
 	}
 
 	// School Users

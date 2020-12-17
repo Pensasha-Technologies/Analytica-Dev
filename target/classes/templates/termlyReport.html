@@ -54,12 +54,23 @@
 					<img th:src="@{/studImg/{admNo}(admNo=${student.admNo})}"
 						height="100px" width="100px;"
 						style="display: block; margin-left: auto; margin-right: auto;" />
-					<h3
-						th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}"
-						style="text-align: center;">Name</h3>
+					
+					<div style="text-align: center;">
+
+						<h3
+							th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}">Name</h3>
+						<h4 th:text="'Form ' + ${form} + ' Term ' + ${term}">Form and
+							Term</h4>
+							<h5 th:text="'Year ' + ${year}">Year</h5>
+
+					</div>
 
 					<div class="container-fluid">
 
+
+						<a
+							th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/students/{admNo}/termlyReport/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, admNo=${student.admNo})}"
+							class="btn btn-primary"> Download</a>
 
 						<div class="border border-dark" style="padding: 10px;">
 

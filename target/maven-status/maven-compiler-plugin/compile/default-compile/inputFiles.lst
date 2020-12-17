@@ -2,6 +2,7 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/MarkRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamName.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/YearService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormService.java
@@ -60,10 +61,12 @@
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/SchoolService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/Stream.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/SchoolUserRepository.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamNameRepository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/WebSecurityConfig.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/discipline/DisciplineService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/SubjectController.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamRespository.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormRepository.java
+/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamNameService.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/Mark.java
 /home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/TeacherRepository.java

@@ -1,4 +1,4 @@
-# Created at 2020-12-02T11:25:19.167
+# Created at 2020-12-16T20:59:27.951
 java.io.IOException: Stream closed
 	at java.base/java.io.BufferedInputStream.getBufIfOpen(BufferedInputStream.java:176)
 	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:289)
@@ -23,9 +23,9 @@ java.io.IOException: Stream closed
 	at java.base/java.lang.Thread.run(Thread.java:834)
 
 
-# Created at 2020-12-02T11:25:19.169
+# Created at 2020-12-16T20:59:27.955
 System.exit() or native command error interrupted process checker.
-java.lang.IllegalStateException: error [STOPPED] to read process 37218
+java.lang.IllegalStateException: error [STOPPED] to read process 87532
 	at org.apache.maven.surefire.booter.PpidChecker.checkProcessInfo(PpidChecker.java:145)
 	at org.apache.maven.surefire.booter.PpidChecker.isProcessAlive(PpidChecker.java:124)
 	at org.apache.maven.surefire.booter.ForkedBooter$2.run(ForkedBooter.java:214)

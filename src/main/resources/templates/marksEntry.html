@@ -2,8 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragment2 :: head">
-<!-- Custom styles for this template-->
-<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
 </head>
 
 <body id="page-top">
@@ -49,7 +47,7 @@
 				</nav>
 
 				<!-- Begin Page Content -->
-				<div class="container-fluid">
+				<div class="container-fluid" id="markSheet">
 
 					<div class="d-flex flex-column">
 
@@ -86,11 +84,14 @@
 								name="term" /> <input type="hidden" th:value="${stream.id}"
 								name="stream" />
 
+							<a th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, subject=${subject.initials} ,stream=${stream.id}, exam=${exam})}" class="btn btn-primary">
+								Download</a>
+
 							<button th:if="${students} and ${students.size()}"
-								class="btn btn-primary fadeIn first" type="submit"
+								class="btn btn-primary" type="submit"
 								style="margin-bottom: 10px; float: right;">Submit</button>
 
-							<div class="table-responsive">
+							<div>
 								<table class="table">
 									<thead>
 										<tr>
@@ -119,8 +120,9 @@
 											<td
 												th:utext="${#strings.substringAfter(mark.student.admNo,'_')}">Adm
 												No</td>
-											<td><input class="form-control" th:name="${mark.student.admNo + 'mark'}" type="number" th:value="${mark.mark}"
-												min="0" th:max="${examName.outOf}" /></td>
+											<td><input class="form-control"
+												th:name="${mark.student.admNo + 'mark'}" type="number"
+												th:value="${mark.mark}" min="0" th:max="${examName.outOf}" /></td>
 											<td th:text="${examName.outOf}">/ 30%</td>
 										</tr>
 									</tbody>
@@ -150,6 +152,28 @@
 		<div th:replace="fragments :: logoutModal"></div>
 
 		<div th:replace="fragments :: endScript"></div>
+
+		<script type="text/javascript">
+			function getPdf() {
+
+				var pdf = new jsPDF('p', 'pt', 'a4');
+				var canvas = pdf.canvas;
+				// var width = 400;
+
+				html2pdf(
+						document.getElementById("markSheet"),
+						pdf,
+						function(canvas) {
+							var iframe = document.createElement('iframe');
+							iframe
+									.setAttribute('style',
+											'position:absolute;right:0; top:0; bottom:0; height:100%; width:40%;');
+							document.body.appendChild(iframe);
+							iframe.src = pdf.output('datauristring');
+						});
+
+			}
+		</script>
 </body>
 
 </html>
