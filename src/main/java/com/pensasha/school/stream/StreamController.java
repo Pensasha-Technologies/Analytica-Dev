@@ -25,16 +25,12 @@ import org.thymeleaf.context.WebContext;
 
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
-import com.pensasha.school.term.Term;
 import com.pensasha.school.user.SchoolUser;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
@@ -260,10 +256,9 @@ public class StreamController {
 
 		/* Setup converter properties. */
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://localhost:8080");
+		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
 
 		/* Call convert method */
-
 		HtmlConverter.convertToPdf(classListHtml, target, converterProperties);
 
 		/* extract output as bytes */

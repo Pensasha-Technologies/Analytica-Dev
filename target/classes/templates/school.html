@@ -481,7 +481,7 @@
 							<div class="d-flex justify-content-center">
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
-									<form class="addSubjectsForm" th:object="${stream}"
+									<form class="addSubjectsForm" name="addStream" th:object="${stream}"
 										onsubmit="return addSubjectValidation()"
 										th:action="@{/school/{code}/streams(code = ${school.code})}"
 										method="post">
@@ -492,7 +492,7 @@
 											<label for="stream"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Stream</label> <input type="text" id="streamInput"
-												th:field="*{stream}" class="fadeIn first" name="stream"
+												th:field="*{stream}" class="fadeIn first" name="streamInput"
 												placeholder="Enter Stream">
 										</div>
 
@@ -582,7 +582,7 @@
 			var x;
 
 			// Get the value of the input field
-			x = document.getElementById("streamInput").value;
+			x = document.forms["addStream"]["streamInput"].value;
 
 			if (x == "") {
 				alert("Stream must be filled out");

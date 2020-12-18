@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -30,11 +27,8 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.ExamNameService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.exam.MeritList;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.report.ReportService;
@@ -81,12 +75,11 @@ public class MainController {
 	private StreamService streamService;
 	private TimetableService timetableService;
 	private DisciplineService disciplineService;
-	private ExamNameService examNameService;
 
 	public MainController(ReportService reportService, SchoolService schoolService, StudentService studentService,
 			TermService termService, SubjectService subjectService, FormService formService, YearService yearService,
 			MarkService markService, UserService userService, RoleService roleService, StreamService streamService,
-			TimetableService timetableService, DisciplineService disciplineService, ExamNameService examNameService) {
+			TimetableService timetableService, DisciplineService disciplineService) {
 		super();
 		this.reportService = reportService;
 		this.schoolService = schoolService;
@@ -101,7 +94,6 @@ public class MainController {
 		this.streamService = streamService;
 		this.timetableService = timetableService;
 		this.disciplineService = disciplineService;
-		this.examNameService = examNameService;
 	}
 
 	@GetMapping("index")

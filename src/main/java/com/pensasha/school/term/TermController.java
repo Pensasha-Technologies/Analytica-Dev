@@ -3,7 +3,6 @@ package com.pensasha.school.term;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -32,7 +31,6 @@ import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
-import com.pensasha.school.stream.Stream;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;

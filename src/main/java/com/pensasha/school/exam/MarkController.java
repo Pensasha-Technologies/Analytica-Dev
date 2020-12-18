@@ -358,7 +358,7 @@ public class MarkController {
 
 		/* Setup converter properties. */
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://localhost:8080");
+		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
 
 		/* Call convert method */
 
@@ -1251,7 +1251,7 @@ public class MarkController {
 
 		/* Setup converter properties. */
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://localhost:8080");
+		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
 
 		/* Call convert method */
 

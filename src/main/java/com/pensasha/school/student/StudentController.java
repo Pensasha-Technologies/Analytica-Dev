@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -305,17 +305,26 @@ public class StudentController {
 					student.setForms(forms);
 					student.setAdmNo(school.getCode() + "_" + student.getAdmNo());
 
+					List<Subject> subjects = new ArrayList<>();
+
 					if (student.getCurrentForm() == 1 || student.getCurrentForm() == 2) {
 
-						Collection<Subject> subjects = school.getCompSubjectF1F2();
-						student.setSubjects(subjects);
+						Iterator<Subject> iterator = school.getCompSubjectF1F2().iterator();
 
+						while (iterator.hasNext()) {
+							subjects.add(iterator.next());
+						}
 					} else if (student.getCurrentForm() == 3 || student.getCurrentForm() == 4) {
-						
-						Collection<Subject> subjects = school.getCompSubjectF3F4();
-						student.setSubjects(subjects);
+
+						Iterator<Subject> iterator = school.getCompSubjectF3F4().iterator();
+
+						while (iterator.hasNext()) {
+							subjects.add(iterator.next());
+						}
 					}
 
+					student.setSubjects(subjects);
+					
 					studentService.addStudent(student);
 
 					redit.addFlashAttribute("success",
