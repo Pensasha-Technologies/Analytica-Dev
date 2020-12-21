@@ -70,6 +70,8 @@
 							Save</button>
 					</div>
 
+					<a th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable/pdf(code=${school.code}, year=${year}, form=${form}, term=${term}, stream=${stream.id})}" class="btn btn-primary"> Download </a>
+
 					<div class="table-responsive">
 						<form
 							th:action="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable(code=${school.code}, year=${year}, form=${form}, term=${term}, stream = ${stream.id})}"

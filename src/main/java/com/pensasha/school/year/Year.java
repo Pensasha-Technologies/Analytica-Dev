@@ -18,6 +18,7 @@ import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
+import com.pensasha.school.user.Teacher;
 
 @Entity
 public class Year {
@@ -48,6 +49,10 @@ public class Year {
 	@ManyToMany(mappedBy = "years", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<ExamName> examNames;
 
+	@JsonIgnore
+	@ManyToMany(mappedBy = "years", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Teacher> teachers;
+	
 	public Year(int year, Collection<School> schools, Collection<Form> forms, Collection<Subject> subjects,
 			Collection<Student> students, Collection<ExamName> examNames) {
 		super();
@@ -120,6 +125,14 @@ public class Year {
 
 	public void setExamNames(Collection<ExamName> examNames) {
 		this.examNames = examNames;
+	}
+
+	public List<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<Teacher> teachers) {
+		this.teachers = teachers;
 	}
 
 }

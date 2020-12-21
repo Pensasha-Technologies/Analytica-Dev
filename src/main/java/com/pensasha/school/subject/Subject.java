@@ -43,7 +43,7 @@ public class Subject {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "compSubjectF3F4", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<School> compF3F4schools;
-
+	
 	public Subject(String initials, String name, Collection<School> schools, Collection<Student> students,
 			Collection<Form> forms, Collection<Year> years, Collection<School> compF1F2schools,
 			Collection<School> compF3F4schools) {

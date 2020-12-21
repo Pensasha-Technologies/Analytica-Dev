@@ -19,7 +19,7 @@ public class UserService {
 	private SchoolRepository schoolRepository;
 	private SchoolUserRepository schoolUserRepository;
 	private TeacherRepository teacherRepository;
-	
+
 	public UserService(RoleRepository roleRepository, UserRepository userRepository, SchoolRepository schoolRepository,
 			SchoolUserRepository schoolUserRepository, TeacherRepository teacherRepository) {
 		super();
@@ -34,9 +34,24 @@ public class UserService {
 	public Optional<User> getByUsername(String username) {
 		return userRepository.findById(username);
 	}
+
+	public List<Teacher> getAllTeachersBySubjectInitials(String initials) {
+
+		return teacherRepository.findBySubjectsInitials(initials);
+	}
+
+	public List<Teacher> getAllTeachersByAcademicYearAndSchool(int code, int year){
+		return teacherRepository.findBySchoolCodeAndYearsYear(code, year);
+	}
 	
-	//Get school user by username
-	public SchoolUser getSchoolUserByUsername(String username){
+	public List<Teacher> getAllTeachersByAcademicYearAndSchoolFormStream(int code,int form, int stream, int year){
+	
+		return teacherRepository.findBySchoolCodeAndYearsYearAndFormsFormAndStreamsId(code, year,form,stream);
+	}
+
+	
+	// Get school user by username
+	public SchoolUser getSchoolUserByUsername(String username) {
 		return schoolUserRepository.findByUsername(username);
 	}
 
@@ -71,8 +86,8 @@ public class UserService {
 	public List<SchoolUser> getUsersBySchoolCode(int code) {
 		return schoolUserRepository.findBySchoolCode(code);
 	}
-	
-	//Getting a teacher in school
+
+	// Getting a teacher in school
 	public Teacher gettingTeacherByUsername(String username) {
 		return teacherRepository.findByUsername(username);
 	}
@@ -115,7 +130,7 @@ public class UserService {
 	public User addUser(User user) {
 		return userRepository.save(user);
 	}
-	
+
 	public Teacher addUser(Teacher teacher) {
 		return userRepository.save(teacher);
 	}

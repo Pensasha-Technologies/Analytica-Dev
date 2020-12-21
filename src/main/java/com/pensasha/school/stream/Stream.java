@@ -1,14 +1,19 @@
 package com.pensasha.school.stream;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.school.School;
+import com.pensasha.school.user.Teacher;
 
 @Entity
 public class Stream {
@@ -22,6 +27,10 @@ public class Stream {
 	@JsonIgnore
 	@JoinColumn(name = "school_code")
 	private School school;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "streams", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
+	private List<Teacher> teachers;
 
 	public Stream(int id, String stream, School school) {
 		super();
@@ -67,6 +76,14 @@ public class Stream {
 
 	public void setSchool(School school) {
 		this.school = school;
+	}
+
+	public List<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<Teacher> teachers) {
+		this.teachers = teachers;
 	}
 
 }

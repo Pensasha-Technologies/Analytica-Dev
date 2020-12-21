@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -45,6 +46,7 @@ import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
 import com.pensasha.school.user.SchoolUser;
+import com.pensasha.school.user.Teacher;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -218,7 +220,6 @@ public class MainController {
 		return "adminHome";
 	}
 
-	
 	@GetMapping("/schools/{code}/student/{admNo}/progress")
 	public String viewStudentsProgressReport(@PathVariable int code, @PathVariable String admNo, Model model,
 			Principal principal) {
@@ -971,6 +972,85 @@ public class MainController {
 		return "comingSoon";
 	}
 
+	@PostMapping("/schools/{code}/assignTeacher")
+	public String getYearAssignment(Model model, Principal principal, @PathVariable int code, @RequestParam int year) {
+
+		return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
+	}
+
+	@GetMapping("/schools/{code}/years/{year}/assignTeacher")
+	public String assignTeachers(Model model, Principal principal, @PathVariable int code, @PathVariable int year) {
+		
+		User user = userService.getByUsername(principal.getName()).get();
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+		List<Stream> streams = streamService.getStreamsInSchool(code);
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+
+		for (int i = 0; i < subjects.size(); i++) {
+
+			model.addAttribute(subjects.get(i).getInitials() + "Teacher",
+					userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+		}
+
+		
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < streams.size(); j++) {
+				model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, i, streams.get(j).getId(), year));
+			}
+		}
+
+
+		model.addAttribute("activeUser", user);
+		model.addAttribute("school", school);
+		model.addAttribute("student", student);
+		model.addAttribute("streams", streams);
+		model.addAttribute("subjects", subjects);
+		model.addAttribute("year", year);
+
+		return "assignTeachers";
+
+		}
+
+	@PostMapping("/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher")
+	public String assignTeachers(RedirectAttributes redit, HttpServletRequest request, @PathVariable int code,
+			@PathVariable int year, @PathVariable int form, @PathVariable int stream) {
+
+		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
+
+		Teacher teacher;
+
+		List<Form> forms = new ArrayList<>();
+		Form formObj = formService.getForm(form, year, code).get();
+		forms.add(formObj);
+
+		List<Year> years = new ArrayList<>();
+		Year yearObj = yearService.getYearFromSchool(year, code).get();
+		years.add(yearObj);
+
+		List<Stream> streams = new ArrayList<>();
+		Stream streamObj = streamService.getStream(stream);
+		streams.add(streamObj);
+
+		for (int i = 0; i < subjects.size(); i++) {
+
+			teacher = userService
+					.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
+
+			teacher.setYears(years);
+			teacher.setForms(forms);
+			teacher.setStreams(streams);
+			teacher.setSubjects(subjects);
+			
+			List<Teacher> teachers = new ArrayList<>();
+			teachers.add(teacher);
+
+			userService.addUser(teacher);
+	
+		}
+
+		return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
+
+	}
+
 }
-
-

@@ -225,6 +225,7 @@ public class UserController {
 				teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
 						+ user.getThirdname().charAt(0));
 				roleObj.setName("TEACHER");
+				
 				teacher.setRole(roleObj);
 				break;
 			default:

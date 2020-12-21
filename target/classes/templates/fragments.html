@@ -511,10 +511,52 @@
 						class="collapse-item" style="color: #E96830;" data-toggle="modal"
 						data-target="#timetableModal"> Timetable </a> <a
 						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#examinationModal"> Examination</a>
+						data-target="#examinationModal"> Examination</a> <a
+						class="collapse-item" style="color: #E96830;" data-toggle="modal"
+						data-target="#assignTeacherModal">
+						Assign Teacher </a>
 
 				</div>
 			</div></li>
+
+		<!-- Assign Teacher model -->
+		<div class="modal fade" id="assignTeacherModal" tabindex="-1"
+			role="dialog" aria-labelledby="assignTeacherModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="assignTeacherModalLabel">Assign Teacher</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form id="assignTeacher"
+							th:action="@{/schools/{code}/assignTeacher(code=${school.code})}"
+							method="post">
+							<div class="form-group">
+								<label for="year">Choose Academic Year:</label> <select name="year"
+									id="year" required>
+									<option value="">Select Year...</option>
+									<option th:each="year : ${school.years}"
+										th:value="${year.year}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of Examination model -->
 
 		<!-- Examination model -->
 		<div class="modal fade" id="examinationModal" tabindex="-1"
