@@ -26,6 +26,9 @@ import org.thymeleaf.context.WebContext;
 
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import com.pensasha.school.exam.MeritList;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
@@ -182,14 +185,17 @@ public class TimetableController {
 		/* Setup Source and target I/O streams */
 
 		ByteArrayOutputStream target = new ByteArrayOutputStream();
+		PdfWriter writer = new PdfWriter(target);
+		PdfDocument pdfDocument = new PdfDocument(writer);
+		pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+		
 
 		/* Setup converter properties. */
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-
+		//converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+		converterProperties.setBaseUri("http://localhost:8080/");
 		/* Call convert method */
-
-		HtmlConverter.convertToPdf(timetableHtml, target, converterProperties);
+		HtmlConverter.convertToPdf(timetableHtml, pdfDocument, converterProperties);
 
 		/* extract output as bytes */
 		byte[] bytes = target.toByteArray();
@@ -368,7 +374,6 @@ public class TimetableController {
 
 		return "generateTimetable";
 	}
-
 }
 
 class SortByTotal implements Comparator<MeritList> {
