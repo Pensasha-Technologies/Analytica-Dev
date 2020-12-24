@@ -410,6 +410,11 @@ public class MarkController {
 		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
+		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
+				creCount = 0, geoCount = 0, ireCount = 0, hreCount = 0, hsciCount = 0, andCount = 0, agricCount = 0,
+				compCount = 0, aviCount = 0, elecCount = 0, pwrCount = 0, woodCount = 0, metalCount = 0, bcCount = 0,
+				frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0;
+
 		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
 			int count = 0;
@@ -438,6 +443,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						mathsCount++;
 					}
 					meritList.setMaths(sum);
 					break;
@@ -452,6 +458,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						engCount++;
 					}
 					meritList.setEng(sum);
 
@@ -467,6 +474,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						kisCount++;
 					}
 					meritList.setKis(sum);
 
@@ -482,6 +490,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						bioCount++;
 					}
 					meritList.setBio(sum);
 
@@ -497,6 +506,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						chemCount++;
 					}
 					meritList.setChem(sum);
 
@@ -512,6 +522,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						phyCount++;
 					}
 					meritList.setPhy(sum);
 
@@ -527,6 +538,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						histCount++;
 					}
 					meritList.setHist(sum);
 
@@ -542,6 +554,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						creCount++;
 					}
 					meritList.setCre(sum);
 
@@ -557,6 +570,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						geoCount++;
 					}
 					meritList.setGeo(sum);
 
@@ -572,6 +586,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						ireCount++;
 					}
 					meritList.setIre(sum);
 
@@ -587,6 +602,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						hreCount++;
 					}
 					meritList.setHre(sum);
 
@@ -602,6 +618,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						hsciCount++;
 					}
 					meritList.setHsci(sum);
 
@@ -617,6 +634,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						andCount++;
 					}
 					meritList.setAnd(sum);
 
@@ -632,6 +650,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						agricCount++;
 					}
 					meritList.setAgric(sum);
 
@@ -647,6 +666,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						compCount++;
 					}
 					meritList.setComp(sum);
 
@@ -662,6 +682,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						aviCount++;
 					}
 					meritList.setAvi(sum);
 
@@ -677,6 +698,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						elecCount++;
 					}
 					meritList.setElec(sum);
 
@@ -692,6 +714,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						pwrCount++;
 					}
 					meritList.setPwr(sum);
 
@@ -707,6 +730,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						woodCount++;
 					}
 					meritList.setWood(sum);
 
@@ -722,6 +746,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						metalCount++;
 					}
 					meritList.setMetal(sum);
 
@@ -737,6 +762,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						bcCount++;
 					}
 					meritList.setBc(sum);
 
@@ -752,6 +778,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						frenCount++;
 					}
 					meritList.setFren(sum);
 
@@ -767,6 +794,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						germCount++;
 					}
 					meritList.setGerm(sum);
 
@@ -782,6 +810,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						arabCount++;
 					}
 					meritList.setArab(sum);
 
@@ -797,6 +826,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						mscCount++;
 					}
 					meritList.setMsc(sum);
 
@@ -812,6 +842,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						bsCount++;
 					}
 					meritList.setBs(sum);
 
@@ -827,6 +858,7 @@ public class MarkController {
 
 					if (sum > 0) {
 						count++;
+						dndCount++;
 					}
 					meritList.setDnd(sum);
 
@@ -876,6 +908,34 @@ public class MarkController {
 		model.addAttribute("students", students);
 		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
 		model.addAttribute("meritLists", meritLists);
+
+		model.addAttribute("MathsCount", mathsCount);
+		model.addAttribute("EngCount", engCount);
+		model.addAttribute("KisCount", kisCount);
+		model.addAttribute("BioCount", bioCount);
+		model.addAttribute("ChemCount", chemCount);
+		model.addAttribute("PhyCount", phyCount);
+		model.addAttribute("HistCount", histCount);
+		model.addAttribute("creCount", creCount);
+		model.addAttribute("GeoCount", geoCount);
+		model.addAttribute("ireCount", ireCount);
+		model.addAttribute("hreCount", hreCount);
+		model.addAttribute("HsciCount", hsciCount);
+		model.addAttribute("AndCount", andCount);
+		model.addAttribute("AgricCount", agricCount);
+		model.addAttribute("CompCount", compCount);
+		model.addAttribute("AviCount", aviCount);
+		model.addAttribute("ElectCount", elecCount);
+		model.addAttribute("PwrCount", pwrCount);
+		model.addAttribute("WoodCount", woodCount);
+		model.addAttribute("MetalCount", metalCount);
+		model.addAttribute("BcCount", bcCount);
+		model.addAttribute("FrenCount", frenCount);
+		model.addAttribute("GermCount", germCount);
+		model.addAttribute("ArabCount", arabCount);
+		model.addAttribute("MscCount", mscCount);
+		model.addAttribute("BsCount", bsCount);
+		model.addAttribute("DndCount", dndCount);
 
 		return "meritList";
 

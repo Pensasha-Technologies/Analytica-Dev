@@ -156,23 +156,43 @@
 									<th:block th:each="subject : ${subjects}">
 										<th scope="col" th:text="${subject.initials}">subject</th>
 									</th:block>
-									<th>Mean</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td></td>
+									<td>Mean</td>
 									<th:block th:each="subject : ${subjects}">
-										<td scope="col">-</td>
+										<td scope="col"
+											th:text="${(#aggregates.sum(meritLists.![cre]))/creCount}"
+											th:if="${subject.initials == 'C.R.E' && creCount > 0}">-</td>
+										<td scope="col"
+											th:text="${(#aggregates.sum(meritLists.![hre]))/hreCount}"
+											th:if="${subject.initials == 'H.R.E' && hreCount > 0}">-</td>
+										<td scope="col"
+											th:text="${(#aggregates.sum(meritLists.![ire]))/ireCount}"
+											th:if="${subject.initials == 'I.R.E' && ireCount > 0}">-</td>
+										<th:block
+											th:unless="${subject.initials == 'C.R.E' || subject.initials == 'H.R.E' || subject.initials == 'I.R.E'}">
+											<td scope="col"
+												th:text="${(#aggregates.sum(meritLists.![__${subject.initials}__]))/__${subject.initials}__Count}"
+												th:if="${__${subject.initials}__Count > 0}">-</td>
+										</th:block>
 									</th:block>
-									<td></td>
+
 								</tr>
 								<tr>
 									<td>Entry</td>
 									<th:block th:each="subject : ${subjects}">
-										<td scope="col">-</td>
+										<td th:text="${creCount}"
+											th:if="${subject.initials == 'C.R.E'}">C.R.E</td>
+										<td th:text="${ireCount}"
+											th:if="${subject.initials == 'I.R.E'}">I.R.E</td>
+										<td th:text="${hreCount}"
+											th:if="${subject.initials == 'H.R.E'}">H.R.E</td>
+										<td th:text="${__${subject.initials}__Count}"
+											th:unless="${subject.initials == 'C.R.E' || subject.initials == 'I.R.E' || subject.initials == 'H.R.E'}"></td>
 									</th:block>
-									<td></td>
+
 								</tr>
 							</tbody>
 						</table>
