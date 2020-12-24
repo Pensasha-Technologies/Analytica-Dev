@@ -49,6 +49,10 @@ public class UserService {
 		return teacherRepository.findBySchoolCodeAndYearsYearAndFormsFormAndStreamsId(code, year,form,stream);
 	}
 
+	public List<Teacher> getTeachersInSchool(int code){
+		
+		return teacherRepository.findBySchoolCode(code);
+	}
 	
 	// Get school user by username
 	public SchoolUser getSchoolUserByUsername(String username) {

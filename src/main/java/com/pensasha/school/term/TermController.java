@@ -35,6 +35,7 @@ import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
+import com.pensasha.school.user.Teacher;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -70,10 +71,17 @@ public class TermController {
 
 	@Autowired
 	ServletContext servletContext;
-	
+
 	@PostMapping("/schools/{code}/student/{admNo}/termlyReport")
 	public String getTermlyReport(@PathVariable int code, @PathVariable String admNo, @RequestParam int form,
 			@RequestParam int year, @RequestParam int term, Model model, Principal principal) {
+		
+		return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/students/" + admNo + "/termlyReport";
+	}
+
+	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/students/{admNo}/termlyReport")
+	public String getTermlyReports(@PathVariable int code, @PathVariable int year, @PathVariable int form,
+			@PathVariable int term, @PathVariable String admNo, Model model, Principal principal) {
 
 		School school = schoolService.getSchool(code).get();
 		Student student = studentService.getStudentInSchool(admNo, code);
@@ -85,6 +93,8 @@ public class TermController {
 
 		List<Mark> marks = markService.getTermlySubjectMark(admNo, form, term);
 
+		List<Teacher> teachers = userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, student.getStream().getId(), year);
+		
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("marks", marks);
 		model.addAttribute("forms", forms);
@@ -96,7 +106,8 @@ public class TermController {
 		model.addAttribute("year", year);
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
-		
+		model.addAttribute("teachers", teachers);
+
 		return "termlyReport";
 	}
 
@@ -117,6 +128,8 @@ public class TermController {
 
 		List<Mark> marks = markService.getTermlySubjectMark(admNo, form, term);
 
+		List<Teacher> teachers = userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, student.getStream().getId(), year);
+
 		/* Create HTML using Thymeleaf template Engine */
 
 		WebContext context = new WebContext(request, response, servletContext);
@@ -131,6 +144,7 @@ public class TermController {
 		context.setVariable("year", year);
 		context.setVariable("form", form);
 		context.setVariable("term", term);
+		context.setVariable("teachers", teachers);
 		String termlyReportHtml = templateEngine.process("termlyReportPdf", context);
 
 		/* Setup Source and target I/O streams */

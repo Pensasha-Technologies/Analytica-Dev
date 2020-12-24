@@ -636,10 +636,44 @@ public class MainController {
 
 	}
 
+	@GetMapping("/schools/{code}/teachers")
+	public String teachers(Model model, Principal principal, @PathVariable int code) {
+
+		User activeUser = userService.getByUsername(principal.getName()).get();
+
+		School school = schoolService.getSchool(code).get();
+		Student student = new Student();
+		SchoolUser user = new SchoolUser();
+
+		List<Teacher> teachers = userService.getTeachersInSchool(code);
+
+		model.addAttribute("user", user);
+		model.addAttribute("teachers", teachers);
+		model.addAttribute("activeUser", activeUser);
+		model.addAttribute("student", student);
+		model.addAttribute("school", school);
+
+		return "teachers";
+
+	}
+
 	@PostMapping("/school/teachers")
 	public String addTeacher(RedirectAttributes redit, @RequestParam String role, @RequestParam int code,
-			@ModelAttribute SchoolUser user, Principal principal) {
-
+			@ModelAttribute SchoolUser user, Principal principal, HttpServletRequest request) {
+		
+		Teacher teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(),
+				user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(),
+				user.getAddress());
+		teacher.setSchool(user.getSchool());
+		teacher.setTeacherNumber(request.getParameter("teacherNumber"));
+		teacher.setTscNumber(request.getParameter("tscNumber"));
+		teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
+				+ user.getThirdname().charAt(0));
+	
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getUsername()));
+/*
 		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 		int partnerId = 1989;
 		String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -661,12 +695,12 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+*/
 		Role roleObj = new Role();
-		user.setSchool(new School("", code));
+		teacher.setSchool(new School("", code));
 		roleObj.setName("TEACHER");
 
-		user.setRole(roleObj);
+		teacher.setRole(roleObj);
 		roleService.addRole(roleObj);
 
 		if (userService.userExists(user.getUsername()) == true) {
@@ -675,12 +709,12 @@ public class MainController {
 
 		} else {
 
-			userService.addUser(user);
+			userService.addUser(teacher);
 
 			redit.addFlashAttribute("success", "Teacher saved successfully");
 		}
 
-		return "redirect:/school/teachers";
+		return "redirect:/schools/" + code + "/teachers";
 	}
 
 	@GetMapping("/school/teachers/{username}")
@@ -980,7 +1014,7 @@ public class MainController {
 
 	@GetMapping("/schools/{code}/years/{year}/assignTeacher")
 	public String assignTeachers(Model model, Principal principal, @PathVariable int code, @PathVariable int year) {
-		
+
 		User user = userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
@@ -989,17 +1023,27 @@ public class MainController {
 
 		for (int i = 0; i < subjects.size(); i++) {
 
-			model.addAttribute(subjects.get(i).getInitials() + "Teacher",
-					userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
-		}
-
-		
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < streams.size(); j++) {
-				model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, i, streams.get(j).getId(), year));
+			if (subjects.get(i).getInitials() == "C.R.E") {
+				model.addAttribute("creTeacher",
+						userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+			} else if (subjects.get(i).getInitials() == "H.R.E") {
+				model.addAttribute("hreTeacher",
+						userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+			} else if (subjects.get(i).getInitials() == "I.R.E") {
+				model.addAttribute("ireTeacher",
+						userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+			} else {
+				model.addAttribute(subjects.get(i).getInitials() + "Teacher",
+						userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
 			}
 		}
 
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < streams.size(); j++) {
+				model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", userService
+						.getAllTeachersByAcademicYearAndSchoolFormStream(code, i, streams.get(j).getId(), year));
+			}
+		}
 
 		model.addAttribute("activeUser", user);
 		model.addAttribute("school", school);
@@ -1010,7 +1054,7 @@ public class MainController {
 
 		return "assignTeachers";
 
-		}
+	}
 
 	@PostMapping("/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher")
 	public String assignTeachers(RedirectAttributes redit, HttpServletRequest request, @PathVariable int code,
@@ -1033,20 +1077,20 @@ public class MainController {
 		streams.add(streamObj);
 
 		for (int i = 0; i < subjects.size(); i++) {
-
+			
 			teacher = userService
 					.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
 
+			if(teacher != null) {
 			teacher.setYears(years);
 			teacher.setForms(forms);
 			teacher.setStreams(streams);
-			teacher.setSubjects(subjects);
-			
+
 			List<Teacher> teachers = new ArrayList<>();
 			teachers.add(teacher);
 
 			userService.addUser(teacher);
-	
+			}
 		}
 
 		return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";

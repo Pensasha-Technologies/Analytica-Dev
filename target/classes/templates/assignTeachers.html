@@ -56,9 +56,8 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addStudentModal">Add
-									Teacher</button>
+								<a th:href="@{/schools/{code}/teachers(code=${school.code})}"
+									class="btn btn-primary">Teachers</a>
 
 							</div>
 						</nav>
@@ -75,7 +74,7 @@
 						<h3>Form [[${i}]]</h3>
 						<br>
 						<div class="card-columns">
-							<div class="card" th:each="stream : ${streams}">
+							<div class="card" style="width:500px;" th:each="stream : ${streams}">
 								<div class="card-header" th:text="${stream.stream}">Stream
 									1</div>
 								<div class="card-body">
@@ -85,6 +84,7 @@
 												<th scope="col">#</th>
 												<th scope="col">Subject</th>
 												<th scope="col">Teacher</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -98,15 +98,25 @@
 															<p th:if="${teacher.subjects.contains(subject)}"
 																th:text="${teacher.firstname + ' ' + teacher.thirdname}">
 																Hello</p>
-														</th:block> <select class="custom-select"
+														</th:block></td>
+													<td><select class="custom-select"
 														th:name="${subject.initials} + 'Teacher'"
-														th:id="${subject.initials} + 'Teacher'" required><option
+														th:id="${subject.initials} + 'Teacher'"><option
 																value="">Select Teacher ...</option>
-															<option
-																th:each="teacher : ${__${subject.initials}__Teacher}"
-																th:value="${teacher.username}"
-																th:name="${subject.initials}">
-																[[${teacher.firstname + " " + teacher.thirdname}]]</option></select></td>
+															<option th:if="${subject.initials == 'C.R.E'}"
+																th:value="${creTeacher}" th:name="${subject.initials}"></option>
+															<option th:if="${subject.initials == 'H.R.E'}"
+																th:value="${hreTeacher}" th:name="${subject.initials}"></option>
+															<option th:if="${subject.initials == 'I.R.E'}"
+																th:value="${ireTeacher}" th:name="${subject.initials}"></option>
+															<th:block th:if="${subject.initials != 'C.R.E'}">
+																<option
+																	th:each="teacher : ${__${subject.initials}__Teacher}"
+																	th:value="${teacher.username}"
+																	th:name="${subject.initials}">
+																	[[${teacher.firstname + " " + teacher.thirdname}]]</option>
+															</th:block>
+													</select></td>
 												</tr>
 											</form>
 										</tbody>
