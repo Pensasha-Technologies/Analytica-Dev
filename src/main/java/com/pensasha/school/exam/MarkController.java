@@ -27,6 +27,9 @@ import org.thymeleaf.context.WebContext;
 
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -377,6 +380,14 @@ public class MarkController {
 	public String studentsMeritList(@PathVariable int code, @RequestParam int year, @RequestParam int form,
 			@RequestParam int term, Model model, Principal principal) {
 
+		return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/meritList";
+
+	}
+
+	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList")
+	public String getMeritList(@PathVariable int code, @PathVariable int year, @PathVariable int form,
+			@PathVariable int term, Model model, Principal principal) {
+
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
@@ -385,25 +396,31 @@ public class MarkController {
 		List<Mark> allMarks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
 
 		List<Student> studentsWithoutMarks = new ArrayList<>();
+		List<Student> studentsWithMarks = new ArrayList<>();
 
 		for (int i = 0; i < students.size(); i++) {
 			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
 				studentsWithoutMarks.add(students.get(i));
+			} else {
+				studentsWithMarks.add(students.get(i));
 			}
+
 		}
 
 		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
-		for (int i = 0; i < students.size(); i++) {
+		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
 			int count = 0;
-			
+
 			for (int j = 0; j < subjects.size(); j++) {
 
 				meritList.setFirstname(students.get(i).getFirstname());
 				meritList.setSecondname(students.get(i).getSecondname());
 				meritList.setAdmNo(students.get(i).getAdmNo());
+				meritList.setKcpe(students.get(i).getKcpeMarks());
+				meritList.setStream(students.get(i).getStream().getStream());
 
 				List<Mark> marks = new ArrayList<>();
 
@@ -418,8 +435,10 @@ public class MarkController {
 					for (int k = 0; k < marks.size(); k++) {
 						sum = sum + marks.get(k).getMark();
 					}
-					
-					count++;
+
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setMaths(sum);
 					break;
 				case "Eng":
@@ -431,7 +450,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setEng(sum);
 
 					break;
@@ -444,7 +465,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setKis(sum);
 
 					break;
@@ -457,7 +480,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setBio(sum);
 
 					break;
@@ -470,7 +495,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setChem(sum);
 
 					break;
@@ -483,7 +510,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setPhy(sum);
 
 					break;
@@ -496,7 +525,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setHist(sum);
 
 					break;
@@ -509,7 +540,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setCre(sum);
 
 					break;
@@ -522,7 +555,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setGeo(sum);
 
 					break;
@@ -535,7 +570,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setIre(sum);
 
 					break;
@@ -548,7 +585,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setHre(sum);
 
 					break;
@@ -561,7 +600,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setHsci(sum);
 
 					break;
@@ -574,7 +615,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setAnd(sum);
 
 					break;
@@ -587,7 +630,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setAgric(sum);
 
 					break;
@@ -600,7 +645,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setComp(sum);
 
 					break;
@@ -613,7 +660,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setAvi(sum);
 
 					break;
@@ -626,7 +675,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setElec(sum);
 
 					break;
@@ -639,7 +690,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setPwr(sum);
 
 					break;
@@ -652,7 +705,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setWood(sum);
 
 					break;
@@ -665,7 +720,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setMetal(sum);
 
 					break;
@@ -678,7 +735,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setBc(sum);
 
 					break;
@@ -691,7 +750,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setFren(sum);
 
 					break;
@@ -704,7 +765,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setGerm(sum);
 
 					break;
@@ -717,7 +780,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setArab(sum);
 
 					break;
@@ -730,7 +795,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setMsc(sum);
 
 					break;
@@ -743,7 +810,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setBs(sum);
 
 					break;
@@ -756,7 +825,9 @@ public class MarkController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+					}
 					meritList.setDnd(sum);
 
 					break;
@@ -772,8 +843,8 @@ public class MarkController {
 					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
-			meritList.setAverage(meritList.getTotal()/count);
-			
+			meritList.setAverage(meritList.getTotal() / count);
+
 			meritLists.add(meritList);
 
 		}
@@ -786,6 +857,8 @@ public class MarkController {
 			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
 			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
 			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
+			meritList.setKcpe(studentsWithoutMarks.get(i).getKcpeMarks());
+			meritList.setStream(studentsWithoutMarks.get(i).getStream().getStream());
 			meritList.setTotal(0);
 
 			meritLists.add(meritList);
@@ -805,12 +878,13 @@ public class MarkController {
 		model.addAttribute("meritLists", meritLists);
 
 		return "meritList";
+
 	}
-	
+
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf")
 	public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, 
-			HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+			@PathVariable int term, HttpServletRequest request, HttpServletResponse response, Principal principal)
+			throws IOException {
 
 		/* Do Business Logic */
 
@@ -822,25 +896,31 @@ public class MarkController {
 		List<Mark> allMarks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
 
 		List<Student> studentsWithoutMarks = new ArrayList<>();
+		List<Student> studentsWithMarks = new ArrayList<>();
 
 		for (int i = 0; i < students.size(); i++) {
 			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
 				studentsWithoutMarks.add(students.get(i));
+			} else {
+				studentsWithMarks.add(students.get(i));
 			}
+
 		}
 
 		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
-		for (int i = 0; i < students.size(); i++) {
+		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
 			int count = 0;
-			
+
 			for (int j = 0; j < subjects.size(); j++) {
 
 				meritList.setFirstname(students.get(i).getFirstname());
 				meritList.setSecondname(students.get(i).getSecondname());
 				meritList.setAdmNo(students.get(i).getAdmNo());
+				meritList.setKcpe(students.get(i).getKcpeMarks());
+				meritList.setStream(students.get(i).getStream().getStream());
 
 				List<Mark> marks = new ArrayList<>();
 
@@ -855,7 +935,7 @@ public class MarkController {
 					for (int k = 0; k < marks.size(); k++) {
 						sum = sum + marks.get(k).getMark();
 					}
-					
+
 					count++;
 					meritList.setMaths(sum);
 					break;
@@ -1209,8 +1289,8 @@ public class MarkController {
 					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
-			meritList.setAverage(meritList.getTotal()/count);
-			
+			meritList.setAverage(meritList.getTotal() / count);
+
 			meritLists.add(meritList);
 
 		}
@@ -1223,6 +1303,8 @@ public class MarkController {
 			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
 			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
 			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
+			meritList.setKcpe(studentsWithoutMarks.get(i).getKcpeMarks());
+			meritList.setStream(studentsWithoutMarks.get(i).getStream().getStream());
 			meritList.setTotal(0);
 
 			meritLists.add(meritList);
@@ -1248,14 +1330,18 @@ public class MarkController {
 		/* Setup Source and target I/O streams */
 
 		ByteArrayOutputStream target = new ByteArrayOutputStream();
+		PdfWriter writer = new PdfWriter(target);
+		PdfDocument pdfDocument = new PdfDocument(writer);
+		pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
 
 		/* Setup converter properties. */
 		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+		// converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+		converterProperties.setBaseUri("http://localhost:8080/");
 
 		/* Call convert method */
 
-		HtmlConverter.convertToPdf(meritListHtml, target, converterProperties);
+		HtmlConverter.convertToPdf(meritListHtml, pdfDocument, converterProperties);
 
 		/* extract output as bytes */
 		byte[] bytes = target.toByteArray();

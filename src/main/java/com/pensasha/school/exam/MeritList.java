@@ -5,6 +5,8 @@ public class MeritList {
 	private String firstname;
 	private String secondname;
 	private String admNo;
+	private int kcpe;
+	private String stream;
 	private int maths;
 	private int eng;
 	private int kis;
@@ -367,6 +369,22 @@ public class MeritList {
 
 	public void setAverage(int average) {
 		this.average = average;
+	}
+
+	public int getKcpe() {
+		return kcpe;
+	}
+
+	public void setKcpe(int kcpe) {
+		this.kcpe = kcpe;
+	}
+
+	public String getStream() {
+		return stream;
+	}
+
+	public void setStream(String stream) {
+		this.stream = stream;
 	}
 
 }

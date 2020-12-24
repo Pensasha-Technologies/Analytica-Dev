@@ -76,28 +76,30 @@
 						class="btn btn-primary"> Download</a>
 
 					<div class="table-responsive">
-						<table class="table">
+						<table class="table" style="font-size: 12px;">
 							<thead>
 								<tr>
-									<th scope="col">Pos</th>
-									<th scope="col">First Name</th>
-									<th scope="col">Third Name</th>
 									<th scope="col">Adm No.</th>
+									<th scope="col">Name</th>
+									<th scope="col">K.C.P.E</th>
+									<th scope="col">Stream</th>
 									<th:block th:each="subject : ${subjects}">
 										<th scope="col" th:text="${subject.initials}">subject</th>
 									</th:block>
 									<th scope="col">Total</th>
-									<th scope="col">Average</th>
+									<th scope="col">Mean</th>
 									<th scope="col">Grade</th>
 									<th scope="col">Points</th>
+									<th scope="col">Rank</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="meritList, rank : ${meritLists}">
-									<th scope="row" th:text="${rank.index + 1}">1</th>
-									<td th:text="${meritList.firstname}"></td>
-									<td th:text="${meritList.secondname}"></td>
 									<td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
+									<td
+										th:text="${meritList.firstname + ' ' + meritList.secondname}"></td>
+									<td th:text="${meritList.kcpe}">kcpe</td>
+									<td th:text="${meritList.stream}">stream</td>
 									<th:block th:each="subject : ${subjects}">
 										<td th:text="${meritList.__${subject.initials}__}"
 											th:if="${subject.initials != 'C.R.E'}"></td>
@@ -136,6 +138,75 @@
 										<p th:if="${isOdd<30 && isOdd>0}">1</p>
 										<p th:if="${isOdd == 0 }">...</p>
 									</td>
+									<th scope="row" th:text="${rank.index + 1}">1</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div style="text-align: center;">
+						<h4>Subject Means/Averages</h4>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th></th>
+									<th:block th:each="subject : ${subjects}">
+										<th scope="col" th:text="${subject.initials}">subject</th>
+									</th:block>
+									<th>Mean</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td></td>
+									<th:block th:each="subject : ${subjects}">
+										<td scope="col">-</td>
+									</th:block>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Entry</td>
+									<th:block th:each="subject : ${subjects}">
+										<td scope="col">-</td>
+									</th:block>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div style="text-align: center;">
+						<h4>Students Grade Distribution</h4>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Grade</th>
+									<th:block th:each="subject : ${subjects}">
+										<th scope="col" th:text="${subject.initials}">subject</th>
+									</th:block>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>A</td>
+									<th:block th:each="subject : ${subjects}">
+										<td scope="col">-</td>
+									</th:block>
+									<td></td>
+								</tr>
+								<tr>
+									<td>A-</td>
+									<th:block th:each="subject : ${subjects}">
+										<td scope="col">-</td>
+									</th:block>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>

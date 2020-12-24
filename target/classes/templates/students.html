@@ -153,30 +153,30 @@
 									<form class="addMarksForm"
 										onSubmit="event.preventDefault(); getSubjects();">
 										<input type="hidden" id="code" th:value="${school.code}" /> <select
-											class="fadeIn first" name="year" id="yearInput" required>
+											class="fadeIn first" name="year" id="yearMarksInput" required>
 											<option value="">Select Academic Year ...</option>
 											<option th:value="${year.year}" th:each="year : ${years}"
 												th:text="${year.year}">Year</option>
-										</select> <select class="fadeIn second" id="formInput" name="form"
+										</select> <select class="fadeIn second" id="formMarksInput" name="form"
 											required><option value="">Select Form ...</option>
 											<option value="1">Form 1</option>
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>
 											<option value="4">Form 4</option>
-										</select> <select class="fadeIn second" onchange="getExams()" name="term" id="termInput"
+										</select> <select class="fadeIn second" onchange="getExams()" name="term" id="termMarksInput"
 											required><option value="">Select Term ...</option>
 											<option value="1">Term 1</option>
 											<option value="2">Term 2</option>
 											<option value="3">Term 3</option>
-										</select> <select class="fadeIn fouth" name="subject" id="subjectInput"
+										</select> <select class="fadeIn fouth" name="subject" id="subjectMarksInput"
 											required>
 											<option value="">Select Subject ...</option>
 											<option th:value="${subject.initials}"
 												th:each="subject : ${subjects}" th:text="${subject.name}">Subject
 												Name</option>
-										</select> <select class="fadeIn third" name="examType" id="examType"
+										</select> <select class="fadeIn third" name="examType" id="examMarksType"
 											required><option value="">Select Exam ...</option>
-										</select> <select class="fadeIn fouth" name="stream" id="streamInput"
+										</select> <select class="fadeIn fouth" name="stream" id="streamMarksInput"
 											required>
 											<option value="">Select Stream ...</option>
 											<option th:value="${stream.id}" th:each="stream : ${streams}"
@@ -251,11 +251,11 @@
 		
 		function getExams() {
 		
-			var year = document.getElementById("yearInput").value;
-			var form = document.getElementById("formInput").value;
-			var term = document.getElementById("termInput").value;
+			var year = document.getElementById("yearMarksInput").value;
+			var form = document.getElementById("formMarksInput").value;
+			var term = document.getElementById("termMarksInput").value;
 		    var code = /*[[${school.code}]]*/ '';
-		    var select = document.getElementById('examType');
+		    var select = document.getElementById('examMarksType');
 		    
 		    $.ajax({
 		        url: "/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/exams",
@@ -283,7 +283,7 @@
 		        	
 		        },
 		        error: function (data) {
-		            	alert("No result");
+		            	alert("No exams found form");
 		        }
 		    });			
 			

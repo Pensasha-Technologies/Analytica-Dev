@@ -948,7 +948,7 @@
 							</div>
 							<div class="form-group fadeIn third">
 								<label for="exam">Choose Exam:</label> <select
-									class="fadeIn third" name="examType" id="examType" required><option
+									class="fadeIn third" name="examType" id="examTypeInput" required><option
 										value="">Select Exam ...</option>
 								</select>
 							</div>
@@ -1220,7 +1220,7 @@
 				var form = document.getElementById("formInput").value;
 				var term = document.getElementById("termInput").value;
 				var code = /*[[${school.code}]]*/'';
-				var select = document.getElementById('examType');
+				var select = document.getElementById('examTypeInput');
 
 				$.ajax({
 					url : "/schools/" + code + "/years/" + year + "/forms/"

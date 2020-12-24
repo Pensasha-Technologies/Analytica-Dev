@@ -194,6 +194,7 @@ public class TimetableController {
 		ConverterProperties converterProperties = new ConverterProperties();
 		//converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
 		converterProperties.setBaseUri("http://localhost:8080/");
+		
 		/* Call convert method */
 		HtmlConverter.convertToPdf(timetableHtml, pdfDocument, converterProperties);
 

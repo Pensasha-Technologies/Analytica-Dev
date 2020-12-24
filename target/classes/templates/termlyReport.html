@@ -37,12 +37,12 @@
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
 							th:href="@{/schools/teacherHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item"><a
-							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+							th:href="@{/schools/{code}/students(code=${school.code})}">Students</a></li>
 						<li class="breadcrumb-item"><a th:text="${student.firstname}"
-							th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">Students</a></li>
+							th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">Students</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Termly
 							Report</li>
 					</ol>
@@ -54,14 +54,14 @@
 					<img th:src="@{/studImg/{admNo}(admNo=${student.admNo})}"
 						height="100px" width="100px;"
 						style="display: block; margin-left: auto; margin-right: auto;" />
-					
+
 					<div style="text-align: center;">
 
 						<h3
 							th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}">Name</h3>
 						<h4 th:text="'Form ' + ${form} + ' Term ' + ${term}">Form and
 							Term</h4>
-							<h5 th:text="'Year ' + ${year}">Year</h5>
+						<h5 th:text="'Year ' + ${year}">Year</h5>
 
 					</div>
 
@@ -157,9 +157,7 @@
 										<tbody>
 											<tr class="d-flex">
 												<td scope="col" class="col-2" th:text="${student.kcpeMarks}">Mark</td>
-												<td
-													th:text="${(#aggregates.sum(marks.![mark]))/subjects.size()}"
-													class="col-2">100</td>
+												<td class="col-2">100</td>
 												<td scope="col" class="col-2">-</td>
 												<td scope="col" class="col-2">-</td>
 
