@@ -22,17 +22,21 @@ public class Teacher extends SchoolUser {
 	private String tscNumber;
 	private String initials;
 
+	@JsonIgnore
 	@OneToMany
 	private List<Subject> subjects;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Teacher_Year", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "year"))
 	private List<Year> years;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Teacher_Form", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "form"))
 	private List<Form> forms;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "Teacher_Stream", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "stream"))
 	private List<Stream> streams;
