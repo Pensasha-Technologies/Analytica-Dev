@@ -47,6 +47,8 @@ import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
 
+import net.sf.jasperreports.engine.xml.JRExpressionFactory.ComparatorExpressionFactory;
+
 @Controller
 public class MarkController {
 
@@ -422,7 +424,7 @@ public class MarkController {
 			for (int j = 0; j < subjects.size(); j++) {
 
 				meritList.setFirstname(students.get(i).getFirstname());
-				meritList.setSecondname(students.get(i).getSecondname());
+				meritList.setSecondname(students.get(i).getThirdname());
 				meritList.setAdmNo(students.get(i).getAdmNo());
 				meritList.setKcpe(students.get(i).getKcpeMarks());
 				meritList.setStream(students.get(i).getStream().getStream());
@@ -876,11 +878,11 @@ public class MarkController {
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
 			meritList.setAverage(meritList.getTotal() / count);
-
+			meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks())/5);
 			meritLists.add(meritList);
 
 		}
-
+		
 		Collections.sort(meritLists, new SortByTotal());
 
 		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
@@ -937,6 +939,9 @@ public class MarkController {
 		model.addAttribute("BsCount", bsCount);
 		model.addAttribute("DndCount", dndCount);
 
+		Collections.sort(meritLists, new SortByDeviation().reversed());
+		model.addAttribute("mostImproved", meritLists.get(0));
+		
 		return "meritList";
 
 	}
@@ -1418,5 +1423,11 @@ class SortByTotal implements Comparator<MeritList> {
 
 	public int compare(MeritList a, MeritList b) {
 		return a.getTotal() - b.getTotal();
+	}
+}
+
+class SortByDeviation implements Comparator<MeritList>{
+	public int compare(MeritList a, MeritList b) {
+		return a.getDeviation() - b.getDeviation();
 	}
 }

@@ -36,6 +36,7 @@ public class MeritList {
 	private int dnd;
 	private int total;
 	private int average;
+	private int deviation;
 
 	public MeritList(String firstname, String secondname, String admNo, int maths, int eng, int kis, int bio, int chem,
 			int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int and, int agric, int comp, int avi,
@@ -385,6 +386,14 @@ public class MeritList {
 
 	public void setStream(String stream) {
 		this.stream = stream;
+	}
+
+	public int getDeviation() {
+		return deviation;
+	}
+
+	public void setDeviation(int deviation) {
+		this.deviation = deviation;
 	}
 
 }

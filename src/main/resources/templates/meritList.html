@@ -71,9 +71,11 @@
 					<div class="alert alert-success" th:if="${success}"
 						th:text="${success}">Student saved</div>
 
-					<a
-						th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf(code=${school.code},year=${year}, form=${form},term=${term})}"
-						class="btn btn-primary"> Download</a>
+					<div style="padding:10px;">
+						<a
+							th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf(code=${school.code},year=${year}, form=${form},term=${term})}"
+							class="btn btn-primary"> Download</a>
+					</div>
 
 					<div class="table-responsive">
 						<table class="table" style="font-size: 12px;">
@@ -148,7 +150,7 @@
 						<h4>Subject Means/Averages</h4>
 					</div>
 
-					<div class="table-responsive">
+					<div class="table-responsive" style="padding: 20px;">
 						<table class="table">
 							<thead>
 								<tr>
@@ -198,6 +200,7 @@
 						</table>
 					</div>
 
+					<!--  
 					<div style="text-align: center;">
 						<h4>Students Grade Distribution</h4>
 					</div>
@@ -277,34 +280,35 @@
 							</tbody>
 						</table>
 					</div>
-
+-->
 					<div style="text-align: center;">
 						<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
 					</div>
 
-					<div class="table-responsive" style="padding-bottom: 20px;">
+					<div class="table-responsive" style="padding: 20px;">
 						<table class="table">
 							<thead>
 								<tr>
 									<th>First Name</th>
-									<th>Second Name</th>
 									<th>Third Name</th>
 									<th>Stream</th>
-									<th>Rank</th>
+									<th>Adm No</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td>First Name</td>
-									<td>Second Name</td>
-									<td>Third Name</td>
-									<td>Stream</td>
-									<td>Rank</td>
+									<td th:text="${mostImproved.firstname}">First Name</td>
+									<td th:text="${mostImproved.secondname}">Second Name</td>
+									<td th:text="${mostImproved.stream}">Stream</td>
+									<td
+										th:text="${#strings.substringAfter(mostImproved.admNo,'_')}">Adm
+										No</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 
+					<!-- 
 					<div style="text-align: center;">
 						<h5>Subject Champions</h5>
 					</div>
@@ -335,7 +339,7 @@
 							</tbody>
 						</table>
 					</div>
-
+ -->
 				</div>
 				<!-- End of Main Content -->
 
