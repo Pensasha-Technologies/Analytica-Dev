@@ -65,7 +65,7 @@ public class UserController {
 	public List<User> systemUsers(Model model, Principal principal) {
 
 		List<User> systemUsers = new ArrayList<>();
-		User user = userService.getByUsername(principal.getName()).get();
+		User user = new User();
 		List<User> users = userService.findAllUsers();
 
 		AllUsers(principal, model);
@@ -142,6 +142,10 @@ public class UserController {
 				break;
 			}
 
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			user.setPassword(encoder.encode(user.getUsername()));
+			
+			/*
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -164,6 +168,7 @@ public class UserController {
 				e.printStackTrace();
 			}
 
+*/
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 
 			user.setRole(roleObj);
@@ -232,6 +237,19 @@ public class UserController {
 				break;
 			}
 
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+			user.setRole(roleObj);
+			roleService.addRole(roleObj);
+			if (user.getRole().getName() == "TEACHER") {
+				teacher.setPassword(encoder.encode(teacher.getUsername()));
+				userService.addUser(teacher);
+			} else {
+				user.setPassword(encoder.encode(user.getUsername()));
+				userService.addUser(user);
+			}
+			
+			/*
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -262,7 +280,7 @@ public class UserController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
+*/
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 		}
 

@@ -103,61 +103,6 @@
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
 
-			<!-- Add school model -->
-			<!-- Modal -->
-			<div class="modal fade" id="addSchoolModal" tabindex="-1"
-				role="dialog" aria-labelledby="addSchoolModalLabel"
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="addSchoolModalLabel">Add School
-							</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-
-							<div class="d-flex justify-content-center">
-								<div id="formContent" style="margin-top: -2px; padding: 10px;">
-									<!-- Login Form -->
-									<form class="addSchoolForm" th:action="@{/adminHome}"
-										onsubmit="return schoolEntryValidation()" method="post"
-										th:object="${school}">
-										<div class="form-group fadeIn first">
-											<label for="name"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												School Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name"
-												placeholder="Enter School Name" />
-										</div>
-
-										<div class="form-group fadeIn second">
-											<label for="code"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												School Code</label> <input type="text" id="code" th:field="*{code}"
-												class="fadeIn second" name="code"
-												placeholder="Enter School Code" />
-										</div>
-
-										<button class="btn btn-primary fadeIn fourth" type="submit"
-											style="margin-top: 10px;">Add School</button>
-									</form>
-								</div>
-
-							</div>
-
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<!-- Delete Model -->
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
 				aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -198,24 +143,8 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	
 	<script>
-		function schoolEntryValidation() {
-			var x, y, text;
-
-			// Get the value of the input field with id="numb"
-			x = document.getElementById("name").value;
-			y = document.getElementById("code").value;
-
-			if (x == "") {
-				alert("School Name must be filled out");
-				return false;
-			}
-			if (y <= 0 || isNaN(y)) {
-				alert("School Code entered is invalid");
-				return false;
-			}
-		}
-
 		$('#deleteModal').on(
 				'show.bs.modal',
 				function(e) {

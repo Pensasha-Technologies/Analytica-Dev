@@ -824,8 +824,8 @@ public class MainController {
 	@GetMapping("/teacherHome")
 	public String teacherHome(Model model, Principal principal) {
 
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = ((SchoolUser) activeUser).getSchool();
+		SchoolUser activeUser = userService.getSchoolUserByUsername(principal.getName());
+		School school = activeUser.getSchool();
 		List<Student> students = studentService.getAllStudentsInSchool(school.getCode());
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
@@ -840,6 +840,7 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 
 		return "teacherHome";
+		
 	}
 
 	@GetMapping("/schools/teachers/{username}")

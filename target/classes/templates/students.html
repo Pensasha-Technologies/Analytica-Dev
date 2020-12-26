@@ -163,21 +163,23 @@
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>
 											<option value="4">Form 4</option>
-										</select> <select class="fadeIn second" onchange="getExams()" name="term" id="termMarksInput"
-											required><option value="">Select Term ...</option>
+										</select> <select class="fadeIn second" onchange="getExams()"
+											name="term" id="termMarksInput" required><option
+												value="">Select Term ...</option>
 											<option value="1">Term 1</option>
 											<option value="2">Term 2</option>
 											<option value="3">Term 3</option>
-										</select> <select class="fadeIn fouth" name="subject" id="subjectMarksInput"
-											required>
+										</select> <select class="fadeIn fouth" name="subject"
+											id="subjectMarksInput" required>
 											<option value="">Select Subject ...</option>
 											<option th:value="${subject.initials}"
 												th:each="subject : ${subjects}" th:text="${subject.name}">Subject
 												Name</option>
-										</select> <select class="fadeIn third" name="examType" id="examMarksType"
-											required><option value="">Select Exam ...</option>
-										</select> <select class="fadeIn fouth" name="stream" id="streamMarksInput"
-											required>
+										</select> <select class="fadeIn third" name="examType"
+											id="examMarksType" required><option value="">Select
+												Exam ...</option>
+										</select> <select class="fadeIn fouth" name="stream"
+											id="streamMarksInput" required>
 											<option value="">Select Stream ...</option>
 											<option th:value="${stream.id}" th:each="stream : ${streams}"
 												th:text="${stream.stream}">Stream Name</option>
@@ -248,47 +250,47 @@
 					$(this).find('.ok-button').attr('href',
 							$(e.relatedTarget).data('href'));
 				});
-		
+
 		function getExams() {
-		
+
 			var year = document.getElementById("yearMarksInput").value;
 			var form = document.getElementById("formMarksInput").value;
 			var term = document.getElementById("termMarksInput").value;
-		    var code = /*[[${school.code}]]*/ '';
-		    var select = document.getElementById('examMarksType');
-		    
-		    $.ajax({
-		        url: "/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/exams",
-		        method: "GET",
-		        success: function (data) {
-		        	    	
-					if(data.length>0){
-						for (var i = 0; i<data.length; i++){
+			var code = /*[[${school.code}]]*/'';
+			var select = document.getElementById('examMarksType');
+
+			$.ajax({
+				url : "/schools/" + code + "/years/" + year + "/forms/" + form
+						+ "/terms/" + term + "/exams",
+				method : "GET",
+				success : function(data) {
+
+					if (data.length > 0) {
+						for (var i = 0; i < data.length; i++) {
 							var opt = document.createElement('option');
 							opt.value = data[i].id;
-			        	    opt.innerHTML = data[i].name;
-			        	    select.appendChild(opt);
-			        	}
-					}else{
+							opt.innerHTML = data[i].name;
+							select.appendChild(opt);
+						}
+					} else {
 
-						while(select.hasChildNodes()){
+						while (select.hasChildNodes()) {
 							select.removeChild(select.childNodes[1]);
 						}
-						
+
 						var opt = document.createElement('option');
 						opt.value = "";
 						opt.innerHTML = "No exam added";
 						select.appendChild(opt);
 					}
-		        	
-		        },
-		        error: function (data) {
-		            	alert("No exams found form");
-		        }
-		    });			
-			
+
+				},
+				error : function(data) {
+					alert("No exams found form");
+				}
+			});
+
 		};
-		
 	</script>
 
 </body>

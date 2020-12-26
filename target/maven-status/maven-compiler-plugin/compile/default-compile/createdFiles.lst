@@ -63,6 +63,7 @@ com/pensasha/school/school/School.class
 com/pensasha/school/form/FormRepository.class
 com/pensasha/school/exam/MeritList.class
 com/pensasha/school/finance/FeeRecord.class
+com/pensasha/school/exam/SortByDeviation.class
 com/pensasha/school/finance/AmountPayableRepository.class
 com/pensasha/school/student/StudentService.class
 com/pensasha/school/student/StudentRepository.class

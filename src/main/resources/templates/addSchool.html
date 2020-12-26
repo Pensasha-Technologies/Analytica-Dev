@@ -71,7 +71,8 @@
 							<br />
 
 							<p>
-								<img id="output" width="100" style="display: block; margin-left: auto; margin-right: auto;"/>
+								<img id="output" width="100"
+									style="display: block; margin-left: auto; margin-right: auto;" />
 							</p>
 
 							<div class="form-group">
@@ -137,7 +138,7 @@
 							</div>
 							<br />
 							<div class="form-group col-sm">
-								<label for="fax">Fax</label> <input type="number" required
+								<label for="fax">Fax</label> <input type="number"
 									th:field="*{fax}" class="form-control" id="fax"
 									placeholder="Enter Fax number">
 								<p class="text-danger" th:if="${#fields.hasErrors('fax')}"

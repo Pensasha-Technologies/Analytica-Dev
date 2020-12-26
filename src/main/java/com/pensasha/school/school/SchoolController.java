@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -102,8 +103,8 @@ public class SchoolController {
 	}
 
 	@PostMapping("/editSchool/{s_code}")
-	public RedirectView saveSchoolEdits(@Valid School school,
-			BindingResult bindingResult, RedirectAttributes redit, @PathVariable int s_code) {
+	public RedirectView saveSchoolEdits(@Valid School school, BindingResult bindingResult, RedirectAttributes redit,
+			@PathVariable int s_code) {
 
 		if (bindingResult.hasErrors()) {
 
@@ -127,9 +128,20 @@ public class SchoolController {
 	public RedirectView addSchool(@RequestParam("file") MultipartFile file, @Valid School school,
 			BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
 
+		User user = userService.getByUsername(principal.getName()).get();
+		RedirectView redirectView = new RedirectView();
+
 		if (bindingResult.hasErrors()) {
 
-			RedirectView redirectView = new RedirectView("/adminHome", true);
+			if (user.getRole().getName().equals("ADMIN")) {
+				redirectView = new RedirectView("/adminHome", true);
+			} else if (user.getRole().getName().equals("C.E.O")) {
+				redirectView = new RedirectView("/ceoHome", true);
+			} else if (user.getRole().getName().equals("OFFICEASSISTANT")) {
+				redirectView = new RedirectView("/officeAssistantHome", true);
+			} else if (user.getRole().getName().equals("FIELDOFFICER")) {
+				redirectView = new RedirectView("/fieldOfficerHome", true);
+			}
 
 			return redirectView;
 
@@ -138,7 +150,16 @@ public class SchoolController {
 			if (schoolService.doesSchoolExists(school.getCode()) == true) {
 
 				redit.addFlashAttribute("fail", "School with code:" + school.getCode() + " already exists");
-				RedirectView redirectView = new RedirectView("/adminHome", true);
+
+				if (user.getRole().getName().equals("ADMIN")) {
+					redirectView = new RedirectView("/adminHome", true);
+				} else if (user.getRole().getName().equals("C.E.O")) {
+					redirectView = new RedirectView("/ceoHome", true);
+				} else if (user.getRole().getName().equals("OFFICEASSISTANT")) {
+					redirectView = new RedirectView("/officeAssistantHome", true);
+				} else if (user.getRole().getName().equals("FIELDOFFICER")) {
+					redirectView = new RedirectView("/fieldOfficerHome", true);
+				}
 
 				return redirectView;
 
@@ -178,7 +199,16 @@ public class SchoolController {
 				schoolService.addSchool(school);
 
 				redit.addFlashAttribute("success", "School with code:" + school.getCode() + " saved successfully");
-				RedirectView redirectView = new RedirectView("/adminHome", true);
+
+				if (user.getRole().getName().equals("ADMIN")) {
+					redirectView = new RedirectView("/adminHome", true);
+				} else if (user.getRole().getName().equals("C.E.O")) {
+					redirectView = new RedirectView("/ceoHome", true);
+				} else if (user.getRole().getName().equals("OFFICEASSISTANT")) {
+					redirectView = new RedirectView("/officeAssistantHome", true);
+				} else if (user.getRole().getName().equals("FIELDOFFICER")) {
+					redirectView = new RedirectView("/fieldOfficerHome", true);
+				}
 
 				return redirectView;
 			}
@@ -188,6 +218,9 @@ public class SchoolController {
 
 	@GetMapping("/schools/{code}")
 	public RedirectView deleteSchool(@PathVariable int code, RedirectAttributes redit, Principal principal) {
+
+		RedirectView redirectView = new RedirectView();
+		User user = userService.getByUsername(principal.getName()).get();
 
 		if (schoolService.doesSchoolExists(code) == true) {
 
@@ -215,13 +248,13 @@ public class SchoolController {
 				for (int j = 0; j < marks.size(); j++) {
 					markService.deleteMark(marks.get(j).getId());
 				}
-/*
-				List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo());
-				for (int x = 0; x < feeRecords.size(); x++) {
-
-					feeRecordService.deleteFeeRecord(feeRecords.get(i).getId());
-				}
-*/
+				/*
+				 * List<FeeRecord> feeRecords =
+				 * feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo()); for
+				 * (int x = 0; x < feeRecords.size(); x++) {
+				 * 
+				 * feeRecordService.deleteFeeRecord(feeRecords.get(i).getId()); }
+				 */
 				List<Discipline> disciplines = disciplineService
 						.allDisciplineReportForStudent(students.get(i).getAdmNo());
 
@@ -251,7 +284,15 @@ public class SchoolController {
 			redit.addFlashAttribute("fail", "School of code:" + code + " does not exist");
 		}
 
-		RedirectView redirectView = new RedirectView("/adminHome", true);
+		if (user.getRole().getName().equals("ADMIN")) {
+			redirectView = new RedirectView("/adminHome", true);
+		} else if (user.getRole().getName().equals("C.E.O")) {
+			redirectView = new RedirectView("/ceoHome", true);
+		} else if (user.getRole().getName().equals("OFFICEASSISTANT")) {
+			redirectView = new RedirectView("/officeAssistantHome", true);
+		} else if (user.getRole().getName().equals("FIELDOFFICER")) {
+			redirectView = new RedirectView("/fieldOfficerHome", true);
+		}
 
 		return redirectView;
 	}
@@ -319,16 +360,16 @@ public class SchoolController {
 			Collection<Subject> compF1F2Subjects = school.getCompSubjectF1F2();
 			Collection<Subject> allCompF3F4Subjects = new ArrayList<>();
 			Collection<Subject> compF3F4Subjects = school.getCompSubjectF3F4();
-			                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-			for(Subject subject : subjects) {
-				if(!compF1F2Subjects.contains(subject)) {
+
+			for (Subject subject : subjects) {
+				if (!compF1F2Subjects.contains(subject)) {
 					allCompF1F2Subjects.add(subject);
 				}
-				if(!compF3F4Subjects.contains(subject)) {
+				if (!compF3F4Subjects.contains(subject)) {
 					allCompF3F4Subjects.add(subject);
 				}
 			}
-			
+
 			model.addAttribute("allCompF1F2Subjects", allCompF1F2Subjects);
 			model.addAttribute("allCompF3F4Subjects", allCompF3F4Subjects);
 			model.addAttribute("years", years);
@@ -363,7 +404,15 @@ public class SchoolController {
 			model.addAttribute("schools", schools);
 			model.addAttribute("fail", "School with code:" + code + " does not exist");
 
-			return "/adminHome";
+			if (activeUser.getRole().getName() == "ADMIN") {
+				return "/adminHome";
+			} else if (activeUser.getRole().getName() == "C.E.O") {
+				return  "/ceoHome";
+			} else if (activeUser.getRole().getName() == "OFFICEASSISTANT") {
+				return  "/officeAssistantHome";
+			} else 
+				return  "/fieldOfficerHome";
+			
 		}
 	}
 

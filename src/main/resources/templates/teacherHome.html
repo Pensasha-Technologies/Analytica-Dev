@@ -29,8 +29,7 @@
 
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a
-							th:href="@{/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/teacherHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
 							th:href="@{/adminHome/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
@@ -87,18 +86,18 @@
 									<td th:text="${student.firstname}">firstname</td>
 									<td th:text="${student.secondname}">secondname</td>
 									<td th:text="${student.thirdname}">thirdname</td>
-									<td th:text="${student.admNo}">admNo</td>
+									<td th:text="${#strings.substringAfter(student.admNo,'_')}">admNo</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
-												th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 												class="btn btn-primary"> View </a>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
-												th:href="@{/adminHome/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												th:href="@{/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 												class="btn btn-danger"> Delete </a>
 										</div>
 									</td>
@@ -136,41 +135,39 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Marks Form -->
 									<form class="addMarksForm"
-										onSubmit="event.preventDefault(); getSubjects();">
-										<input type="hidden" id="code" th:value="${school.code}" /> <select
-											class="fadeIn first" name="year" id="yearInput" required>
+										onSubmit="event.preventDefault(); getTeacherSubjects();">
+										<input type="hidden" id="inputMarksCode" th:value="${school.code}" /> <select
+											class="fadeIn first" name="year" id="yearMarksInput" required>
 											<option value="">Select Academic Year ...</option>
 											<option th:value="${year.year}" th:each="year : ${years}"
 												th:text="${year.year}">Year</option>
-										</select> <select class="fadeIn second" id="formInput" name="form"
+										</select> <select class="fadeIn second" id="formMarksInput" name="form"
 											required><option value="">Select Form ...</option>
 											<option value="1">Form 1</option>
 											<option value="2">Form 2</option>
 											<option value="3">Form 3</option>
 											<option value="4">Form 4</option>
-										</select> <select class="fadeIn second" name="term" id="termInput"
-											required><option value="">Select Term ...</option>
+										</select> <select class="fadeIn second" onchange="getExams()"
+											name="term" id="termMarksInput" required><option
+												value="">Select Term ...</option>
 											<option value="1">Term 1</option>
 											<option value="2">Term 2</option>
 											<option value="3">Term 3</option>
-										</select> <select class="fadeIn fouth" name="subject" id="subjectInput"
-											required>
+										</select> <select class="fadeIn fouth" name="subject"
+											id="subjectMarksInput" required>
 											<option value="">Select Subject ...</option>
 											<option th:value="${subject.initials}"
 												th:each="subject : ${subjects}" th:text="${subject.name}">Subject
 												Name</option>
-										</select> <select class="fadeIn third" name="examType" id="examType"
-											required><option value="">Select Exam ...</option>
-											<option value="Cat1">Cat 1</option>
-											<option value="Cat2">Cat 2</option>
-											<option value="mainExam">Main Exam</option>
-										</select> <select class="fadeIn fouth" name="stream" id="streamInput"
-											required>
+										</select> <select class="fadeIn third" name="examType"
+											id="examMarksType" required><option value="">Select
+												Exam ...</option>
+										</select> <select class="fadeIn fouth" name="stream"
+											id="streamMarksInput" required>
 											<option value="">Select Stream ...</option>
 											<option th:value="${stream.id}" th:each="stream : ${streams}"
 												th:text="${stream.stream}">Stream Name</option>
 										</select>
-
 										<button class="btn btn-primary fadeIn third" type="submit"
 											style="margin-top: 10px;">Add Marks</button>
 									</form>
@@ -202,13 +199,46 @@
 	<div th:replace="fragments :: endScript"></div>
 	<script th:src="@{/js/index.js}"></script>
 	<script type="text/javascript">
-		$(function() {
-			$("#year").datapicker({
-				dateFormat : 'yyyy',
-				viewMode : 'years',
-				minViewMode : 'years'
+		function getExams() {
+
+			var year = document.getElementById("yearMarksInput").value;
+			var form = document.getElementById("formMarksInput").value;
+			var term = document.getElementById("termMarksInput").value;
+			var code = document.getElementById("inputMarksCode").value;
+			var select = document.getElementById('examMarksType');
+
+			$.ajax({
+				url : "/schools/" + code + "/years/" + year + "/forms/" + form
+						+ "/terms/" + term + "/exams",
+				method : "GET",
+				success : function(data) {
+
+					if (data.length > 0) {
+						for (var i = 0; i < data.length; i++) {
+							var opt = document.createElement('option');
+							opt.value = data[i].id;
+							opt.innerHTML = data[i].name;
+							select.appendChild(opt);
+						}
+					} else {
+
+						while (select.hasChildNodes()) {
+							select.removeChild(select.childNodes[1]);
+						}
+
+						var opt = document.createElement('option');
+						opt.value = "";
+						opt.innerHTML = "No exam added";
+						select.appendChild(opt);
+					}
+
+				},
+				error : function(data) {
+					alert("No exams found form");
+				}
 			});
-		});
+
+		};
 	</script>
 
 </body>

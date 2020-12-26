@@ -41,7 +41,7 @@
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
-							th:href="@{/schools/teacherHome}">Home</a></li>
+							th:href="@{/teacherHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
 							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}"> School </a></li>

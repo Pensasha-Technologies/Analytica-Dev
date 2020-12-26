@@ -40,12 +40,11 @@
 						<section>
 							<h3>Schools</h3>
 						</section>
-						<nav class="navbar navbar-expand-lg navbar-light bg-light">
+						<nav class="navbar navbar-expand navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addSchoolModal">Add
-									School</button>
+								<a class="btn btn-primary" th:href="@{/addSchool}">Add
+									School</a>
 							</div>
 						</nav>
 					</div>
@@ -84,9 +83,9 @@
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
-											<a
-												th:href="@{/adminHome/schools/{code}(code=${school.code})}"
-												class="btn btn-danger"> Delete </a>
+											<a class="btn btn-danger" data-toggle="modal" href="#"
+												th:data-href="@{/schools/{code}(code=${school.code})}"
+												data-target="#deleteModal">Delete</a>
 										</div>
 									</td>
 								</tr>
@@ -104,55 +103,28 @@
 			<footer th:replace="fragments :: footer2"></footer>
 			<!-- End of Footer -->
 
-			<!-- Add school model -->
-			<!-- Modal -->
-			<div class="modal fade" id="addSchoolModal" tabindex="-1"
-				role="dialog" aria-labelledby="addSchoolModalLabel"
-				aria-hidden="true">
+			<!-- Delete Model -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="addSchoolModalLabel">Add School
-							</h5>
+							<h5 class="modal-title text-danger" id="deleteModalLabel">Delete
+								School</h5>
 							<button type="button" class="close" data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-
-							<div class="d-flex justify-content-center">
-								<div id="formContent" style="margin-top: -2px; padding: 10px;">
-									<!-- Login Form -->
-									<form class="addSchoolForm" th:action="@{/adminHome}"
-										method="post" th:object="${school}">
-										<div class="form-group fadeIn first">
-											<label for="name"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												School Name</label> <input type="text" id="name" th:field="*{name}"
-												class="fadeIn first" name="name"
-												placeholder="Enter School Name" required />
-										</div>
-
-										<div class="form-group fadeIn second">
-											<label for="code"
-												style="display: block; text-align: left; margin-bottom: -5px;">Enter
-												School Code</label> <input type="text" id="code" th:field="*{code}"
-												class="fadeIn second" name="code"
-												placeholder="Enter School Code" required />
-										</div>
-
-										<button class="btn btn-primary fadeIn fourth" type="submit"
-											style="margin-top: 10px;">Add School</button>
-									</form>
-								</div>
-
-							</div>
-
+							<p class="text-danger">All school details and information
+								will be deleted and will not be recovered. Are you sure you want
+								to delete?</p>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete</button>
+							<a class="btn btn-danger ok-button">Yes! Delete</a>
 						</div>
 					</div>
 				</div>
@@ -171,6 +143,15 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+
+	<script>
+		$('#deleteModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 
 </body>
 
