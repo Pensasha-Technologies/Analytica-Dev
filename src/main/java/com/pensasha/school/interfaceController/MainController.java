@@ -660,19 +660,19 @@ public class MainController {
 	@PostMapping("/school/teachers")
 	public String addTeacher(RedirectAttributes redit, @RequestParam String role, @RequestParam int code,
 			@ModelAttribute SchoolUser user, Principal principal, HttpServletRequest request) {
-		
+
 		Teacher teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(),
-				user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(),
-				user.getAddress());
+				user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
 		teacher.setSchool(user.getSchool());
 		teacher.setTeacherNumber(request.getParameter("teacherNumber"));
 		teacher.setTscNumber(request.getParameter("tscNumber"));
 		teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
 				+ user.getThirdname().charAt(0));
-	
+
 		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getUsername()));
+		  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		  user.setPassword(encoder.encode(user.getUsername()));
+		 
 /*
 		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 		int partnerId = 1989;
@@ -840,7 +840,7 @@ public class MainController {
 		model.addAttribute("activeUser", activeUser);
 
 		return "teacherHome";
-		
+
 	}
 
 	@GetMapping("/schools/teachers/{username}")
@@ -1078,19 +1078,19 @@ public class MainController {
 		streams.add(streamObj);
 
 		for (int i = 0; i < subjects.size(); i++) {
-			
+
 			teacher = userService
 					.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
 
-			if(teacher != null) {
-			teacher.setYears(years);
-			teacher.setForms(forms);
-			teacher.setStreams(streams);
+			if (teacher != null) {
+				teacher.setYears(years);
+				teacher.setForms(forms);
+				teacher.setStreams(streams);
 
-			List<Teacher> teachers = new ArrayList<>();
-			teachers.add(teacher);
+				List<Teacher> teachers = new ArrayList<>();
+				teachers.add(teacher);
 
-			userService.addUser(teacher);
+				userService.addUser(teacher);
 			}
 		}
 

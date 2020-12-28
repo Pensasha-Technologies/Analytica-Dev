@@ -142,10 +142,11 @@ public class UserController {
 				break;
 			}
 
+			
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getUsername()));
 			
-			/*
+		/*	
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -237,6 +238,7 @@ public class UserController {
 				break;
 			}
 
+			
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 			user.setRole(roleObj);
