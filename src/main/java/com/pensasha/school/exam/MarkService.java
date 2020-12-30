@@ -19,7 +19,7 @@ public class MarkService {
 	
 	//Getting mark by student in a year, form, term, subject and examName
 	public Mark getMarksByStudentOnSubjectByExamId(String admNo, int year, int form, int term, String subject, int id) {
-		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNamesId(admNo, year, form,
+		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNameId(admNo, year, form,
 				term, subject, id);
 	}
 

@@ -22,7 +22,7 @@ public interface MarkRepository extends JpaRepository<Mark, Integer> {
 
 	public List<Mark> findByStudentSchoolCodeAndYearYearAndFormFormAndTermTerm(int code, int year, int form, int term);
 
-	public Mark findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNamesId(String admNo,
+	public Mark findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNameId(String admNo,
 			int year, int form, int term, String subject, int id);
 
 	

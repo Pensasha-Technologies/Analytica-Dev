@@ -1,19 +1,12 @@
 package com.pensasha.school.exam;
 
-import java.util.Collection;
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
@@ -49,13 +42,11 @@ public class Mark {
 	@JoinColumn(name = "subject")
 	private Subject subject;
 	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "mark_names", joinColumns = @JoinColumn(name = "mark_id"), inverseJoinColumns = @JoinColumn(name = "examName_id"))
-	private Collection<ExamName> examNames;
-
+	@ManyToOne
+	private ExamName examName;
+	
 	public Mark(int id, int mark, Student student, Year year, Form form, Term term, Subject subject,
-			Collection<ExamName> examNames) {
+			ExamName examName) {
 		super();
 		this.id = id;
 		this.mark = mark;
@@ -64,9 +55,9 @@ public class Mark {
 		this.form = form;
 		this.term = term;
 		this.subject = subject;
-		this.examNames = examNames;
+		this.examName = examName;
 	}
-	
+
 	public Mark(Student student, Year year, Form form, Term term, Subject subject) {
 		super();
 		this.student = student;
@@ -75,15 +66,14 @@ public class Mark {
 		this.term = term;
 		this.subject = subject;
 	}
-
-	public Mark(Student student, Year year, Form form, Term term, Subject subject, List<ExamName> examNames) {
+	
+	public Mark(Student student, Form form, Term term, Subject subject, ExamName examName) {
 		super();
 		this.student = student;
-		this.year = year;
 		this.form = form;
 		this.term = term;
 		this.subject = subject;
-		this.examNames = examNames;
+		this.examName = examName;
 	}
 
 	public Mark(int id, int mark) {
@@ -157,12 +147,12 @@ public class Mark {
 		this.subject = subject;
 	}
 
-	public Collection<ExamName> getExamNames() {
-		return examNames;
+	public ExamName getExamName() {
+		return examName;
 	}
 
-	public void setExamNames(Collection<ExamName> examNames) {
-		this.examNames = examNames;
+	public void setExamName(ExamName examName) {
+		this.examName = examName;
 	}
 
 }

@@ -157,6 +157,7 @@ public class TermController {
 		List<Teacher> teachers = userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form,
 				student.getStream().getId(), year);
 
+		model.addAttribute("streams", streamService.getStreamsInSchool(code));
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("marks", marks);
 		model.addAttribute("forms", forms);

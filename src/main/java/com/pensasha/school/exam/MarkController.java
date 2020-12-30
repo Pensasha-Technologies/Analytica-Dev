@@ -78,7 +78,8 @@ public class MarkController {
 
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("school", school);
-		model.addAttribute("students", school.getSubjects());
+		model.addAttribute("subjects", school.getSubjects());
+		model.addAttribute("streams", streamService.getStreamsInSchool(code));
 		model.addAttribute("student", student);
 		model.addAttribute("examNames", examNames);
 		model.addAttribute("year", year);
@@ -237,10 +238,7 @@ public class MarkController {
 				mark.setYear(yearObj);
 				mark.setForm(formObj);
 
-				List<ExamName> examNames = new ArrayList<>();
-				examNames.add(examName);
-
-				mark.setExamNames(examNames);
+				mark.setExamName(examName);
 				marks.add(mark);
 
 				markService.addMarksToSubject(mark);

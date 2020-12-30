@@ -131,10 +131,7 @@ public class ReportController {
 				mark.setYear(yearObj);
 				mark.setForm(formObj);
 
-				List<ExamName> examNames = new ArrayList<>();
-				examNames.add(examName);
-
-				mark.setExamNames(examNames);
+				mark.setExamName(examName);
 				marks.add(mark);
 
 				markService.addMarksToSubject(mark);

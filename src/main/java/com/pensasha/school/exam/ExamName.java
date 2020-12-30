@@ -2,7 +2,6 @@ package com.pensasha.school.exam;
 
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,10 +27,6 @@ public class ExamName {
 	private int outOf;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "examNames", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<Mark> marks;
-	
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "examName_school", joinColumns = @JoinColumn(name = "examName_id"), inverseJoinColumns = @JoinColumn(name = "code"))
 	private Collection<School> schools;
@@ -50,14 +45,13 @@ public class ExamName {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "examName_term", joinColumns = @JoinColumn(name = "examName_id"), inverseJoinColumns = @JoinColumn(name = "term"))
 	private Collection<Term> terms;
-
-	public ExamName(int id, String name, int outOf, Collection<Mark> marks, Collection<School> schools,
-			Collection<Year> years, Collection<Form> forms, Collection<Term> terms) {
+	
+	public ExamName(int id, String name, int outOf, Collection<School> schools, Collection<Year> years,
+			Collection<Form> forms, Collection<Term> terms) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.outOf = outOf;
-		this.marks = marks;
 		this.schools = schools;
 		this.years = years;
 		this.forms = forms;
@@ -96,14 +90,6 @@ public class ExamName {
 
 	public void setOutOf(int outOf) {
 		this.outOf = outOf;
-	}
-
-	public Collection<Mark> getMarks() {
-		return marks;
-	}
-
-	public void setMarks(Collection<Mark> marks) {
-		this.marks = marks;
 	}
 
 	public Collection<School> getSchools() {
