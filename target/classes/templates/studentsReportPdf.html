@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<div class="container-fluid" style="background-color: white;">
+
+					<th:block th:each="student : ${students}">
+
+						<div class="border border-dark" style="padding: 5px;">
+
+							<div style="text-align: center;">
+								<h3 th:text="${school.name}" style="font-size: 16px;">School
+									Name</h3>
+								<h4 style="font-size: 15px;">P.O Box [[${school.address}]]</h4>
+								<h5 style="font-size: 14px;">Tel:
+									[[${school.contactNumber}]] Email: [[${school.email}]]</h5>
+							</div>
+
+							<hr style="border-top: 2px dotted;" />
+
+							<section style="text-align: center;">
+								<h5 style="font-size: 16px;">Student Report Form</h5>
+							</section>
+							<div style="text-align: center;">
+								<section class="d-flex justify-content-between row">
+									<div class="col">
+										<h5 style="font-size: 14px;">Name: [[${student.firstname
+											+ ' ' + student.secondname + ' ' + student.thirdname}]] Adm
+											No:[[${student.admNo}]] Year: [[${year}]]</h5>
+										<h5 style="font-size: 13px;">Form: [[${form + ' ' +
+											student.stream.stream}]] Class Teacher:</h5>
+									</div>
+								</section>
+							</div>
+
+							<div class="table-responsive-sm">
+								<table class="table table-sm table-bordered"
+									style="text-align: center; font-size: 10px;">
+									<thead>
+										<tr>
+											<th scope="col">SUBJECTS</th>
+											<th:block th:each="examName : ${examNames}">
+												<th scope="col" th:text="${examName.name}">CAT 1</th>
+											</th:block>
+											<th scope="col">SUM</th>
+											<th scope="col">GRADE</th>
+											<th scope="col">PNTS</th>
+											<th scope="col">REMARKS</th>
+											<th scope="col">INITIALS</th>
+										</tr>
+									</thead>
+									<div
+										th:unless="${marks__${student.admNo}__} and ${marks__${student.admNo}__.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No Student
+											marks has been added</p>
+									</div>
+									<tbody>
+										<tr th:each="subject : ${subjects__${student.admNo}__}">
+											<td th:text="${subject.name}">subject name</td>
+											<th:block th:each="mark : ${marks__${student.admNo}__}">
+												<td th:text="${mark.mark}"
+													th:if="${mark.subject.initials == subject.initials}">Exam
+													Marks</td>
+												<td th:unless="${mark.subject.initials == subject.initials}">
+													-</td>
+											</th:block>
+											<td
+												th:text="${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">100</td>
+											<td
+												th:with="isEven=${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+												<span th:if="${(isEven<=100 && isEven>=80 )}">A</span> <span
+												th:if="${isEven<80 && isEven>=75}">A-</span> <span
+												th:if="${isEven<75 && isEven>=70}">B+</span> <span
+												th:if="${isEven<70 && isEven>=65}">B</span> <span
+												th:if="${isEven<65 && isEven>=60}">B-</span> <span
+												th:if="${isEven<60 && isEven>=55}">C+</span> <span
+												th:if="${isEven<55 && isEven>=50}">C</span> <span
+												th:if="${isEven<50 && isEven>=45}">C-</span> <span
+												th:if="${isEven<45 && isEven>=40}">D+</span> <span
+												th:if="${isEven<40 && isEven>=35}">D</span> <span
+												th:if="${isEven<35 && isEven>=30}">D-</span> <span
+												th:if="${isEven<30 && isEven>0}">E</span> <span
+												th:if="${isEven<0}">-</span>
+											</td>
+											<th:block
+												th:with="isOdd = ${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+
+												<td th:if="${isOdd<=100 && isOdd>=80}">12</td>
+												<td th:if="${isOdd<80 && isOdd>=75}">11</td>
+												<td th:if="${isOdd<75 && isOdd>=70}">10</td>
+												<td th:if="${isOdd<70 && isOdd>=65}">9</td>
+												<td th:if="${isOdd<65 && isOdd>=60}">8</td>
+												<td th:if="${isOdd<60 && isOdd>=55}">7</td>
+												<td th:if="${isOdd<55 && isOdd>=50}">6</td>
+												<td th:if="${isOdd<50 && isOdd>=45}">5</td>
+												<td th:if="${isOdd<45 && isOdd>=40}">4</td>
+												<td th:if="${isOdd<40 && isOdd>=35}">3</td>
+												<td th:if="${isOdd<35 && isOdd>=30}">2</td>
+												<td th:if="${isOdd<30 && isOdd>0}">1</td>
+												<td th:if="${isOdd<0}">-</td>
+											</th:block>
+											<td
+												th:with="isOdd = ${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+												<span th:if="${isOdd<=100 && isOdd>=80}">Excellent</span> <span
+												th:if="${isOdd<80 && isOdd>=75}">Very Good</span> <span
+												th:if="${isOdd<75 && isOdd>=70}">Very Good</span> <span
+												th:if="${isOdd<70 && isOdd>=65}">Good</span> <span
+												th:if="${isOdd<65 && isOdd>=60}">Good</span> <span
+												th:if="${isOdd<60 && isOdd>=55}">Good</span> <span
+												th:if="${isOdd<55 && isOdd>=50}">Average</span> <span
+												th:if="${isOdd<50 && isOdd>=45}">Needs Improvement</span> <span
+												th:if="${isOdd<45 && isOdd>=40}">Poor</span> <span
+												th:if="${isOdd<40 && isOdd>=35}">Very Poor</span> <span
+												th:if="${isOdd<35 && isOdd>=30}">Very Poor</span> <span
+												th:if="${isOdd<30 && isOdd>0}">Fail</span> <span
+												th:if="${isOdd<0}">-</span>
+											</td>
+											<th:block th:each="teacher : ${teachers__${student.admNo}__}">
+												<td th:text="${teacher.initials}"
+													th:if="${teacher.subjects.contains(subject)}">-</td>
+											</th:block>
+										</tr>
+
+										<tr>
+											<td>Total</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td
+												th:text="${#aggregates.sum(marks__${student.admNo}__.![mark])}"></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>Out Of</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td th:text="${subjects__${student.admNo}__.size() * 100}">
+												700</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>Overal Position</td>
+											<td></td>
+											<th:block th:each="meritList : ${meritLists}">
+												<td th:if="${meritList.admNo == student.admNo}"
+													th:text="${meritList.rank}">1</td>
+											</th:block>
+											<td>Out Of</td>
+											<td></td>
+											<td th:text="${meritLists.size()}"></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>Stream Position</td>
+											<td></td>
+											<th:block th:each="meritList : ${studentMeritList}">
+												<td th:if="${meritList.admNo == student.admNo}"
+													th:text="${meritList.rank}">1</td>
+											</th:block>
+											<td>Out Of</td>
+											<td></td>
+											<td th:text="${studentMeritList.size()}"></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>Mean Grade</td>
+											<td></td>
+											<td
+												th:with="is = ${(#aggregates.sum(marks__${student.admNo}__.![mark]))/count}">
+												<span th:if="${(is<=100 && is>=80 )}">A</span> <span
+												th:if="${is<80 && is>=75}">A-</span> <span
+												th:if="${is<75 && is>=70}">B+</span> <span
+												th:if="${is<70 && is>=65}">B</span> <span
+												th:if="${is<65 && is>=60}">B-</span> <span
+												th:if="${is<60 && is>=55}">C+</span> <span
+												th:if="${is<55 && is>=50}">C</span> <span
+												th:if="${is<50 && is>=45}">C-</span> <span
+												th:if="${is<45 && is>=40}">D+</span> <span
+												th:if="${is<40 && is>=35}">D</span> <span
+												th:if="${is<35 && is>=30}">D-</span> <span
+												th:if="${is<30 && is>0}">E</span> <span th:if="${is<0}">-</span>
+											</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div style="padding: 10px">
+								<h4 style="font-size: 14px;">Class Teacher's Remarks</h4>
+								<div style="width: 100%; height: 70px; position: relative;"
+									class="border">
+
+									<p
+										style="position: absolute; bottom: -20px; right: 4px; font-size: 12px;">
+										Teacher's Name</p>
+								</div>
+							</div>
+
+							<div style="padding: 10px;">
+								<h4 style="font-size: 14px;">Principal's/Head Teacher's
+									Remarks</h4>
+								<div style="width: 100%; height: 70px; position: relative;"
+									class="border">
+
+									<p
+										style="position: absolute; bottom: -20px; right: 4px; font-size: 12px;">
+										Principal's Name</p>
+								</div>
+							</div>
+
+						</div>
+				</div>
+
+				</th:block>
+
+			</div>
+
+		</div>
+		<!-- /.container-fluid -->
+
+	</div>
+	<!-- End of Main Content -->
+
+	</div>
+	<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+</body>
+
+</html>

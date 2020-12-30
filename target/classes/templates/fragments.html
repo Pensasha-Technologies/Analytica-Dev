@@ -513,8 +513,7 @@
 						class="collapse-item" style="color: #E96830;" data-toggle="modal"
 						data-target="#examinationModal"> Examination</a> <a
 						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#assignTeacherModal">
-						Assign Teacher </a>
+						data-target="#assignTeacherModal"> Assign Teacher </a>
 
 				</div>
 			</div></li>
@@ -526,7 +525,8 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="assignTeacherModalLabel">Assign Teacher</h5>
+						<h5 class="modal-title" id="assignTeacherModalLabel">Assign
+							Teacher</h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -538,8 +538,8 @@
 							th:action="@{/schools/{code}/assignTeacher(code=${school.code})}"
 							method="post">
 							<div class="form-group">
-								<label for="year">Choose Academic Year:</label> <select name="year"
-									id="year" required>
+								<label for="year">Choose Academic Year:</label> <select
+									name="year" id="year" required>
 									<option value="">Select Year...</option>
 									<option th:each="year : ${school.years}"
 										th:value="${year.year}" th:text="${year.year}">Year</option>
@@ -813,11 +813,82 @@
 						style="color: #012237;" data-target="#marksSheetModal"> Marks
 						Sheet </a> <a class="collapse-item" data-toggle="modal"
 						style="color: #012237;" data-target="#meritListModal"> Merit
-						List </a>
+						List </a><a class="collapse-item" data-toggle="modal"
+						data-target="#studentsReportModal" style="color: #012237;">
+						Student Reports </a>
 				</div>
 			</div></li>
 
 		<!-- Report Model -->
+
+		<!-- Student Report Modal -->
+		<div class="modal fade" id="studentsReportModal" tabindex="-1"
+			role="dialog" aria-labelledby="studentsReportModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="studentsReportModalLabel">Students
+							Report</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="stuudentsReportModel"
+							th:action="@{/schools/{code}/studentsReport(code = ${school.code})}"
+							method="post">
+							<div class="form-group fadeIn first">
+								<label for="year">Choose Year:</label> <select name="year"
+									id="year" required>
+									<option value="">Select Year...</option>
+									<option th:each="year : ${school.years}"
+										th:value="${year.year}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+							<div class="form-group fadeIn second">
+								<label for="form">Choose Form:</label> <select name="form"
+									id="form" required>
+									<option value="">Select Form...</option>
+									<option value="1">Form 1</option>
+									<option value="2">Form 2</option>
+									<option value="3">Form 3</option>
+									<option value="4">Form 4</option>
+
+								</select>
+							</div>
+							<div class="form-group fadeIn third">
+								<label for="term">Choose Term:</label> <select name="term"
+									id="term" required>
+									<option value="">Select Term...</option>
+									<option value="1">Term 1</option>
+									<option value="2">Term 2</option>
+									<option value="3">Term 3</option>
+								</select>
+							</div>
+							<div class="form-group fadeIn third">
+								<label for="stream">Choose Stream:</label> <select name="stream"
+									id="stream" required>
+									<option value="">Select Stream...</option>
+									<option th:each="stream : ${streams}"
+										th:value="${stream.stream}" th:text="${stream.stream}">Form
+										1</option>
+								</select>
+							</div>
+
+							<button class="btn btn-primary fadeIn fourth" id="classList">
+								Get List</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- End of Report Model -->
 
 		<!-- Modal -->
 		<div class="modal fade" id="classListModal" tabindex="-1"
@@ -862,7 +933,6 @@
 									<option th:each="stream : ${streams}"
 										th:value="${stream.stream}" th:text="${stream.stream}">Form
 										1</option>
-
 								</select>
 							</div>
 
@@ -948,8 +1018,8 @@
 							</div>
 							<div class="form-group fadeIn third">
 								<label for="exam">Choose Exam:</label> <select
-									class="fadeIn third" name="examType" id="examTypeInput" required><option
-										value="">Select Exam ...</option>
+									class="fadeIn third" name="examType" id="examTypeInput"
+									required><option value="">Select Exam ...</option>
 								</select>
 							</div>
 

@@ -31,7 +31,6 @@ import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
-import com.pensasha.school.report.ReportService;
 import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleService;
 import com.pensasha.school.school.School;
@@ -59,9 +58,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 @Controller
 public class MainController {
 
-	@Autowired
-	ReportService reportService;
-
 	private SchoolService schoolService;
 	private StudentService studentService;
 	private TermService termService;
@@ -74,12 +70,11 @@ public class MainController {
 	private StreamService streamService;
 	private DisciplineService disciplineService;
 
-	public MainController(ReportService reportService, SchoolService schoolService, StudentService studentService,
-			TermService termService, SubjectService subjectService, FormService formService, YearService yearService,
-			MarkService markService, UserService userService, RoleService roleService, StreamService streamService,
+	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
+			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
+			UserService userService, RoleService roleService, StreamService streamService,
 			DisciplineService disciplineService) {
 		super();
-		this.reportService = reportService;
 		this.schoolService = schoolService;
 		this.studentService = studentService;
 		this.termService = termService;
@@ -881,39 +876,6 @@ public class MainController {
 
 			return "teacherHome";
 		}
-
-	}
-
-	@GetMapping("/report/print")
-	@ResponseBody
-	public void generateReport(HttpServletResponse response) throws JRException, IOException {
-
-		JasperPrint jasperPrint = null;
-
-		response.setContentType("application/x-download");
-		response.setHeader("Content-Disposition", String.format("attachment; filename=\"users.pdf\""));
-
-		OutputStream out = response.getOutputStream();
-		jasperPrint = reportService.exportReport();
-		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-
-	}
-
-	@GetMapping("/report/school/{code}/years/{year}/form/{form}/stream/{stream}/classList")
-	@ResponseBody
-	public void generateClassList(HttpServletResponse response, @PathVariable int code, @PathVariable int year,
-			@PathVariable int form, @PathVariable String stream) throws JRException, IOException {
-
-		JasperPrint jasperPrint = null;
-
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
-
-		response.setContentType("application/x-download");
-		response.setHeader("Content-Disposition", String.format("attachment; filename=\"classList.pdf\""));
-
-		OutputStream out = response.getOutputStream();
-		jasperPrint = reportService.exportClassList(students);
-		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
 
 	}
 

@@ -37,6 +37,7 @@ public class MeritList {
 	private int total;
 	private int average;
 	private int deviation;
+	private int rank;
 
 	public MeritList(String firstname, String secondname, String admNo, int maths, int eng, int kis, int bio, int chem,
 			int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int and, int agric, int comp, int avi,
@@ -396,4 +397,13 @@ public class MeritList {
 		this.deviation = deviation;
 	}
 
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	
 }

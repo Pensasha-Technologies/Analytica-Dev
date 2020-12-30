@@ -46,11 +46,9 @@ public class StreamController {
 	private UserService userService;
 	private StudentService studentService;
 	private YearService yearService;
-	private final TemplateEngine templateEngine;
 
 	public StreamController(SchoolService schoolService, StreamService streamService, SubjectService subjectService,
-			UserService userService, StudentService studentService, YearService yearService,
-			TemplateEngine templateEngine, ServletContext servletContext) {
+			UserService userService, StudentService studentService, YearService yearService) {
 		super();
 		this.schoolService = schoolService;
 		this.streamService = streamService;
@@ -58,12 +56,7 @@ public class StreamController {
 		this.userService = userService;
 		this.studentService = studentService;
 		this.yearService = yearService;
-		this.templateEngine = templateEngine;
-		this.servletContext = servletContext;
 	}
-
-	@Autowired
-	ServletContext servletContext;
 
 	// Adding stream to school
 	@PostMapping("/school/{code}/streams")
@@ -212,62 +205,6 @@ public class StreamController {
 		model.addAttribute("school", school);
 
 		return "classList";
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/streams/{stream}/classList/pdf")
-	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable String stream, HttpServletRequest request, HttpServletResponse response, Principal principal)
-			throws IOException {
-
-		/* Do Business Logic */
-
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
-
-		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
-		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
-
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-
-		/* Create HTML using Thymeleaf template Engine */
-
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("subjects", subjects);
-		context.setVariable("form", form);
-		context.setVariable("stream", stream);
-		context.setVariable("year", year);
-		context.setVariable("students", students);
-		context.setVariable("streams", streams);
-		context.setVariable("years", years);
-		context.setVariable("schoolUsers", schoolUsers);
-		context.setVariable("user", user);
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("student", student);
-		context.setVariable("school", school);
-		String classListHtml = templateEngine.process("classListPdf", context);
-
-		/* Setup Source and target I/O streams */
-
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-
-		/* Call convert method */
-		HtmlConverter.convertToPdf(classListHtml, target, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
 	}
 
 }
