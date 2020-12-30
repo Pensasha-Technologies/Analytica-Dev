@@ -91,9 +91,8 @@ public class ReportController {
 		this.servletContext = servletContext;
 	}
 
-	// private final String baseUrl =
-	// "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
-	private final String baseUrl = "http://localhost:8080/";
+	//private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
+	 private final String baseUrl = "http://localhost:8080/";
 
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf")
 	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,

@@ -22,6 +22,7 @@ import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
@@ -38,6 +39,7 @@ public class TermController {
 	private SubjectService subjectService;
 	private SchoolService schoolService;
 	private StudentService studentService;
+	private StreamService streamService;
 	private YearService yearService;
 	private FormService formService;
 	private UserService userService;
@@ -45,12 +47,13 @@ public class TermController {
 	private ExamNameService examNameService;
 
 	public TermController(SubjectService subjectService, SchoolService schoolService, StudentService studentService,
-			YearService yearService, FormService formService, UserService userService, MarkService markService,
-			ExamNameService examNameService) {
+			StreamService streamService, YearService yearService, FormService formService, UserService userService,
+			MarkService markService, ExamNameService examNameService) {
 		super();
 		this.subjectService = subjectService;
 		this.schoolService = schoolService;
 		this.studentService = studentService;
+		this.streamService = streamService;
 		this.yearService = yearService;
 		this.formService = formService;
 		this.userService = userService;
@@ -114,6 +117,7 @@ public class TermController {
 
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("school", school);
+		model.addAttribute("streams", streamService.getStreamsInSchool(code));
 		model.addAttribute("student", student);
 		model.addAttribute("students", students);
 		model.addAttribute("year", year);

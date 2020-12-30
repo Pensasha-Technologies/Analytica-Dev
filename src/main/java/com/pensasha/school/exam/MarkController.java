@@ -46,7 +46,7 @@ public class MarkController {
 	private StreamService streamService;
 	private SchoolService schoolService;
 	private ExamNameService examNameService;
-	
+
 	public MarkController(StudentService studentService, MarkService markService, FormService formService,
 			YearService yearService, TermService termService, SubjectService subjectService, UserService userService,
 			StreamService streamService, SchoolService schoolService, ExamNameService examNameService) {
@@ -78,6 +78,7 @@ public class MarkController {
 
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("school", school);
+		model.addAttribute("students", school.getSubjects());
 		model.addAttribute("student", student);
 		model.addAttribute("examNames", examNames);
 		model.addAttribute("year", year);
@@ -796,6 +797,7 @@ public class MarkController {
 		model.addAttribute("term", term);
 		model.addAttribute("marks", allMarks);
 		model.addAttribute("subjects", subjects);
+		model.addAttribute("streams", streamService.getStreamsInSchool(code));
 		model.addAttribute("students", students);
 		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
 		model.addAttribute("meritLists", meritLists);
@@ -829,7 +831,10 @@ public class MarkController {
 		model.addAttribute("DndCount", dndCount);
 
 		Collections.sort(meritLists, new SortByDeviation().reversed());
-		model.addAttribute("mostImproved", meritLists.get(0));
+
+		if (meritLists.size() > 0) {
+			model.addAttribute("mostImproved", meritLists.get(0));
+		}
 
 		return "meritList";
 

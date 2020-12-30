@@ -965,14 +965,14 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form class="classList"
+						<form class="marksheets"
 							th:action="@{/schools/{code}/marksSheet(code = ${school.code})}"
 							method="post">
 							<div class="form-group fadeIn first">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="yearInput" required>
 									<option value="">Select Year...</option>
-									<option th:each="year : ${years}" th:value="${year.year}"
+									<option th:each="year : ${school.years}" th:value="${year.year}"
 										th:text="${year.year}">Year</option>
 								</select>
 							</div>
@@ -1010,7 +1010,7 @@
 								<label for="subject">Choose Subject:</label> <select
 									name="subject" id="subjectInput" required>
 									<option value="">Select Subject...</option>
-									<option th:each="subject : ${subjects}"
+									<option th:each="subject : ${school.subjects}"
 										th:value="${subject.initials}" th:text="${subject.name}">Form
 										1</option>
 
@@ -1057,7 +1057,7 @@
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
-									<option th:each="year : ${years}" th:value="${year.year}"
+									<option th:each="year : ${school.years}" th:value="${year.year}"
 										th:text="${year.year}">Year</option>
 								</select>
 							</div>

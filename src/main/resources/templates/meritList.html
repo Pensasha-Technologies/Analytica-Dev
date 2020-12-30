@@ -71,7 +71,7 @@
 					<div class="alert alert-success" th:if="${success}"
 						th:text="${success}">Student saved</div>
 
-					<div style="padding:10px;">
+					<div style="padding: 10px;" th:if="${meritLists} and ${meritLists.size()}">
 						<a
 							th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf(code=${school.code},year=${year}, form=${form},term=${term})}"
 							class="btn btn-primary"> Download</a>
@@ -96,6 +96,11 @@
 								</tr>
 							</thead>
 							<tbody>
+								<div th:unless="${meritLists} and ${meritLists.size()}">
+									<br>
+									<p class="text text-center alert alert-warning">No Student
+										Marks has been added</p>
+								</div>
 								<tr th:each="meritList, rank : ${meritLists}">
 									<td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
 									<td
@@ -296,7 +301,12 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<div th:if="${mostImproved == null}">
+									<br>
+									<p class="text text-center alert alert-warning">No Student
+										Marks has been added</p>
+								</div>
+								<tr th:if="${mostImproved != null}">
 									<td th:text="${mostImproved.firstname}">First Name</td>
 									<td th:text="${mostImproved.secondname}">Second Name</td>
 									<td th:text="${mostImproved.stream}">Stream</td>
