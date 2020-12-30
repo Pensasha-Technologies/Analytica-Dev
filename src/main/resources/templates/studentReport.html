@@ -60,9 +60,11 @@
 
 							<div style="padding: 10px;"
 								th:if="${marks__${student.admNo}__} and ${marks__${student.admNo}__.size()}">
-								<a
-									th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/students/{admNo}/studentsReport/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, stream=${student.stream.stream},admNo=${student.admNo})}"
-									class="btn btn-primary"> Download</a>
+								<th:block th:if="${examNames.size() == marks__${student.admNo}__.size()}">
+									<a
+										th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/students/{admNo}/studentsReport/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, stream=${student.stream.stream},admNo=${student.admNo})}"
+										class="btn btn-primary"> Download</a>
+								</th:block>
 							</div>
 
 							<div class="border border-dark" style="padding: 10px;">
@@ -134,7 +136,14 @@
 												Student marks has been added</p>
 										</div>
 										<tbody>
-											<tr th:each="subject : ${subjects__${student.admNo}__}">
+											<div
+												th:unless="${examNames.size() == marks__${student.admNo}__.size()}">
+												<br>
+												<p class="text text-center alert alert-warning">Enter
+													all results for student</p>
+											</div>
+											<tr th:each="subject : ${subjects__${student.admNo}__}"
+												th:if="${examNames.size() == marks__${student.admNo}__.size()}">
 												<td th:text="${subject.name}">subject name</td>
 												<th:block th:each="examName : ${examNames}">
 													<th:block th:each="mark : ${marks__${student.admNo}__}">
