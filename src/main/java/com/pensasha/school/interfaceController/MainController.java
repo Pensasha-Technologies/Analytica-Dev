@@ -1,17 +1,14 @@
 package com.pensasha.school.interfaceController;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -50,10 +46,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperPrint;
 
 @Controller
 public class MainController {
@@ -664,11 +656,11 @@ public class MainController {
 		teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
 				+ user.getThirdname().charAt(0));
 
-		
+		/*
 		  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		  user.setPassword(encoder.encode(user.getUsername()));
-		 
-/*
+		 */
+
 		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 		int partnerId = 1989;
 		String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -690,7 +682,7 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-*/
+
 		Role roleObj = new Role();
 		teacher.setSchool(new School("", code));
 		roleObj.setName("TEACHER");

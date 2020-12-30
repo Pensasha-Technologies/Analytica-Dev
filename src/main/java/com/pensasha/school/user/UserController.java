@@ -142,11 +142,11 @@ public class UserController {
 				break;
 			}
 
-			
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getUsername()));
-			
-		/*	
+			/*
+			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			 * user.setPassword(encoder.encode(user.getUsername()));
+			 */
+
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -169,7 +169,6 @@ public class UserController {
 				e.printStackTrace();
 			}
 
-*/
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 
 			user.setRole(roleObj);
@@ -190,8 +189,7 @@ public class UserController {
 	@PostMapping("/schoolUsers")
 	public RedirectView addSchoolUsers(RedirectAttributes redit, @RequestParam String role,
 			@ModelAttribute SchoolUser user, @RequestParam int code, Principal principal, HttpServletRequest request) {
-		
-		
+
 		Role roleObj = new Role();
 		User activeUser = userService.getByUsername(principal.getName()).get();
 
@@ -221,7 +219,7 @@ public class UserController {
 				roleObj.setName("ACCOUNTSCLERK");
 				break;
 			case "teacher":
-				
+
 				teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(),
 						user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(),
 						user.getAddress());
@@ -231,27 +229,24 @@ public class UserController {
 				teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
 						+ user.getThirdname().charAt(0));
 				roleObj.setName("TEACHER");
-				
+
 				teacher.setRole(roleObj);
 				break;
 			default:
 				break;
 			}
 
-			
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-			user.setRole(roleObj);
-			roleService.addRole(roleObj);
-			if (user.getRole().getName() == "TEACHER") {
-				teacher.setPassword(encoder.encode(teacher.getUsername()));
-				userService.addUser(teacher);
-			} else {
-				user.setPassword(encoder.encode(user.getUsername()));
-				userService.addUser(user);
-			}
-			
 			/*
+			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			 * 
+			 * user.setRole(roleObj); roleService.addRole(roleObj); if
+			 * (user.getRole().getName() == "TEACHER") {
+			 * teacher.setPassword(encoder.encode(teacher.getUsername()));
+			 * userService.addUser(teacher); } else {
+			 * user.setPassword(encoder.encode(user.getUsername()));
+			 * userService.addUser(user); }
+			 */
+
 			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 			int partnerId = 1989;
 			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -282,7 +277,7 @@ public class UserController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-*/
+
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 		}
 
