@@ -656,11 +656,11 @@ public class MainController {
 		teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "."
 				+ user.getThirdname().charAt(0));
 
-		/*
+		
 		  BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		  user.setPassword(encoder.encode(user.getUsername()));
-		 */
-
+		 
+/*
 		String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
 		int partnerId = 1989;
 		String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
@@ -682,7 +682,7 @@ public class MainController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+*/
 		Role roleObj = new Role();
 		teacher.setSchool(new School("", code));
 		roleObj.setName("TEACHER");

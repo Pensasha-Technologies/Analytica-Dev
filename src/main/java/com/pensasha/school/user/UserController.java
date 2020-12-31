@@ -142,33 +142,26 @@ public class UserController {
 				break;
 			}
 
-			/*
-			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			 * user.setPassword(encoder.encode(user.getUsername()));
-			 */
-
-			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
-			int partnerId = 1989;
-			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
-			String shortCode = "analytica";
-
-			Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
-
-			Random random = new Random();
-			int otp = random.nextInt(9999);
-			otp += 1;
-
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(Integer.toString(otp)));
+			user.setPassword(encoder.encode(user.getUsername()));
 
-			try {
-				String res = gateway.sendSingleSms("Your Username is: " + user.getUsername() + " password is:" + otp,
-						Integer.toString(user.getPhoneNumber()));
-				System.out.println(res);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+			/*
+			 * String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/"; int
+			 * partnerId = 1989; String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599"; String
+			 * shortCode = "analytica";
+			 * 
+			 * Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+			 * 
+			 * Random random = new Random(); int otp = random.nextInt(9999); otp += 1;
+			 * 
+			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			 * user.setPassword(encoder.encode(Integer.toString(otp)));
+			 * 
+			 * try { String res = gateway.sendSingleSms("Your Username is: " +
+			 * user.getUsername() + " password is:" + otp,
+			 * Integer.toString(user.getPhoneNumber())); System.out.println(res); } catch
+			 * (IOException e) { e.printStackTrace(); }
+			 */
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 
 			user.setRole(roleObj);
@@ -236,48 +229,41 @@ public class UserController {
 				break;
 			}
 
-			/*
-			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			 * 
-			 * user.setRole(roleObj); roleService.addRole(roleObj); if
-			 * (user.getRole().getName() == "TEACHER") {
-			 * teacher.setPassword(encoder.encode(teacher.getUsername()));
-			 * userService.addUser(teacher); } else {
-			 * user.setPassword(encoder.encode(user.getUsername()));
-			 * userService.addUser(user); }
-			 */
-
-			String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
-			int partnerId = 1989;
-			String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
-			String shortCode = "analytica";
-
-			Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
-
-			Random random = new Random();
-			int otp = random.nextInt(9999);
-			otp += 1;
-
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 			user.setRole(roleObj);
 			roleService.addRole(roleObj);
 			if (user.getRole().getName() == "TEACHER") {
-				teacher.setPassword(encoder.encode(Integer.toString(otp)));
+				teacher.setPassword(encoder.encode(teacher.getUsername()));
 				userService.addUser(teacher);
 			} else {
-				user.setPassword(encoder.encode(Integer.toString(otp)));
+				user.setPassword(encoder.encode(user.getUsername()));
 				userService.addUser(user);
 			}
 
-			try {
-				String res = gateway.sendSingleSms("Your Username is: " + user.getUsername() + " password is:" + otp,
-						Integer.toString(user.getPhoneNumber()));
-				System.out.println(res);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+			/*
+			 * String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/"; int
+			 * partnerId = 1989; String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599"; String
+			 * shortCode = "analytica";
+			 * 
+			 * Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
+			 * 
+			 * Random random = new Random(); int otp = random.nextInt(9999); otp += 1;
+			 * 
+			 * BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			 * 
+			 * user.setRole(roleObj); roleService.addRole(roleObj); if
+			 * (user.getRole().getName() == "TEACHER") {
+			 * teacher.setPassword(encoder.encode(Integer.toString(otp)));
+			 * userService.addUser(teacher); } else {
+			 * user.setPassword(encoder.encode(Integer.toString(otp)));
+			 * userService.addUser(user); }
+			 * 
+			 * try { String res = gateway.sendSingleSms("Your Username is: " +
+			 * user.getUsername() + " password is:" + otp,
+			 * Integer.toString(user.getPhoneNumber())); System.out.println(res); } catch
+			 * (IOException e) { e.printStackTrace(); }
+			 */
 			redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
 		}
 

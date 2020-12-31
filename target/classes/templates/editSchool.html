@@ -48,6 +48,9 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
 							<a th:href="@{/adminHome}" th:if="${activeUser.role.name == 'ADMIN'}">Home</a>
+							<a th:href="@{/ceoHome}" th:if="${activeUser.role.name == 'C.E.O'}">Home</a>
+							<a th:href="@{/officeAssistantHome}" th:if="${activeUser.role.name == 'OFFICEASSISTANT'}">Home</a>
+							<a th:href="@{/fieldOfficerHome}" th:if="${activeUser.role.name == 'FIELDOFFICER'}">Home</a>
 							<a th:href="@{/schools/principal}" th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a>
 							<a th:href="@{/schools/dosHome}" th:if="${activeUser.role.name == 'D.O.S'}">Home</a>
 						</li>

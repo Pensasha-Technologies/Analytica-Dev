@@ -38,6 +38,12 @@
 							th:if="${activeUser.role.name == 'C.E.O'}"><a
 							th:href="@{/ceoHome}">Home</a></li>
 						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
+							th:href="@{/officeAssistantHome}">Home</a></li>
+							<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
+							th:href="@{/fieldOfficerHome}">Home</a></li>
+						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'BURSAR'}"><a
 							th:href="@{/schools/bursarHome}">Home</a></li>
 						<li class="breadcrumb-item"
@@ -329,12 +335,14 @@
 
 										<h1>Subjects</h1>
 
-										<div th:unless="${allCompF1F2Subjects} and ${allCompF1F2Subjects.size()}">
+										<div
+											th:unless="${allCompF1F2Subjects} and ${allCompF1F2Subjects.size()}">
 											<br>
 											<p class="text text-center alert alert-warning">No
 												Subjects</p>
 										</div>
-										<div class="form-check" th:each="subject : ${allCompF1F2Subjects}">
+										<div class="form-check"
+											th:each="subject : ${allCompF1F2Subjects}">
 											<input class="form-check-input" type="checkbox"
 												th:value="${subject.initials}" th:id="${subject.initials}"
 												th:name="${subject.initials}"> <label
@@ -382,12 +390,14 @@
 
 										<h1>Subjects</h1>
 
-										<div th:unless="${allCompF3F4Subjects} and ${allCompF3F4Subjects.size()}">
+										<div
+											th:unless="${allCompF3F4Subjects} and ${allCompF3F4Subjects.size()}">
 											<br>
 											<p class="text text-center alert alert-warning">No
 												Subjects</p>
 										</div>
-										<div class="form-check" th:each="subject : ${allCompF3F4Subjects}">
+										<div class="form-check"
+											th:each="subject : ${allCompF3F4Subjects}">
 											<input class="form-check-input" type="checkbox"
 												th:value="${subject.initials}" th:id="${subject.initials}"
 												th:name="${subject.initials}"> <label
@@ -481,8 +491,8 @@
 							<div class="d-flex justify-content-center">
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
-									<form class="addSubjectsForm" name="addStream" th:object="${stream}"
-										onsubmit="return addSubjectValidation()"
+									<form class="addSubjectsForm" name="addStream"
+										th:object="${stream}" onsubmit="return addSubjectValidation()"
 										th:action="@{/school/{code}/streams(code = ${school.code})}"
 										method="post">
 
