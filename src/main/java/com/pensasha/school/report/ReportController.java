@@ -92,7 +92,7 @@ public class ReportController {
 	}
 
 	private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
-	//private final String baseUrl = "http://localhost:8080/";
+	 // private final String baseUrl = "http://localhost:8080/";
 
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf")
 	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
@@ -209,6 +209,11 @@ public class ReportController {
 		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
+		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
+				creCount = 0, geoCount = 0, ireCount = 0, hreCount = 0, hsciCount = 0, andCount = 0, agricCount = 0,
+				compCount = 0, aviCount = 0, elecCount = 0, pwrCount = 0, woodCount = 0, metalCount = 0, bcCount = 0,
+				frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0;
+
 		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
 			int count = 0;
@@ -216,7 +221,7 @@ public class ReportController {
 			for (int j = 0; j < subjects.size(); j++) {
 
 				meritList.setFirstname(students.get(i).getFirstname());
-				meritList.setSecondname(students.get(i).getSecondname());
+				meritList.setSecondname(students.get(i).getThirdname());
 				meritList.setAdmNo(students.get(i).getAdmNo());
 				meritList.setKcpe(students.get(i).getKcpeMarks());
 				meritList.setStream(students.get(i).getStream().getStream());
@@ -235,7 +240,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						mathsCount++;
+					}
 					meritList.setMaths(sum);
 					break;
 				case "Eng":
@@ -247,7 +255,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						engCount++;
+					}
 					meritList.setEng(sum);
 
 					break;
@@ -260,7 +271,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						kisCount++;
+					}
 					meritList.setKis(sum);
 
 					break;
@@ -273,7 +287,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						bioCount++;
+					}
 					meritList.setBio(sum);
 
 					break;
@@ -286,7 +303,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						chemCount++;
+					}
 					meritList.setChem(sum);
 
 					break;
@@ -299,7 +319,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						phyCount++;
+					}
 					meritList.setPhy(sum);
 
 					break;
@@ -312,7 +335,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						histCount++;
+					}
 					meritList.setHist(sum);
 
 					break;
@@ -325,7 +351,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						creCount++;
+					}
 					meritList.setCre(sum);
 
 					break;
@@ -338,7 +367,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						geoCount++;
+					}
 					meritList.setGeo(sum);
 
 					break;
@@ -351,7 +383,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						ireCount++;
+					}
 					meritList.setIre(sum);
 
 					break;
@@ -364,7 +399,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						hreCount++;
+					}
 					meritList.setHre(sum);
 
 					break;
@@ -377,7 +415,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						hsciCount++;
+					}
 					meritList.setHsci(sum);
 
 					break;
@@ -390,7 +431,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						andCount++;
+					}
 					meritList.setAnd(sum);
 
 					break;
@@ -403,7 +447,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						agricCount++;
+					}
 					meritList.setAgric(sum);
 
 					break;
@@ -416,7 +463,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						compCount++;
+					}
 					meritList.setComp(sum);
 
 					break;
@@ -429,7 +479,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						aviCount++;
+					}
 					meritList.setAvi(sum);
 
 					break;
@@ -442,7 +495,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						elecCount++;
+					}
 					meritList.setElec(sum);
 
 					break;
@@ -455,7 +511,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						pwrCount++;
+					}
 					meritList.setPwr(sum);
 
 					break;
@@ -468,7 +527,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						woodCount++;
+					}
 					meritList.setWood(sum);
 
 					break;
@@ -481,7 +543,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						metalCount++;
+					}
 					meritList.setMetal(sum);
 
 					break;
@@ -494,7 +559,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						bcCount++;
+					}
 					meritList.setBc(sum);
 
 					break;
@@ -507,7 +575,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						frenCount++;
+					}
 					meritList.setFren(sum);
 
 					break;
@@ -520,7 +591,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						germCount++;
+					}
 					meritList.setGerm(sum);
 
 					break;
@@ -533,7 +607,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						arabCount++;
+					}
 					meritList.setArab(sum);
 
 					break;
@@ -546,7 +623,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						mscCount++;
+					}
 					meritList.setMsc(sum);
 
 					break;
@@ -559,7 +639,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						bsCount++;
+					}
 					meritList.setBs(sum);
 
 					break;
@@ -572,7 +655,10 @@ public class ReportController {
 						sum = sum + marks.get(k).getMark();
 					}
 
-					count++;
+					if (sum > 0) {
+						count++;
+						dndCount++;
+					}
 					meritList.setDnd(sum);
 
 					break;
@@ -589,7 +675,7 @@ public class ReportController {
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
 			meritList.setAverage(meritList.getTotal() / count);
-
+			meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks()) / 5);
 			meritLists.add(meritList);
 
 		}
@@ -628,6 +714,173 @@ public class ReportController {
 		context.setVariable("students", students);
 		context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
 		context.setVariable("meritLists", meritLists);
+		context.setVariable("MathsCount", mathsCount);
+		context.setVariable("EngCount", engCount);
+		context.setVariable("KisCount", kisCount);
+		context.setVariable("BioCount", bioCount);
+		context.setVariable("ChemCount", chemCount);
+		context.setVariable("PhyCount", phyCount);
+		context.setVariable("HistCount", histCount);
+		context.setVariable("creCount", creCount);
+		context.setVariable("GeoCount", geoCount);
+		context.setVariable("ireCount", ireCount);
+		context.setVariable("hreCount", hreCount);
+		context.setVariable("HsciCount", hsciCount);
+		context.setVariable("AndCount", andCount);
+		context.setVariable("AgricCount", agricCount);
+		context.setVariable("CompCount", compCount);
+		context.setVariable("AviCount", aviCount);
+		context.setVariable("ElectCount", elecCount);
+		context.setVariable("PwrCount", pwrCount);
+		context.setVariable("WoodCount", woodCount);
+		context.setVariable("MetalCount", metalCount);
+		context.setVariable("BcCount", bcCount);
+		context.setVariable("FrenCount", frenCount);
+		context.setVariable("GermCount", germCount);
+		context.setVariable("ArabCount", arabCount);
+		context.setVariable("MscCount", mscCount);
+		context.setVariable("BsCount", bsCount);
+		context.setVariable("DndCount", dndCount);
+
+		Collections.sort(meritLists, new SortByDeviation().reversed());
+		if (meritLists.size() > 0) {
+			context.setVariable("mostImproved", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMaths());
+		if (meritLists.size() > 0) {
+			context.setVariable("MathsGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByEng());
+		if (meritLists.size() > 0) {
+			context.setVariable("EngGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByKis());
+		if (meritLists.size() > 0) {
+			context.setVariable("KisGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBio());
+		if (meritLists.size() > 0) {
+			context.setVariable("BioGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByChem());
+		if (meritLists.size() > 0) {
+			context.setVariable("ChemGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByPhy());
+		if (meritLists.size() > 0) {
+			context.setVariable("PhyGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHist());
+		if (meritLists.size() > 0) {
+			context.setVariable("HistGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByCre());
+		if (meritLists.size() > 0) {
+			context.setVariable("creGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByGeo());
+		if (meritLists.size() > 0) {
+			context.setVariable("GeoGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByIre());
+		if (meritLists.size() > 0) {
+			context.setVariable("ireGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHre());
+		if (meritLists.size() > 0) {
+			context.setVariable("hreGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHsci());
+		if (meritLists.size() > 0) {
+			context.setVariable("HsciGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAnd());
+		if (meritLists.size() > 0) {
+			context.setVariable("AndGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAgric());
+		if (meritLists.size() > 0) {
+			context.setVariable("AgricGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByComp());
+		if (meritLists.size() > 0) {
+			context.setVariable("CompGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAvi());
+		if (meritLists.size() > 0) {
+			context.setVariable("AviGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByElec());
+		if (meritLists.size() > 0) {
+			context.setVariable("ElectGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByPwr());
+		if (meritLists.size() > 0) {
+			context.setVariable("PwrGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByWood());
+		if (meritLists.size() > 0) {
+			context.setVariable("WoodGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMetal());
+		if (meritLists.size() > 0) {
+			context.setVariable("MetalGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBc());
+		if (meritLists.size() > 0) {
+			context.setVariable("BcGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByFren());
+		if (meritLists.size() > 0) {
+			context.setVariable("FrenGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByGerm());
+		if (meritLists.size() > 0) {
+			context.setVariable("GermGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByArab());
+		if (meritLists.size() > 0) {
+			context.setVariable("ArabGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMsc());
+		if (meritLists.size() > 0) {
+			context.setVariable("MscGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBs());
+		if (meritLists.size() > 0) {
+			context.setVariable("BsGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByDnd());
+		if (meritLists.size() > 0) {
+		}
+
 		String meritListHtml = templateEngine.process("meritListPdf", context);
 
 		/* Setup Source and target I/O streams */
@@ -979,6 +1232,201 @@ class SortByTotal implements Comparator<MeritList> {
 
 	public int compare(MeritList a, MeritList b) {
 		return a.getTotal() - b.getTotal();
+	}
+}
+
+class SortByMaths implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMaths() - b.getMaths();
+	}
+}
+
+class SortByEng implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getEng() - b.getEng();
+	}
+}
+
+class SortByKis implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getKis() - b.getKis();
+	}
+}
+
+class SortByBio implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBio() - b.getBio();
+	}
+}
+
+class SortByChem implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getChem() - b.getChem();
+	}
+}
+
+class SortByPhy implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getPhy() - b.getPhy();
+	}
+}
+
+class SortByHist implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHist() - b.getHist();
+	}
+}
+
+class SortByCre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getCre() - b.getCre();
+	}
+}
+
+class SortByGeo implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getGeo() - b.getGeo();
+	}
+}
+
+class SortByIre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getIre() - b.getIre();
+	}
+}
+
+class SortByHre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHre() - b.getHre();
+	}
+}
+
+class SortByHsci implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHsci() - b.getHsci();
+	}
+}
+
+class SortByAnd implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAnd() - b.getAnd();
+	}
+}
+
+class SortByAgric implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAgric() - b.getAgric();
+	}
+}
+
+class SortByComp implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getComp() - b.getComp();
+	}
+}
+
+class SortByAvi implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAvi() - b.getAvi();
+	}
+}
+
+class SortByElec implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getElec() - b.getElec();
+	}
+}
+
+class SortByPwr implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getPwr() - b.getPwr();
+	}
+}
+
+class SortByWood implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getWood() - b.getWood();
+	}
+}
+
+class SortByMetal implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMetal() - b.getMetal();
+	}
+}
+
+class SortByBc implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBc() - b.getBc();
+	}
+}
+
+class SortByFren implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getFren() - b.getFren();
+	}
+}
+
+class SortByGerm implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getGerm() - b.getGerm();
+	}
+}
+
+class SortByArab implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getArab() - b.getArab();
+	}
+}
+
+class SortByMsc implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMsc() - b.getMsc();
+	}
+}
+
+class SortByBs implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBs() - b.getBs();
+	}
+}
+
+class SortByDnd implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getDnd() - b.getDnd();
+	}
+}
+
+class SortByDeviation implements Comparator<MeritList> {
+	public int compare(MeritList a, MeritList b) {
+		return a.getDeviation() - b.getDeviation();
 	}
 }
 

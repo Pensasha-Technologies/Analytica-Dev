@@ -71,7 +71,8 @@
 					<div class="alert alert-success" th:if="${success}"
 						th:text="${success}">Student saved</div>
 
-					<div style="padding: 10px;" th:if="${meritLists} and ${meritLists.size()}">
+					<div style="padding: 10px;"
+						th:if="${meritLists} and ${meritLists.size()}">
 						<a
 							th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf(code=${school.code},year=${year}, form=${form},term=${term})}"
 							class="btn btn-primary"> Download</a>
@@ -109,9 +110,13 @@
 									<td th:text="${meritList.stream}">stream</td>
 									<th:block th:each="subject : ${subjects}">
 										<td th:text="${meritList.__${subject.initials}__}"
-											th:if="${subject.initials != 'C.R.E'}"></td>
+											th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"></td>
 										<td th:text="${meritList.cre}"
 											th:if="${subject.initials == 'C.R.E'}"></td>
+										<td th:text="${meritList.hre}"
+											th:if="${subject.initials == 'H.R.E'}"></td>
+										<td th:text="${meritList.ire}"
+											th:if="${subject.initials == 'I.R.E'}"></td>
 									</th:block>
 									<td th:text="${meritList.total}"></td>
 									<td th:text="${meritList.average}">Average</td>
@@ -318,38 +323,51 @@
 						</table>
 					</div>
 
-					<!-- 
 					<div style="text-align: center;">
 						<h5>Subject Champions</h5>
 					</div>
 
-					<div class="table-responsive" style="padding-bottom: 20px;">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Adm No.</th>
-									<th>First Name</th>
-									<th>Second Name</th>
-									<th>Third Name</th>
-									<th>Stream</th>
-									<th>Marks</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>#</td>
-									<td>Adm No.</td>
-									<td>First Name</td>
-									<td>Second Name</td>
-									<td>Third Name</td>
-									<td>Stream</td>
-									<td>Marks</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
- -->
+					<th:block th:each="subject : ${subjects}">
+
+						<h6 th:text="${subject.name}">Subject Name</h6>
+
+						<div class="table-responsive" style="padding-bottom: 20px;">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>Adm No.</th>
+										<th>First Name</th>
+										<th>Third Name</th>
+										<th>Stream</th>
+										<th>Marks</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td
+											th:text="${#strings.substringAfter(__${subject.initials}__Giant.admNo,'_')}">Adm
+											No.</td>
+										<td th:text="${__${subject.initials}__Giant.firstname}">First
+											Name</td>
+										<td th:text="${__${subject.initials}__Giant.secondname}">Third
+											Name</td>
+										<td th:text="${__${subject.initials}__Giant.stream}">Stream</td>
+										<th:block th:each="meritList : ${meritLists}">
+											<td th:text="${meritList.__${subject.initials}__}"
+												th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"></td>
+											<td th:text="${meritList.cre}"
+												th:if="${subject.initials == 'C.R.E'}"></td>
+											<td th:text="${meritList.hre}"
+												th:if="${subject.initials == 'H.R.E'}"></td>
+											<td th:text="${meritList.ire}"
+												th:if="${subject.initials == 'I.R.E'}"></td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</th:block>
+
 				</div>
 				<!-- End of Main Content -->
 

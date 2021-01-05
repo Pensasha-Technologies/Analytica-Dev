@@ -829,9 +829,143 @@ public class MarkController {
 		model.addAttribute("DndCount", dndCount);
 
 		Collections.sort(meritLists, new SortByDeviation().reversed());
-
 		if (meritLists.size() > 0) {
 			model.addAttribute("mostImproved", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMaths());
+		if (meritLists.size() > 0) {
+			model.addAttribute("MathsGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByEng());
+		if (meritLists.size() > 0) {
+			model.addAttribute("EngGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByKis());
+		if (meritLists.size() > 0) {
+			model.addAttribute("KisGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBio());
+		if (meritLists.size() > 0) {
+			model.addAttribute("BioGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByChem());
+		if (meritLists.size() > 0) {
+			model.addAttribute("ChemGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByPhy());
+		if (meritLists.size() > 0) {
+			model.addAttribute("PhyGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHist());
+		if (meritLists.size() > 0) {
+			model.addAttribute("HistGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByCre());
+		if (meritLists.size() > 0) {
+			model.addAttribute("creGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByGeo());
+		if (meritLists.size() > 0) {
+			model.addAttribute("GeoGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByIre());
+		if (meritLists.size() > 0) {
+			model.addAttribute("ireGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHre());
+		if (meritLists.size() > 0) {
+			model.addAttribute("hreGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByHsci());
+		if (meritLists.size() > 0) {
+			model.addAttribute("HsciGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAnd());
+		if (meritLists.size() > 0) {
+			model.addAttribute("AndGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAgric());
+		if (meritLists.size() > 0) {
+			model.addAttribute("AgricGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByComp());
+		if (meritLists.size() > 0) {
+			model.addAttribute("CompGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByAvi());
+		if (meritLists.size() > 0) {
+			model.addAttribute("AviGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByElec());
+		if (meritLists.size() > 0) {
+			model.addAttribute("ElectGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByPwr());
+		if (meritLists.size() > 0) {
+			model.addAttribute("PwrGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByWood());
+		if (meritLists.size() > 0) {
+			model.addAttribute("WoodGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMetal());
+		if (meritLists.size() > 0) {
+			model.addAttribute("MetalGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBc());
+		if (meritLists.size() > 0) {
+			model.addAttribute("BcGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByFren());
+		if (meritLists.size() > 0) {
+			model.addAttribute("FrenGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByGerm());
+		if (meritLists.size() > 0) {
+			model.addAttribute("GermGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByArab());
+		if (meritLists.size() > 0) {
+			model.addAttribute("ArabGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByMsc());
+		if (meritLists.size() > 0) {
+			model.addAttribute("MscGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByBs());
+		if (meritLists.size() > 0) {
+			model.addAttribute("BsGiant", meritLists.get(0));
+		}
+
+		Collections.sort(meritLists, new SortByDnd());
+		if (meritLists.size() > 0) {
+			model.addAttribute("DndGiant", meritLists.get(0));
 		}
 
 		return "meritList";
@@ -844,6 +978,195 @@ class SortByTotal implements Comparator<MeritList> {
 
 	public int compare(MeritList a, MeritList b) {
 		return a.getTotal() - b.getTotal();
+	}
+}
+
+class SortByMaths implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMaths() - b.getMaths();
+	}
+}
+
+class SortByEng implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getEng() - b.getEng();
+	}
+}
+
+class SortByKis implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getKis() - b.getKis();
+	}
+}
+
+class SortByBio implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBio() - b.getBio();
+	}
+}
+
+class SortByChem implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getChem() - b.getChem();
+	}
+}
+
+class SortByPhy implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getPhy() - b.getPhy();
+	}
+}
+
+class SortByHist implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHist() - b.getHist();
+	}
+}
+
+class SortByCre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getCre() - b.getCre();
+	}
+}
+
+class SortByGeo implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getGeo() - b.getGeo();
+	}
+}
+
+class SortByIre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getIre() - b.getIre();
+	}
+}
+
+class SortByHre implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHre() - b.getHre();
+	}
+}
+
+class SortByHsci implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getHsci() - b.getHsci();
+	}
+}
+
+class SortByAnd implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAnd() - b.getAnd();
+	}
+}
+
+class SortByAgric implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAgric() - b.getAgric();
+	}
+}
+
+class SortByComp implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getComp() - b.getComp();
+	}
+}
+
+class SortByAvi implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getAvi() - b.getAvi();
+	}
+}
+
+class SortByElec implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getElec() - b.getElec();
+	}
+}
+
+class SortByPwr implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getPwr() - b.getPwr();
+	}
+}
+
+class SortByWood implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getWood() - b.getWood();
+	}
+}
+
+class SortByMetal implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMetal() - b.getMetal();
+	}
+}
+
+class SortByBc implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBc() - b.getBc();
+	}
+}
+
+class SortByFren implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getFren() - b.getFren();
+	}
+}
+
+class SortByGerm implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getGerm() - b.getGerm();
+	}
+}
+
+class SortByArab implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getArab() - b.getArab();
+	}
+}
+
+class SortByMsc implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getMsc() - b.getMsc();
+	}
+}
+
+class SortByBs implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getBs() - b.getBs();
+	}
+}
+
+class SortByDnd implements Comparator<MeritList> {
+
+	public int compare(MeritList a, MeritList b) {
+		return a.getDnd() - b.getDnd();
 	}
 }
 
