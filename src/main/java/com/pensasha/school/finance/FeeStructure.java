@@ -7,8 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
+import com.pensasha.school.term.Term;
+import com.pensasha.school.year.Year;
 
 @Entity
 public class FeeStructure {
@@ -19,28 +22,43 @@ public class FeeStructure {
 	private String name;
 	private int cost;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "code")
 	private School school;
 	
 	@ManyToOne
+	@JoinColumn(name = "year")
+	private Year year;
+	
+	@ManyToOne
 	@JoinColumn(name = "form")
 	private Form form;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "term")
+	private Term term;
 
-	public FeeStructure(int id, String name, int cost, School school, Form form) {
+	public FeeStructure(int id, String name, int cost, School school, Year year, Form form, Term term) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
 		this.school = school;
+		this.year = year;
 		this.form = form;
+		this.term = term;
 	}
-
-	public FeeStructure(int id, String name, int cost) {
+	
+	public FeeStructure(String name, int cost, School school, Year year, Form form, Term term) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.cost = cost;
+		this.school = school;
+		this.year = year;
+		this.form = form;
+		this.term = term;
 	}
 
 	public FeeStructure(String name, int cost) {
@@ -91,6 +109,22 @@ public class FeeStructure {
 
 	public void setForm(Form formObj) {
 		this.form = formObj;
+	}
+
+	public Year getYear() {
+		return year;
+	}
+
+	public void setYear(Year year) {
+		this.year = year;
+	}
+
+	public Term getTerm() {
+		return term;
+	}
+
+	public void setTerm(Term term) {
+		this.term = term;
 	}
 
 }

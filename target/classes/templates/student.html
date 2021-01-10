@@ -37,11 +37,18 @@
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'TEACHER'}"><a
 							th:href="@{/schools/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'BURSAR'}"><a
+							th:href="@{/schools/bursarHome}">Home</a></li>
 						<li class="breadcrumb-item"><a
 							th:href="@{/school/{code}(code=${school.code})}"
 							th:text="${school.name}">School</a></li>
-						<li class="breadcrumb-item"><a
-							th:href="@{/schools/{code}/students(code=${school.code})}">Students</a></li>
+						<li class="breadcrumb-item">
+						<a
+							th:href="@{/schools/{code}/students(code=${school.code})}" th:if="${activeUser.role.name != 'BURSAR'}">Students</a>
+							<a
+							th:href="@{/schools/bursarHome}" th:if="${activeUser.role.name == 'BURSAR'}"> Students </a>
+							</li>
 						<li class="breadcrumb-item active" aria-current="page"
 							th:text="${student.firstname}">Student</li>
 					</ol>

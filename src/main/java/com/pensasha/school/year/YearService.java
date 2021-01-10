@@ -35,6 +35,11 @@ public class YearService {
 	public Optional<Year> getYearFromSchool(int year, int code) {
 		return yearRepository.findByYearAndSchoolsCode(year, code);
 	}
+	
+	//If year exists in school
+	public Boolean doesYearExistInSchool(int year, int code) {
+		return yearRepository.existsByYearAndSchoolsCode(year, code);
+	}
 
 	// Getting all years for student
 	public List<Year> allYearsForStudent(String admNo) {

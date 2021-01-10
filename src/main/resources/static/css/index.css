@@ -83,7 +83,7 @@ li .collapse .collapse-inner a:hover {
 #mainBody {
 	width: 100%;
 	height: 100%;
-	background-image: url('../img/background.png');
+	background-image: url('../img/background1.jpg');
 	background-size: cover;
 }
 
@@ -101,7 +101,7 @@ li .collapse .collapse-inner a:hover {
 	padding-left: 100px;
 	height: 550px;
 	width: 100%;
-	background-image: url('../img/background.png');
+	background-image: url('../img/background1.jpg');
 	background-size: cover;
 }
 

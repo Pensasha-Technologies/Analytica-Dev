@@ -51,386 +51,105 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
-						<div th:if="${form1FeeRecords} and ${form1FeeRecords.size()}">
+						<th:block th:each="form : ${student.forms}">
 
-							<h6 style="text-align: center;">Form One</h6>
+							<div th:if="${form__${form.form}__FeeRecords} and ${form__${form.form}__FeeRecords.size()}">
 
-							<div class="table-responsive">
-								<table class="table" id="allSchools">
-									<thead>
-										<tr>
-											<th scope="col">First Name</th>
-											<th scope="col">Last Name</th>
-											<th scope="col">Adm No.</th>
-											<th scope="col">Date Paid</th>
-											<th scope="col">Amount</th>
-											<th></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody id="allSchoolsTable">
+								<h4 style="text-align: center;"
+									th:text="'Form: ' + ${form.form}">Form One</h4>
+
+								<div class="table-responsive">
+									<table class="table" id="allSchools">
+										<thead>
+											<tr>
+												<th scope="col">First Name</th>
+												<th scope="col">Last Name</th>
+												<th scope="col">Adm No.</th>
+												<th scope="col">Date Paid</th>
+												<th scope="col">Amount</th>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody id="allSchoolsTable">
+											<th:block
+												th:unless="${form__${form.form}__FeeRecords} and ${form__${form.form}__FeeRecords.size()}">
+												<br>
+												<p class="text text-center alert alert-warning">No Fee
+													has been paid</p>
+											</th:block>
+
+											<tr th:each="feeRecord : ${form__${form.form}__FeeRecords}">
+
+												<td th:text="${feeRecord.student.firstname}">Student
+													first name</td>
+												<td th:text="${feeRecord.student.thirdname}">Student
+													third name</td>
+												<td
+													th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
+													adm no.</td>
+												<td th:text="${feeRecord.datePaid}">Date paid</td>
+												<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
+												<td>
+													<div class="d-flex justify-content-center">
+														<a
+															th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo = ${feeRecord.student.admNo},id=${feeRecord.id})}"
+															class="btn btn-primary"> View </a>
+													</div>
+												</td>
+												<td>
+													<div class="d-flex justify-content-center">
+														<a
+															th:href="@{/schools/{code}/students/{admNo}/statement/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}"
+															class="btn btn-danger"> Delete </a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+
 										<th:block
-											th:unless="${form1FeeRecords} and ${form1FeeRecords.size()}">
-											<br>
-											<p class="text text-center alert alert-warning">No Fee
-												has been paid</p>
+											th:with="total = ${#aggregates.sum(form__${form.form}__FeeRecords.![amount])}, form = ${#aggregates.sum(feeStructure.?[form.form==form.form].![cost])}">
+											<th:block>
+												<tr>
+													<th scope="col">Total</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
+											<th:block>
+												<tr>
+													<th scope="col">Fee Payable</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
+														1000 /-</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
+											<th:block>
+												<tr>
+													<th scope="col">Balance</th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col"></th>
+													<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
+													</th>
+													<th></th>
+													<th></th>
+												</tr>
+											</th:block>
 										</th:block>
+									</table>
+								</div>
 
-										<tr th:each="feeRecord : ${form1FeeRecords}">
-
-											<td th:text="${feeRecord.student.firstname}">Student
-												first name</td>
-											<td th:text="${feeRecord.student.thirdname}">Student
-												third name</td>
-											<td
-												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
-												adm no.</td>
-											<td th:text="${feeRecord.datePaid}">Date paid</td>
-											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo = ${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-primary"> View </a>
-												</div>
-											</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statement/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-danger"> Delete </a>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-
-									<th:block
-										th:with="total = ${#aggregates.sum(form1FeeRecords.![amount])}, form = ${#aggregates.sum(feeStructure.?[form.form==1].![cost])}">
-										<th:block>
-											<tr>
-												<th scope="col">Total</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Fee Payable</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
-													1000 /-</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Balance</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
-												</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-									</th:block>
-								</table>
 							</div>
-						</div>
-
-						<div th:if="${form2FeeRecords} and ${form2FeeRecords.size()}">
-
-							<h6 style="text-align: center;">Form Two</h6>
-
-							<div class="table-responsive">
-								<table class="table" id="allSchools">
-									<thead>
-										<tr>
-											<th scope="col">First Name</th>
-											<th scope="col">Last Name</th>
-											<th scope="col">Adm No.</th>
-											<th scope="col">Date Paid</th>
-											<th scope="col">Amount</th>
-											<th></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody id="allSchoolsTable">
-										<th:block
-											th:unless="${form2FeeRecords} and ${form2FeeRecords.size()}">
-											<br>
-											<p class="text text-center alert alert-warning">No Fee
-												has been paid</p>
-										</th:block>
-
-										<tr th:each="feeRecord : ${form2FeeRecords}">
-
-											<td th:text="${feeRecord.student.firstname}">Student
-												first name</td>
-											<td th:text="${feeRecord.student.thirdname}">Student
-												third name</td>
-											<td
-												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
-												adm no.</td>
-											<td th:text="${feeRecord.datePaid}">Date paid</td>
-											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo = ${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-primary"> View </a>
-												</div>
-											</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statement/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-danger"> Delete </a>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-
-									<th:block
-										th:with="total = ${#aggregates.sum(form2FeeRecords.![amount])}, form = ${#aggregates.sum(feeStructure.?[form.form==2].![cost])}">
-										<th:block>
-											<tr>
-												<th scope="col">Total</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Fee Payable</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
-													1000 /-</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Balance</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
-												</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-									</th:block>
-								</table>
-							</div>
-						</div>
-
-						<div th:if="${form3FeeRecords} and ${form3FeeRecords.size()}">
-
-							<h6 style="text-align: center;">Form Three</h6>
-
-							<div class="table-responsive">
-								<table class="table" id="allSchools">
-									<thead>
-										<tr>
-											<th scope="col">First Name</th>
-											<th scope="col">Last Name</th>
-											<th scope="col">Adm No.</th>
-											<th scope="col">Date Paid</th>
-											<th scope="col">Amount</th>
-											<th></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody id="allSchoolsTable">
-										<th:block
-											th:unless="${form3FeeRecords} and ${form3FeeRecords.size()}">
-											<br>
-											<p class="text text-center alert alert-warning">No Fee
-												has been paid</p>
-										</th:block>
-
-										<tr th:each="feeRecord : ${form3FeeRecords}">
-
-											<td th:text="${feeRecord.student.firstname}">Student
-												first name</td>
-											<td th:text="${feeRecord.student.thirdname}">Student
-												third name</td>
-											<td
-												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
-												adm no.</td>
-											<td th:text="${feeRecord.datePaid}">Date paid</td>
-											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo = ${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-primary"> View </a>
-												</div>
-											</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statement/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-danger"> Delete </a>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-
-									<th:block
-										th:with="total = ${#aggregates.sum(form3FeeRecords.![amount])}, form = ${#aggregates.sum(feeStructure.?[form.form==3].![cost])}">
-										<th:block>
-											<tr>
-												<th scope="col">Total</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Fee Payable</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
-													1000 /-</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Balance</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
-												</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-									</th:block>
-								</table>
-							</div>
-						</div>
-
-						<div th:if="${form4FeeRecords} and ${form4FeeRecords.size()}">
-
-							<h6 style="text-align: center;">Form Four</h6>
-
-							<div class="table-responsive">
-								<table class="table" id="allSchools">
-									<thead>
-										<tr>
-											<th scope="col">First Name</th>
-											<th scope="col">Last Name</th>
-											<th scope="col">Adm No.</th>
-											<th scope="col">Date Paid</th>
-											<th scope="col">Amount</th>
-											<th></th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody id="allSchoolsTable">
-										<th:block
-											th:unless="${form4FeeRecords} and ${form4FeeRecords.size()}">
-											<br>
-											<p class="text text-center alert alert-warning">No Fee
-												has been paid</p>
-										</th:block>
-
-										<tr th:each="feeRecord : ${form4FeeRecords}">
-
-											<td th:text="${feeRecord.student.firstname}">Student
-												first name</td>
-											<td th:text="${feeRecord.student.thirdname}">Student
-												third name</td>
-											<td
-												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
-												adm no.</td>
-											<td th:text="${feeRecord.datePaid}">Date paid</td>
-											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statements/{id}(code=${school.code}, admNo = ${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-primary"> View </a>
-												</div>
-											</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a
-														th:href="@{/schools/{code}/students/{admNo}/statement/{id}(code=${school.code}, admNo=${feeRecord.student.admNo},id=${feeRecord.id})}"
-														class="btn btn-danger"> Delete </a>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-
-									<th:block
-										th:with="total = ${#aggregates.sum(form4FeeRecords.![amount])}, form = ${#aggregates.sum(feeStructure.?[form.form==4].![cost])}">
-										<th:block>
-											<tr>
-												<th scope="col">Total</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${'Ksh ' + total + '/-'}">1000</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Fee Payable</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
-													1000 /-</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-										<th:block>
-											<tr>
-												<th scope="col">Balance</th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col"></th>
-												<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
-												</th>
-												<th></th>
-												<th></th>
-											</tr>
-										</th:block>
-									</th:block>
-								</table>
-							</div>
-						</div>
-
+						</th:block>
 					</div>
 
 				</div>

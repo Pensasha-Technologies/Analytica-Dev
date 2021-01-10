@@ -35,7 +35,6 @@ public class FeeRecordService {
 		
 		return feeRecordRepository.findByStudentAdmNoAndFormForm(admNo,form);
 	}
-	
 
 	// Save a fee record.
 	public FeeRecord saveFeeRecord(FeeRecord feeRecord) {

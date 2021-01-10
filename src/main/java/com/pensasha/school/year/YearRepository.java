@@ -18,4 +18,6 @@ public interface YearRepository extends JpaRepository<Year, Integer> {
 	public List<Year> findBySubjectsInitials(String initials);
 
 	public List<Year> findByExamNamesName(String name);
+
+	public Boolean existsByYearAndSchoolsCode(int year, int code);
 }

@@ -54,9 +54,12 @@
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'ADMIN'}"><a
 							th:href="@{/adminHome}">Home</a></li>
-							<li class="breadcrumb-item"
+						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'D.O.S'}"><a
-							th:href="@{/schools/dosHome}">Home</a></li>s
+							th:href="@{/schools/dosHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'BURSAR'}"><a
+							th:href="@{/schools/bursarHome}">Home</a></li>
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'C.E.O'}"><a
 							th:href="@{/ceoHome}">Home</a></li>
@@ -82,7 +85,7 @@
 
 							<!-- One "tab" for each step in the form: -->
 							<div class="tab">
-								
+
 								<div class="row">
 									<div class="form-group col-lg">
 										<label for="fname">First Name</label> <input type="text"
@@ -113,9 +116,9 @@
 								<div class="form-group">
 									<label for="gender"> Gender</label> <input type="text"
 										name="gender" id="gender" placeholder="gender"
-										th:value="${school.gender}" readonly />
-										 <select required
-										th:field="*{gender}" th:unless="${school.gender == 'Male' || school.gender == 'Female'}">
+										th:value="${school.gender}" readonly /> <select required
+										th:field="*{gender}"
+										th:unless="${school.gender == 'Male' || school.gender == 'Female'}">
 										<option value="">Select Gender ....</option>
 										<option value="Male">Male</option>
 										<option value="Female">Female</option>
@@ -141,11 +144,14 @@
 									<div class="form-group col-md">
 										<label for="stream"> Stream </label> <select required
 											class="form-control" id="stream" name="stream">
-											<option th:if="${streams != null}" th:value="${student.stream.id}" th:text="${student.stream.stream}">Select
-												Stream ...</option>
+											<option th:if="${streams != null}"
+												th:value="${student.stream.id}"
+												th:text="${student.stream.stream}">Select Stream
+												...</option>
 											<option th:if="${streams == null}" value="">No
 												stream in school</option>
-											<option th:each="stream : ${streams}" th:if="${stream.stream != student.stream.stream}"
+											<option th:each="stream : ${streams}"
+												th:if="${stream.stream != student.stream.stream}"
 												th:text="${stream.stream}" th:value="${stream.id}">
 												Stream</option>
 										</select>
@@ -182,9 +188,11 @@
 								</div>
 								<br />
 								<div class="form-group col-sm">
-									<label for="scholar">Scholar</label>
-									<input type="text" th:value="${school.scholar}" name="scholar" th:if="${school.scholar == 'Border' || school.scholar == 'Day'}" readonly/>
-									 <select id="stream" th:unless="${school.scholar == 'Day' || school.scholar == 'Border'}"
+									<label for="scholar">Scholar</label> <input type="text"
+										th:value="${school.scholar}" name="scholar"
+										th:if="${school.scholar == 'Border' || school.scholar == 'Day'}"
+										readonly /> <select id="stream"
+										th:unless="${school.scholar == 'Day' || school.scholar == 'Border'}"
 										required>
 										<option value="">Select Scholar ...</option>
 										<option value="Boarding">Boarding</option>
