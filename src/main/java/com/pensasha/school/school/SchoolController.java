@@ -165,36 +165,39 @@ public class SchoolController {
 
 			} else {
 
-				final String path = new File("src/main/resources/static/schImg").getAbsolutePath();
-				final String fileName = file.getOriginalFilename();
+				if(file.isEmpty() == false){
 
-				OutputStream out = null;
-				InputStream filecontent = null;
+					final String path = new File("src/main/resources/static/schImg").getAbsolutePath();
+					final String fileName = file.getOriginalFilename();
 
-				try {
-					out = new FileOutputStream(new File(path + File.separator + fileName));
-					filecontent = file.getInputStream();
+					OutputStream out = null;
+					InputStream filecontent = null;
 
-					int read = 0;
-					final byte[] bytes = new byte[1024];
+					try {
+						out = new FileOutputStream(new File(path + File.separator + fileName));
+						filecontent = file.getInputStream();
 
-					while ((read = filecontent.read(bytes)) != -1) {
-						out.write(bytes, 0, read);
+						int read = 0;
+						final byte[] bytes = new byte[1024];
+
+						while ((read = filecontent.read(bytes)) != -1) {
+							out.write(bytes, 0, read);
+						}
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					} finally {
+						if (out != null) {
+							out.close();
+						}
+						if (filecontent != null) {
+							filecontent.close();
+						}
 					}
 
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} finally {
-					if (out != null) {
-						out.close();
-					}
-					if (filecontent != null) {
-						filecontent.close();
-					}
+					school.setLogo(fileName);
+
 				}
-
-				school.setLogo(fileName);
 
 				schoolService.addSchool(school);
 

@@ -223,36 +223,38 @@ public class StudentController {
 
 					student.setSchool(schoolService.getSchool(code).get());
 
-					final String path = new File("src/main/resources/static/studImg").getAbsolutePath();
-					final String fileName = school.getCode() + "_" + student.getAdmNo();
+					if(file.isEmpty() == false) {
+						final String path = new File("src/main/resources/static/studImg").getAbsolutePath();
+						final String fileName = school.getCode() + "_" + student.getAdmNo();
 
-					OutputStream out = null;
-					InputStream filecontent = null;
+						OutputStream out = null;
+						InputStream filecontent = null;
 
-					try {
-						out = new FileOutputStream(new File(path + File.separator + fileName));
-						filecontent = file.getInputStream();
+						try {
+							out = new FileOutputStream(new File(path + File.separator + fileName));
+							filecontent = file.getInputStream();
 
-						int read = 0;
-						final byte[] bytes = new byte[1024];
+							int read = 0;
+							final byte[] bytes = new byte[1024];
 
-						while ((read = filecontent.read(bytes)) != -1) {
-							out.write(bytes, 0, read);
+							while ((read = filecontent.read(bytes)) != -1) {
+								out.write(bytes, 0, read);
+							}
+
+						} catch (IOException e) {
+
+							e.printStackTrace();
+						} finally {
+							if (out != null) {
+								out.close();
+							}
+							if (filecontent != null) {
+								filecontent.close();
+							}
 						}
 
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} finally {
-						if (out != null) {
-							out.close();
-						}
-						if (filecontent != null) {
-							filecontent.close();
-						}
+						student.setPhoto(student.getAdmNo());
 					}
-
-					student.setPhoto(student.getAdmNo());
 					Stream streamObj = streamService.getStream(stream);
 					student.setStream(streamObj);
 
