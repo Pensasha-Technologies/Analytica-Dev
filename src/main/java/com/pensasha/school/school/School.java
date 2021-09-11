@@ -18,7 +18,7 @@ import com.pensasha.school.user.SchoolUser;
 import com.pensasha.school.year.Year;
 
 @Entity
-public class School {
+public class   School {
 
 	private String name;
 
@@ -58,8 +58,7 @@ public class School {
 	@JsonIgnore
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
 	private Collection<Student> students;
-	
-	@JsonIgnore
+
 	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<ExamName> examNames;
 

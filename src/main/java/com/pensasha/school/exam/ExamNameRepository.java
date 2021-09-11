@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExamNameRepository extends JpaRepository<ExamName, Integer>{
 
+	List<ExamName> findBySchoolsCode(int code);
+
 	List<ExamName> findBySchoolsCodeAndYearsYearAndFormsForm(int code, int year, int form);
 
 	List<ExamName> findBySchoolsCodeAndYearsYear(int code, int year);

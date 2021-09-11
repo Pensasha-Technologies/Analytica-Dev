@@ -21,6 +21,11 @@ public class ExamNameService {
 		return examNameRepository.save(examName);
 	}
 
+	//Get all exam in school
+	public List<ExamName> getAllExamInSchool(int id){
+		return examNameRepository.findBySchoolsCode(id);
+	}
+
 	//Getting all exam with examName
 	public Boolean nameExists(int id){
 		return examNameRepository.existsById(id);

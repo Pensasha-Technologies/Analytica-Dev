@@ -1,3 +1,7 @@
+html{
+    scroll-behavior:smooth;
+}
+
 .admissionForm {
 	width: 90%;
 }
@@ -97,9 +101,10 @@ li .collapse .collapse-inner a:hover {
 }
 
 #firstSection {
+    margin-top:10px;
 	padding-top: 40px;
 	padding-left: 100px;
-	height: 550px;
+	height: 640px;
 	width: 100%;
 	background-image: url('../img/background1.jpg');
 	background-size: cover;
@@ -145,9 +150,20 @@ li .collapse .collapse-inner a:hover {
 	padding-top: 40px;
 }
 
+#secondSection{
+
+padding-top:70px;
+}
+
+#secondSection h2{
+    color:#1f2d41;
+}
+
 #thirdSection {
 	background-color: #1f2d41;
 	color: #D1D0D6;
+	padding-top:100px;
+	height:700px;
 }
 
 footer {
@@ -355,22 +371,6 @@ h2 {
 
 a:active {
 	background: black;
-}
-
-#navbarResponsive li:hover {
-	background-color: #E96830;
-}
-
-#navbarResponsive li a:hover {
-	color: #012237;
-}
-
-.navbar-brand:hover {
-	color: black;
-}
-
-#navbarResponsive a:hover {
-	color: white;
 }
 
 .loginForm {

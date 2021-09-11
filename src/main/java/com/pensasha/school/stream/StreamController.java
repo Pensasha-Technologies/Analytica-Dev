@@ -4,13 +4,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pensasha.school.user.Teacher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
@@ -111,9 +108,25 @@ public class StreamController {
 
 	@GetMapping("/school/{code}/streams/{id}")
 	public String deleteStream(Model model, @PathVariable int code, @PathVariable int id, @ModelAttribute Stream stream,
-			Principal principal) {
+									  Principal principal) {
+
 
 		if (streamService.doesStreamExistInSchool(id, code) == true) {
+
+			Stream stream1 = streamService.getStream(id);
+			List<Stream> streams = new ArrayList<>();
+			List<Teacher> teachers = userService.getTeachersInSchoolAndStream(code, id);
+
+			for(int i=0;i<teachers.size(); i++){
+
+				for(int j=0;j<teachers.get(i).getStreams().size();j++){
+					streams.add(teachers.get(i).getStreams().get(j));
+					streams.remove(stream1);
+					teachers.get(i).setStreams(streams);
+					userService.addTeacher(code, teachers.get(i));
+				}
+
+			}
 
 			streamService.deleteStream(id);
 
@@ -154,12 +167,16 @@ public class StreamController {
 			}
 		}
 
+
+
 		List<Subject> allSubjects = subjectService.getAllSubjects();
 		for (int i = 0; i < subjects.size(); i++) {
 			allSubjects.remove(subjects.get(i));
 		}
 
 		return "redirect:/school/" + code;
+
+
 	}
 
 	@PostMapping("/schools/{code}/classList")

@@ -12,13 +12,14 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.exam.ExamNameService;
+import com.pensasha.school.finance.FeeRecord;
+import com.pensasha.school.finance.FeeRecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -55,12 +56,10 @@ public class SchoolController {
 	private YearService yearService;
 	private FeeStructureService feeStructureService;
 	private DisciplineService disciplineService;
+	private FeeRecordService feeRecordService;
+	private ExamNameService examNameService;
 
-	public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService,
-			StudentService studentService, MarkService markService, TimetableService timetableService,
-			StreamService streamService, YearService yearService, FeeStructureService feeStructureService,
-			DisciplineService disciplineService) {
-		super();
+	public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService, StudentService studentService, MarkService markService, TimetableService timetableService, StreamService streamService, YearService yearService, FeeStructureService feeStructureService, DisciplineService disciplineService, FeeRecordService feeRecordService, ExamNameService examNameService) {
 		this.schoolService = schoolService;
 		this.userService = userService;
 		this.subjectService = subjectService;
@@ -71,6 +70,8 @@ public class SchoolController {
 		this.yearService = yearService;
 		this.feeStructureService = feeStructureService;
 		this.disciplineService = disciplineService;
+		this.feeRecordService = feeRecordService;
+		this.examNameService = examNameService;
 	}
 
 	@GetMapping("/addSchool")
@@ -247,13 +248,12 @@ public class SchoolController {
 				for (int j = 0; j < marks.size(); j++) {
 					markService.deleteMark(marks.get(j).getId());
 				}
-				/*
-				 * List<FeeRecord> feeRecords =
-				 * feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo()); for
-				 * (int x = 0; x < feeRecords.size(); x++) {
-				 * 
-				 * feeRecordService.deleteFeeRecord(feeRecords.get(i).getId()); }
-				 */
+
+				  List<FeeRecord> feeRecords = feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo()); for
+				  (int x = 0; x < feeRecords.size(); x++) {
+
+				  feeRecordService.deleteFeeRecord(feeRecords.get(i).getId()); }
+
 				List<Discipline> disciplines = disciplineService
 						.allDisciplineReportForStudent(students.get(i).getAdmNo());
 
@@ -276,6 +276,11 @@ public class SchoolController {
 				streamService.deleteStream(streams.get(i).getId());
 			}
 
+			List<ExamName> examNames = examNameService.getAllExamInSchool(code);
+			for(int i=0;i<examNames.size();i++){
+				examNameService.deleteExam(examNames.get(i).getId());
+			}
+
 			schoolService.deleteSchool(code);
 
 			redit.addFlashAttribute("success", "School of code:" + code + " successfully deleted");
@@ -294,6 +299,7 @@ public class SchoolController {
 		}
 
 		return redirectView;
+
 	}
 
 	@GetMapping("/school/{code}")

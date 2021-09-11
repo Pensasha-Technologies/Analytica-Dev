@@ -53,6 +53,11 @@ public class UserService {
 		
 		return teacherRepository.findBySchoolCode(code);
 	}
+
+	public List<Teacher> getTeachersInSchoolAndStream(int code, int stream){
+
+		return teacherRepository.findBySchoolCodeAndStreamsId(code, stream);
+	}
 	
 	// Get school user by username
 	public SchoolUser getSchoolUserByUsername(String username) {
