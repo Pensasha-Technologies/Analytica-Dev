@@ -147,12 +147,11 @@
 												<td th:text="${subject.name}">subject name</td>
 												<th:block th:each="examName : ${examNames}">
 													<th:block th:each="mark : ${marks__${student.admNo}__}">
-														<td th:text="${mark.mark}"
-															th:if="${mark.subject.initials == subject.initials && mark.examName == examName}">Exam
-															Marks</td>
 														<td
-															th:unless="${mark.subject.initials == subject.initials}">
-															-</td>
+															th:if="${mark.subject.initials == subject.initials && mark.examName == examName}"> <span th:text="${mark.mark}">  </span></td>
+														<th:block th:unless="${mark.subject.initials == subject.initials}">
+															<td th:if="${mark.examName == examName}">  -  </td>
+														</th:block>
 													</th:block>
 												</th:block>
 												<td
