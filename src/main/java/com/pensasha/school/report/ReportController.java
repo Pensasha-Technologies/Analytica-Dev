@@ -1020,8 +1020,41 @@ public class ReportController {
 		context.setVariable("form", form);
 		context.setVariable("term", term);
 		context.setVariable("examNames", examNames);
-		context.setVariable("meritLists", get.getList(allStudents, subjects, markService, year, form, term));
-		context.setVariable("studentMeritList", get.getList(students, subjects, markService, year, form, term));
+
+		int count = 0;
+
+		List<MeritList> allStudentsMeritList = get.getList(allStudents, subjects, markService, year, form, term);
+		Collections.sort(allStudentsMeritList, new SortByTotal().reversed());
+
+		for(int i=0;i<allStudentsMeritList.size();i++){
+			count++;
+			if(count>1){
+				if(allStudentsMeritList.get(i).getTotal() == allStudentsMeritList.get(i-1).getTotal()){
+					count--;
+				}
+			}
+			allStudentsMeritList.get(i).setRank(count);
+		}
+
+		context.setVariable("meritLists", allStudentsMeritList);
+
+		int counter = 0;
+
+		List<MeritList> streamStudentsMeritList = get.getList(students, subjects, markService, year, form, term);
+		Collections.sort(streamStudentsMeritList, new SortByTotal().reversed());
+
+		for(int i=0;i<streamStudentsMeritList.size();i++){
+			counter++;
+			if(counter>1){
+				if(streamStudentsMeritList.get(i).getTotal() == streamStudentsMeritList.get(i-1).getTotal()){
+					counter--;
+				}
+			}
+			streamStudentsMeritList.get(i).setRank(counter);
+		}
+
+		context.setVariable("studentMeritList", streamStudentsMeritList);
+
 		context.setVariable("count", cnt);
 		String studentReportHtml = templateEngine.process("studentsReportPdf", context);
 
@@ -1447,7 +1480,6 @@ class getMeritList {
 
 		}
 
-		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
 		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
@@ -1458,6 +1490,7 @@ class getMeritList {
 		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
 			int count = 0;
+			MeritList meritList = new MeritList();
 
 			for (int j = 0; j < subjects.size(); j++) {
 
@@ -1929,6 +1962,8 @@ class getMeritList {
 		Collections.sort(meritLists, new SortByTotal());
 
 		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
+
+			MeritList meritList = new MeritList();
 
 			meritList = new MeritList();
 			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());

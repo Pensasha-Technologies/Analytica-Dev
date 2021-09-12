@@ -8,10 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.exam.ExamNameService;
@@ -71,7 +68,7 @@ public class TermController {
 
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/studentsReport")
 	public String getStudentReport(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, @PathVariable String stream, Model model, Principal principal) {
+											@PathVariable int term, @PathVariable String stream, Model model, Principal principal) {
 
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(code).get();
@@ -124,8 +121,40 @@ public class TermController {
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
 		model.addAttribute("examNames", examNames);
-		model.addAttribute("meritLists", get.getList(allStudents, subjects, markService, year, form, term));
-		model.addAttribute("studentMeritList", get.getList(students, subjects, markService, year, form, term));
+
+		int count = 0;
+
+		List<MeritList> allStudentsMeritList = get.getList(allStudents, subjects, markService, year, form, term);
+		Collections.sort(allStudentsMeritList, new SortByTotal().reversed());
+
+		for(int i=0;i<allStudentsMeritList.size();i++){
+			count++;
+			if(count>1){
+				if(allStudentsMeritList.get(i).getTotal() == allStudentsMeritList.get(i-1).getTotal()){
+					count--;
+				}
+			}
+			allStudentsMeritList.get(i).setRank(count);
+		}
+
+		model.addAttribute("meritLists", allStudentsMeritList);
+
+		int counter = 0;
+
+		List<MeritList> streamStudentsMeritList = get.getList(students, subjects, markService, year, form, term);
+		Collections.sort(streamStudentsMeritList, new SortByTotal().reversed());
+
+		for(int i=0;i<streamStudentsMeritList.size();i++){
+			counter++;
+			if(counter>1){
+				if(streamStudentsMeritList.get(i).getTotal() == streamStudentsMeritList.get(i-1).getTotal()){
+					counter--;
+				}
+			}
+			streamStudentsMeritList.get(i).setRank(counter);
+		}
+
+		model.addAttribute("studentMeritList", streamStudentsMeritList);
 		model.addAttribute("count", cnt);
 
 		return "studentReport";
@@ -200,7 +229,6 @@ class getMeritList {
 
 		}
 
-		MeritList meritList = new MeritList();
 		List<MeritList> meritLists = new ArrayList<>();
 
 		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
@@ -209,6 +237,8 @@ class getMeritList {
 				frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0;
 
 		for (int i = 0; i < studentsWithMarks.size(); i++) {
+
+			MeritList meritList = new MeritList();
 
 			int count = 0;
 
@@ -681,6 +711,8 @@ class getMeritList {
 		Collections.sort(meritLists, new SortByTotal());
 
 		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
+
+			MeritList meritList = new MeritList();
 
 			meritList = new MeritList();
 			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());

@@ -243,8 +243,7 @@
 													<td>Overal Position</td>
 													<td></td>
 													<th:block th:each="meritList : ${meritLists}">
-														<td th:if="${meritList.admNo == student.admNo}"
-															th:text="${meritList.rank}">1</td>
+														<td th:if="${student.admNo == meritList.admNo}" th:text="${meritList.rank}">1</td>
 													</th:block>
 													<td>Out Of</td>
 													<td></td>
@@ -256,9 +255,8 @@
 												<tr>
 													<td>Stream Position</td>
 													<td></td>
-													<th:block th:each="meritList : ${studentMeritList}">
-														<td th:if="${meritList.admNo == student.admNo}"
-															th:text="${meritList.rank}">1</td>
+													<th:block th:each="streamMeritList : ${studentMeritList}">
+														<td th:if="${student.admNo == streamMeritList.admNo}" th:text="${streamMeritList.rank}">1</td>
 													</th:block>
 													<td>Out Of</td>
 													<td></td>
