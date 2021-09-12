@@ -80,4 +80,8 @@ public class StudentService {
 		return studentRepository.findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndSubjectsInitials(code,
 				year, form, term, initials);
 	}
+
+	public List<Student> findAllStudentDoingSubjectInStream(int code, int year, int form, int term, int stream, String initials){
+		return studentRepository.findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamIdAndSubjectsInitials(code,year,form,term,stream,initials);
+	}
 }

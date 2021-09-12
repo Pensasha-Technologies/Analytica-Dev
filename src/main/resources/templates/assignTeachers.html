@@ -73,10 +73,9 @@
 					<div th:each="i : ${#numbers.sequence(1, 4)}">
 						<h3>Form [[${i}]]</h3>
 						<br>
-						<div class="card-columns">
+						<div class="row">
 							<div class="card" style="width:500px;" th:each="stream : ${streams}">
-								<div class="card-header" th:text="${stream.stream}">Stream
-									1</div>
+								<div class="card-header" th:text="${stream.stream}"> Stream </div>
 								<div class="card-body">
 									<table class="table">
 										<thead>

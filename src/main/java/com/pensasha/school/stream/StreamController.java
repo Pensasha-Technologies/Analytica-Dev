@@ -108,7 +108,7 @@ public class StreamController {
 
 	@GetMapping("/school/{code}/streams/{id}")
 	public String deleteStream(Model model, @PathVariable int code, @PathVariable int id, @ModelAttribute Stream stream,
-									  Principal principal) {
+									  Principal principal) 	{
 
 
 		if (streamService.doesStreamExistInSchool(id, code) == true) {

@@ -13,11 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -1017,34 +1013,63 @@ public class MainController {
 
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
 
-		Teacher teacher;
-
 		List<Form> forms = new ArrayList<>();
-		Form formObj = formService.getForm(form, year, code).get();
+		Form formObj = new Form();
+		if(formService.getForm(form, year,code).isPresent()){
+
+			formObj = formService.getForm(form, year, code).get();
+
+		}else{
+
+			formObj = new Form(form);
+
+			List<Year> years = new ArrayList<>();
+			years.add(yearService.getYearFromSchool(year, code).get());
+
+			formObj.setYears(years);
+			formService.addForm(formObj);
+
+		}
 		forms.add(formObj);
 
 		List<Year> years = new ArrayList<>();
 		Year yearObj = yearService.getYearFromSchool(year, code).get();
 		years.add(yearObj);
 
-		List<Stream> streams = new ArrayList<>();
-		Stream streamObj = streamService.getStream(stream);
-		streams.add(streamObj);
-
 		for (int i = 0; i < subjects.size(); i++) {
 
-			teacher = userService
+			Teacher teacher = userService
 					.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
+
+
+			List<Stream> streams = new ArrayList<>();
+			Stream streamObj = streamService.getStream(stream);
+			streams.add(streamObj);
+
+			for(int j=0;j<teacher.getStreams().size();j++){
+				if(!streams.contains(teacher.getStreams().get(j))){
+					streams.add(teacher.getStreams().get(j));
+				}
+			}
+
+			for(int j=0;j<teacher.getYears().size();j++){
+				if(!years.contains(teacher.getYears().get(j))){
+					years.add(teacher.getYears().get(j));
+				}
+			}
+
+			for(int j=0;j<teacher.getForms().size();j++){
+				if(!forms.contains(teacher.getForms().get(j))){
+					forms.add(teacher.getForms().get(j));
+				}
+			}
 
 			if (teacher != null) {
 				teacher.setYears(years);
 				teacher.setForms(forms);
 				teacher.setStreams(streams);
 
-				List<Teacher> teachers = new ArrayList<>();
-				teachers.add(teacher);
-
-				userService.addUser(teacher);
+		    	userService.addUser(teacher);
 			}
 		}
 

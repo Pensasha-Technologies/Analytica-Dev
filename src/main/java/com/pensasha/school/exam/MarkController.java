@@ -146,7 +146,7 @@ public class MarkController {
 	}
 
 	@PostMapping("/schools/{code}/stream/{stream}/marks/{exam}")
-	public String addMarksToStudentSubjects(@PathVariable int code, @PathVariable String stream, @PathVariable int exam,
+	public String addMarksToStudentSubjects(@PathVariable int code, @PathVariable int stream, @PathVariable int exam,
 			HttpServletRequest request, Model model, Principal principal) {
 
 		int form = Integer.parseInt(request.getParameter("form"));
@@ -156,7 +156,7 @@ public class MarkController {
 
 		Subject subjectObj = subjectService.getSubject(subject);
 
-		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term,
+		List<Student> students = studentService.findAllStudentDoingSubjectInStream(code, year, form, term,stream,
 				subjectObj.getInitials());
 
 		Year yearObj = yearService.getYearFromSchool(year, code).get();
@@ -218,7 +218,7 @@ public class MarkController {
 		Stream streamObj = streamService.getStream(stream);
 		ExamName examName = examNameService.getExam(exam);
 
-		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term, subject);
+		List<Student> students = studentService.findAllStudentDoingSubjectInStream(code, year,form,term,stream,subject);
 		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
 		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
@@ -275,7 +275,7 @@ public class MarkController {
 	}
 
 	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList")
-	public String getMeritList(@PathVariable int code, @PathVariable int year, @PathVariable int form,
+    public String getMeritList(@PathVariable int code, @PathVariable int year, @PathVariable int form,
 			@PathVariable int term, Model model, Principal principal) {
 
 		User activeUser = userService.getByUsername(principal.getName()).get();
@@ -297,17 +297,17 @@ public class MarkController {
 
 		}
 
-		MeritList meritList = new MeritList();
-		List<MeritList> meritLists = new ArrayList<>();
-
 		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
 				creCount = 0, geoCount = 0, ireCount = 0, hreCount = 0, hsciCount = 0, andCount = 0, agricCount = 0,
 				compCount = 0, aviCount = 0, elecCount = 0, pwrCount = 0, woodCount = 0, metalCount = 0, bcCount = 0,
 				frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0;
 
+        List<MeritList> meritLists = new ArrayList<>();
+
 		for (int i = 0; i < studentsWithMarks.size(); i++) {
 
-			int count = 0;
+		    MeritList meritList  = new MeritList();
+            int count = 0;
 
 			for (int j = 0; j < subjects.size(); j++) {
 
@@ -757,25 +757,29 @@ public class MarkController {
 
 			}
 
-			meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
-					+ meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
-					+ meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
-					+ meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
-					+ meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
-					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
-					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+            meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
+                    + meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
+                    + meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
+                    + meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
+                    + meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
+                    + meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
+                    + meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
-			meritList.setAverage(meritList.getTotal() / count);
-			meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks()) / 5);
-			meritLists.add(meritList);
+			if(count > 0){
+                meritList.setAverage(meritList.getTotal() / count);
+            }else{
+			    meritList.setAverage(0);
+            }
+
+            meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks()) / 5);
+            meritLists.add(meritList);
 
 		}
 
-		Collections.sort(meritLists, new SortByTotal());
-
 		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
 
-			meritList = new MeritList();
+			MeritList meritList = new MeritList();
+
 			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
 			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
 			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
@@ -787,6 +791,7 @@ public class MarkController {
 
 		}
 
+        model.addAttribute("meritLists", meritLists);
 		model.addAttribute("activeUser", activeUser);
 		model.addAttribute("school", school);
 		model.addAttribute("student", student);
@@ -798,7 +803,6 @@ public class MarkController {
 		model.addAttribute("streams", streamService.getStreamsInSchool(code));
 		model.addAttribute("students", students);
 		model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
-		model.addAttribute("meritLists", meritLists);
 
 		model.addAttribute("MathsCount", mathsCount);
 		model.addAttribute("EngCount", engCount);
@@ -833,137 +837,137 @@ public class MarkController {
 			model.addAttribute("mostImproved", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByMaths());
+		Collections.sort(meritLists, new SortByMaths().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("MathsGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByEng());
+		Collections.sort(meritLists, new SortByEng().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("EngGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByKis());
+		Collections.sort(meritLists, new SortByKis().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("KisGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByBio());
+		Collections.sort(meritLists, new SortByBio().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("BioGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByChem());
+		Collections.sort(meritLists, new SortByChem().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("ChemGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByPhy());
+		Collections.sort(meritLists, new SortByPhy().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("PhyGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByHist());
+		Collections.sort(meritLists, new SortByHist().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("HistGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByCre());
+		Collections.sort(meritLists, new SortByCre().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("creGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByGeo());
+		Collections.sort(meritLists, new SortByGeo().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("GeoGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByIre());
+		Collections.sort(meritLists, new SortByIre().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("ireGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByHre());
+		Collections.sort(meritLists, new SortByHre().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("hreGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByHsci());
+		Collections.sort(meritLists, new SortByHsci().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("HsciGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByAnd());
+		Collections.sort(meritLists, new SortByAnd().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("AndGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByAgric());
+		Collections.sort(meritLists, new SortByAgric().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("AgricGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByComp());
+		Collections.sort(meritLists, new SortByComp().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("CompGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByAvi());
+		Collections.sort(meritLists, new SortByAvi().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("AviGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByElec());
+		Collections.sort(meritLists, new SortByElec().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("ElectGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByPwr());
+		Collections.sort(meritLists, new SortByPwr().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("PwrGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByWood());
+		Collections.sort(meritLists, new SortByWood().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("WoodGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByMetal());
+		Collections.sort(meritLists, new SortByMetal().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("MetalGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByBc());
+		Collections.sort(meritLists, new SortByBc().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("BcGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByFren());
+		Collections.sort(meritLists, new SortByFren().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("FrenGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByGerm());
+		Collections.sort(meritLists, new SortByGerm().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("GermGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByArab());
+		Collections.sort(meritLists, new SortByArab().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("ArabGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByMsc());
+		Collections.sort(meritLists, new SortByMsc().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("MscGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByBs());
+		Collections.sort(meritLists, new SortByBs().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("BsGiant", meritLists.get(0));
 		}
 
-		Collections.sort(meritLists, new SortByDnd());
+		Collections.sort(meritLists, new SortByDnd().reversed());
 		if (meritLists.size() > 0) {
 			model.addAttribute("DndGiant", meritLists.get(0));
 		}

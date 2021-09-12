@@ -364,13 +364,13 @@
 											<td th:text="${__${subject.initials}__Giant.stream}">Stream</td>
 											<th:block th:each="meritList : ${meritLists}">
 												<td th:text="${meritList.__${subject.initials}__}"
-													th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"></td>
+													th:if="${subject.initials != 'C.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo || subject.initials != 'H.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo || subject.initials != 'I.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
 												<td th:text="${meritList.cre}"
-													th:if="${subject.initials == 'C.R.E'}"></td>
+													th:if="${subject.initials == 'C.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
 												<td th:text="${meritList.hre}"
-													th:if="${subject.initials == 'H.R.E'}"></td>
+													th:if="${subject.initials == 'H.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
 												<td th:text="${meritList.ire}"
-													th:if="${subject.initials == 'I.R.E'}"></td>
+													th:if="${subject.initials == 'I.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
 											</th:block>
 										</tr>
 									</th:block>

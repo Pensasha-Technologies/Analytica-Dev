@@ -59,6 +59,7 @@ public class   School {
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
 	private Collection<Student> students;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "schools", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private Collection<ExamName> examNames;
 

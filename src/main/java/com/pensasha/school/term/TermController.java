@@ -76,8 +76,8 @@ public class TermController {
 		User activeUser = userService.getByUsername(principal.getName()).get();
 		School school = schoolService.getSchool(code).get();
 		Student student = new Student();
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
-		List<Student> streamStudents = studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term,
+		List<Student> allStudents = studentService.getAllStudentsInSchoolByYearFormTerm(code,year,form,term);
+		List<Student> students = studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term,
 				stream);
 		List<ExamName> examNames = examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
 		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
@@ -124,8 +124,8 @@ public class TermController {
 		model.addAttribute("form", form);
 		model.addAttribute("term", term);
 		model.addAttribute("examNames", examNames);
-		model.addAttribute("meritLists", get.getList(students, subjects, markService, year, form, term));
-		model.addAttribute("studentMeritList", get.getList(streamStudents, subjects, markService, year, form, term));
+		model.addAttribute("meritLists", get.getList(allStudents, subjects, markService, year, form, term));
+		model.addAttribute("studentMeritList", get.getList(students, subjects, markService, year, form, term));
 		model.addAttribute("count", cnt);
 
 		return "studentReport";
@@ -668,7 +668,11 @@ class getMeritList {
 					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
 
-			meritList.setAverage(meritList.getTotal() / count);
+			if(count > 0){
+				meritList.setAverage(meritList.getTotal() / count);
+			}else{
+				meritList.setAverage(0);
+			}
 			meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks()) / 5);
 			meritLists.add(meritList);
 

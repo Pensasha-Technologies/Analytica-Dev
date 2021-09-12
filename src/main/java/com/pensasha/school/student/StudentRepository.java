@@ -27,4 +27,5 @@ public interface StudentRepository extends JpaRepository<Student, String> {
 	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamStream(int code, int year,
 			int form, int term, String stream);
 
+    List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamIdAndSubjectsInitials(int code, int year, int form, int term, int stream, String initials);
 }
