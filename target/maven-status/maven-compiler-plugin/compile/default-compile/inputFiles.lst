@@ -1,73 +1,70 @@
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/SchoolController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/MarkRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamName.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/YearService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/TimetableController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/CustomSuccessHandler.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/MeritList.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeRecord.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeRecordService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/UserService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/SubjectRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayableService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayable.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/Student.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/SchoolUser.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/Year.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/StudentRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/DemoApplication.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/RoleRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/RoleService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/Term.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/AmountPayableRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/User.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/TermRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/role/Role.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/School.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/MvcConfig.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/Form.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/report/ReportController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/UserController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/YearController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/StudentController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/Teacher.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStructure.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/TermService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/SchoolRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/student/StudentService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/Timetable.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeStructureService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/sms/Gateway.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/Subject.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/year/YearRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/UserRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/TimetableRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/SubjectService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FeeRecordRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/discipline/DisciplineRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/MarkController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/MarkService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/term/TermController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/timetable/TimetableService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/discipline/Discipline.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/interfaceController/MainController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/finance/FinanceController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/school/SchoolService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/Stream.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/SchoolUserRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamNameRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/config/WebSecurityConfig.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/discipline/DisciplineService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/subject/SubjectController.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/stream/StreamRespository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/form/FormRepository.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/ExamNameService.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/exam/Mark.java
-/home/sobunge/Documents/Project files/Analytic Soft/school/src/main/java/com/pensasha/school/user/TeacherRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\form\Form.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeRecord.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\role\Role.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeStructure.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\student\StudentService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\subject\SubjectController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\DemoApplication.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\role\RoleService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeStructureService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\term\TermService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\school\SchoolRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\subject\SubjectService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\student\StudentController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\subject\Subject.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\term\TermRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\school\School.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\school\SchoolService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\form\FormService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\TeacherRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\discipline\DisciplineRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\interfaceController\MyErrorController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FinanceController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\student\Student.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\SchoolUserRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\discipline\Discipline.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\school\SchoolController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\ExamName.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\ExamNameRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\year\Year.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeStructureRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\role\RoleRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\subject\SubjectRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\config\WebSecurityConfig.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\term\TermController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\term\Term.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\config\CommandLineAppStartupRunner.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\MarkService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\student\StudentRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\stream\StreamRespository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeRecordService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\User.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\interfaceController\MainController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\Teacher.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\sms\Gateway.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\discipline\DisciplineService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\UserController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\year\YearController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\stream\StreamController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\form\FormRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\MarkController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\config\MvcConfig.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\MarkRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\timetable\TimetableController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\timetable\Timetable.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\year\YearService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\timetable\TimetableRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\Mark.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\MeritList.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\UserRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\UserService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\year\YearRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\finance\FeeRecordRepository.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\form\FormController.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\config\CustomSuccessHandler.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\stream\StreamService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\user\SchoolUser.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\exam\ExamNameService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\stream\Stream.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\timetable\TimetableService.java
+C:\Users\Sodhiambo\Documents\Programs\Analytica-Dev\src\main\java\com\pensasha\school\report\ReportController.java
