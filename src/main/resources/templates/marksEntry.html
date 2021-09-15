@@ -52,17 +52,17 @@
 					<div class="d-flex flex-column">
 
 						<div class="row d-flex justify-content-center">
-							<h3 th:text="${school.name}">School Name</h3>
+							<h4 th:text="${school.name}">School Name</h4>
 						</div>
 						<div class="row d-flex justify-content-center">
-							<h4
-								th:text="'Year: ' + ${year} + ' Form: ' + ${form} +' ' + ${stream.stream} "></h4>
+							<h5
+								th:text="'Year: ' + ${year} + ' Form: ' + ${form} +' ' + ${stream.stream} "></h5>
 						</div>
 						<div class="row d-flex justify-content-center">
-							<h4 th:text="${subject.name}"></h4>
+							<h5 th:text="${subject.name}"></h5>
 						</div>
 						<div class="row d-flex justify-content-center">
-							<h5 th:text="${examName.name} + ' Marks Entry'"></h5>
+							<h6 th:text="${examName.name} + ' Marks Entry'"></h6>
 						</div>
 
 					</div>
@@ -82,23 +82,25 @@
 								name="form" /> <input type="hidden" th:value="${year}"
 								name="year" /> <input type="hidden" th:value="${term}"
 								name="term" /> <input type="hidden" th:value="${stream.id}"
-								name="stream" />
-
-							<a th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, subject=${subject.initials} ,stream=${stream.id}, exam=${exam})}" class="btn btn-primary">
-								Download</a>
+								name="stream" /> <a
+								th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, subject=${subject.initials} ,stream=${stream.id}, exam=${exam})}"
+								class="btn btn-primary"> Download <i
+								class="fas fa-fw fa-download"></i></a>
 
 							<button th:if="${students} and ${students.size()}"
-								class="btn btn-primary" type="submit"
-								style="margin-bottom: 10px; float: right;">Submit</button>
+								class="btn btn-success" type="submit"
+								style="margin-bottom: 10px; float: right;">
+								Submit <i class="fas fa-fw fa-save"></i>
+							</button>
 
+							<!--  <p style="text-align:center;" class="text-danger" th:text="${'For missing marks enter -1, Questionable marks enter ' + (examName.outOf + 1) + ', Cheated Marks enter ' + (examName.outOf + 2)}"></p> -->
 							<div>
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">First Name</th>
-											<th scope="col">Second Name</th>
-											<th scope="col">Third Name</th>
-											<th scope="col">Admission Number</th>
+											<th scope="col">Adm No.</th>
+											<th scope="col">Name</th>
+											<th scope="col">Stream</th>
 											<th scope="col" th:text="${examName.name} + ' Marks'">Marks</th>
 											<th scope="col">Out Of</th>
 										</tr>
@@ -111,18 +113,16 @@
 										</div>
 
 										<tr th:each="mark : ${marks}">
-											<td scope="row" th:text="${mark.student.firstname}">
-												First Name</td>
-											<td scope="row" th:text="${mark.student.secondname}">
-												Second Name</td>
-											<td scope="row" th:text="${mark.student.thirdname}">
-												Third Name</td>
-											<td
+										<td
 												th:utext="${#strings.substringAfter(mark.student.admNo,'_')}">Adm
 												No</td>
-											<td><input class="form-control"
+											<td scope="row" th:text="${mark.student.firstname + ' ' + mark.student.secondname + ' ' + mark.student.thirdname}">
+												Name</td>
+												<td th:text="${stream.stream}">Stream</td>
+											 <td><input class="form-control"
 												th:name="${mark.student.admNo + 'mark'}" type="number"
 												th:value="${mark.mark}" min="0" th:max="${examName.outOf}" /></td>
+
 											<td th:text="${examName.outOf}">/ 30%</td>
 										</tr>
 									</tbody>

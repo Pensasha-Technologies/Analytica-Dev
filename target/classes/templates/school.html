@@ -40,7 +40,7 @@
 						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
 							th:href="@{/officeAssistantHome}">Home</a></li>
-							<li class="breadcrumb-item"
+						<li class="breadcrumb-item"
 							th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
 							th:href="@{/fieldOfficerHome}">Home</a></li>
 						<li class="breadcrumb-item"
@@ -82,7 +82,8 @@
 							<h4>Basic Information</h4>
 							<a class="btn btn-primary" style="margin: 10px;"
 								th:href="@{/editSchool/{code}(code=${school.code})}"> Edit
-								School </a>
+								School <i class="fas fa-fw fa-edit"></i>
+							</a>
 						</div>
 
 						<div class="table-responsive">
@@ -109,7 +110,9 @@
 								<h4>Streams</h4>
 								<button type="button" class="btn btn-primary"
 									data-toggle="modal" data-target="#addStreamModal"
-									style="margin-bottom: 10px;">Add Streams</button>
+									style="margin-bottom: 10px;">
+									Add Streams <i class="fas fa-fw fa-plus"></i>
+								</button>
 							</div>
 							<table class="table">
 								<thead>
@@ -139,80 +142,6 @@
 							</table>
 						</div>
 
-						<div>
-							<div class="d-flex justify-content-between">
-								<h4>Compulsory Subjects F1 & F2</h4>
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addCompSubjectF1F2Modal"
-									style="margin-bottom: 10px;">Add Subject</button>
-							</div>
-							<table class="table">
-								<thead>
-									<th:block
-										th:unless="${school.compSubjectF1F2} and ${school.compSubjectF1F2.size()}">
-										<br>
-										<p class="text text-center alert alert-warning">No
-											Compulsory Subject has been added for Form 1 and Form 2</p>
-									</th:block>
-								</thead>
-								<tbody>
-									<tr>
-										<th:block th:each="subject : ${school.compSubjectF1F2}">
-											<td th:text="${subject.initials}"
-												style="border-right: solid 1px #F0F0F0">Subject</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a class="fa fa-trash deleteBtn" data-toggle="modal"
-														href="#"
-														th:data-href="@{/schools/{code}/compF1F2subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
-														data-target="#deleteModal"></a>
-
-												</div>
-											</td>
-										</th:block>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
-						<div>
-							<div class="d-flex justify-content-between">
-								<h4>Compulsory Subjects F3 & F4</h4>
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addCompSubjectF3F4Modal"
-									style="margin-bottom: 10px;">Add Subject</button>
-							</div>
-							<table class="table">
-								<thead>
-									<th:block
-										th:unless="${school.compSubjectF3F4} and ${school.compSubjectF3F4.size()}">
-										<br>
-										<p class="text text-center alert alert-warning">No
-											Compulsory Subject has been added for Form 3 and Form 4</p>
-									</th:block>
-								</thead>
-								<tbody>
-									<tr>
-
-										<th:block th:each="subject : ${school.compSubjectF3F4}">
-											<td th:text="${subject.initials}"
-												style="border-right: solid 1px #F0F0F0">Subject</td>
-											<td>
-												<div class="d-flex justify-content-center">
-													<a class="fa fa-trash deleteBtn" data-toggle="modal"
-														href="#"
-														th:data-href="@{/schools/{code}/compF3F4subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
-														data-target="#deleteModal"></a>
-
-												</div>
-											</td>
-										</th:block>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
-
 						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
 							Subject exists</div>
 
@@ -223,7 +152,8 @@
 							<h4>Subjects</h4>
 							<button type="button" class="btn btn-primary" data-toggle="modal"
 								data-target="#addSubjectsModal" style="margin-bottom: 10px;">
-								Add Subjects</button>
+								Add Subjects <i class="fas fa-fw fa-plus"></i>
+							</button>
 						</div>
 
 
@@ -297,6 +227,82 @@
 							</tbody>
 						</table>
 
+						<div>
+							<div class="d-flex justify-content-between">
+								<h4>Compulsory Subjects F1 & F2</h4>
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addCompSubjectF1F2Modal"
+									style="margin-bottom: 10px;">
+									Add Subject <i class="fas fa-fw fa-plus"></i>
+								</button>
+							</div>
+							<table class="table">
+								<thead>
+									<th:block
+										th:unless="${school.compSubjectF1F2} and ${school.compSubjectF1F2.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No
+											Compulsory Subject has been added for Form 1 and Form 2</p>
+									</th:block>
+								</thead>
+								<tbody>
+									<tr>
+										<th:block th:each="subject : ${school.compSubjectF1F2}">
+											<td th:text="${subject.initials}"
+												style="border-right: solid 1px #F0F0F0">Subject</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a class="fa fa-trash deleteBtn" data-toggle="modal"
+														href="#"
+														th:data-href="@{/schools/{code}/compF1F2subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
+														data-target="#deleteSubjectModal"></a>
+
+												</div>
+											</td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div>
+							<div class="d-flex justify-content-between">
+								<h4>Compulsory Subjects F3 & F4</h4>
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addCompSubjectF3F4Modal"
+									style="margin-bottom: 10px;">
+									Add Subject <i class="fas fa-fw fa-plus"></i>
+								</button>
+							</div>
+							<table class="table">
+								<thead>
+									<th:block
+										th:unless="${school.compSubjectF3F4} and ${school.compSubjectF3F4.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No
+											Compulsory Subject has been added for Form 3 and Form 4</p>
+									</th:block>
+								</thead>
+								<tbody>
+									<tr>
+
+										<th:block th:each="subject : ${school.compSubjectF3F4}">
+											<td th:text="${subject.initials}"
+												style="border-right: solid 1px #F0F0F0">Subject</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a class="fa fa-trash deleteBtn" data-toggle="modal"
+														href="#"
+														th:data-href="@{/schools/{code}/compF3F4subjects/{initials}(code=${school.code}, initials=${subject.initials})}"
+														data-target="#deleteSubjectModal"></a>
+
+												</div>
+											</td>
+										</th:block>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 
 					</div>
 
@@ -350,7 +356,9 @@
 												th:text="${subject.name}"> Subject Name </label>
 										</div>
 
-										<input type="submit" value="Add Subjects" />
+										<button type="submit" class="btn btn-success">
+											Add Subject <i class="fas fa-fw fa-plus"></i>
+										</button>
 
 									</form>
 								</div>
@@ -359,7 +367,9 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close <i class="fas fa-fw fa-times"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -405,7 +415,9 @@
 												th:text="${subject.name}"> Subject Name </label>
 										</div>
 
-										<input type="submit" value="Add Subjects" />
+										<button type="submit" class="btn btn-success">
+											Add Subjects <i class="fas fa-fw fa-plus"></i>
+										</button>
 
 									</form>
 								</div>
@@ -414,7 +426,9 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close <i class="fas fa-fw fa-times"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -458,7 +472,9 @@
 												th:text="${subject.name}"> Subject Name </label>
 										</div>
 
-										<input type="submit" value="Add Subjects" />
+										<button type="submit" class="btn btn-success">
+											Add Subjects <i class="fas fa-fw fa-plus"></i>
+										</button>
 
 									</form>
 								</div>
@@ -467,7 +483,9 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close <i class="fas fa-fw fa-times"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -502,11 +520,13 @@
 											<label for="stream"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Stream</label> <input type="text" id="streamInput"
-												th:field="*{stream}" class="fadeIn first" name="streamInput"
+												th:field="*{stream}" name="streamInput"
 												placeholder="Enter Stream">
 										</div>
 
-										<input type="submit" value="Add Stream" />
+										<button type="submit" class="btn btn-success">
+											Add Stream <i class="fas fa-fw fa-plus"></i>
+										</button>
 
 									</form>
 								</div>
@@ -515,7 +535,9 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close <i class="fas fa-fw fa-times"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -540,8 +562,11 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-success"
-								data-dismiss="modal">No! Don't Delete</button>
-							<a class="btn btn-danger ok-button">Yes! Delete</a>
+								data-dismiss="modal">
+								No! Don't Delete <i class="fas fa-fw fa-times"></i>
+							</button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i
+								class="fas fa-fw fa-trash-alt"></i></a>
 						</div>
 					</div>
 				</div>
@@ -567,8 +592,11 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-success"
-								data-dismiss="modal">No! Don't Delete</button>
-							<a class="btn btn-danger ok-button">Yes! Delete</a>
+								data-dismiss="modal">
+								No! Don't Delete <i class="fas fa-fw fa-times"></i>
+							</button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i
+								class="fas fa-fw fa-trash-alt"></i></a>
 						</div>
 					</div>
 				</div>

@@ -48,12 +48,17 @@
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
 								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#leaveOutModal">Add
-									Report</button>
+									data-toggle="modal" data-target="#leaveOutModal">
+									<i class="fas fa-fw fa-plus"></i>Issue Leave Out
+								</button>
 							</div>
 						</nav>
 					</div>
-
+					
+					<a
+						th:href="@{/schools/{code}/discipline/pdf(code=${school.code})}"
+						class="btn btn-primary"> Download <i class="fas fa-fw fa-download"></i> </a>
+					
 					<div style="padding: 20px;">
 
 						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
@@ -63,7 +68,7 @@
 							th:text="${success}">User saved</div>
 
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="allSchools">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
@@ -97,14 +102,16 @@
 											<div class="d-flex justify-content-center">
 												<a
 													th:href="@{/schools/{code}/discipline/{id}(code=${school.code}, id=${discipline.id})}"
-													class="btn btn-primary"> View </a>
+													class="btn btn-primary"> View <i
+													class="fas fa-fw fa-book-reader"></i></a>
 											</div>
 										</td>
 										<td>
 											<div class="d-flex justify-content-center">
 												<a class="btn btn-danger" data-toggle="modal" href="#"
 													th:data-href="@{/schools/{code}/disciplines/{id}(code=${school.code}, id=${discipline.id})}"
-													data-target="#deleteDisciplineReportModal"> Delete </a>
+													data-target="#deleteDisciplineReportModal"> Delete <i
+													class="fas fa-fw fa-trash-alt"></i></a>
 											</div>
 										</td>
 									</tr>
@@ -147,8 +154,11 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-success"
-								data-dismiss="modal">No! Don't Delete</button>
-							<a class="btn btn-danger ok-button">Yes! Delete</a>
+								data-dismiss="modal">
+								No! Don't Delete <i class="fas fa-fw fa-times"></i>
+							</button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i
+								class="fas fa-fw fa-trash-alt"></i></a>
 						</div>
 					</div>
 				</div>

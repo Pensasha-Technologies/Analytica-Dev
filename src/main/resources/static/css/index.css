@@ -1,5 +1,5 @@
-html{
-    scroll-behavior:smooth;
+html {
+	scroll-behavior: smooth;
 }
 
 .admissionForm {
@@ -41,11 +41,11 @@ li .collapse .collapse-inner a:hover {
 }
 
 .table th, td {
-	border-bottom:1px solid #B4B4B4;
+	border-bottom: 1px solid #B4B4B4;
 }
 
-#userTable tr th{
-	text-align:center;
+#userTable tr th {
+	text-align: center;
 }
 
 .table tr:hover {
@@ -87,8 +87,7 @@ li .collapse .collapse-inner a:hover {
 #mainBody {
 	width: 100%;
 	height: 100%;
-	background-image: url('../img/background1.jpg');
-	background-size: cover;
+	background-color:#F6F6F6;
 }
 
 #navbarResponsive ul li a {
@@ -101,13 +100,12 @@ li .collapse .collapse-inner a:hover {
 }
 
 #firstSection {
-    margin-top:10px;
-	padding-top: 40px;
-	padding-left: 100px;
-	height: 640px;
+	padding-top: 40px; padding-left : 100px;
+	height: 610px;
 	width: 100%;
 	background-image: url('../img/background1.jpg');
 	background-size: cover;
+	padding-left: 100px;
 }
 
 #firstSection h1 {
@@ -120,14 +118,17 @@ li .collapse .collapse-inner a:hover {
 }
 
 .jumbotron {
-	background: rgba(204, 204, 204, 0.7);
+	background: rgba(230, 230, 230, 0.9);
 	text-align: left;
 	width: 543px;
-	height: 90%;
+	height: 75%;
+	color: #012237;
 }
 
-.jumbotron h1 {
-	color: #012237;
+.jumbotron h3 {
+	text-align: center;
+	padding: 20px;
+	margin-top: -20px;
 }
 
 .jumbotron a:hover {
@@ -150,21 +151,11 @@ li .collapse .collapse-inner a:hover {
 	padding-top: 40px;
 }
 
-#secondSection{
-
-padding-top:70px;
-}
-
-#secondSection h2{
-    color:#1f2d41;
-}
-
 #thirdSection {
 	background-color: #1f2d41;
 	color: #D1D0D6;
-	padding-top:100px;
-	height:700px;
 }
+
 
 footer {
 	background-color: #1f2d41;
@@ -220,11 +211,11 @@ footer {
 
 .icon-contact {
 	display: flex;
-	height: 5rem;
-	width: 5rem;
+	height: 15rem;
+	width: 15rem;
 	align-items: center;
 	justify-content: center;
-	font-size: 2rem;
+	font-size: 5rem;
 	background-color: #012237;
 	color: #D1D0D6;
 	border-radius: 100%;
@@ -373,6 +364,22 @@ a:active {
 	background: black;
 }
 
+#navbarResponsive li:hover {
+	background-color: #E96830;
+}
+
+#navbarResponsive li a:hover {
+	color: #012237;
+}
+
+.navbar-brand:hover {
+	color: black;
+}
+
+#navbarResponsive a:hover {
+	color: white;
+}
+
 .loginForm {
 	padding: 20px;
 }
@@ -424,7 +431,8 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset],
 	background-color: #39ace7;
 }
 
-input[type=button]:active, input[type=submit]:active, input[type=reset]{
+input[type=button]:active, input[type=submit]:active, input[type=reset]
+	{
 	-moz-transform: scale(0.95);
 	-webkit-transform: scale(0.95);
 	-o-transform: scale(0.95);
@@ -432,7 +440,8 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]{
 	transform: scale(0.95);
 }
 
-input[type=text], input[type=password], input[type=date], input[type=number], input[type=email], select {
+input[type=text], input[type=password], input[type=date], input[type=number],
+	input[type=email], select {
 	background-color: #f6f6f6;
 	border: none;
 	color: #0d0d0d;
@@ -453,12 +462,14 @@ input[type=text], input[type=password], input[type=date], input[type=number], in
 	border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=number]:focus, input[type=password]:focus, input[type=email]:focus, select:focus {
+input[type=text]:focus, input[type=password]:focus, input[type=number]:focus,
+	input[type=password]:focus, input[type=email]:focus, select:focus {
 	background-color: #fff;
 	border-bottom: 2px solid #5fbae9;
 }
 
-input[type=text]:placeholder, input[type=password]:placeholder, input[type=password]:placeholder, input[type=number]:placeholder, select:placeholder {
+input[type=text]:placeholder, input[type=password]:placeholder, input[type=password]:placeholder,
+	input[type=number]:placeholder, select:placeholder {
 	color: #cccccc;
 }
 
@@ -478,22 +489,17 @@ input[type=text]:placeholder, input[type=password]:placeholder, input[type=passw
 	opacity: 0;
 	-webkit-transform: translate3d(0, -100%, 0);
 	transform: translate3d(0, -100%, 0);
-}
-
-100%{
+} 100% {
 	opacity:1;
-	-webkit-transform:none;
+ 	-webkit-transform:none;
 	transform:none;
 	}
 }
-
 @keyframes fadeInDown { 0% {
 	opacity: 0;
 	-webkit-transform: translate3d(0, -100%, 0);
 	transform: translate3d(0, -100%, 0);
-}
-
-100%{
+} 100% {
 	opacity:1;
 	-webkit-transform:none;
 	transform:none;
@@ -507,12 +513,11 @@ input[type=text]:placeholder, input[type=password]:placeholder, input[type=passw
 
 to {
 	opacity: 1;
-	}	
+}
 
 }
-@-moz-keyframes fadeIn {
-	from { 
-	opacity:0;
+@-moz-keyframes fadeIn {from { opacity:0;
+	
 }
 
 to {

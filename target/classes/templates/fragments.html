@@ -32,17 +32,17 @@
 	<nav class="nav nav-pills navbar navbar-expand-lg fixed-top"
 		th:fragment="header">
 		<div class="container">
-			<a class="navbar-brand" th:href="@{/index}" style="color: #012237;">
-				<img th:src="@{/img/logo.png}" width="30" height="30"
-				class="d-inline-block align-top" alt="" loading="lazy">
-				Analytica Soft
+			<a class="navbar-brand" th:href="@{/index#firstSection}"
+				style="color: #012237;"> <img th:src="@{/img/logo.png}"
+				width="30" height="30" class="d-inline-block align-top" alt=""
+				loading="lazy"> Analytica Soft
 			</a>
 			<button
 				class="navbar-toggler navbar-toggler-right font-weight-bold bg-primary text-white rounded"
 				type="button" data-toggle="collapse" data-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false"
 				aria-label="Toggle navigation">
-				Menu <i class="fas fa-bars"></i>
+				<i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
@@ -51,7 +51,7 @@
 						th:href="@{/index#secondSection}">Services</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
-						th:href="@{/index#thirdSection}">About Us</a></li>
+						th:href="@{/index#thirdSection}">About</a></li>
 					<li class="nav-item mx-0 mx-lg-1"><a
 						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
 						th:href="@{/index#fourthSection}">Contact Us</a></li>
@@ -168,56 +168,56 @@
 		<li class="nav-item"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome' ? 'active':''}"
 			th:if="${activeUser.role.name == 'ADMIN'}"><a class="nav-link"
-			th:href="@{/adminHome}"> <i class="fas fa-fw fa-tachometer-alt"></i>
-				<span> Welcome [[${#httpServletRequest.remoteUser}]] </span>
+			th:href="@{/adminHome}"> <i class="fas fa-fw fa-home"></i> <span>
+					Welcome [[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'C.E.O'}"><a
 			class="nav-link" th:href="@{/ceoHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
 			class="nav-link" th:href="@{/officeAssistantHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
 			class="nav-link" th:href="@{/fieldOfficerHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/principal' ? 'active':''}"><a
 			class="nav-link" th:href="@{/schools/principal}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'D.O.S'}"><a
 			class="nav-link" th:href="@{/schools/dosHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'BURSAR'}"><a
 			class="nav-link" th:href="@{/schools/bursarHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}"><a
 			class="nav-link" th:href="@{/schools/accountsClerkHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
 			class="nav-link" th:href="@{/schools/deputyPrincipal}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'TEACHER'}"><a
 			class="nav-link" th:href="@{/teacherHome}"> <i
-				class="fas fa-fw fa-tachometer-alt"></i> <span> Welcome
+				class="fas fa-fw fa-home"></i> <span> Welcome
 					[[${#httpServletRequest.remoteUser}]] </span>
 		</a></li>
 
@@ -254,7 +254,7 @@
 			th:classappend="${#httpServletRequest.getRequestURI() == '/profile/' + activeUser.username  ? 'active':''}"
 			th:if="${activeUser.role.name != 'TEACHER'}"><a class="nav-link"
 			th:href="@{/profile/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
+				<i class="fas fa-fw fa-address-card"></i> <span> My Profile</span>
 		</a></li>
 
 		<!-- Teachers profile -->
@@ -262,19 +262,19 @@
 			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/teacherHome/profile' ? 'active':''}"><a
 			class="nav-link"
 			th:href="@{/profile/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> My Profile</span>
+				<i class="fas fa-fw fa-address-card"></i> <span> My Profile</span>
 		</a></li>
 
 		<!-- Nav Item - Schools -->
 		<li class="nav-item" th:if="${activeUser.role.name == 'ADMIN'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/adminHome' ? 'active':''}"><a
 			class="nav-link" th:href="@{/adminHome}"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> Schools </span></a></li>
+				class="fas fa-fw fa-school"></i> <span> Schools </span></a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/officeAssistantHome' ? 'active':''}"><a
 			class="nav-link" th:href="@{/officeAssistantHome}"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> Schools </span></a></li>
+				class="fas fa-fw fa-school"></i> <span> Schools </span></a></li>
 		<li class="nav-item" th:if="${activeUser.role.name == 'FIELDOFFICER'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/fieldOfficerHome' ? 'active':''}"><a
 			class="nav-link" th:href="@{/fieldOfficerHome}"> <i
@@ -282,20 +282,20 @@
 		<li class="nav-item" th:if="${activeUser.role.name == 'C.E.O'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/ceoHome' ? 'active':''}"><a
 			class="nav-link" th:href="@{/ceoHome}"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> Schools </span></a></li>
+				class="fas fa-fw fa-school"></i> <span> Schools </span></a></li>
 
 		<li class="nav-item" th:if="${activeUser.role.name == 'BURSAR'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#createStructureModal"
 			th:href="@{/users/{username}(username=${activeUser.username})}">
-				<i class="fas fa-fw fa-chart-area"></i> <span> Create Fee
+				<i class="fas fa-fw fa-file-medical"></i> <span> Create Fee
 					Structure</span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#viewStructureModal"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> View Fee
+				class="fas fa-fw fa-file-invoice-dollar"></i> <span> View Fee
 					Structure </span>
 		</a></li>
 
@@ -322,8 +322,7 @@
 							<div class="form-group">
 								<label for="receiptNo"
 									style="display: block; text-align: left; margin-bottom: -5px;">Enter
-									Academic Year</label> <select name="feeYear" id="academicYear"
-									required>
+									Academic Year</label> <select name="feeYear" id="academicYear" required>
 									<option value="">Select Academic Year ...</option>
 									<option th:value="${year.year}"
 										th:each="year : ${school.years}" th:text="${year.year}">Year</option>
@@ -353,13 +352,17 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary" type="submit"
-								style="margin-top: 10px;">View Structure</button>
+							<button class="btn btn-success" type="submit"
+								style="margin-top: 10px;">
+								View Fee Structure <i class="fas fa-fw fa-file-alt"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -414,13 +417,17 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary" type="submit"
-								style="margin-top: 10px;">Create Structure</button>
+							<button class="btn btn-success" type="submit"
+								style="margin-top: 10px;">
+								Create Fee Structure <i class="fas fa-fw fa-file-medical"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -430,8 +437,8 @@
 			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL' ||  activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
 			class="nav-link" data-toggle="modal"
 			data-target="#viewStatementModal"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> View Fee
-					Statements </span>
+				class="fas fa-fw fa-file-alt"></i> <span> View Fee Statements
+			</span>
 		</a></li>
 		<!-- Modal -->
 		<div class="modal fade" id="viewStatementModal" tabindex="-1"
@@ -440,7 +447,8 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="viewStatementModalLabel"> View Fee Statements </h5>
+						<h5 class="modal-title" id="viewStatementModalLabel">View Fee
+							Statements</h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -463,13 +471,17 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary" type="submit"
-								style="margin-top: 10px;">View Statement</button>
+							<button class="btn btn-success" type="submit"
+								style="margin-top: 10px;">
+								View Fee Statement <i class="fas fa-fw fa-file-invoice-dollar"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -479,10 +491,10 @@
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}"><a
 			class="nav-link" data-toggle="modal" data-target="#addFeeModal">
-				<i class="fas fa-fw fa-chart-area"></i> <span> Add Fees </span>
+				<i class="fas fa-fw fa-file-medical"></i> <span> Add Fees </span>
 		</a></li>
 
-		<!-- Create Statement -->
+		<!-- Add fees -->
 		<div class="modal fade" id="addFeeModal" tabindex="-1" role="dialog"
 			aria-labelledby="addFeeModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -508,26 +520,25 @@
 										<label for="receiptNo"
 											style="display: block; text-align: left; margin-bottom: -5px;">Enter
 											Receipt Number</label> <input type="text" id="receiptNo"
-											class="fadeIn first" name="receiptNo"
-											placeholder="Enter Receipt Number" required />
+											name="receiptNo" placeholder="Enter Receipt Number" required />
 									</div>
 									<div class="form-group">
 										<label for="admNo"
 											style="display: block; text-align: left; margin-bottom: -5px;">Enter
 											Student Admission Number</label> <input type="number" id="admNo"
-											class="fadeIn first" name="admNo"
-											placeholder="Enter Student Number" required />
+											name="admNo" placeholder="Enter Student Number" required />
 									</div>
 									<div class="form-group">
 										<label for="amount"
 											style="display: block; text-align: left; margin-bottom: -5px;">Enter
-											Fee Amount</label> <input type="number" id="amount"
-											class="fadeIn first" name="amount"
+											Fee Amount</label> <input type="number" id="amount" name="amount"
 											placeholder="Enter Fee Amount" required />
 									</div>
 
-									<button class="btn btn-primary fadeIn second" type="submit"
-										style="margin-top: 10px;">Add Fee</button>
+									<button class="btn btn-success" type="submit"
+										style="margin-top: 10px;">
+										<i class="fas fa-fw fa-plus"></i> Add Fee
+									</button>
 								</form>
 							</div>
 
@@ -535,25 +546,113 @@
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'ADMIN' && school.name != null}"><a
+			th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK' || activeUser.role.name == 'PRINCIPAL' ||  activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+			class="nav-link" data-toggle="modal" data-target="#feeBalanceModal">
+				<i class="fas fa-fw fa-file-alt"></i> <span> View Fee
+					Balances </span>
+		</a></li>
+
+		<!-- Modal -->
+		<div class="modal fade" id="feeBalanceModal" tabindex="-1"
+			role="dialog" aria-labelledby="feeBalanceModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="feeBalanceModalLabel">View Fee
+							Balance</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form class="feeBalanceForm"
+							th:action="@{/school/{code}/feeRalance(code=${school.code})}"
+							method="Post">
+
+							<div class="form-group">
+								<label for="academicYear"
+									style="display: block; text-align: left; margin-bottom: -5px;">Enter
+									Academic Year</label> <select name="academicYear" id="academicYear"
+									required>
+									<option value="">Choose Academic Year ...</option>
+									<option th:value="${year.year}"
+										th:each="year : ${school.years}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="form">Choose Form:</label> <select name="form"
+									id="form" required>
+									<option value="">Select Form...</option>
+									<option value="1">Form 1</option>
+									<option value="2">Form 2</option>
+									<option value="3">Form 3</option>
+									<option value="4">Form 4</option>
+
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="term">Choose Term:</label> <select name="term"
+									id="term" required>
+									<option value="">Select Term...</option>
+									<option th:value="1">Term 1</option>
+									<option th:value="2">Term 2</option>
+									<option th:value="3">Term 3</option>
+
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="stream">Choose Stream:</label> <select name="stream"
+									id="stream" required>
+									<option value="">Select Stream...</option>
+									<option th:each="stream : ${streams}"
+										th:value="${stream.stream}" th:text="${stream.stream}">Form
+										1</option>
+								</select>
+							</div>
+
+							<button class="btn btn-success" type="submit"
+								style="margin-top: 10px;">
+								View Fee Balance <i class="fas fa-fw fa-file-invoice-dollar"></i>
+							</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<li class="nav-item"
+			th:if="${activeUser.role.name == 'TEACHER' && school.name != null}"><a
 			class="nav-link"
 			th:href="@{/schools/{code}/addStudent(code=${school.code})}"> <i
-				class="fas fa-fw fa-chart-area"></i> <span> Admit Student </span></a></li>
+				class="fas fa-fw fa-user-plus"></i> <span> Admit Student </span></a></li>
 
 		<!-- Nav Item - Utilities Collapse Menu -->
 		<li class="nav-item"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/school/' + school.code  ? 'active':''}"
-			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null}"><a
+			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null || activeUser.role.name == 'FIELDOFFICER' && school.name != null || activeUser.role.name == 'OFFICEASSISTANT' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'D.O.S'}"><a
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#schoolUtilities" aria-expanded="true"
-			aria-controls="schoolUtilities"> <i class="fas fa-fw fa-wrench"></i>
+			aria-controls="schoolUtilities"> <i class="fas fa-fw fa-school"></i>
 				<span th:text="${school.name}"> School name </span>
 		</a>
 			<div id="schoolUtilities" class="collapse"
@@ -561,19 +660,30 @@
 				<div class=" py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Menu:</h6>
 					<a class="collapse-item" style="color: #E96830;"
-						th:href="@{/school/{code}(code=${school.code})}"> My School </a> <a
-						class="collapse-item" style="color: #E96830;"
-						th:if="${activeUser.role.name == 'ADMIN' && school.name != null}"
-						th:href="@{/schools/{code}/students(code=${school.code})}">
-						Students </a> <a class="collapse-item" style="color: #E96830;"
+						th:href="@{/school/{code}(code=${school.code})}"> <i
+						class="fas fa-fw fa-school"></i> <span style="margin-left: 5px;">
+							My School </span>
+					</a> <a class="collapse-item" style="color: #E96830;"
+						th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null || activeUser.role.name == 'OFFICEASSISTANT' && school.name != null || activeUser.role.name == 'FIELDOFFICER' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'D.O.S'}"
+						th:href="@{/schools/{code}/students(code=${school.code})}"> <i
+						class="fas fa-fw fa-users"></i> <span style="margin-left: 5px;">
+							Students </span>
+					</a> <a class="collapse-item" style="color: #E96830;"
 						th:if="${activeUser.role.name == 'TEACHER'}"
-						th:href="@{/schools/teacherHome}"> Students </a> <a
-						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#timetableModal"> Timetable </a> <a
-						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#examinationModal"> Examination</a> <a
-						class="collapse-item" style="color: #E96830;" data-toggle="modal"
-						data-target="#assignTeacherModal"> Assign Teacher </a>
+						th:href="@{/schools/teacherHome}"> <i
+						class="fas fa-fw fa-users"></i> <span style="margin-left: 5px;">
+							Students </span>
+					</a>
+					<!-- <a class="collapse-item" style="color: #E96830;"
+						data-toggle="modal" data-target="#timetableModal"> Timetable </a> -->
+					<a class="collapse-item" style="color: #E96830;"
+						data-toggle="modal" data-target="#examinationModal"> <i
+						class="fas fa-fw fa-paste"></i> <span style="margin-left: 5px;">
+							Examinations </span></a> <a class="collapse-item" style="color: #E96830;"
+						data-toggle="modal" data-target="#assignTeacherModal"> <i
+						class="fab fa-fw fa-atlassian"></i> <span
+						style="margin-left: 5px;"> Assign Teachers </span>
+					</a>
 
 				</div>
 			</div></li>
@@ -606,12 +716,16 @@
 								</select>
 							</div>
 
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-success">
+								Submit <i class="fas fa-fw fa-plus"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -645,12 +759,16 @@
 								</select>
 							</div>
 
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-success">
+								Submit <i class="fas fa-fw fa-save"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -661,17 +779,19 @@
 			class="nav-item"><a class="nav-link collapsed" href="#"
 			data-toggle="collapse" data-target="#disciplineUtilities"
 			aria-expanded="true" aria-controls="disciplineUtilities"> <i
-				class="fas fa-fw fa-wrench"></i> <span> Discipline </span>
+				class="fas fa-fw fa-user-tie"></i> <span> Discipline </span>
 		</a>
 			<div id="disciplineUtilities" class="collapse"
 				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Menu:</h6>
-					<a class="collapse-item" style="color: black;"
+					<h6 class="collapse-header" style="color: #012237;">Menu:</h6>
+					<a class="collapse-item" style="color: #012237;"
 						th:href="@{/schools/{code}/discipline(code=${school.code})}">
-						Leave Out Reports </a> <a class="collapse-item" data-toggle="modal"
-						style="color: black;" data-target="#leaveOutModal"> Add Leave
-						Out </a> <a class="collapse-item" th:href="@{#}"> Reports </a>
+						<i class="fas fa-fw fa-file-alt"></i> Leave Out Reports
+					</a> <a class="collapse-item" data-toggle="modal"
+						style="color: #012237;" data-target="#leaveOutModal"> <i
+						class="fas fa-fw fa-paste"></i> Add Leave Out
+					</a>
 				</div>
 			</div></li>
 
@@ -723,12 +843,16 @@
 									placeholder="Type Your Reason"></textarea>
 							</div>
 
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-success">
+								Issue <i class="fas fa-fw fa-save"></i>
+							</button>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -737,24 +861,30 @@
 
 		<li
 			th:classappend="${#httpServletRequest.getRequestURI() == '/schools/' + school.code +'/student/'+ student.admNo  ? 'active':''}"
-			th:if="${activeUser.role.name == 'ADMIN' && student.firstname != null}"
+			th:if="${activeUser.role.name == 'ADMIN' && student.firstname != null || activeUser.role.name == 'C.E.O' && student.firstname != null || activeUser.role.name == 'OFFICEASSISTANT' && student.firstname != null || activeUser.role.name == 'FIELDOFFICER' && student.firstname != null}"
 			class="nav-item"><a class="nav-link collapsed" href="#"
 			data-toggle="collapse" data-target="#studentUtilities"
 			aria-expanded="true" aria-controls="studentUtilities"> <i
-				class="fas fa-fw fa-wrench"></i> <span
+				class="fas fa-fw fa-id-badge"></i> <span
 				th:text="${student.firstname}"> Student name </span>
 		</a>
 			<div id="studentUtilities" class="collapse"
 				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
-					<h6 class="collapse-header">Menu:</h6>
+					<h6 class="collapse-header" style="color: #012237;">Menu:</h6>
 					<a class="collapse-item"
-						th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">
-						Student Profile </a> <a class="collapse-item"
-						th:href="@{/schools/{code}/students(code=${school.code})}">
-						Students </a> <a class="collapse-item" data-toggle="modal"
-						data-target="#termReportModal" href="#" style="margin-left: 10px;">
-						Termly Report </a>
+						th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+						style="color: #012237;"> <i class="fas fa-fw fa-address-card"></i>
+						Student Profile
+					</a> <a class="collapse-item"
+						th:href="@{/schools/{code}/students(code=${school.code})}"
+						style="color: #012237;"> <i class="fas fa-fw fa-users"></i>
+						Students
+					</a> <a class="collapse-item" data-toggle="modal"
+						data-target="#termReportModal" href="#"
+						style="margin-left: 10px; color: #012237;"> <i
+						class="fas fa-fw fa-file"></i> Termly Report
+					</a>
 				</div>
 			</div></li>
 		<!-- Report Model -->
@@ -809,12 +939,15 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary fadeIn fourth" id="termlyReport">
-								Get Report</button>
+							<button class="btn btn-success fadeIn fourth" id="termlyReport">
+								Get Report <i class="fas fa-fw fa-file-alt"></i>
+							</button>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -826,7 +959,7 @@
 			th:classappend="${#httpServletRequest.getRequestURI() == '/schoolUsers' || #httpServletRequest.getRequestURI() == '/adminHome/users' ? 'active':''}"><a
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#userUtilities" aria-expanded="true"
-			aria-controls="userUtilities"> <i class="fas fa-fw fa-wrench"></i>
+			aria-controls="userUtilities"> <i class="fas fa-fw fa-users"></i>
 				<span> Users </span>
 		</a>
 			<div id="userUtilities" class="collapse"
@@ -834,53 +967,144 @@
 				<div class=" py-2 collapse-inner rounded">
 					<h6 class="collapse-header">Menu:</h6>
 					<a class="collapse-item" style="color: #E96830;"
-						th:href="@{/users}"> System Users </a> <a class="collapse-item"
-						style="color: #E96830;" th:href="@{/schoolUsers}"> School
-						Users </a>
+						th:href="@{/users}"> <i class="fas fa-fw fa-users-cog"></i> <span
+						style="margin-left: 5px;"> System Users </span>
+					</a> <a class="collapse-item" style="color: #E96830;"
+						th:href="@{/schoolUsers}"> <i
+						class="fas fa-fw fa-user-friends"></i> <span
+						style="margin-left: 5px;"> School Users </span>
+					</a>
 				</div>
 			</div></li>
 
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'  }"><a
+			th:if="${activeUser.role.name == 'TEACHER' || activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'  }"><a
 			class="nav-link" th:href="@{/school/{code}(code=${school.code})}">
-				<i class="fas fa-fw fa-table"></i> <span> My School </span>
+				<i class="fas fa-fw fa-school"></i> <span> My School </span>
 		</a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/school/teachers' ? 'active':''}"><a
 			class="nav-link" th:href="@{/school/teachers}"> <i
-				class="fas fa-fw fa-table"></i> <span> Teachers </span></a></li>
+				class="fas fa-fw fa-users"></i> <span> Teachers </span></a></li>
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'D.O.S'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/school/students' ? 'active':''}"><a
 			class="nav-link" th:href="@{/schools/students}"> <i
-				class="fas fa-fw fa-table"></i> <span> Students </span></a></li>
+				class="fas fa-fw fa-users"></i> <span> Students </span></a></li>
 
 		<li
-			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'TEACHER'}"
+			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null || activeUser.role.name == 'FIELDOFFICER' && school.name != null || activeUser.role.name == 'OFFICEASSISTANT' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'BURSAR'}"
 			class="nav-item"><a class="nav-link collapsed" href="#"
 			data-toggle="collapse" data-target="#reportUtilities"
 			aria-expanded="true" aria-controls="reportUtilities"> <i
-				class="fas fa-fw fa-wrench"></i> <span> Reports </span>
+				class="fas fa-fw fa-copy"></i> <span> Reports </span>
 		</a>
 			<div id="reportUtilities" class="collapse"
 				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 				<div class="bg-white py-2 collapse-inner rounded">
 					<h6 class="collapse-header" style="color: #012237;">Menu:</h6>
 					<a class="collapse-item" data-toggle="modal"
-						data-target="#classListModal" style="color: #012237;"> Class
-						List </a> <a class="collapse-item" data-toggle="modal"
-						style="color: #012237;" data-target="#marksSheetModal"> Marks
-						Sheet </a> <a class="collapse-item" data-toggle="modal"
-						style="color: #012237;" data-target="#meritListModal"> Merit
-						List </a><a class="collapse-item" data-toggle="modal"
-						data-target="#studentsReportModal" style="color: #012237;">
-						Student Reports </a>
+						data-target="#classListModal" style="color: #012237;"> <i
+						class="far fa-fw fa-file-pdf"></i> Class List
+					</a> <a class="collapse-item" data-toggle="modal"
+						style="color: #012237;" data-target="#marksSheetModal"
+						th:unless="${activeUser.role.name == 'BURSAR'}"><i
+						class="far fa-fw fa-file-pdf"></i> Marks Sheet </a> <a
+						class="collapse-item" data-toggle="modal" style="color: #012237;"
+						data-target="#meritListModal"
+						th:unless="${activeUser.role.name == 'BURSAR'}"> <i
+						class="far fa-fw fa-file-pdf"></i> Merit List
+					</a><a class="collapse-item" data-toggle="modal"
+						data-target="#studentsReportModal" style="color: #012237;"
+						th:unless="${activeUser.role.name == 'BURSAR'}"> <i
+						class="far fa-fw fa-file-pdf"></i> Student Reports
+					</a><a class="collapse-item" data-toggle="modal"
+						data-target="#feeBalancePdfModal" style="color: #012237;"><i
+						class="far fa-fw fa-file-pdf"></i> Fee Balance </a>
 				</div>
 			</div></li>
 
 		<!-- Report Model -->
 
+		<!-- Fee Balance -->
+
+		<div class="modal fade" id="feeBalancePdfModal" tabindex="-1"
+			role="dialog" aria-labelledby="feeBalancePdfModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="feeBalancePdfModalLabel">View Fee
+							Balance</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<form class="feeBalanceForm"
+							th:action="@{/school/{code}/feeRalance/pdf(code=${school.code})}"
+							method="Post">
+
+							<div class="form-group">
+								<label for="academicYear"
+									style="display: block; text-align: left; margin-bottom: -5px;">Enter
+									Academic Year</label> <select name="academicYear" id="academicYear"
+									required>
+									<option value="">Choose Academic Year ...</option>
+									<option th:value="${year.year}"
+										th:each="year : ${school.years}" th:text="${year.year}">Year</option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="form">Choose Form:</label> <select name="form"
+									id="form" required>
+									<option value="">Select Form...</option>
+									<option value="1">Form 1</option>
+									<option value="2">Form 2</option>
+									<option value="3">Form 3</option>
+									<option value="4">Form 4</option>
+
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="term">Choose Term:</label> <select name="term"
+									id="term" required>
+									<option value="">Select Term...</option>
+									<option th:value="1">Term 1</option>
+									<option th:value="2">Term 2</option>
+									<option th:value="3">Term 3</option>
+
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="stream">Choose Stream:</label> <select name="stream"
+									id="stream" required>
+									<option value="">Select Stream...</option>
+									<option th:each="stream : ${streams}"
+										th:value="${stream.stream}" th:text="${stream.stream}">Form
+										1</option>
+								</select>
+							</div>
+
+							<button class="btn btn-success" type="submit"
+								style="margin-top: 10px;">
+								View Fee Balance <i class="fas fa-fw fa-file-invoice-dollar"></i>
+							</button>
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- Student Report Modal -->
 		<div class="modal fade" id="studentsReportModal" tabindex="-1"
 			role="dialog" aria-labelledby="studentsReportModalLabel"
@@ -899,7 +1123,7 @@
 						<form class="stuudentsReportModel"
 							th:action="@{/schools/{code}/studentsReport(code = ${school.code})}"
 							method="post">
-							<div class="form-group fadeIn first">
+							<div class="form-group">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
@@ -907,7 +1131,7 @@
 										th:value="${year.year}" th:text="${year.year}">Year</option>
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="form" required>
 									<option value="">Select Form...</option>
@@ -918,7 +1142,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
+							<div class="form-group">
 								<label for="term">Choose Term:</label> <select name="term"
 									id="term" required>
 									<option value="">Select Term...</option>
@@ -927,7 +1151,7 @@
 									<option value="3">Term 3</option>
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
+							<div class="form-group">
 								<label for="stream">Choose Stream:</label> <select name="stream"
 									id="stream" required>
 									<option value="">Select Stream...</option>
@@ -937,12 +1161,15 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary fadeIn fourth" id="classList">
-								Get List</button>
+							<button class="btn btn-success" id="classList">
+								Get Student Report <i class="fas fa-fw fa-file-invoice-dollar"></i>
+							</button>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -967,7 +1194,7 @@
 						<form class="classList"
 							th:action="@{/schools/{code}/classList(code = ${school.code})}"
 							method="post">
-							<div class="form-group fadeIn first">
+							<div class="form-group">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
@@ -975,7 +1202,7 @@
 										th:value="${year.year}" th:text="${year.year}">Year</option>
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="form" required>
 									<option value="">Select Form...</option>
@@ -986,7 +1213,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
+							<div class="form-group">
 								<label for="stream">Choose Stream:</label> <select name="stream"
 									id="stream" required>
 									<option value="">Select Stream...</option>
@@ -996,12 +1223,15 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary fadeIn fourth" id="classList">
-								Get List</button>
+							<button class="btn btn-success" id="classList">
+								Get Class List <i class="fas fa-fw fa-file-alt"></i>
+							</button>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -1028,7 +1258,7 @@
 						<form class="marksheets"
 							th:action="@{/schools/{code}/marksSheet(code = ${school.code})}"
 							method="post">
-							<div class="form-group fadeIn first">
+							<div class="form-group">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="yearInput" required>
 									<option value="">Select Year...</option>
@@ -1036,7 +1266,7 @@
 										th:value="${year.year}" th:text="${year.year}">Year</option>
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="formInput" required>
 									<option value="">Select Form...</option>
@@ -1047,7 +1277,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="term">Choose Term:</label> <select name="term"
 									id="termInput" onchange="getExams()" required>
 									<option value="">Select Term...</option>
@@ -1057,7 +1287,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
+							<div class="form-group">
 								<label for="stream">Choose Stream:</label> <select name="stream"
 									id="streamInput" required>
 									<option value="">Select Stream...</option>
@@ -1066,7 +1296,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
+							<div class="form-group">
 								<label for="subject">Choose Subject:</label> <select
 									name="subject" id="subjectInput" required>
 									<option value="">Select Subject...</option>
@@ -1076,19 +1306,22 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn third">
-								<label for="exam">Choose Exam:</label> <select
-									class="fadeIn third" name="examType" id="examTypeInput"
-									required><option value="">Select Exam ...</option>
+							<div class="form-group">
+								<label for="exam">Choose Exam:</label> <select name="examType"
+									id="examTypeInput" required><option value="">Select
+										Exam ...</option>
 								</select>
 							</div>
 
-							<button class="btn btn-primary fadeIn fourth" id="classList">
-								Get List</button>
+							<button class="btn btn-success" id="classList">
+								Get Marks Sheets <i class="fas fa-fw fa-file-alt"></i>
+							</button>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -1113,7 +1346,7 @@
 						<form class="classList"
 							th:action="@{/schools/{code}/meritList(code = ${school.code})}"
 							method="post">
-							<div class="form-group fadeIn first">
+							<div class="form-group">
 								<label for="year">Choose Year:</label> <select name="year"
 									id="year" required>
 									<option value="">Select Year...</option>
@@ -1121,7 +1354,7 @@
 										th:value="${year.year}" th:text="${year.year}">Year</option>
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="form">Choose Form:</label> <select name="form"
 									id="form" required>
 									<option value="">Select Form...</option>
@@ -1132,7 +1365,7 @@
 
 								</select>
 							</div>
-							<div class="form-group fadeIn second">
+							<div class="form-group">
 								<label for="term">Choose Term:</label> <select name="term"
 									id="term" required>
 									<option value="">Select Term...</option>
@@ -1143,24 +1376,27 @@
 								</select>
 							</div>
 
-							<button class="btn btn-primary fadeIn fourth" id="classList">
-								Get List</button>
+							<button class="btn btn-success" id="classList">
+								Get Merit List <i class="fas fa-fw fa-file-alt"></i>
+							</button>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">
+							Close <i class="fas fa-fw fa-times"></i>
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- End Marks Sheel Model -->
+		<!-- End Marks Sheel Model 
 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'TEACHER'}"><a
 			class="nav-link" data-toggle="modal" data-target="#timetableModal">
 				<i class="fas fa-fw fa-table"></i> <span> Timetable </span>
 		</a></li>
-
+-->
 		<!--  <li class="nav-item" th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 			class="nav-link"
 			th:href="@{/schools/{code}/sms(code=${school.code})}"> <i
@@ -1261,7 +1497,7 @@
 	<!-- End of Sidebar -->
 
 	<!-- Footer -->
-	<div class="sticky-footer fixed-bottom" th:fragment="footer2">
+	<div class="sticky-footer" th:fragment="footer2">
 		<div class="container my-auto">
 			<div class="copyright py-1 text-center my-auto">
 				<span>Copyright &copy; Your Website 2019</span>
@@ -1293,10 +1529,14 @@
 					to end your current session.</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button"
-						data-dismiss="modal">Cancel</button>
+						data-dismiss="modal">
+						Cancel <i class="fas fa-fw fa-times"></i>
+					</button>
 					<form th:action="@{/logout}" method="post">
 						<button type="button" class="btn btn-danger"
-							onclick="this.parentNode.submit();">Logout</button>
+							onclick="this.parentNode.submit();">
+							Logout <i class="fas fa-fw fa-sign-out-alt"></i>
+						</button>
 					</form>
 				</div>
 			</div>
@@ -1330,18 +1570,25 @@
 
 	<!-- Ending script -->
 	<div th:fragment="endScript">
-		<!-- Bootstrap core JavaScript-->
-		<script th:src="@{/vendor/jquery/jquery.min.js}"
-			type="text/javascript"></script>
-		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"
-			type="text/javascript"></script>
 
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 		<!-- Core plugin JavaScript-->
-		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"
-			type="text/javascript"></script>
-
+		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 		<!-- Custom scripts for all pages-->
-		<script th:src="@{/js/sb-admin-2.min.js}" type="text/javascript"></script>
+		<script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+		<!-- Page level plugins -->
+		<script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+
+		<script th:src="@{/js/chart-bar-demo.js}"></script>
+		<script th:src="@{/js/chart-area-demo.js}"></script>
 
 		<script th:inline="javascript">
 			function getExams() {
@@ -1384,6 +1631,10 @@
 				});
 
 			};
+
+			$(document).ready(function() {
+				$('#allSchools').DataTable();
+			});
 		</script>
 
 	</div>
@@ -1392,8 +1643,7 @@
 
 	<div id="footer" th:fragment="footer">
 		<!-- Copyright Section-->
-		<section class="copyright fixed-bottom py-2 text-center"
-			style="background-color: #D1D0D6; color: #012237;">
+		<section class="copyright fixed-bottom py-2 text-center">
 			<div class="container">
 				<small class="pre-wrap">Copyright © Your Website 2020 </small>
 			</div>

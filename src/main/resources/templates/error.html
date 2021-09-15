@@ -41,24 +41,24 @@
 
 			<div th:if="${activeUser != null}">
 				<a th:if="${activeUser.role.name == 'ADMIN'}"
-					th:href="@{/adminHome}">Go To Homepage</a> <a
+					th:href="@{/adminHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'C.E.O'}" th:href="@{/ceoHome}">Go
-					To Homepage</a> <a th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"
-					th:href="@{/officeAssistantHome}">Go To Homepage</a> <a
+					To Homepage <i class="fas fa-fw fa-home"></i></a> <a th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"
+					th:href="@{/officeAssistantHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'FIELDOFFICER'}"
-					th:href="@{/fieldOfficerHome}">Go To Homepage</a> <a
+					th:href="@{/fieldOfficerHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'PRINCIPAL'}"
-					th:href="@{/schools/principalHome}">Go To Homepage</a> <a
+					th:href="@{/schools/principalHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"
-					th:href="@{/schools/deputyPrincipal}">Go To Homepage</a> <a
+					th:href="@{/schools/deputyPrincipal}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'D.O.S'}"
-					th:href="@{/schools/dosHome}">Go To Homepage</a> <a
+					th:href="@{/schools/dosHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'TEACHER'}"
-					th:href="@{/schools/teacherHome}">Go To Homepage</a> <a
+					th:href="@{/schools/teacherHome}">Go To Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'BURSAR'}"
-					th:href="@{/schools/bursarHome}"> Go to Homepage </a> <a
+					th:href="@{/schools/bursarHome}"> Go to Homepage <i class="fas fa-fw fa-home"></i></a> <a
 					th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}"
-					th:href="@{/schools/accountsClerkHome}"> Go to Homepage </a>
+					th:href="@{/schools/accountsClerkHome}"> Go to Homepage <i class="fas fa-fw fa-home"></i></a>
 			</div>
 
 		</div>

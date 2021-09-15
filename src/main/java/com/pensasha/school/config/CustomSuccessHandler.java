@@ -15,136 +15,97 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+        String targetUrl = this.determineTargetUrl(authentication);
+        if (response.isCommitted()) {
+            System.out.println("Can't redirect");
+            return;
+        }
+        this.redirectStrategy.sendRedirect(request, response, targetUrl);
+    }
 
-	@Override
-	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-			throws IOException {
-		String targetUrl = determineTargetUrl(authentication);
+    protected String determineTargetUrl(Authentication authentication) {
 
-		if (response.isCommitted()) {
-			System.out.println("Can't redirect");
-			return;
-		}
+        String url = "";
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        ArrayList<String> roles = new ArrayList<String>();
 
-		redirectStrategy.sendRedirect(request, response, targetUrl);
-	}
+        for (GrantedAuthority a : authorities) {
+            roles.add(a.getAuthority());
+        }
 
-	protected String determineTargetUrl(Authentication authentication) {
-		String url = "";
+        if (this.isAdmin(roles)) {
+            url = "/adminHome";
+        } else if (this.isCEO(roles)) {
+            url = "/ceoHome";
+        } else if (this.isOfficeAssistant(roles)) {
+            url = "/officeAssistantHome";
+        } else if (this.isFieldOfficer(roles)) {
+            url = "/fieldOfficerHome";
+        } else if (this.isPrincipal(roles)) {
+            url = "/schools/principal";
+        } else if (this.isDeputyPrincipal(roles)) {
+            url = "/schools/deputyPrincipal";
+        } else if (this.isDos(roles)) {
+            url = "/schools/dosHome";
+        } else if (this.isTeacher(roles)) {
+            url = "/teacherHome";
+        } else if (this.isBursar(roles)) {
+            url = "/schools/bursarHome";
+        } else if (this.isAccountsClerk(roles)) {
+            url = "/schools/accountsClerkHome";
+        }
 
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        return url;
+    }
 
-		List<String> roles = new ArrayList<String>();
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
+    }
 
-		for (GrantedAuthority a : authorities) {
-			roles.add(a.getAuthority());
-		}
+    protected RedirectStrategy getRedirectStrategy() {
+        return this.redirectStrategy;
+    }
 
-		if (isAdmin(roles)) {
-			url = "/adminHome";
-		}else if (isCEO(roles)) {
-			url = "/ceoHome";
-		}else if (isOfficeAssistant(roles)) {
-			url = "/officeAssistantHome";
-		}else if (isFieldOfficer(roles)) {
-			url = "/fieldOfficerHome";
-		} else if (isPrincipal(roles)) {
-			url = "/schools/principal";
-		} else if (isDeputyPrincipal(roles)) {
-			url = "/schools/deputyPrincipal";
-		}else if (isDos(roles)) {
-			url = "/schools/dosHome";
-		} else if (isTeacher(roles)) {
-			url = "/teacherHome";
-		} else if(isBursar(roles)) {
-			url = "/schools/bursarHome";
-		} else if(isAccountsClerk(roles)) {
-			url = "/schools/accountsClerkHome";
-		}
+    private boolean isPrincipal(List<String> roles) {
+        return roles.contains("ROLE_PRINCIPAL");
+    }
 
-		return url;
-	}
+    private boolean isDeputyPrincipal(List<String> roles) {
+        return roles.contains("ROLE_DEPUTYPRINCIPAL");
+    }
 
-	@Override
-	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-		this.redirectStrategy = redirectStrategy;
-	}
+    private boolean isTeacher(List<String> roles) {
+        return roles.contains("ROLE_TEACHER");
+    }
 
-	@Override
-	protected RedirectStrategy getRedirectStrategy() {
-		return redirectStrategy;
-	}
+    private boolean isAdmin(List<String> roles) {
+        return roles.contains("ROLE_ADMIN");
+    }
 
-	private boolean isPrincipal(List<String> roles) {
-		if (roles.contains("ROLE_PRINCIPAL")) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isCEO(List<String> roles) {
+        return roles.contains("ROLE_C.E.O");
+    }
 
-	private boolean isDeputyPrincipal(List<String> roles) {
-		if (roles.contains("ROLE_DEPUTYPRINCIPAL")) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isOfficeAssistant(List<String> roles) {
+        return roles.contains("ROLE_OFFICEASSISTANT");
+    }
 
-	private boolean isTeacher(List<String> roles) {
-		if (roles.contains("ROLE_TEACHER")) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isFieldOfficer(List<String> roles) {
+        return roles.contains("ROLE_FIELDOFFICER");
+    }
 
-	private boolean isAdmin(List<String> roles) {
-		if (roles.contains("ROLE_ADMIN")) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isDos(List<String> roles) {
+        return roles.contains("ROLE_D.O.S");
+    }
 
-	private boolean isCEO(List<String> roles) {
-		if (roles.contains("ROLE_C.E.O")) {
-			return true;
-		}
-		return false;
-	}
+    private boolean isBursar(List<String> roles) {
+        return roles.contains("ROLE_BURSAR");
+    }
 
-	private boolean isOfficeAssistant(List<String> roles) {
-		if (roles.contains("ROLE_OFFICEASSISTANT")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isFieldOfficer(List<String> roles) {
-		if (roles.contains("ROLE_FIELDOFFICER")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isDos(List<String> roles) {
-		if (roles.contains("ROLE_D.O.S")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isBursar(List<String> roles) {
-		if (roles.contains("ROLE_BURSAR")) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isAccountsClerk(List<String> roles) {
-		if (roles.contains("ROLE_ACCOUNTSCLERK")) {
-			return true;
-		}
-		return false;
-	}
-
+    private boolean isAccountsClerk(List<String> roles) {
+        return roles.contains("ROLE_ACCOUNTSCLERK");
+    }
 }

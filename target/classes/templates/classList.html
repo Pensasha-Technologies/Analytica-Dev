@@ -28,7 +28,35 @@
 
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'C.E.O'}"><a
+							th:href="@{/ceoHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'OFFICEASSISTANT'}"><a
+							th:href="@{/officeAssistantHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'FIELDOFFICER'}"><a
+							th:href="@{/fieldOfficerHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'BURSAR'}"><a
+							th:href="@{/schools/bursarHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}"><a
+							th:href="@{/schools/accountsClerkHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'TEACHER'}"><a
+							th:href="@{/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+							th:href="@{/schools/deputyPrincipal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'D.O.S'}"><a
+							th:href="@{/schools/dosHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
 							th:href="@{/schools/principal}">Home</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Class
 							List</li>
@@ -55,7 +83,9 @@
 
 					<a
 						th:href="@{/schools/{code}/years/{year}/forms/{form}/streams/{stream}/classList/pdf(code=${school.code},year=${year}, form=${form},stream=${stream})}"
-						class="btn btn-primary"> Download</a>
+						class="btn btn-primary" style="margin: 10px;"> Download <i
+						class="fas fa-fw fa-download"></i>
+					</a>
 
 
 					<div>
@@ -70,10 +100,10 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">First Name</th>
-										<th scope="col">Second Name</th>
-										<th scope="col">Third Name</th>
 										<th scope="col">Adm No</th>
+										<th scope="col">Name</th>
+										<th scope="col">Class</th>
+										<th scope="col">Stream</th>
 									</tr>
 								</thead>
 								<tbody id="allSchoolsTable">
@@ -82,13 +112,14 @@
 										<p class="text text-center alert alert-warning">No Student
 										</p>
 									</div>
-
 									<tr th:each="student : ${students}">
-										<td th:text="${student.firstname}">Student first name</td>
-										<td th:text="${student.secondname}">Student second name</td>
-										<td th:text="${student.thirdname}">Student third name</td>
 										<td th:text="${#strings.substringAfter(student.admNo,'_')}">Student
 											Admission Number</td>
+										<td
+											th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}">Student
+											Name</td>
+										<td th:text="${form}">Class</td>
+										<td th:text="${stream}">Stream</td>
 									</tr>
 								</tbody>
 							</table>

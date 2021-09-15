@@ -1,9 +1,15 @@
 package com.pensasha.school.form;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.term.Term;
+import com.pensasha.school.user.Teacher;
+import com.pensasha.school.year.Year;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,132 +18,110 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.student.Student;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.term.Term;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.year.Year;
-
 @Entity
 public class Form {
+    @Id
+    private int form;
+    @JsonIgnore
+    @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<Year> years;
+    @JsonIgnore
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="Form_Subject", joinColumns={@JoinColumn(name="form")}, inverseJoinColumns={@JoinColumn(name="subject")})
+    private Collection<Subject> subjects;
+    @JsonIgnore
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="Form_Term", joinColumns={@JoinColumn(name="form")}, inverseJoinColumns={@JoinColumn(name="term")})
+    private Collection<Term> terms;
+    @JsonIgnore
+    @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<Student> students;
+    @JsonIgnore
+    @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<ExamName> examNames;
+    @JsonIgnore
+    @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Teacher> teachers;
 
-	@Id
-	private int form;
+    public Form(int form, Collection<Term> terms) {
+        this.form = form;
+        this.terms = terms;
+    }
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "forms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<Year> years;
+    public Form(int form, Collection<Year> years, Collection<Subject> subjects, Collection<Term> terms, Collection<Student> students, Collection<ExamName> examNames) {
+        this.form = form;
+        this.years = years;
+        this.subjects = subjects;
+        this.terms = terms;
+        this.students = students;
+        this.examNames = examNames;
+    }
 
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "Form_Subject", joinColumns = @JoinColumn(name = "form"), inverseJoinColumns = @JoinColumn(name = "subject"))
-	private Collection<Subject> subjects;
+    public Form(int form, int year) {
+        this.form = form;
+        this.years = new ArrayList<Year>(List.of(new Year(year)));
+    }
 
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "Form_Term", joinColumns = @JoinColumn(name = "form"), inverseJoinColumns = @JoinColumn(name = "term"))
-	private Collection<Term> terms;
+    public Form(int form) {
+        this.form = form;
+    }
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "forms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<Student> students;
+    public Form() {
+    }
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "forms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<ExamName> examNames;
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "forms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Teacher> teachers;
-	
-	public Form(int form, Collection<Term> terms) {
-		super();
-		this.form = form;
-		this.terms = terms;
-	}
+    public int getForm() {
+        return this.form;
+    }
 
-	public Form(int form, Collection<Year> years, Collection<Subject> subjects, Collection<Term> terms,
-			Collection<Student> students, Collection<ExamName> examNames) {
-		super();
-		this.form = form;
-		this.years = years;
-		this.subjects = subjects;
-		this.terms = terms;
-		this.students = students;
-		this.examNames = examNames;
-	}
+    public void setForm(int form) {
+        this.form = form;
+    }
 
-	public Form(int form, int year) {
-		super();
-		this.form = form;
-		this.years = new ArrayList<>(List.of(new Year(year)));
-	}
+    public Collection<Year> getYears() {
+        return this.years;
+    }
 
-	public Form(int form) {
-		super();
-		this.form = form;
-	}
+    public void setYears(Collection<Year> years) {
+        this.years = years;
+    }
 
-	public Form() {
-		super();
-	}
+    public Collection<Term> getTerms() {
+        return this.terms;
+    }
 
-	public int getForm() {
-		return form;
-	}
+    public void setTerms(Collection<Term> terms) {
+        this.terms = terms;
+    }
 
-	public void setForm(int form) {
-		this.form = form;
-	}
+    public Collection<Student> getStudents() {
+        return this.students;
+    }
 
-	public Collection<Year> getYears() {
-		return years;
-	}
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
 
-	public void setYears(Collection<Year> years) {
-		this.years = years;
-	}
+    public Collection<Subject> getSubjects() {
+        return this.subjects;
+    }
 
-	public Collection<Term> getTerms() {
-		return terms;
-	}
+    public void setSubjects(Collection<Subject> subjects) {
+        this.subjects = subjects;
+    }
 
-	public void setTerms(Collection<Term> terms) {
-		this.terms = terms;
-	}
+    public Collection<ExamName> getExamNames() {
+        return this.examNames;
+    }
 
-	public Collection<Student> getStudents() {
-		return students;
-	}
+    public void setExamNames(Collection<ExamName> examNames) {
+        this.examNames = examNames;
+    }
 
-	public void setStudents(Collection<Student> students) {
-		this.students = students;
-	}
+    public List<Teacher> getTeachers() {
+        return this.teachers;
+    }
 
-	public Collection<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(Collection<Subject> subjects) {
-		this.subjects = subjects;
-	}
-
-	public Collection<ExamName> getExamNames() {
-		return examNames;
-	}
-
-	public void setExamNames(Collection<ExamName> examNames) {
-		this.examNames = examNames;
-	}
-
-	public List<Teacher> getTeachers() {
-		return teachers;
-	}
-
-	public void setTeachers(List<Teacher> teachers) {
-		this.teachers = teachers;
-	}
-
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 }

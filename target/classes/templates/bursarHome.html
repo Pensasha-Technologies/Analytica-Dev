@@ -44,7 +44,7 @@
 							th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
 							<div class="d-flex justify-content-end">
 								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addFeeModal">Add
+									data-toggle="modal" data-target="#addFeeModal"><i class="fas fa-fw fa-plus"></i> Add
 									Fees</button>
 							</div>
 						</nav>
@@ -62,7 +62,7 @@
 							th:text="${success}">Staff saved</div>
 
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="allSchools">
 								<thead>
 									<tr>
 										<th scope="col">First Name</th>
@@ -91,7 +91,7 @@
 											<div class="d-flex justify-content-center">
 												<a
 													th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
-													class="btn btn-primary"> View </a>
+													class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
 											</div>
 										</td>
 									</tr>

@@ -49,13 +49,19 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">User saved</div>
 
+
+					<a th:href="@{/schools/{code}/discipline/{id}/pdf(code=${school.code}, id=${discipline.id})}"
+						class="btn btn-primary"> Download <i
+						class="fas fa-fw fa-download"></i>
+					</a>
+
 						<div style="text-align: center;padding-bottom:20px;" >
 							<h3 th:text="${school.name}">School Name</h3>
 							<h6>Discipline Report</h6>
 						</div>
 						<div class="d-flex justify-content-between">
-							<h6>Email:</h6>
-							<h6>Tel:</h6>
+							<h6 th:text="'Email: ' + ${school.email}">Email:</h6>
+							<h6 th:text="'Tel: ' + ${school.contactNumber}">Tel:</h6>
 						</div>
 
 					</div>

@@ -1,71 +1,66 @@
 package com.pensasha.school.form;
 
+import com.pensasha.school.form.Form;
+import com.pensasha.school.form.FormRepository;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FormService {
+    @Autowired
+    FormRepository formRepository;
 
-	@Autowired
-	FormRepository formRepository;
+    public List<Form> getAllForms(int year, int code) {
+        return this.formRepository.findByYearsYearAndYearsSchoolsCode(year, code);
+    }
 
-	// Getting all forms
-	public List<Form> getAllForms(int year, int code) {
-		return formRepository.findByYearsYearAndYearsSchoolsCode(year, code);
-	}
+    public List<Form> studentForms(String admNo) {
+        return this.formRepository.findByStudentsAdmNo(admNo);
+    }
 
-	// Getting all form for student
-	public List<Form> studentForms(String admNo) {
-		return formRepository.findByStudentsAdmNo(admNo);
-	}
+    public List<Form> getAllFormsBySubject(String initials) {
+        return this.formRepository.findBySubjectsInitials(initials);
+    }
 
-	// Getting all form by subject
-	public List<Form> getAllFormsBySubject(String initials) {
-		return formRepository.findBySubjectsInitials(initials);
-	}
-	
-	//Getting all form by exam name
-	public List<Form> getAllFormsByExamName(String name){
-		return formRepository.findByExamNamesName(name);
-	}
+    public List<Form> getAllFormsByExamName(String name) {
+        return this.formRepository.findByExamNamesName(name);
+    }
 
-	// Getting a form
-	public Optional<Form> getForm(int form, int year, int code) {
-		return formRepository.findByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
-	}
+    public Optional<Form> getForm(int form, int year, int code) {
+        return this.formRepository.findByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
+    }
 
-	//If form exists
-	public Boolean ifFormExists(int form, int year, int code) {
-		return formRepository.existsByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
-	}
-	
-	// Get form by student
-	public Form getStudentForm(int form, String admNo) {
-		return formRepository.findByFormAndStudentsAdmNo(form, admNo);
-	}
-	
-	//Getting form by form
-	public Form getFormByForm(int form) {
-		return formRepository.findByForm(form);
-	}
+    public Boolean ifFormExists(int form, int year, int code) {
+        return this.formRepository.existsByFormAndYearsYearAndYearsSchoolsCode(form, year, code);
+    }
 
-	// Checking if a form has student
-	public Boolean hasStudent(String admNo, int form) {
-		return formRepository.existsByFormAndStudentsAdmNo(form, admNo);
-	}
+    public Boolean doesFormExists(int form) {
+        return this.formRepository.existsById(form);
+    }
 
-	// Adding a form
-	public Form addForm(Form form) {
-		return formRepository.save(form);
-	}
+    public Form getStudentForm(int form, String admNo) {
+        return this.formRepository.findByFormAndStudentsAdmNo(form, admNo);
+    }
 
-	// Deleting a form
-	public void deleteForm(int form) {
+    public Form getFormByForm(int form) {
+        return this.formRepository.findByForm(form);
+    }
 
-		formRepository.deleteById(form);
-	}
+    public Boolean hasStudent(String admNo, int form) {
+        return this.formRepository.existsByFormAndStudentsAdmNo(form, admNo);
+    }
 
+    public Form addForm(Form form) {
+        return (Form)this.formRepository.save(form);
+    }
+
+    public void deleteForm(int form) {
+        this.formRepository.deleteById(form);
+    }
+
+    public List<Form> getFormsWithYear(int year) {
+        return this.formRepository.findByYearsYear(year);
+    }
 }

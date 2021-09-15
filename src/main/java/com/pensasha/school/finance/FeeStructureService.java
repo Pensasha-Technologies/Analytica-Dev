@@ -1,33 +1,33 @@
 package com.pensasha.school.finance;
 
+import com.pensasha.school.finance.FeeStructure;
+import com.pensasha.school.finance.FeeStructureRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FeeStructureService {
+    @Autowired
+    private FeeStructureRepository feeStructureRepository;
 
-	@Autowired
-	private FeeStructureRepository feeStructureRepository;
+    public List<FeeStructure> allFeeItemInSchool(int code) {
+        return this.feeStructureRepository.findBySchoolCode(code);
+    }
 
-	public List<FeeStructure> allFeeItemInSchool(int code){
-		
-		return feeStructureRepository.findBySchoolCode(code);
-	}
-	
-	public List<FeeStructure> allFeeItemInSchoolYearFormTerm(int code, int year, int form, int term) {
+    public List<FeeStructure> allFeeItemInSchoolYear(int code, int year) {
+        return this.feeStructureRepository.findBySchoolCodeAndYearYear(code, year);
+    }
 
-		return feeStructureRepository.findBySchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
-	}
+    public List<FeeStructure> allFeeItemInSchoolYearFormTerm(int code, int year, int form, int term) {
+        return this.feeStructureRepository.findBySchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
+    }
 
-	public FeeStructure addItem(FeeStructure feeStructure) {
+    public FeeStructure addItem(FeeStructure feeStructure) {
+        return (FeeStructure)this.feeStructureRepository.save(feeStructure);
+    }
 
-		return feeStructureRepository.save(feeStructure);
-	}
-
-	public void deleteFeeStructureItem(int id) {
-
-		feeStructureRepository.deleteById(id);
-	}
+    public void deleteFeeStructureItem(int id) {
+        this.feeStructureRepository.deleteById(id);
+    }
 }

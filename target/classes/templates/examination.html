@@ -59,7 +59,9 @@
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
 								<button class="btn btn-primary" data-toggle="modal"
-									data-target="#addExamModal">Add Exam</button>
+									data-target="#addExamModal">
+									<i class="fas fa-fw fa-plus"></i>Add Exam
+								</button>
 							</div>
 					</div>
 
@@ -81,24 +83,22 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th scope="col">#</th>
 													<th scope="col">Name</th>
-													<th scope="col">Out Of</th>
 													<th scope="col"></th>
 												</tr>
 											</thead>
 											<tbody>
-										
-												<tr th:each="examName : ${examNames}" th:if="${not examName.forms.?[form == __${j}__].isEmpty()} and ${not examName.terms.?[term == __${i}__].isEmpty()}">
-													<th scope="col" th:text="${examName.id}"></th>
+
+												<tr th:each="examName : ${examNames}"
+													th:if="${not examName.forms.?[form == __${j}__].isEmpty()} and ${not examName.terms.?[term == __${i}__].isEmpty()}">
 													<td scope="col" th:text="${examName.name}">Cat 1</td>
-													<td scope="col" th:text="${examName.outOf}">Out of</td>
 													<td scope="col"><a class="btn btn-danger"
 														data-toggle="modal" href="#"
-														th:data-href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/examination/{id}(code=${school.code}, year=${year}, form=${j}, term=${i}, id=${examName.id})}"
-														data-target="#deleteExamModal"> Delete </a></td>
+														th:data-href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/examination/{name}(code=${school.code}, year=${year}, form=${j}, term=${i}, name=${examName.name})}"
+														data-target="#deleteExamModal"> Delete <i
+															class="fas fa-fw fa-trash-alt"></i></a></td>
 												</tr>
-											
+
 											</tbody>
 										</table>
 									</div>
@@ -141,12 +141,6 @@
 										placeholder="Enter Name" required />
 								</div>
 								<div class="form-group">
-									<label for="outOf"
-										style="display: block; text-align: left; margin-bottom: -5px;">Enter
-										Total Marks</label> <input type="number" id="outOf" name="outOf"
-										placeholder="Enter Total Marks" required />
-								</div>
-								<div class="form-group">
 									<label for="form">Choose Form:</label> <select name="form"
 										id="form" required>
 										<option value="">Select Form...</option>
@@ -167,6 +161,15 @@
 
 									</select>
 								</div>
+								<th:block th:each="subject : ${subjects}">
+									<div>
+										<label for="subjectOutOf"
+											style="display: block; text-align: left; margin-bottom: -5px;" th:text="${subject.name + ' Marks'}">Enter
+											Total Marks</label> <input type="number" class="outOf" th:name="${subject.initials + 'OutOf'}"
+											th:placeholder="${'Enter ' + subject.initials + ' Out of Marks'}" required />
+									</div>
+								</th:block>
+								
 								<button class="btn btn-primary" type="submit"
 									style="margin-top: 10px;">Add Exam</button>
 							</form>

@@ -1,17 +1,17 @@
 package com.pensasha.school.discipline;
 
+import com.pensasha.school.discipline.Discipline;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface DisciplineRepository extends JpaRepository<Discipline, Integer>{
+public interface DisciplineRepository extends JpaRepository<Discipline, Integer> {
+    
+    public List<Discipline> findByStudentAdmNo(String var1);
 
-	List<Discipline> findByStudentAdmNo(String admNo);
+    public List<Discipline> findByStudentStreamStream(String var1);
 
-	List<Discipline> findByStudentStreamStream(String stream);
+    public List<Discipline> findByStudentFormsForm(String var1);
 
-	List<Discipline> findByStudentFormsForm(String form);
-
-	List<Discipline> findByStudentSchoolCode(int code);
+    public List<Discipline> findByStudentSchoolCode(int var1);
 
 }

@@ -1,64 +1,55 @@
 package com.pensasha.school.school;
 
+import com.pensasha.school.school.School;
+import com.pensasha.school.school.SchoolRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SchoolService {
+    @Autowired
+    private SchoolRepository schoolRepository;
 
-	@Autowired
-	private SchoolRepository schoolRepository;
+    public List<School> getAllSchools() {
+        ArrayList<School> schools = new ArrayList<School>();
+        this.schoolRepository.findAll().forEach(schools::add);
+        return schools;
+    }
 
-	public List<School> getAllSchools() {
+    public List<School> getAllSchoolsWithSubject(String initials) {
+        return this.schoolRepository.findBySubjectsInitials(initials);
+    }
 
-		List<School> schools = new ArrayList<>();
-		schoolRepository.findAll().forEach(schools::add);
+    public List<School> getSchoolsByYear(int year) {
+        return this.schoolRepository.findByYearsYear(year);
+    }
 
-		return schools;
-	}
+    public List<School> getAllSchoolsWithExamName(String name) {
+        return this.schoolRepository.findByExamNamesName(name);
+    }
 
-	// getting all schools with subject
-	public List<School> getAllSchoolsWithSubject(String initials) {
-		return schoolRepository.findBySubjectsInitials(initials);
-	}
+    public Optional<School> getSchool(int code) {
+        return this.schoolRepository.findById(code);
+    }
 
-	public List<School> getSchoolsByYear(int year) {
-		return schoolRepository.findByYearsYear(year);
-	}
+    public Boolean doesSchoolExists(int code) {
+        return this.schoolRepository.existsById(code);
+    }
 
-	//Getting all schools with exam name
-	public List<School> getAllSchoolsWithExamName(String name){
-		return schoolRepository.findByExamNamesName(name);
-	}
-	
-	public Optional<School> getSchool(int code) {
-		return schoolRepository.findById(code);
-	}
-	
-	public Boolean doesSchoolExists(int code) {
-		return schoolRepository.existsById(code);
-	}
+    public School addSchool(School school) {
+        return (School)this.schoolRepository.save(school);
+    }
 
-	public School addSchool(School school) {
-		return schoolRepository.save(school);
-	}
+    public School updateSchool(School school) {
+        return (School)this.schoolRepository.save(school);
+    }
 
-	public School updateSchool(School school) {
-		return schoolRepository.save(school);
-	}
-
-	public void deleteSchool(int code) {
-
-		School school = schoolRepository.findById(code).get();
-
-		school.getYears().forEach(year -> {
-			year.getSchools().remove(school);
-		});
-		
-		schoolRepository.delete(school);
-	}
+    public void deleteSchool(int code) {
+        School school = (School)this.schoolRepository.findById(code).get();
+        school.getYears().forEach(year -> year.getSchools().remove(school));
+        this.schoolRepository.delete(school);
+    }
 }

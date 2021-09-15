@@ -1,31 +1,31 @@
 package com.pensasha.school.student;
 
+import com.pensasha.school.student.Student;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
+ 
+    public List<Student> findBySchoolCode(int var1);
 
-	public List<Student> findBySchoolCode(int code);
+    public Student findByAdmNoAndSchoolCode(String var1, int var2);
 
-	public Student findByAdmNoAndSchoolCode(String admNo, int code);
+    public List<Student> findBySchoolCodeAndFormsFormAndYearsYear(int var1, int var2, int var3);
 
-	public List<Student> findBySchoolCodeAndFormsFormAndYearsYear(int code, int form, int year);
+    public List<Student> findBySchoolCodeAndFormsFormAndYearsYearAndStreamStream(int var1, int var2, int var3, String var4);
 
-	public List<Student> findBySchoolCodeAndFormsFormAndYearsYearAndStreamStream(int code, int form, int year, String stream);
-	
-	public Student findByAdmNoAndSchoolCodeAndFormsFormAndYearsYear(String admNo, int code, int form, int year);
+    public Student findByAdmNoAndSchoolCodeAndFormsFormAndYearsYear(String var1, int var2, int var3, int var4);
 
-	public List<Student> findBySubjectsInitials(String initials);
-	
-	public Boolean existsByAdmNoAndSchoolCode(String admNo, int code);
-	
-	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndSubjectsInitials(int code, int year, int form, int term, String initials);
+    public List<Student> findBySubjectsInitials(String var1);
 
-	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTerm(int code, int year, int form, int term);
+    public Boolean existsByAdmNoAndSchoolCode(String var1, int var2);
 
-	public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamStream(int code, int year,
-			int form, int term, String stream);
+    public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndSubjectsInitials(int var1, int var2, int var3, int var4, String var5);
 
-    List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamIdAndSubjectsInitials(int code, int year, int form, int term, int stream, String initials);
+    public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTerm(int var1, int var2, int var3, int var4);
+
+    public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndStreamStream(int var1, int var2, int var3, int var4, String var5);
+
+    public List<Student> findBySchoolCodeAndYearsYearAndFormsFormAndFormsTermsTermAndAndSubjectsInitialsAndStreamId(int var1, int var2, int var3, int var4, String var5, int var6);
+
 }

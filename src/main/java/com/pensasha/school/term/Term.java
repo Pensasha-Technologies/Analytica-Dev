@@ -1,67 +1,59 @@
 package com.pensasha.school.term;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.form.Form;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.form.Form;
-
 @Entity
 public class Term {
+    @Id
+    private int term;
+    @JsonIgnore
+    @ManyToMany(mappedBy="terms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<Form> forms;
+    @JsonIgnore
+    @ManyToMany(mappedBy="terms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<ExamName> examNames;
 
-	@Id
-	private int term;
+    public Term(int term, Collection<Form> forms, Collection<ExamName> examNames) {
+        this.term = term;
+        this.forms = forms;
+        this.examNames = examNames;
+    }
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "terms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<Form> forms;
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "terms", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private Collection<ExamName> examNames;
+    public Term(int term) {
+        this.term = term;
+    }
 
-	public Term(int term, Collection<Form> forms, Collection<ExamName> examNames) {
-		super();
-		this.term = term;
-		this.forms = forms;
-		this.examNames = examNames;
-	}
+    public Term() {
+    }
 
-	public Term(int term) {
-		super();
-		this.term = term;
-	}
+    public int getTerm() {
+        return this.term;
+    }
 
-	public Term() {
-		super();
-	}
+    public void setTerm(int term) {
+        this.term = term;
+    }
 
-	public int getTerm() {
-		return term;
-	}
+    public Collection<Form> getForms() {
+        return this.forms;
+    }
 
-	public void setTerm(int term) {
-		this.term = term;
-	}
+    public void setForms(Collection<Form> forms) {
+        this.forms = forms;
+    }
 
-	public Collection<Form> getForms() {
-		return forms;
-	}
+    public Collection<ExamName> getExamNames() {
+        return this.examNames;
+    }
 
-	public void setForms(Collection<Form> forms) {
-		this.forms = forms;
-	}
-
-	public Collection<ExamName> getExamNames() {
-		return examNames;
-	}
-
-	public void setExamNames(Collection<ExamName> examNames) {
-		this.examNames = examNames;
-	}
-
+    public void setExamNames(Collection<ExamName> examNames) {
+        this.examNames = examNames;
+    }
 }

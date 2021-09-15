@@ -1,79 +1,65 @@
 package com.pensasha.school.subject;
 
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.subject.SubjectRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SubjectService {
+    @Autowired
+    private SubjectRepository subjectRepository;
 
-	@Autowired
-	private SubjectRepository subjectRepository;
+    public Subject addSubject(Subject subject) {
+        return (Subject)this.subjectRepository.save(subject);
+    }
 
-	// Adding subject to school
-	public Subject addSubject(Subject subject) {
-		return subjectRepository.save(subject);
-	}
-	
-	//Does subject exists
-	public Boolean doesSubjectExistsInSchool(String initials, int code) {
-		return subjectRepository.existsByInitialsAndSchoolsCode(initials, code);
-	}
+    public Boolean doesSubjectExistsInSchool(String initials, int code) {
+        return this.subjectRepository.existsByInitialsAndSchoolsCode(initials, code);
+    }
 
-	// Updating subject
-	public Subject updateSubject(Subject subject) {
-		return subjectRepository.save(subject);
-	}
-	
-	//Getting all subjects
-	public List<Subject> getAllSubjects(){
-		return subjectRepository.findAll();
-	}
-	
-	//Get subject by name
-	public Subject getSubjectByName(String name) {
-		return subjectRepository.findByName(name);
-	}
+    public Subject updateSubject(Subject subject) {
+        return (Subject)this.subjectRepository.save(subject);
+    }
 
-	// Get all subject in school
-	public List<Subject> getAllSubjectInSchool(int code) {
-		return subjectRepository.findBySchoolsCode(code);
-	}
+    public List<Subject> getAllSubjects() {
+        return this.subjectRepository.findAll();
+    }
 
-	// Get all subjects in form and admNo
-	public List<Subject> getAllSubjectsByFormAndAdmNo(int form, String admNo) {
-		return subjectRepository.findByFormsFormAndStudentsAdmNo(form, admNo);
-	}
+    public Subject getSubjectByName(String name) {
+        return this.subjectRepository.findByName(name);
+    }
 
-	// Get all subjects in year, form and with admNo
-	public List<Subject> getAllSubjectsByYearFormAndAdmNo(int year, int form, String admNo) {
-		return subjectRepository.findByYearsYearAndFormsFormAndStudentsAdmNo(year, form, admNo);
-	}
+    public List<Subject> getAllSubjectInSchool(int code) {
+        return this.subjectRepository.findBySchoolsCode(code);
+    }
 
-	// Get one subject in school
-	public Subject getSubjectInSchool(String initials, int code) {
-		return subjectRepository.findByInitialsAndSchoolsCode(initials, code);
-	}
+    public List<Subject> getAllSubjectsByFormAndAdmNo(int form, String admNo) {
+        return this.subjectRepository.findByFormsFormAndStudentsAdmNo(form, admNo);
+    }
 
-	// Get subject by initial
-	public Subject getSubject(String initials) {
-		return subjectRepository.findById(initials).get();
-	}
+    public List<Subject> getAllSubjectsByYearFormAndAdmNo(int year, int form, String admNo) {
+        return this.subjectRepository.findByYearsYearAndFormsFormAndStudentsAdmNo(year, form, admNo);
+    }
 
-	// delete subject in school
-	public void deleteSubjectInSchool(String initials) {
-		subjectRepository.deleteById(initials);
-	}
+    public Subject getSubjectInSchool(String initials, int code) {
+        return this.subjectRepository.findByInitialsAndSchoolsCode(initials, code);
+    }
 
-	// Getting all subjects done by a student
-	public List<Subject> getSubjectDoneByStudent(String admNo) {
-		return subjectRepository.findByStudentsAdmNo(admNo);
-	}
+    public Subject getSubject(String initials) {
+        return (Subject)this.subjectRepository.findById(initials).get();
+    }
 
-	// Getting subject done by student
-	public Subject getSubjectByStudent(String initials, String admNo) {
-		return subjectRepository.findByInitialsAndStudentsAdmNo(initials, admNo);
-	}
+    public void deleteSubjectInSchool(String initials) {
+        this.subjectRepository.deleteById(initials);
+    }
 
+    public List<Subject> getSubjectDoneByStudent(String admNo) {
+        return this.subjectRepository.findByStudentsAdmNo(admNo);
+    }
+
+    public Subject getSubjectByStudent(String initials, String admNo) {
+        return this.subjectRepository.findByInitialsAndStudentsAdmNo(initials, admNo);
+    }
 }

@@ -4,13 +4,13 @@
 <head th:replace="fragments :: head"></head>
 
 <body
-	style="background-color: #D1D0D6; padding-top: 20px; font-family: Sans-Serif; height: 100%; width: 100%; position: absolute;">
+	style="padding-top: 20px; font-family: Sans-Serif; height: 100%; width: 100%; position: absolute;">
 
 	<nav th:replace="fragments :: header"></nav>
 
 	<div class="container-fluid" style="height: 110%;" id="mainBody">
 
-		<div class="d-flex justify-content-center" style="margin-top: 50px;">
+		<div class="d-flex justify-content-center" style="margin-top: 20px;">
 			<div id="formContent" style="background-color: #DDDDDD;">
 				<!-- Tabs Titles -->
 				<section id="loginSection">
@@ -32,33 +32,37 @@
 				</section>
 
 				<!-- Icon -->
-				<div class="fadeIn first">
+				<div>
 					<img th:src="@{/img/avataaars.svg}" id="icon" alt="User Icon"
 						height=60px; />
 				</div>
 
 				<!-- Login Form -->
-				<form class="loginForm" th:action="@{/login}" method="post">
-					<div class="form-group fadeIn first">
+				<form class="loginForm fadeIn first" th:action="@{/login}"
+					method="post">
+					<div class="form-group">
 						<label for="username"
-							style="display: block; color: black; text-align: left; margin-bottom: -5px;">Enter
-							Username</label> <input type="text" id="username" class="fadeIn second"
-							name="username" placeholder="username">
+							style="display: block; color: #012237; text-align: left;"><i
+							class="fas fa-fw fa-user"></i> Enter Username</label> <input type="text"
+							id="username" name="username" placeholder="username">
 					</div>
-					<div class="form-group fadeIn first">
+					<div class="form-group">
 						<label for="password"
-							style="display: block; color: #012237; text-align: left; margin-bottom: -5px;">Enter
-							Password</label> <input type="password" id="password"
-							class="fadeIn third" name="password" placeholder="password">
+							style="display: block; color: #012237; text-align: left;"><i
+							class="fas fa-fw fa-user-lock"></i> Enter Password</label> <input
+							type="password" id="password" name="password"
+							placeholder="password">
 					</div>
 
-					<button class="btn btn-primary fadeIn fourth" id="login">
-						Log in</button>
+					<button class="btn btn-primary" id="login">
+						Log in <i class="fas fa-fw fa-sign-in-alt"></i>
+					</button>
 				</form>
 
 				<!-- Remind Passowrd -->
 				<div id="formFooter" style="background-color: #D1D0D6;">
-					<a class="underlineHover" th:href="@{/changePassword}">Forgot Password?</a>
+					<a class="underlineHover" th:href="@{/changePassword}">Forgot
+						Password?</a>
 				</div>
 
 
@@ -69,7 +73,19 @@
 	</div>
 
 	<div th:replace="fragments :: footer"></div>
-
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script th:src="@{https://code.jquery.com/jquery-3.5.1.slim.min.js}"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		th:src="@{https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js}"
+		integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+		crossorigin="anonymous"></script>
+	<script
+		th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"
+		integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+		crossorigin="anonymous"></script>
 </body>
 
 </html>

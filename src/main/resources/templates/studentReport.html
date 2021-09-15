@@ -56,16 +56,16 @@
 
 					<div class="container-fluid">
 
-						<th:block th:each="student : ${students}">
+						<div style="padding: 10px;">
+							<a
+								th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/studentsReport/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, stream=${stream})}"
+								class="btn btn-primary"> Download <i
+								class="fas fa-fw fa-download"></i></a>
 
-							<div style="padding: 10px;"
-								th:if="${marks__${student.admNo}__} and ${marks__${student.admNo}__.size()}">
-								<th:block th:if="${examNames.size() == marks__${student.admNo}__.size()}">
-									<a
-										th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/students/{admNo}/studentsReport/pdf(code=${school.code},year=${year}, form=${form}, term=${term}, stream=${student.stream.stream},admNo=${student.admNo})}"
-										class="btn btn-primary"> Download</a>
-								</th:block>
-							</div>
+						</div>
+
+
+						<th:block th:each="student : ${streamStudents}">
 
 							<div class="border border-dark" style="padding: 10px;">
 
@@ -147,17 +147,21 @@
 												<td th:text="${subject.name}">subject name</td>
 												<th:block th:each="examName : ${examNames}">
 													<th:block th:each="mark : ${marks__${student.admNo}__}">
+														<td th:text="${mark.mark}"
+															th:if="${mark.subject.initials == subject.initials && mark.examName == examName}">Exam
+															Marks</td>
 														<td
-															th:if="${mark.subject.initials == subject.initials && mark.examName == examName}"> <span th:text="${mark.mark}">  </span></td>
-														<th:block th:unless="${mark.subject.initials == subject.initials}">
-															<td th:if="${mark.examName == examName}">  -  </td>
-														</th:block>
+															th:unless="${mark.subject.initials == subject.initials}">
+															-</td>
 													</th:block>
 												</th:block>
 												<td
-													th:text="${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">100</td>
+													th:text="${__${subject.initials + 'sum' + student.admNo}__}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E' }">100</td>
+													<td th:if="${subject.initials == 'H.R.E'}" th:text="${__${'Hresum' + student.admNo}__}"></td>
+													<td th:if="${subject.initials == 'I.R.E'}" th:text="${__${'Iresum' + student.admNo}__}"></td>
+													<td th:if="${subject.initials == 'C.R.E'}" th:text="${__${'Cresum' + student.admNo}__}">sUM</td>
 												<td
-													th:with="isEven=${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+													th:with="isEven=${__${subject.initials +'sum' + student.admNo}__}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E' }">
 													<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
 													<p th:if="${isEven<80 && isEven>=75}">A-</p>
 													<p th:if="${isEven<75 && isEven>=70}">B+</p>
@@ -170,10 +174,59 @@
 													<p th:if="${isEven<40 && isEven>=35}">D</p>
 													<p th:if="${isEven<35 && isEven>=30}">D-</p>
 													<p th:if="${isEven<30 && isEven>0}">E</p>
-													<p th:if="${isEven<0}">-</p>
+													<p th:if="${isEven<=0}">-</p>
 												</td>
 												<td
-													th:with="isOdd = ${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+													th:with="isEven=${__${'Hresum' + student.admNo}__}" th:if="${subject.initials == 'H.R.E'}" >
+													<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+													<p th:if="${isEven<80 && isEven>=75}">A-</p>
+													<p th:if="${isEven<75 && isEven>=70}">B+</p>
+													<p th:if="${isEven<70 && isEven>=65}">B</p>
+													<p th:if="${isEven<65 && isEven>=60}">B-</p>
+													<p th:if="${isEven<60 && isEven>=55}">C+</p>
+													<p th:if="${isEven<55 && isEven>=50}">C</p>
+													<p th:if="${isEven<50 && isEven>=45}">C-</p>
+													<p th:if="${isEven<45 && isEven>=40}">D+</p>
+													<p th:if="${isEven<40 && isEven>=35}">D</p>
+													<p th:if="${isEven<35 && isEven>=30}">D-</p>
+													<p th:if="${isEven<30 && isEven>0}">E</p>
+													<p th:if="${isEven<=0}">-</p>
+												</td>
+												<td
+													th:with="isEven=${__${'Iresum' + student.admNo}__}" th:if="${subject.initials == 'I.R.E'}" >
+													<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+													<p th:if="${isEven<80 && isEven>=75}">A-</p>
+													<p th:if="${isEven<75 && isEven>=70}">B+</p>
+													<p th:if="${isEven<70 && isEven>=65}">B</p>
+													<p th:if="${isEven<65 && isEven>=60}">B-</p>
+													<p th:if="${isEven<60 && isEven>=55}">C+</p>
+													<p th:if="${isEven<55 && isEven>=50}">C</p>
+													<p th:if="${isEven<50 && isEven>=45}">C-</p>
+													<p th:if="${isEven<45 && isEven>=40}">D+</p>
+													<p th:if="${isEven<40 && isEven>=35}">D</p>
+													<p th:if="${isEven<35 && isEven>=30}">D-</p>
+													<p th:if="${isEven<30 && isEven>0}">E</p>
+													<p th:if="${isEven<=0}">-</p>
+												</td>
+												<td
+													th:with="isEven=${__${'Cresum' + student.admNo}__}" th:if="${subject.initials == 'C.R.E'}" >
+													<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+													<p th:if="${isEven<80 && isEven>=75}">A-</p>
+													<p th:if="${isEven<75 && isEven>=70}">B+</p>
+													<p th:if="${isEven<70 && isEven>=65}">B</p>
+													<p th:if="${isEven<65 && isEven>=60}">B-</p>
+													<p th:if="${isEven<60 && isEven>=55}">C+</p>
+													<p th:if="${isEven<55 && isEven>=50}">C</p>
+													<p th:if="${isEven<50 && isEven>=45}">C-</p>
+													<p th:if="${isEven<45 && isEven>=40}">D+</p>
+													<p th:if="${isEven<40 && isEven>=35}">D</p>
+													<p th:if="${isEven<35 && isEven>=30}">D-</p>
+													<p th:if="${isEven<30 && isEven>0}">E</p>
+													<p th:if="${isEven<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${subject.initials + 'sum' + student.admNo}__}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E' }">
 													<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
 													<p th:if="${isOdd<80 && isOdd>=75}">11</p>
 													<p th:if="${isOdd<75 && isOdd>=70}">10</p>
@@ -186,10 +239,62 @@
 													<p th:if="${isOdd<40 && isOdd>=35}">3</p>
 													<p th:if="${isOdd<35 && isOdd>=30}">2</p>
 													<p th:if="${isOdd<30 && isOdd>0}">1</p>
-													<p th:if="${isOdd<0}">-</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${'Cresum' + student.admNo}__}" th:if="${subject.initials == 'C.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+													<p th:if="${isOdd<30 && isOdd>0}">1</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${'Hresum' + student.admNo}__}" th:if="${subject.initials == 'H.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+													<p th:if="${isOdd<30 && isOdd>0}">1</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												
+												<td
+													th:with="isOdd = ${__${'Iresum' + student.admNo}__}" th:if="${subject.initials == 'I.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+													<p th:if="${isOdd<30 && isOdd>0}">1</p>
+													<p th:if="${isOdd<=0}">-</p>
 												</td>
 												<td
-													th:with="isOdd = ${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">
+													th:with="isOdd = ${__${subject.initials +'sum' + student.admNo}__}"  th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E' }">
 													<p th:if="${isOdd<=100 && isOdd>=80}">Excellent</p>
 													<p th:if="${isOdd<80 && isOdd>=75}">Very Good</p>
 													<p th:if="${isOdd<75 && isOdd>=70}">Very Good</p>
@@ -202,25 +307,76 @@
 													<p th:if="${isOdd<40 && isOdd>=35}">Very Poor</p>
 													<p th:if="${isOdd<35 && isOdd>=30}">Very Poor</p>
 													<p th:if="${isOdd<30 && isOdd>0}">Fail</p>
-													<p th:if="${isOdd<0}">-</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${'Cresum' + student.admNo}__}" th:if="${subject.initials == 'C.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">Excellent</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">Very Good</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">Very Good</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">Good</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">Good</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">Good</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">Average</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">Needs Improvement</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">Poor</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">Very Poor</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">Very Poor</p>
+													<p th:if="${isOdd<30 && isOdd>0}">Fail</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${'Hresum' + student.admNo}__}" th:if="${subject.initials == 'H.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">Excellent</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">Very Good</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">Very Good</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">Good</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">Good</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">Good</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">Average</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">Needs Improvement</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">Poor</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">Very Poor</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">Very Poor</p>
+													<p th:if="${isOdd<30 && isOdd>0}">Fail</p>
+													<p th:if="${isOdd<=0}">-</p>
+												</td>
+												
+												<td
+													th:with="isOdd = ${__${'Iresum' + student.admNo}__}" th:if="${subject.initials == 'I.R.E'}">
+													<p th:if="${isOdd<=100 && isOdd>=80}">Excellent</p>
+													<p th:if="${isOdd<80 && isOdd>=75}">Very Good</p>
+													<p th:if="${isOdd<75 && isOdd>=70}">Very Good</p>
+													<p th:if="${isOdd<70 && isOdd>=65}">Good</p>
+													<p th:if="${isOdd<65 && isOdd>=60}">Good</p>
+													<p th:if="${isOdd<60 && isOdd>=55}">Good</p>
+													<p th:if="${isOdd<55 && isOdd>=50}">Average</p>
+													<p th:if="${isOdd<50 && isOdd>=45}">Needs Improvement</p>
+													<p th:if="${isOdd<45 && isOdd>=40}">Poor</p>
+													<p th:if="${isOdd<40 && isOdd>=35}">Very Poor</p>
+													<p th:if="${isOdd<35 && isOdd>=30}">Very Poor</p>
+													<p th:if="${isOdd<30 && isOdd>0}">Fail</p>
+													<p th:if="${isOdd<=0}">-</p>
 												</td>
 												<th:block
 													th:each="teacher : ${teachers__${student.admNo}__}">
 													<td th:text="${teacher.initials}"
 														th:if="${teacher.subjects.contains(subject)}">-</td>
 												</th:block>
+												<td th:unless="${teachers__${student.admNo}__} and ${teachers__${student.admNo}__.size()}"> - </td>
 											</tr>
 										</tbody>
 									</table>
-
+									<br/>
 									<div class="table-responsive">
 										<table class="table" style="text-align: center;">
 											<tbody>
 												<tr>
 													<td>Total</td>
 													<td></td>
-													<td
-														th:text="${#aggregates.sum(marks__${student.admNo}__.![mark])}">300</td>
+													<td th:text="${__${'total' + student.admNo}__}"></td>
 													<td></td>
 													<td></td>
 													<td></td>
@@ -242,26 +398,26 @@
 												<tr>
 													<td>Overal Position</td>
 													<td></td>
-													<th:block th:each="meritList : ${meritLists}">
-														<td th:if="${student.admNo == meritList.admNo}" th:text="${meritList.rank}">1</td>
+													<th:block th:each="overalMerit : ${meritLists}">
+													<td th:text="${overalMerit.rank}" th:if="${overalMerit.admNo == student.admNo}"></td>
 													</th:block>
 													<td>Out Of</td>
 													<td></td>
-													<td th:text="${meritLists.size()}"></td>
 													<td></td>
+													<td th:text="${students.size()}"></td>
 													<td></td>
 													<td></td>
 												</tr>
 												<tr>
 													<td>Stream Position</td>
 													<td></td>
-													<th:block th:each="streamMeritList : ${studentMeritList}">
-														<td th:if="${student.admNo == streamMeritList.admNo}" th:text="${streamMeritList.rank}">1</td>
+													<th:block th:each="meritList : ${studentMeritList}">
+													<td th:text="${meritList.rank}" th:if="${meritList.admNo == student.admNo}"></td>
 													</th:block>
 													<td>Out Of</td>
 													<td></td>
-													<td th:text="${studentMeritList.size()}"></td>
 													<td></td>
+													<td th:text="${streamStudents.size()}"></td>
 													<td></td>
 													<td></td>
 												</tr>
@@ -270,7 +426,7 @@
 													<td></td>
 													<th:block th:if="${count != 0}">
 														<td
-															th:with="is = ${(#aggregates.sum(marks__${student.admNo}__.![mark]))/count}">
+															th:with="is = ${__${'total' + student.admNo}__ / subjects__${student.admNo}__.size()}">
 															<p th:if="${(is<=100 && is>=80 )}">A</p>
 															<p th:if="${is<80 && is>=75}">A-</p>
 															<p th:if="${is<75 && is>=70}">B+</p>
@@ -283,7 +439,7 @@
 															<p th:if="${is<40 && is>=35}">D</p>
 															<p th:if="${is<35 && is>=30}">D-</p>
 															<p th:if="${is<30 && is>0}">E</p>
-															<p th:if="${is<0}">-</p>
+															<p th:if="${is<=0}">-</p>
 														</td>
 													</th:block>
 													<td th:if="${count == 0}">-</td>
@@ -321,7 +477,8 @@
 								</div>
 
 							</div>
-
+							<br>
+							<br>
 						</th:block>
 
 					</div>
@@ -330,12 +487,12 @@
 			</div>
 			<!-- /.container-fluid -->
 
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
 		</div>
 		<!-- End of Main Content -->
-
-		<!-- Footer -->
-		<footer th:replace="fragments :: footer2"></footer>
-		<!-- End of Footer -->
 
 	</div>
 	<!-- End of Content Wrapper -->

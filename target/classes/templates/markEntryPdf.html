@@ -6,7 +6,8 @@
 
 	<div class="container-fluid" id="markSheet">
 
-		<div class="d-flex flex-column" style="text-align:center; padding-bottom:20px;">
+		<div class="d-flex flex-column"
+			style="text-align: center; padding-bottom: 20px;">
 
 			<div class="row d-flex justify-content-center">
 				<h3 th:text="${school.name}">School Name</h3>
@@ -44,10 +45,9 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">First Name</th>
-								<th scope="col">Second Name</th>
-								<th scope="col">Third Name</th>
-								<th scope="col">Admission Number</th>
+								<th scope="col">Adm No.</th>
+								<th scope="col">Name</th>
+								<th scope="col">Stream</th>
 								<th scope="col" th:text="${examName.name} + ' Marks'">Marks</th>
 								<th scope="col">Out Of</th>
 							</tr>
@@ -60,15 +60,13 @@
 							</div>
 
 							<tr th:each="mark : ${marks}">
-								<td scope="row" th:text="${mark.student.firstname}">First
-									Name</td>
-								<td scope="row" th:text="${mark.student.secondname}">
-									Second Name</td>
-								<td scope="row" th:text="${mark.student.thirdname}">Third
-									Name</td>
 								<td
 									th:utext="${#strings.substringAfter(mark.student.admNo,'_')}">Adm
 									No</td>
+								<td scope="row"
+									th:text="${mark.student.firstname + ' ' + mark.student.secondname + ' ' + mark.student.thirdname}">
+									Name</td>
+								<td th:text="${stream.stream}"></td>
 								<td th:text="${mark.mark}"></td>
 								<td th:text="${examName.outOf}">/ 30%</td>
 							</tr>

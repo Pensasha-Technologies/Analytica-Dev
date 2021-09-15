@@ -1,65 +1,58 @@
 package com.pensasha.school.exam;
 
+import com.pensasha.school.exam.Mark;
+import com.pensasha.school.exam.MarkRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MarkService {
+   
+    @Autowired
+    private MarkRepository markRepository;
 
-	@Autowired
-	private MarkRepository markRepository;
+    public List<Mark> getMarkByStudentOnAsubject(String admNo, int year, int form, int term, String subject) {
+        return this.markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitials(admNo, year, form, term, subject);
+    }
 
-	// Getting mark by student in a year, form, term, subject
-	public List<Mark> getMarkByStudentOnAsubject(String admNo, int year, int form, int term, String subject) {
-		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitials(admNo, year, form,
-				term, subject);
-	}
-	
-	//Getting mark by student in a year, form, term, subject and examName
-	public Mark getMarksByStudentOnSubjectByExamId(String admNo, int year, int form, int term, String subject, int id) {
-		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNameId(admNo, year, form,
-				term, subject, id);
-	}
+    public Mark getMarksByStudentOnSubjectByExamId(String admNo, int year, int form, int term, String subject, int id) {
+        return this.markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTermAndSubjectInitialsAndExamNameId(admNo, year, form, term, subject, id);
+    }
 
-	// Get a list of all subject marks
-	public Mark getAllSubjectMarks(String admNo, int year, int form, int term) {
-		return markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTerm(admNo, year, form, term);
-	}
-	
-	//Get a list of all subject marks for term
-	public List<Mark> getTermlySubjectMark(String admNo, int form, int term) {
-		return markRepository.findByStudentAdmNoAndFormFormAndTermTerm(admNo, form, term);
-	}
-	
-	//Getting all students by school, term, form and year
-	public List<Mark> getAllStudentsMarksBySchoolYearFormAndTerm(int code, int form, int term, int year){
-		return markRepository.findByStudentSchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
-	}
+    public List<Mark> getMarksBySchoolOnSubjectByExamName(int code, int year, int form, int term, String name) {
+        return this.markRepository.findByStudentSchoolCodeAndYearYearAndFormFormAndTermTermAndExamNameName(code, year, form, term, name);
+    }
 
-	// Getting all marks
-	public List<Mark> allMarks(String admNo) {
-		return markRepository.findByStudentAdmNo(admNo);
-	}
+    public Mark getAllSubjectMarks(String admNo, int year, int form, int term) {
+        return this.markRepository.findByStudentAdmNoAndYearYearAndFormFormAndTermTerm(admNo, year, form, term);
+    }
 
-	// Getting mark by admNo
-	public Boolean getMarkByAdm(String admNo) {
-		return markRepository.existsByStudentAdmNo(admNo);
-	}
+    public List<Mark> getTermlySubjectMark(String admNo, int form, int term) {
+        return this.markRepository.findByStudentAdmNoAndFormFormAndTermTerm(admNo, form, term);
+    }
 
-	// Adding marks to a subject form a student in a term,form and year
-	public Mark addMarksToSubject(Mark mark) {
-		return markRepository.save(mark);
-	}
+    public List<Mark> getAllStudentsMarksBySchoolYearFormAndTerm(int code, int form, int term, int year) {
+        return this.markRepository.findByStudentSchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
+    }
 
-	// Updating marks to a subject form a student in a term, form and year
-	public Mark updateMark(Mark mark) {
-		return markRepository.save(mark);
-	}
+    public List<Mark> allMarks(String admNo) {
+        return this.markRepository.findByStudentAdmNo(admNo);
+    }
 
-	// Delete mark from student
-	public void deleteMark(int id) {
-		markRepository.deleteById(id);
-	}
+    public Boolean getMarkByAdm(String admNo) {
+        return this.markRepository.existsByStudentAdmNo(admNo);
+    }
+
+    public Mark addMarksToSubject(Mark mark) {
+        return (Mark)this.markRepository.save(mark);
+    }
+
+    public Mark updateMark(Mark mark) {
+        return (Mark)this.markRepository.save(mark);
+    }
+
+    public void deleteMark(int id) {
+        this.markRepository.deleteById(id);
+    }
 }

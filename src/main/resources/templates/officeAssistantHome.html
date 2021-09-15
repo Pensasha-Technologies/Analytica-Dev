@@ -43,7 +43,7 @@
 						<nav class="navbar navbar-expand navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<a class="btn btn-primary" th:href="@{/addSchool}">Add
+								<a class="btn btn-primary" th:href="@{/addSchool}"> <i class="fas fa-fw fa-plus"></i> Add
 									School</a>
 							</div>
 						</nav>
@@ -78,14 +78,14 @@
 									<td>
 										<div class="d-flex justify-content-center">
 											<a th:href="@{/school/{code}(code=${school.code})}"
-												class="btn btn-primary"> View </a>
+												class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
 											<a class="btn btn-danger" data-toggle="modal" href="#"
 												th:data-href="@{/schools/{code}(code=${school.code})}"
-												data-target="#deleteModal">Delete</a>
+												data-target="#deleteModal">Delete <i class="fas fa-fw fa-trash-alt"></i></a>
 										</div>
 									</td>
 								</tr>
@@ -123,8 +123,8 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-success"
-								data-dismiss="modal">No! Don't Delete</button>
-							<a class="btn btn-danger ok-button">Yes! Delete</a>
+								data-dismiss="modal">No! Don't Delete <i class="fas fa-fw fa-times"></i></button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
 						</div>
 					</div>
 				</div>

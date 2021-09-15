@@ -27,10 +27,10 @@
 				<table class="table" id="allSchools">
 					<thead>
 						<tr>
-							<th scope="col">First Name</th>
-							<th scope="col">Second Name</th>
-							<th scope="col">Third Name</th>
 							<th scope="col">Adm No</th>
+							<th scope="col">Name</th>
+							<th scope="col">Class</th>
+							<th scope="col">Stream</th>
 						</tr>
 					</thead>
 					<tbody id="allSchoolsTable">
@@ -38,12 +38,14 @@
 							<br>
 							<p class="text text-center alert alert-warning">No Student</p>
 						</div>
-
 						<tr th:each="student : ${students}">
-							<td th:text="${student.firstname}">Student first name</td>
-							<td th:text="${student.secondname}">Student second name</td>
-							<td th:text="${student.thirdname}">Student third name</td>
-							<td th:text="${#strings.substringAfter(student.admNo,'_')}">Student Admission Number</td>
+							<td th:text="${#strings.substringAfter(student.admNo,'_')}">Student
+								Admission Number</td>
+							<td
+								th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}">Student
+								Name</td>
+							<td th:text="${form}">Class</td>
+							<td th:text="${stream}">Stream</td>
 						</tr>
 					</tbody>
 				</table>

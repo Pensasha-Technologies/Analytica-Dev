@@ -1,22 +1,25 @@
 package com.pensasha.school.exam;
 
+import com.pensasha.school.exam.ExamName;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ExamNameRepository extends JpaRepository<ExamName, Integer>{
+public interface ExamNameRepository extends JpaRepository<ExamName, Integer> {
+    
+    public List<ExamName> findBySchoolsCodeAndYearsYearAndFormsForm(int var1, int var2, int var3);
 
-	List<ExamName> findBySchoolsCode(int code);
+    public List<ExamName> findBySchoolsCodeAndYearsYear(int var1, int var2);
 
-	List<ExamName> findBySchoolsCodeAndYearsYearAndFormsForm(int code, int year, int form);
+    public List<ExamName> findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(int var1, int var2, int var3, int var4);
 
-	List<ExamName> findBySchoolsCodeAndYearsYear(int code, int year);
+    public ExamName findByIdAndSchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(int var1, int var2, int var3, int var4, int var5);
 
-	List<ExamName> findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(int code, int year, int form, int term);
+    public ExamName findByName(String var1);
 
-	ExamName findByIdAndSchoolsCodeAndYearsYearAndFormsFormAndTermsTerm(int id, int code, int year, int form,
-			int term);
+    public List<ExamName> findBySchoolsCode(int var1);
 
-	ExamName findByName(String name);
+    public List<ExamName> findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTermAndName(int var1, int var2, int var3, int var4, String var5);
+
+    public ExamName findBySchoolsCodeAndYearsYearAndFormsFormAndTermsTermAndSubjectInitials(int var1, int var2, int var3, int var4, String var5);
 
 }

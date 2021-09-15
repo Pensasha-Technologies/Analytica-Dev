@@ -5,24 +5,21 @@ import javax.persistence.Id;
 
 @Entity
 public class Role {
+    @Id
+    private String name;
 
-	@Id
-	private String name;
+    public Role() {
+    }
 
-	public Role() {
-		super();
-	}
+    public Role(String name) {
+        this.name = name;
+    }
 
-	public Role(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+    public void setName(String name) {
+        this.name = name;
+    }
 }

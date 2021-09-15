@@ -17,34 +17,34 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-	@Autowired
-	CustomSuccessHandler customSuccessHandler;
+    @Autowired
+    CustomSuccessHandler customSuccessHandler;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().dataSource(dataSource)
-				.usersByUsernameQuery(
-						"select username as principal, password as credentials, true from user where username = ?")
-				.authoritiesByUsernameQuery(
-						"select username as pricipal, role_id as role from user where username = ? ")
-				.passwordEncoder(passwordencoder()).rolePrefix("ROLE_");
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .usersByUsernameQuery(
+                        "select username as principal, password as credentials, true from user where username = ?")
+                .authoritiesByUsernameQuery(
+                        "select username as pricipal, role_id as role from user where username = ? ")
+                .passwordEncoder(passwordencoder()).rolePrefix("ROLE_");
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/","/error" ,"/index","/changePassword" , "/css/**", "/js/**", "/img/**", "/vendor/**").permitAll()
-				.anyRequest().authenticated().and().formLogin().loginPage("/login").usernameParameter("username")
-				.passwordParameter("password").permitAll().successHandler(customSuccessHandler).and().logout()
-				.logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
-				.accessDeniedPage("/403").and().csrf().disable();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().antMatchers("/","/error" ,"/index","/changePassword" , "/css/**", "/js/**", "/img/**", "/vendor/**").permitAll()
+                .anyRequest().authenticated().and().formLogin().loginPage("/login").usernameParameter("username")
+                .passwordParameter("password").permitAll().successHandler(customSuccessHandler).and().logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll().and().exceptionHandling()
+                .accessDeniedPage("/403").and().csrf().disable();
+    }
 
-	@Bean(name = "passordEncoder")
-	public PasswordEncoder passwordencoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean(name = "passordEncoder")
+    public PasswordEncoder passwordencoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

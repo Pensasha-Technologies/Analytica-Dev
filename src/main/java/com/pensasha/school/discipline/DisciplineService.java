@@ -1,63 +1,47 @@
 package com.pensasha.school.discipline;
 
+import com.pensasha.school.discipline.Discipline;
+import com.pensasha.school.discipline.DisciplineRepository;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DisciplineService {
+   
+    @Autowired
+    private DisciplineRepository disciplineRepository;
 
-	@Autowired
-	private DisciplineRepository disciplineRepository;
+    public List<Discipline> allDisciplineReportForStudent(String admNo) {
+        return this.disciplineRepository.findByStudentAdmNo(admNo);
+    }
 
-	// Get all discipline report by student admNo
-	public List<Discipline> allDisciplineReportForStudent(String admNo) {
+    public List<Discipline> allDisciplineReportByStream(String stream) {
+        return this.disciplineRepository.findByStudentStreamStream(stream);
+    }
 
-		return disciplineRepository.findByStudentAdmNo(admNo);
-	}
+    public List<Discipline> allDisciplineReportByClass(String form) {
+        return this.disciplineRepository.findByStudentFormsForm(form);
+    }
 
-	// Get all discipline report by stream
-	public List<Discipline> allDisciplineReportByStream(String stream) {
+    public List<Discipline> allDisciplineReportBySchoolCode(int code) {
+        return this.disciplineRepository.findByStudentSchoolCode(code);
+    }
 
-		return disciplineRepository.findByStudentStreamStream(stream);
-	}
+    public Optional<Discipline> getDisciplineReportById(int id) {
+        return this.disciplineRepository.findById(id);
+    }
 
-	// Get all discipline report by class
-	public List<Discipline> allDisciplineReportByClass(String form) {
+    public Discipline saveDisciplineReport(Discipline discipline) {
+        return (Discipline)this.disciplineRepository.save(discipline);
+    }
 
-		return disciplineRepository.findByStudentFormsForm(form);
-	}
+    public Discipline updateDisciplineReport(Discipline discipline) {
+        return (Discipline)this.disciplineRepository.save(discipline);
+    }
 
-	// Get all discipline report by school
-	public List<Discipline> allDisciplineReportBySchoolCode(int code) {
-
-		return disciplineRepository.findByStudentSchoolCode(code);
-	}
-
-	// Get a single discipline report
-	public Optional<Discipline> getDisciplineReportById(int id) {
-
-		return disciplineRepository.findById(id);
-	}
-
-	// Add discipline report
-	public Discipline saveDisciplineReport(Discipline discipline) {
-
-		return disciplineRepository.save(discipline);
-	}
-
-	// update discipline report
-	public Discipline updateDisciplineReport(Discipline discipline) {
-
-		return disciplineRepository.save(discipline);
-	}
-
-	// Delete discipline report
-	public void deleteDisciplineReport(int id) {
-
-		disciplineRepository.deleteById(id);
-	}
-
+    public void deleteDisciplineReport(int id) {
+        this.disciplineRepository.deleteById(id);
+    }
 }

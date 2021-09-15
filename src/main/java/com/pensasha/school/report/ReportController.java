@@ -1,37 +1,25 @@
 package com.pensasha.school.report;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
+import com.itextpdf.styledxmlparser.css.media.MediaType;
+import com.pensasha.school.discipline.Discipline;
+import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.exam.ExamNameService;
+import com.pensasha.school.exam.GradeCount;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.exam.MeritList;
+import com.pensasha.school.finance.FeeBalance;
+import com.pensasha.school.finance.FeeRecord;
+import com.pensasha.school.finance.FeeRecordService;
+import com.pensasha.school.finance.FeeStructure;
+import com.pensasha.school.finance.FeeStructureService;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -52,1213 +40,2120 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.Principal;
+import java.util.*;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.IContext;
+import org.thymeleaf.context.WebContext;
 
 @Controller
 public class ReportController {
 
-	private UserService userService;
-	private SubjectService subjectService;
-	private TermService termService;
-	private YearService yearService;
-	private FormService formService;
-	private SchoolService schoolService;
-	private StreamService streamService;
-	private ExamNameService examNameService;
-	private StudentService studentService;
-	private MarkService markService;
-	private TimetableService timetableService;
-	private final TemplateEngine templateEngine;
-
-	@Autowired
-	ServletContext servletContext;
-
-	public ReportController(UserService userService, SubjectService subjectService, TermService termService,
-			YearService yearService, FormService formService, SchoolService schoolService, StreamService streamService,
-			ExamNameService examNameService, StudentService studentService, MarkService markService,
-			TemplateEngine templateEngine, ServletContext servletContext) {
-		super();
-		this.userService = userService;
-		this.subjectService = subjectService;
-		this.termService = termService;
-		this.yearService = yearService;
-		this.formService = formService;
-		this.schoolService = schoolService;
-		this.streamService = streamService;
-		this.examNameService = examNameService;
-		this.studentService = studentService;
-		this.markService = markService;
-		this.templateEngine = templateEngine;
-		this.servletContext = servletContext;
-	}
-
-	// private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
-	private final String baseUrl = "http://localhost:8080/";
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf")
-	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, @PathVariable String subject, @PathVariable int stream, @PathVariable int exam,
-			HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
-
-		/* Do Business Logic */
-
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		Subject subjectObj = subjectService.getSubject(subject);
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		Term termObj = termService.getTerm(term, form, year, code);
-		Year yearObj = yearService.getYearFromSchool(year, code).get();
-		Form formObj = formService.getFormByForm(form);
-		Stream streamObj = streamService.getStream(stream);
-		ExamName examName = examNameService.getExam(exam);
-
-		List<Student> students = studentService.findAllStudentDoingSubject(code, year, form, term, subject);
-		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
-		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(school.getCode());
-
-		List<Mark> marks = new ArrayList<>();
-
-		for (int i = 0; i < students.size(); i++) {
-			Mark mark = new Mark();
-			if (markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject,
-					exam) != null) {
-				marks.add(markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term,
-						subject, exam));
-			} else {
-				mark.setStudent(students.get(i));
-				mark.setSubject(subjectObj);
-				mark.setTerm(termObj);
-				mark.setYear(yearObj);
-				mark.setForm(formObj);
-
-				mark.setExamName(examName);
-				marks.add(mark);
-
-				markService.addMarksToSubject(mark);
-
-			}
-
-		}
-
-		/* Create HTML using Thymeleaf template Engine */
-
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("marks", marks);
-		context.setVariable("subjects", subjects);
-		context.setVariable("streams", streams);
-		context.setVariable("years", years);
-		context.setVariable("students", students);
-		context.setVariable("subject", subjectObj);
-		context.setVariable("year", year);
-		context.setVariable("form", form);
-		context.setVariable("term", term);
-		context.setVariable("stream", streamObj);
-		context.setVariable("examName", examName);
-		context.setVariable("student", student);
-		context.setVariable("school", school);
-		context.setVariable("activeUser", activeUser);
-		String marksSheetHtml = templateEngine.process("markEntryPdf", context);
-
-		/* Setup Source and target I/O streams */
-
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-
-		HtmlConverter.convertToPdf(marksSheetHtml, target, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf")
-	public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, HttpServletRequest request, HttpServletResponse response, Principal principal)
-			throws IOException {
-
-		/* Do Business Logic */
-
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-		List<Mark> allMarks = markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
-
-		List<Student> studentsWithoutMarks = new ArrayList<>();
-		List<Student> studentsWithMarks = new ArrayList<>();
-
-		for (int i = 0; i < students.size(); i++) {
-			if (!markService.getMarkByAdm(students.get(i).getAdmNo())) {
-				studentsWithoutMarks.add(students.get(i));
-			} else {
-				studentsWithMarks.add(students.get(i));
-			}
-
-		}
-
-		MeritList meritList = new MeritList();
-		List<MeritList> meritLists = new ArrayList<>();
-
-		int mathsCount = 0, engCount = 0, kisCount = 0, bioCount = 0, chemCount = 0, phyCount = 0, histCount = 0,
-				creCount = 0, geoCount = 0, ireCount = 0, hreCount = 0, hsciCount = 0, andCount = 0, agricCount = 0,
-				compCount = 0, aviCount = 0, elecCount = 0, pwrCount = 0, woodCount = 0, metalCount = 0, bcCount = 0,
-				frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0;
-
-		for (int i = 0; i < studentsWithMarks.size(); i++) {
-
-			int count = 0;
-
-			for (int j = 0; j < subjects.size(); j++) {
-
-				meritList.setFirstname(students.get(i).getFirstname());
-				meritList.setSecondname(students.get(i).getThirdname());
-				meritList.setAdmNo(students.get(i).getAdmNo());
-				meritList.setKcpe(students.get(i).getKcpeMarks());
-				meritList.setStream(students.get(i).getStream().getStream());
-
-				List<Mark> marks = new ArrayList<>();
-
-				int sum = 0;
-
-				switch (subjects.get(j).getInitials()) {
-				case "Maths":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						mathsCount++;
-					}
-					meritList.setMaths(sum);
-					break;
-				case "Eng":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						engCount++;
-					}
-					meritList.setEng(sum);
-
-					break;
-				case "Kis":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						kisCount++;
-					}
-					meritList.setKis(sum);
-
-					break;
-				case "Bio":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						bioCount++;
-					}
-					meritList.setBio(sum);
-
-					break;
-				case "Chem":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						chemCount++;
-					}
-					meritList.setChem(sum);
-
-					break;
-				case "Phy":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						phyCount++;
-					}
-					meritList.setPhy(sum);
-
-					break;
-				case "Hist":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						histCount++;
-					}
-					meritList.setHist(sum);
-
-					break;
-				case "C.R.E":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						creCount++;
-					}
-					meritList.setCre(sum);
-
-					break;
-				case "Geo":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						geoCount++;
-					}
-					meritList.setGeo(sum);
-
-					break;
-				case "I.R.E":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						ireCount++;
-					}
-					meritList.setIre(sum);
-
-					break;
-				case "H.R.E":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						hreCount++;
-					}
-					meritList.setHre(sum);
-
-					break;
-				case "Hsci":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						hsciCount++;
-					}
-					meritList.setHsci(sum);
-
-					break;
-				case "AnD":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						andCount++;
-					}
-					meritList.setAnd(sum);
-
-					break;
-				case "Agric":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						agricCount++;
-					}
-					meritList.setAgric(sum);
-
-					break;
-				case "Comp":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						compCount++;
-					}
-					meritList.setComp(sum);
-
-					break;
-				case "Avi":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						aviCount++;
-					}
-					meritList.setAvi(sum);
-
-					break;
-				case "Elec":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						elecCount++;
-					}
-					meritList.setElec(sum);
-
-					break;
-				case "Pwr":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						pwrCount++;
-					}
-					meritList.setPwr(sum);
-
-					break;
-				case "Wood":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						woodCount++;
-					}
-					meritList.setWood(sum);
-
-					break;
-				case "Metal":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						metalCount++;
-					}
-					meritList.setMetal(sum);
-
-					break;
-				case "Bc":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						bcCount++;
-					}
-					meritList.setBc(sum);
-
-					break;
-				case "Fren":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						frenCount++;
-					}
-					meritList.setFren(sum);
-
-					break;
-				case "Germ":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						germCount++;
-					}
-					meritList.setGerm(sum);
-
-					break;
-				case "Arab":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						arabCount++;
-					}
-					meritList.setArab(sum);
-
-					break;
-				case "Msc":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						mscCount++;
-					}
-					meritList.setMsc(sum);
-
-					break;
-				case "Bs":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						bsCount++;
-					}
-					meritList.setBs(sum);
-
-					break;
-				case "DnD":
-
-					marks = markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term,
-							subjects.get(j).getInitials());
-
-					for (int k = 0; k < marks.size(); k++) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-					if (sum > 0) {
-						count++;
-						dndCount++;
-					}
-					meritList.setDnd(sum);
-
-					break;
-				}
-
-			}
-
-			meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
-					+ meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
-					+ meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
-					+ meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
-					+ meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
-					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
-					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());
-
-			meritList.setAverage(meritList.getTotal() / count);
-			meritList.setDeviation(meritList.getAverage() - (students.get(i).getKcpeMarks()) / 5);
-			meritLists.add(meritList);
-
-		}
-
-		Collections.sort(meritLists, new SortByTotal());
-
-		for (int i = 0; i < studentsWithoutMarks.size(); i++) {
-
-			meritList = new MeritList();
-			meritList.setFirstname(studentsWithoutMarks.get(i).getFirstname());
-			meritList.setSecondname(studentsWithoutMarks.get(i).getSecondname());
-			meritList.setAdmNo(studentsWithoutMarks.get(i).getAdmNo());
-			meritList.setKcpe(studentsWithoutMarks.get(i).getKcpeMarks());
-			meritList.setStream(studentsWithoutMarks.get(i).getStream().getStream());
-			meritList.setTotal(0);
-
-			meritLists.add(meritList);
-
-		}
-
-		for (int i = 0; i < meritLists.size(); i++) {
-			meritLists.get(i).setRank(i + 1);
-		}
-
-		/* Create HTML using Thymeleaf template Engine */
-
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("school", school);
-		context.setVariable("student", student);
-		context.setVariable("year", year);
-		context.setVariable("form", form);
-		context.setVariable("term", term);
-		context.setVariable("marks", allMarks);
-		context.setVariable("subjects", subjects);
-		context.setVariable("students", students);
-		context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
-		context.setVariable("meritLists", meritLists);
-		context.setVariable("MathsCount", mathsCount);
-		context.setVariable("EngCount", engCount);
-		context.setVariable("KisCount", kisCount);
-		context.setVariable("BioCount", bioCount);
-		context.setVariable("ChemCount", chemCount);
-		context.setVariable("PhyCount", phyCount);
-		context.setVariable("HistCount", histCount);
-		context.setVariable("creCount", creCount);
-		context.setVariable("GeoCount", geoCount);
-		context.setVariable("ireCount", ireCount);
-		context.setVariable("hreCount", hreCount);
-		context.setVariable("HsciCount", hsciCount);
-		context.setVariable("AndCount", andCount);
-		context.setVariable("AgricCount", agricCount);
-		context.setVariable("CompCount", compCount);
-		context.setVariable("AviCount", aviCount);
-		context.setVariable("ElectCount", elecCount);
-		context.setVariable("PwrCount", pwrCount);
-		context.setVariable("WoodCount", woodCount);
-		context.setVariable("MetalCount", metalCount);
-		context.setVariable("BcCount", bcCount);
-		context.setVariable("FrenCount", frenCount);
-		context.setVariable("GermCount", germCount);
-		context.setVariable("ArabCount", arabCount);
-		context.setVariable("MscCount", mscCount);
-		context.setVariable("BsCount", bsCount);
-		context.setVariable("DndCount", dndCount);
-
-		Collections.sort(meritLists, new SortByDeviation().reversed());
-		if (meritLists.size() > 0) {
-			context.setVariable("mostImproved", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByMaths());
-		if (meritLists.size() > 0) {
-			context.setVariable("MathsGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByEng());
-		if (meritLists.size() > 0) {
-			context.setVariable("EngGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByKis());
-		if (meritLists.size() > 0) {
-			context.setVariable("KisGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByBio());
-		if (meritLists.size() > 0) {
-			context.setVariable("BioGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByChem());
-		if (meritLists.size() > 0) {
-			context.setVariable("ChemGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByPhy());
-		if (meritLists.size() > 0) {
-			context.setVariable("PhyGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByHist());
-		if (meritLists.size() > 0) {
-			context.setVariable("HistGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByCre());
-		if (meritLists.size() > 0) {
-			context.setVariable("creGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByGeo());
-		if (meritLists.size() > 0) {
-			context.setVariable("GeoGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByIre());
-		if (meritLists.size() > 0) {
-			context.setVariable("ireGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByHre());
-		if (meritLists.size() > 0) {
-			context.setVariable("hreGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByHsci());
-		if (meritLists.size() > 0) {
-			context.setVariable("HsciGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByAnd());
-		if (meritLists.size() > 0) {
-			context.setVariable("AndGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByAgric());
-		if (meritLists.size() > 0) {
-			context.setVariable("AgricGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByComp());
-		if (meritLists.size() > 0) {
-			context.setVariable("CompGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByAvi());
-		if (meritLists.size() > 0) {
-			context.setVariable("AviGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByElec());
-		if (meritLists.size() > 0) {
-			context.setVariable("ElectGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByPwr());
-		if (meritLists.size() > 0) {
-			context.setVariable("PwrGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByWood());
-		if (meritLists.size() > 0) {
-			context.setVariable("WoodGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByMetal());
-		if (meritLists.size() > 0) {
-			context.setVariable("MetalGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByBc());
-		if (meritLists.size() > 0) {
-			context.setVariable("BcGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByFren());
-		if (meritLists.size() > 0) {
-			context.setVariable("FrenGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByGerm());
-		if (meritLists.size() > 0) {
-			context.setVariable("GermGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByArab());
-		if (meritLists.size() > 0) {
-			context.setVariable("ArabGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByMsc());
-		if (meritLists.size() > 0) {
-			context.setVariable("MscGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByBs());
-		if (meritLists.size() > 0) {
-			context.setVariable("BsGiant", meritLists.get(0));
-		}
-
-		Collections.sort(meritLists, new SortByDnd());
-		if (meritLists.size() > 0) {
-		}
-
-		String meritListHtml = templateEngine.process("meritListPdf", context);
-
-		/* Setup Source and target I/O streams */
-
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-		PdfWriter writer = new PdfWriter(target);
-		PdfDocument pdfDocument = new PdfDocument(writer);
-		pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		// converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-
-		HtmlConverter.convertToPdf(meritListHtml, pdfDocument, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/students/{admNo}/termlyReport/pdf")
-	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int form, @PathVariable int year,
-			@PathVariable int term, @PathVariable String admNo, HttpServletRequest request,
-			HttpServletResponse response, Principal principal) throws IOException {
-
-		/* Do Business Logic */
-		School school = schoolService.getSchool(code).get();
-		Student student = studentService.getStudentInSchool(admNo, code);
-		List<Subject> subjects = subjectService.getSubjectDoneByStudent(admNo);
-		List<Year> years = yearService.allYearsForStudent(admNo);
-		List<Form> forms = formService.studentForms(admNo);
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		List<ExamName> examNames = examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
-
-		List<Mark> marks = markService.getTermlySubjectMark(admNo, form, term);
-
-		List<Teacher> teachers = userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form,
-				student.getStream().getId(), year);
-
-		/* Create HTML using Thymeleaf template Engine */
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("marks", marks);
-		context.setVariable("forms", forms);
-		context.setVariable("years", years);
-		context.setVariable("subjects", subjects);
-		context.setVariable("student", student);
-		context.setVariable("school", school);
-		context.setVariable("examNames", examNames);
-		context.setVariable("year", year);
-		context.setVariable("form", form);
-		context.setVariable("term", term);
-		context.setVariable("teachers", teachers);
-		String termlyReportHtml = templateEngine.process("termlyReportPdf", context);
-
-		/* Setup Source and target I/O streams */
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-		HtmlConverter.convertToPdf(termlyReportHtml, target, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/students/{admNo}/studentsReport/pdf")
-	public ResponseEntity<?> getStudentReportPDF(@PathVariable int code, @PathVariable int form, @PathVariable int year,
-			@PathVariable int term, @PathVariable String stream, @PathVariable String admNo, HttpServletRequest request,
-			HttpServletResponse response, Principal principal) throws IOException {
-
-		/* Do Business Logic */
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		List<Student> allStudents = studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
-		List<Student> students = studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term,
-				stream);
-		List<ExamName> examNames = examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-		int cnt = 0;
-
-		getMeritList get = new getMeritList();
-
-		/* Create HTML using Thymeleaf template Engine */
-		WebContext context = new WebContext(request, response, servletContext);
-
-		for (int i = 0; i < students.size(); i++) {
-			context.setVariable("subjects" + students.get(i).getAdmNo(),
-					subjectService.getSubjectDoneByStudent(students.get(i).getAdmNo()));
-			List<Mark> marks = markService.getTermlySubjectMark(students.get(i).getAdmNo(), form, term);
-
-			for (int j = 0; j < subjects.size(); j++) {
-
-				int sum = 0;
-
-				for (int k = 0; k < marks.size(); k++) {
-					if (marks.get(k).getSubject().equals(subjects.get(j))) {
-						sum = sum + marks.get(k).getMark();
-					}
-
-				}
-
-				if (sum > 0) {
-					cnt++;
-				}
-			}
-
-			context.setVariable("marks" + students.get(i).getAdmNo(), marks);
-
-			List<Teacher> teachers = userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form,
-					students.get(i).getStream().getId(), year);
-
-			context.setVariable("teachers" + students.get(i).getAdmNo(), teachers);
-
-		}
-
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("school", school);
-		context.setVariable("student", student);
-		context.setVariable("students", students);
-		context.setVariable("year", year);
-		context.setVariable("form", form);
-		context.setVariable("term", term);
-		context.setVariable("examNames", examNames);
-
-		int count = 0;
-
-		List<MeritList> allStudentsMeritList = get.getList(allStudents, subjects, markService, year, form, term);
-		Collections.sort(allStudentsMeritList, new SortByTotal().reversed());
-
-		for(int i=0;i<allStudentsMeritList.size();i++){
-			count++;
-			if(count>1){
-				if(allStudentsMeritList.get(i).getTotal() == allStudentsMeritList.get(i-1).getTotal()){
-					count--;
-				}
-			}
-			allStudentsMeritList.get(i).setRank(count);
-		}
-
-		context.setVariable("meritLists", allStudentsMeritList);
-
-		int counter = 0;
-
-		List<MeritList> streamStudentsMeritList = get.getList(students, subjects, markService, year, form, term);
-		Collections.sort(streamStudentsMeritList, new SortByTotal().reversed());
-
-		for(int i=0;i<streamStudentsMeritList.size();i++){
-			counter++;
-			if(counter>1){
-				if(streamStudentsMeritList.get(i).getTotal() == streamStudentsMeritList.get(i-1).getTotal()){
-					counter--;
-				}
-			}
-			streamStudentsMeritList.get(i).setRank(counter);
-		}
-
-		context.setVariable("studentMeritList", streamStudentsMeritList);
-
-		context.setVariable("count", cnt);
-		String studentReportHtml = templateEngine.process("studentsReportPdf", context);
-
-		/* Setup Source and target I/O streams */
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-		HtmlConverter.convertToPdf(studentReportHtml, target, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable/pdf")
-	public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable int term, @PathVariable int stream, HttpServletRequest request, HttpServletResponse response,
-			Principal principal) throws IOException {
-
-		/* Do Business Logic */
-
-		School school = schoolService.getSchool(code).get();
-		Year yearObj = yearService.getYearFromSchool(year, code).get();
-		Form formObj = formService.getFormByForm(form);
-		Term termObj = termService.getTerm(term, form, year, code);
-		Stream streamObj = streamService.getStream(stream);
-
-		Student student = new Student();
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-
-		Random rand = new Random();
-
-		List<String> days = new ArrayList<>();
-		days.add("Mon");
-		days.add("Tue");
-		days.add("Wed");
-		days.add("Thu");
-		days.add("Fri");
-
-		Timetable timetable = new Timetable();
-		List<Timetable> timetables = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
-				stream);
-
-		String breaks[] = { "B", "R", "E", "A", "K" };
-		String lunch[] = { "L", "U", "N", "C", "H" };
-
-		if (timetables.isEmpty()) {
-			for (int i = 0; i < days.size(); i++) {
-
-				timetable = new Timetable(days.get(i), subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(),
-						subjects.get(rand.nextInt(subjects.size())).getInitials(), school, yearObj, formObj, termObj,
-						streamObj);
-
-				timetables.add(timetable);
-
-			}
-
-		}
-
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (j == 2) {
-					timetables.get(i).setTime3(breaks[i]);
-				} else if (j == 4) {
-					timetables.get(i).setTime6(breaks[i]);
-				} else if (j == 6) {
-					timetables.get(i).setTime9(lunch[i]);
-				}
-
-			}
-		}
-
-		if (formService.getFormByForm(form) != null) {
-			for (int i = 0; i < timetables.size(); i++) {
-
-				timetableService.saveTimetableItem(timetables.get(i));
-			}
-		}
-
-		List<Timetable> finalTimetables = timetableService.getTimetableBySchoolYearFormStream(code, year, form, term,
-				stream);
-
-		if (finalTimetables == null) {
-
-			finalTimetables = new ArrayList<>();
-		}
-
-		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
-		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
-
-		/* Create HTML using Thymeleaf template Engine */
-
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("year", year);
-		context.setVariable("form", form);
-		context.setVariable("term", term);
-		context.setVariable("stream", streamObj);
-		context.setVariable("years", years);
-		context.setVariable("streams", streams);
-		context.setVariable("timetables", finalTimetables);
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("student", student);
-		context.setVariable("school", school);
-		String timetableHtml = templateEngine.process("timetablePdf", context);
-
-		/* Setup Source and target I/O streams */
-
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-		PdfWriter writer = new PdfWriter(target);
-		PdfDocument pdfDocument = new PdfDocument(writer);
-		pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		// converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-		HtmlConverter.convertToPdf(timetableHtml, pdfDocument, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
-	@GetMapping("/schools/{code}/years/{year}/forms/{form}/streams/{stream}/classList/pdf")
-	public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form,
-			@PathVariable String stream, HttpServletRequest request, HttpServletResponse response, Principal principal)
-			throws IOException {
-
-		/* Do Business Logic */
-
-		User activeUser = userService.getByUsername(principal.getName()).get();
-		School school = schoolService.getSchool(code).get();
-		Student student = new Student();
-		User user = new User();
-		List<SchoolUser> schoolUsers = userService.getUsersBySchoolCode(school.getCode());
-
-		List<Year> years = yearService.getAllYearsInSchool(school.getCode());
-		List<Stream> streams = streamService.getStreamsInSchool(school.getCode());
-
-		List<Student> students = studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
-		List<Subject> subjects = subjectService.getAllSubjectInSchool(code);
-
-		/* Create HTML using Thymeleaf template Engine */
-
-		WebContext context = new WebContext(request, response, servletContext);
-		context.setVariable("subjects", subjects);
-		context.setVariable("form", form);
-		context.setVariable("stream", stream);
-		context.setVariable("year", year);
-		context.setVariable("students", students);
-		context.setVariable("streams", streams);
-		context.setVariable("years", years);
-		context.setVariable("schoolUsers", schoolUsers);
-		context.setVariable("user", user);
-		context.setVariable("activeUser", activeUser);
-		context.setVariable("student", student);
-		context.setVariable("school", school);
-		String classListHtml = templateEngine.process("classListPdf", context);
-
-		/* Setup Source and target I/O streams */
-
-		ByteArrayOutputStream target = new ByteArrayOutputStream();
-
-		/* Setup converter properties. */
-		ConverterProperties converterProperties = new ConverterProperties();
-		converterProperties.setBaseUri(baseUrl);
-
-		/* Call convert method */
-		HtmlConverter.convertToPdf(classListHtml, target, converterProperties);
-
-		/* extract output as bytes */
-		byte[] bytes = target.toByteArray();
-
-		/* Send the response as downloadable PDF */
-
-		return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(bytes);
-
-	}
-
+    private UserService userService;
+    private SubjectService subjectService;
+    private TermService termService;
+    private YearService yearService;
+    private FormService formService;
+    private SchoolService schoolService;
+    private StreamService streamService;
+    private ExamNameService examNameService;
+    private StudentService studentService;
+    private MarkService markService;
+    private TimetableService timetableService;
+    private final TemplateEngine templateEngine;
+    private FeeRecordService feeRecordService;
+    private FeeStructureService feeStructureService;
+    private DisciplineService disciplineService;
+
+    @Autowired
+    ServletContext servletContext;
+
+    private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
+
+    public ReportController(UserService userService, SubjectService subjectService, TermService termService, YearService yearService, FormService formService, SchoolService schoolService, StreamService streamService, ExamNameService examNameService, StudentService studentService, MarkService markService, TimetableService timetableService, TemplateEngine templateEngine, FeeRecordService feeRecordService, FeeStructureService feeStructureService, DisciplineService disciplineService) {
+        this.userService = userService;
+        this.subjectService = subjectService;
+        this.termService = termService;
+        this.yearService = yearService;
+        this.formService = formService;
+        this.schoolService = schoolService;
+        this.streamService = streamService;
+        this.examNameService = examNameService;
+        this.studentService = studentService;
+        this.markService = markService;
+        this.timetableService = timetableService;
+        this.templateEngine = templateEngine;
+        this.feeRecordService = feeRecordService;
+        this.feeStructureService = feeStructureService;
+        this.disciplineService = disciplineService;
+    }
+
+    @GetMapping(value={"/schools/{code}/discipline/pdf"})
+    public ResponseEntity<?> getDisciplineReportsPdf(@PathVariable int code, Principal principal, Model model, HttpServletRequest request, HttpServletResponse response) {
+        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
+        Student student = new Student();
+        List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
+        User user = new User();
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
+        List<Discipline> allDisciplineReport = this.disciplineService.allDisciplineReportBySchoolCode(code);
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("disciplines", allDisciplineReport);
+        context.setVariable("subjects", subjects);
+        context.setVariable("streams", streams);
+        context.setVariable("years", years);
+        context.setVariable("schoolUsers", schoolUsers);
+        context.setVariable("user", (Object)user);
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        String disciplineHtml = this.templateEngine.process("disciplinePdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)disciplineHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/discipline/{id}/pdf"})
+    public ResponseEntity<?> getDisciplineReportPdf(@PathVariable int code, @PathVariable int id, Principal principal, Model model, HttpServletRequest request, HttpServletResponse response) {
+        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
+        Discipline discipline = this.disciplineService.getDisciplineReportById(id).get();
+        Student student = discipline.getStudent();
+        User user = new User();
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("discipline", (Object)discipline);
+        context.setVariable("subjects", subjects);
+        context.setVariable("streams", streams);
+        context.setVariable("years", years);
+        context.setVariable("user", (Object)user);
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        String viewDisciplineHtml = this.templateEngine.process("viewDisciplinePdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)viewDisciplineHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/subjects/{subject}/streams/{stream}/exams/{exam}/pdf"})
+    public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String subject, @PathVariable int stream, @PathVariable int exam, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        Subject subjectObj = this.subjectService.getSubject(subject);
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        Term termObj = this.termService.getTerm(term, form, year, code);
+        Year yearObj = this.yearService.getYearFromSchool(year, code).get();
+        Form formObj = this.formService.getFormByForm(form);
+        Stream streamObj = this.streamService.getStream(stream);
+        ExamName examName = this.examNameService.getExam(exam);
+        List<Student> students = this.studentService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
+        ArrayList<Mark> marks = new ArrayList<Mark>();
+        for (int i = 0; i < students.size(); ++i) {
+            Mark mark = new Mark();
+            if (this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
+                marks.add(this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam));
+                continue;
+            }
+            mark.setStudent(students.get(i));
+            mark.setSubject(subjectObj);
+            mark.setTerm(termObj);
+            mark.setYear(yearObj);
+            mark.setForm(formObj);
+            mark.setExamName(examName);
+            marks.add(mark);
+            this.markService.addMarksToSubject(mark);
+        }
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("marks", marks);
+        context.setVariable("subjects", subjects);
+        context.setVariable("streams", streams);
+        context.setVariable("years", years);
+        context.setVariable("students", students);
+        context.setVariable("subject", (Object)subjectObj);
+        context.setVariable("year", (Object)year);
+        context.setVariable("form", (Object)form);
+        context.setVariable("term", (Object)term);
+        context.setVariable("stream", (Object)streamObj);
+        context.setVariable("examName", (Object)examName);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        context.setVariable("activeUser", (Object)activeUser);
+        String marksSheetHtml = this.templateEngine.process("markEntryPdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)marksSheetHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf"})
+    public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        int i;
+        GradeCount gradeCount;
+        int i2;
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        List<Student> students = this.studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+        List<Mark> allMarks = this.markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
+        ArrayList<Student> studentsWithoutMarks = new ArrayList<Student>();
+        ArrayList<Student> studentsWithMarks = new ArrayList<Student>();
+        for (int i3 = 0; i3 < students.size(); ++i3) {
+            if (!this.markService.getMarkByAdm(students.get(i3).getAdmNo()).booleanValue()) {
+                studentsWithoutMarks.add(students.get(i3));
+                continue;
+            }
+            studentsWithMarks.add(students.get(i3));
+        }
+        ArrayList<MeritList> meritLists = new ArrayList<MeritList>();
+        ArrayList<GradeCount> gradeCounts = new ArrayList<GradeCount>();
+        int mathsCount = 0;
+        int engCount = 0;
+        int kisCount = 0;
+        int bioCount = 0;
+        int chemCount = 0;
+        int phyCount = 0;
+        int histCount = 0;
+        int creCount = 0;
+        int geoCount = 0;
+        int ireCount = 0;
+        int hreCount = 0;
+        int hsciCount = 0;
+        int andCount = 0;
+        int agricCount = 0;
+        int compCount = 0;
+        int aviCount = 0;
+        int elecCount = 0;
+        int pwrCount = 0;
+        int woodCount = 0;
+        int metalCount = 0;
+        int bcCount = 0;
+        int frenCount = 0;
+        int germCount = 0;
+        int arabCount = 0;
+        int mscCount = 0;
+        int bsCount = 0;
+        int dndCount = 0;
+        for (i2 = 0; i2 < studentsWithMarks.size(); ++i2) {
+            gradeCount = new GradeCount();
+            MeritList meritList = new MeritList();
+            int count = 0;
+            block118: for (int j = 0; j < subjects.size(); ++j) {
+                meritList.setFirstname(students.get(i2).getFirstname());
+                meritList.setSecondname(students.get(i2).getThirdname());
+                meritList.setAdmNo(students.get(i2).getAdmNo());
+                meritList.setKcpe(students.get(i2).getKcpeMarks());
+                meritList.setStream(students.get(i2).getStream().getStream());
+                gradeCount.setFirstname(students.get(i2).getFirstname());
+                gradeCount.setSecondname(students.get(i2).getThirdname());
+                gradeCount.setAdmNo(students.get(i2).getAdmNo());
+                List<Mark> marks = new ArrayList();
+                int sum = 0;
+                int totalOutOf = 0;
+                switch (subjects.get(j).getInitials()) {
+                    case "Maths": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++mathsCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setMaths(sum * 100 / totalOutOf);
+                            gradeCount.setMaths(this.getGrade(meritList.getMaths()));
+                            continue block118;
+                        }
+                        meritList.setMaths(sum);
+                        gradeCount.setMaths(this.getGrade(meritList.getMaths()));
+                        continue block118;
+                    }
+                    case "Eng": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++engCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setEng(sum * 100 / totalOutOf);
+                            gradeCount.setEng(this.getGrade(meritList.getEng()));
+                            continue block118;
+                        }
+                        meritList.setEng(sum);
+                        gradeCount.setEng(this.getGrade(meritList.getEng()));
+                        continue block118;
+                    }
+                    case "Kis": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++kisCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setKis(sum * 100 / totalOutOf);
+                            gradeCount.setKis(this.getGrade(meritList.getKis()));
+                            continue block118;
+                        }
+                        meritList.setKis(sum);
+                        gradeCount.setKis(this.getGrade(meritList.getKis()));
+                        continue block118;
+                    }
+                    case "Bio": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bioCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setBio(sum * 100 / totalOutOf);
+                            gradeCount.setBio(this.getGrade(meritList.getBio()));
+                            continue block118;
+                        }
+                        meritList.setBio(sum);
+                        gradeCount.setBio(this.getGrade(meritList.getBio()));
+                        continue block118;
+                    }
+                    case "Chem": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++chemCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setChem(sum * 100 / totalOutOf);
+                            gradeCount.setChem(this.getGrade(meritList.getChem()));
+                            continue block118;
+                        }
+                        meritList.setChem(sum);
+                        gradeCount.setChem(this.getGrade(meritList.getChem()));
+                        continue block118;
+                    }
+                    case "Phy": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++phyCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setPhy(sum * 100 / totalOutOf);
+                            gradeCount.setPhy(this.getGrade(meritList.getPhy()));
+                            continue block118;
+                        }
+                        meritList.setPhy(sum);
+                        gradeCount.setPhy(this.getGrade(meritList.getPhy()));
+                        continue block118;
+                    }
+                    case "Hist": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++histCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setHist(sum * 100 / totalOutOf);
+                            gradeCount.setHist(this.getGrade(meritList.getHist()));
+                            continue block118;
+                        }
+                        meritList.setHist(sum);
+                        gradeCount.setHist(this.getGrade(meritList.getHist()));
+                        continue block118;
+                    }
+                    case "C.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++creCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setCre(sum * 100 / totalOutOf);
+                            gradeCount.setCre(this.getGrade(meritList.getCre()));
+                            continue block118;
+                        }
+                        meritList.setCre(sum);
+                        gradeCount.setCre(this.getGrade(meritList.getCre()));
+                        continue block118;
+                    }
+                    case "Geo": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++geoCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setGeo(sum * 100 / totalOutOf);
+                            gradeCount.setGeo(this.getGrade(meritList.getGeo()));
+                            continue block118;
+                        }
+                        meritList.setGeo(sum);
+                        gradeCount.setGeo(this.getGrade(meritList.getGeo()));
+                        continue block118;
+                    }
+                    case "I.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++ireCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setIre(sum * 100 / totalOutOf);
+                            gradeCount.setIre(this.getGrade(meritList.getIre()));
+                            continue block118;
+                        }
+                        meritList.setIre(sum);
+                        gradeCount.setIre(this.getGrade(meritList.getIre()));
+                        continue block118;
+                    }
+                    case "H.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++hreCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setHre(sum * 100 / totalOutOf);
+                            gradeCount.setHre(this.getGrade(meritList.getHre()));
+                            continue block118;
+                        }
+                        meritList.setHre(sum);
+                        gradeCount.setHre(this.getGrade(meritList.getHre()));
+                        continue block118;
+                    }
+                    case "Hsci": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++hsciCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setHsci(sum * 100 / totalOutOf);
+                            gradeCount.setHsci(this.getGrade(meritList.getHsci()));
+                            continue block118;
+                        }
+                        meritList.setHsci(sum);
+                        gradeCount.setHsci(this.getGrade(meritList.getHsci()));
+                        continue block118;
+                    }
+                    case "AnD": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++andCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setAnD(sum * 100 / totalOutOf);
+                            gradeCount.setAnd(this.getGrade(meritList.getAnD()));
+                            continue block118;
+                        }
+                        meritList.setAnD(sum);
+                        gradeCount.setAnd(this.getGrade(meritList.getAnD()));
+                        continue block118;
+                    }
+                    case "Agric": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++agricCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setAgric(sum * 100 / totalOutOf);
+                            gradeCount.setAgric(this.getGrade(meritList.getAgric()));
+                            continue block118;
+                        }
+                        meritList.setAgric(sum);
+                        gradeCount.setAgric(this.getGrade(meritList.getAgric()));
+                        continue block118;
+                    }
+                    case "Comp": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++compCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setComp(sum * 100 / totalOutOf);
+                            gradeCount.setComp(this.getGrade(meritList.getComp()));
+                            continue block118;
+                        }
+                        meritList.setComp(sum);
+                        gradeCount.setComp(this.getGrade(meritList.getComp()));
+                        continue block118;
+                    }
+                    case "Avi": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++aviCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setAvi(sum * 100 / totalOutOf);
+                            gradeCount.setAvi(this.getGrade(meritList.getAvi()));
+                            continue block118;
+                        }
+                        meritList.setAvi(sum);
+                        gradeCount.setAvi(this.getGrade(meritList.getAvi()));
+                        continue block118;
+                    }
+                    case "Elec": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++elecCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setElec(sum * 100 / totalOutOf);
+                            gradeCount.setElec(this.getGrade(meritList.getElec()));
+                            continue block118;
+                        }
+                        meritList.setElec(sum);
+                        gradeCount.setElec(this.getGrade(meritList.getElec()));
+                        continue block118;
+                    }
+                    case "Pwr": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++pwrCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setPwr(sum * 100 / totalOutOf);
+                            gradeCount.setPwr(this.getGrade(meritList.getPwr()));
+                            continue block118;
+                        }
+                        meritList.setPwr(sum);
+                        gradeCount.setPwr(this.getGrade(meritList.getPwr()));
+                        continue block118;
+                    }
+                    case "Wood": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++woodCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setWood(sum * 100 / totalOutOf);
+                            gradeCount.setWood(this.getGrade(meritList.getWood()));
+                            continue block118;
+                        }
+                        meritList.setWood(sum);
+                        gradeCount.setWood(this.getGrade(meritList.getWood()));
+                        continue block118;
+                    }
+                    case "Metal": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++metalCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setMetal(sum * 100 / totalOutOf);
+                            gradeCount.setMetal(this.getGrade(meritList.getMetal()));
+                            continue block118;
+                        }
+                        meritList.setMetal(sum);
+                        gradeCount.setMetal(this.getGrade(meritList.getMetal()));
+                        continue block118;
+                    }
+                    case "Bc": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bcCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setBc(sum * 100 / totalOutOf);
+                            gradeCount.setBc(this.getGrade(meritList.getBc()));
+                            continue block118;
+                        }
+                        meritList.setBc(sum);
+                        gradeCount.setBc(this.getGrade(meritList.getBc()));
+                        continue block118;
+                    }
+                    case "Fren": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++frenCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setFren(sum * 100 / totalOutOf);
+                            gradeCount.setFren(this.getGrade(meritList.getFren()));
+                            continue block118;
+                        }
+                        meritList.setFren(sum);
+                        gradeCount.setFren(this.getGrade(meritList.getFren()));
+                        continue block118;
+                    }
+                    case "Germ": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++germCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setGerm(sum * 100 / totalOutOf);
+                            gradeCount.setGerm(this.getGrade(meritList.getGerm()));
+                            continue block118;
+                        }
+                        meritList.setGerm(sum);
+                        gradeCount.setGerm(this.getGrade(meritList.getGerm()));
+                        continue block118;
+                    }
+                    case "Arab": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++arabCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setArab(sum * 100 / totalOutOf);
+                            gradeCount.setArab(this.getGrade(meritList.getArab()));
+                            continue block118;
+                        }
+                        meritList.setArab(sum);
+                        gradeCount.setArab(this.getGrade(meritList.getArab()));
+                        continue block118;
+                    }
+                    case "Msc": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++mscCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setMsc(sum * 100 / totalOutOf);
+                            gradeCount.setMsc(this.getGrade(meritList.getMsc()));
+                            continue block118;
+                        }
+                        meritList.setMsc(sum);
+                        gradeCount.setMsc(this.getGrade(meritList.getMsc()));
+                        continue block118;
+                    }
+                    case "Bs": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bsCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setBs(sum * 100 / totalOutOf);
+                            gradeCount.setBs(this.getGrade(meritList.getBs()));
+                            continue block118;
+                        }
+                        meritList.setBs(sum);
+                        gradeCount.setBs(this.getGrade(meritList.getBs()));
+                        continue block118;
+                    }
+                    case "Dnd": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++dndCount;
+                        }
+                        if (totalOutOf > 0) {
+                            meritList.setDnd(sum * 100 / totalOutOf);
+                            gradeCount.setDnd(this.getGrade(meritList.getDnd()));
+                            continue block118;
+                        }
+                        meritList.setDnd(sum);
+                        gradeCount.setDnd(this.getGrade(meritList.getDnd()));
+                    }
+                }
+            }
+            meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio() + meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre() + meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci() + meritList.getAnD() + meritList.getAgric() + meritList.getComp() + meritList.getAvi() + meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal() + meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab() + meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+            if (count > 0) {
+                meritList.setAverage(meritList.getTotal() / count);
+            }
+            meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
+            meritLists.add(meritList);
+            gradeCounts.add(gradeCount);
+        }
+        for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {
+            MeritList meritList = new MeritList();
+            meritList.setFirstname(((Student)studentsWithoutMarks.get(i2)).getFirstname());
+            meritList.setSecondname(((Student)studentsWithoutMarks.get(i2)).getThirdname());
+            meritList.setAdmNo(((Student)studentsWithoutMarks.get(i2)).getAdmNo());
+            meritList.setKcpe(((Student)studentsWithoutMarks.get(i2)).getKcpeMarks());
+            meritList.setStream(((Student)studentsWithoutMarks.get(i2)).getStream().getStream());
+            meritList.setTotal(0);
+            gradeCount = new GradeCount();
+            gradeCount.setFirstname(((Student)studentsWithoutMarks.get(i2)).getFirstname());
+            gradeCount.setSecondname(((Student)studentsWithoutMarks.get(i2)).getThirdname());
+            gradeCount.setAdmNo(((Student)studentsWithoutMarks.get(i2)).getAdmNo());
+            meritLists.add(meritList);
+            gradeCounts.add(gradeCount);
+        }
+        WebContext context = new WebContext(request, response, this.servletContext);
+        String[] grades = new String[]{"A", "Am", "Bp", "B", "Bm", "Cp", "C", "Cm", "Dp", "D", "Dm", "E"};
+        String[] gds = new String[]{"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"};
+        context.setVariable("grades", (Object)grades);
+        context.setVariable("gradeCounts", gradeCounts);
+        Collections.sort(meritLists, new SortByDeviation().reversed());
+        if (meritLists.size() > 0) {
+            context.setVariable("mostImproved", meritLists.get(0));
+        }
+        List<MeritList> mathsMerits = this.getSubjectMeritList(code, year, form, term, "Maths", meritLists);
+        Collections.sort(mathsMerits, new SortByMaths().reversed());
+        if (mathsMerits.size() > 0) {
+            context.setVariable("MathsGiant", (Object)mathsMerits.get(0));
+        }
+        List<MeritList> engMerits = this.getSubjectMeritList(code, year, form, term, "Eng", meritLists);
+        Collections.sort(engMerits, new SortByEng().reversed());
+        if (engMerits.size() > 0) {
+            context.setVariable("EngGiant", (Object)engMerits.get(0));
+        }
+        List<MeritList> kisMerits = this.getSubjectMeritList(code, year, form, term, "Kis", meritLists);
+        Collections.sort(kisMerits, new SortByKis().reversed());
+        if (kisMerits.size() > 0) {
+            context.setVariable("KisGiant", (Object)kisMerits.get(0));
+        }
+        List<MeritList> bioMerits = this.getSubjectMeritList(code, year, form, term, "Bio", meritLists);
+        Collections.sort(bioMerits, new SortByBio().reversed());
+        if (bioMerits.size() > 0) {
+            context.setVariable("BioGiant", (Object)bioMerits.get(0));
+        }
+        List<MeritList> chemMerits = this.getSubjectMeritList(code, year, form, term, "Chem", meritLists);
+        Collections.sort(chemMerits, new SortByChem().reversed());
+        if (meritLists.size() > 0) {
+            context.setVariable("ChemGiant", (Object)chemMerits.get(0));
+        }
+        List<MeritList> phyMerits = this.getSubjectMeritList(code, year, form, term, "Phy", meritLists);
+        Collections.sort(phyMerits, new SortByPhy().reversed());
+        if (phyMerits.size() > 0) {
+            context.setVariable("PhyGiant", (Object)phyMerits.get(0));
+        }
+        List<MeritList> histMerits = this.getSubjectMeritList(code, year, form, term, "Hist", meritLists);
+        Collections.sort(histMerits, new SortByHist().reversed());
+        if (histMerits.size() > 0) {
+            context.setVariable("HistGiant", (Object)histMerits.get(0));
+        }
+        List<MeritList> creMerits = this.getSubjectMeritList(code, year, form, term, "C.R.E", meritLists);
+        Collections.sort(creMerits, new SortByCre().reversed());
+        if (creMerits.size() > 0) {
+            context.setVariable("creGiant", (Object)creMerits.get(0));
+        }
+        List<MeritList> geoMerits = this.getSubjectMeritList(code, year, form, term, "Geo", meritLists);
+        Collections.sort(geoMerits, new SortByGeo().reversed());
+        if (geoMerits.size() > 0) {
+            context.setVariable("GeoGiant", (Object)geoMerits.get(0));
+        }
+        List<MeritList> ireMerits = this.getSubjectMeritList(code, year, form, term, "I.R.E", meritLists);
+        Collections.sort(ireMerits, new SortByIre().reversed());
+        if (ireMerits.size() > 0) {
+            context.setVariable("ireGiant", (Object)ireMerits.get(0));
+        }
+        List<MeritList> hreMerits = this.getSubjectMeritList(code, year, form, term, "H.R.E", meritLists);
+        Collections.sort(hreMerits, new SortByHre().reversed());
+        if (hreMerits.size() > 0) {
+            context.setVariable("hreGiant", (Object)hreMerits.get(0));
+        }
+        List<MeritList> hsciMerits = this.getSubjectMeritList(code, year, form, term, "Hsci", meritLists);
+        Collections.sort(hsciMerits, new SortByHsci().reversed());
+        if (hsciMerits.size() > 0) {
+            context.setVariable("HsciGiant", (Object)hsciMerits.get(0));
+        }
+        List<MeritList> andMerits = this.getSubjectMeritList(code, year, form, term, "AnD", meritLists);
+        Collections.sort(andMerits, new SortByAnd().reversed());
+        if (andMerits.size() > 0) {
+            context.setVariable("AnDGiant", (Object)andMerits.get(0));
+        }
+        List<MeritList> agricMerits = this.getSubjectMeritList(code, year, form, term, "Agric", meritLists);
+        Collections.sort(agricMerits, new SortByAgric().reversed());
+        if (agricMerits.size() > 0) {
+            context.setVariable("AgricGiant", (Object)agricMerits.get(0));
+        }
+        List<MeritList> compMerits = this.getSubjectMeritList(code, year, form, term, "Comp", meritLists);
+        Collections.sort(compMerits, new SortByComp().reversed());
+        if (compMerits.size() > 0) {
+            context.setVariable("CompGiant", (Object)compMerits.get(0));
+        }
+        List<MeritList> aviMerits = this.getSubjectMeritList(code, year, form, term, "Avi", meritLists);
+        Collections.sort(aviMerits, new SortByAvi().reversed());
+        if (aviMerits.size() > 0) {
+            context.setVariable("AviGiant", (Object)aviMerits.get(0));
+        }
+        List<MeritList> elecMerits = this.getSubjectMeritList(code, year, form, term, "Elec", meritLists);
+        Collections.sort(elecMerits, new SortByElec().reversed());
+        if (elecMerits.size() > 0) {
+            context.setVariable("ElecGiant", (Object)elecMerits.get(0));
+        }
+        List<MeritList> pwrMerits = this.getSubjectMeritList(code, year, form, term, "Pwr", meritLists);
+        Collections.sort(pwrMerits, new SortByPwr().reversed());
+        if (pwrMerits.size() > 0) {
+            context.setVariable("PwrGiant", (Object)pwrMerits.get(0));
+        }
+        List<MeritList> woodMerits = this.getSubjectMeritList(code, year, form, term, "Wood", meritLists);
+        Collections.sort(woodMerits, new SortByWood().reversed());
+        if (woodMerits.size() > 0) {
+            context.setVariable("WoodGiant", (Object)woodMerits.get(0));
+        }
+        List<MeritList> metalMerits = this.getSubjectMeritList(code, year, form, term, "Metal", meritLists);
+        Collections.sort(metalMerits, new SortByMetal().reversed());
+        if (metalMerits.size() > 0) {
+            context.setVariable("MetalGiant", (Object)metalMerits.get(0));
+        }
+        List<MeritList> bcMerits = this.getSubjectMeritList(code, year, form, term, "Bc", meritLists);
+        Collections.sort(bcMerits, new SortByBc().reversed());
+        if (bcMerits.size() > 0) {
+            context.setVariable("BcGiant", (Object)bcMerits.get(0));
+        }
+        List<MeritList> frenMerits = this.getSubjectMeritList(code, year, form, term, "Fren", meritLists);
+        Collections.sort(frenMerits, new SortByFren().reversed());
+        if (frenMerits.size() > 0) {
+            context.setVariable("FrenGiant", (Object)frenMerits.get(0));
+        }
+        List<MeritList> germMerits = this.getSubjectMeritList(code, year, form, term, "Germ", meritLists);
+        Collections.sort(germMerits, new SortByGerm().reversed());
+        if (germMerits.size() > 0) {
+            context.setVariable("GermGiant", (Object)germMerits.get(0));
+        }
+        List<MeritList> arabMerits = this.getSubjectMeritList(code, year, form, term, "Arab", meritLists);
+        Collections.sort(arabMerits, new SortByArab().reversed());
+        if (arabMerits.size() > 0) {
+            context.setVariable("ArabGiant", (Object)arabMerits.get(0));
+        }
+        List<MeritList> mscMerits = this.getSubjectMeritList(code, year, form, term, "Msc", meritLists);
+        Collections.sort(mscMerits, new SortByMsc().reversed());
+        if (mscMerits.size() > 0) {
+            context.setVariable("MscGiant", (Object)mscMerits.get(0));
+        }
+        List<MeritList> bsMerits = this.getSubjectMeritList(code, year, form, term, "Bs", meritLists);
+        Collections.sort(bsMerits, new SortByBs().reversed());
+        if (bsMerits.size() > 0) {
+            context.setVariable("BsGiant", (Object)bsMerits.get(0));
+        }
+        List<MeritList> dndMerits = this.getSubjectMeritList(code, year, form, term, "Dnd", meritLists);
+        Collections.sort(dndMerits, new SortByDnd().reversed());
+        if (dndMerits.size() > 0) {
+            context.setVariable("DndGiant", (Object)dndMerits.get(0));
+        }
+        Collections.sort(meritLists, new SortByTotal().reversed());
+        for (int j = 0; j < gds.length; ++j) {
+            int totalS = 0;
+            block148: for (int i4 = 0; i4 < subjects.size(); ++i4) {
+                int count = 0;
+                switch (subjects.get(i4).getInitials()) {
+                    case "Maths": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getMaths() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Eng": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getEng() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Kis": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getKis() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Bio": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getBio() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Chem": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getChem() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Phy": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getPhy() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Hist": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getHist() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "C.R.E": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getCre() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + "CreCount", (Object)count);
+                        continue block148;
+                    }
+                    case "Geo": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getGeo() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "I.R.E": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getIre() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + "IreCount", (Object)count);
+                        continue block148;
+                    }
+                    case "H.R.E": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getHre() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + "HreCount", (Object)count);
+                        continue block148;
+                    }
+                    case "Hsci": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getHsci() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "AnD": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getAnd() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Agric": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getAgric() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Comp": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getComp() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Avi": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getAvi() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Elec": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getElec() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Pwr": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getPwr() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Wood": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getWood() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Metal": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getMetal() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Bc": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getBc() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Fren": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getFren() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Germ": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getGerm() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Arab": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getArab() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Msc": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getMsc() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Bs": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getBs() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        continue block148;
+                    }
+                    case "Dnd": {
+                        int k;
+                        for (k = 0; k < gradeCounts.size(); ++k) {
+                            if (((GradeCount)gradeCounts.get(k)).getDnd() != gds[j]) continue;
+                            ++count;
+                            ++totalS;
+                        }
+                        context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                    }
+                }
+            }
+            context.setVariable(grades[j] + "Count", (Object)totalS);
+        }
+        for (i = 0; i < students.size(); ++i) {
+            context.setVariable("Points" + students.get(i).getAdmNo(), (Object)this.getPoints(students.get(i).getKcpeMarks() / 5));
+        }
+        for (i = 0; i < meritLists.size(); ++i) {
+            context.setVariable("Mpoints" + ((MeritList)meritLists.get(i)).getAdmNo(), (Object)this.getPoints(((MeritList)meritLists.get(i)).getAverage()));
+        }
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("school", (Object)school);
+        context.setVariable("student", (Object)student);
+        context.setVariable("year", (Object)year);
+        context.setVariable("form", (Object)form);
+        context.setVariable("term", (Object)term);
+        context.setVariable("marks", allMarks);
+        context.setVariable("subjects", subjects);
+        context.setVariable("students", students);
+        context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
+        context.setVariable("meritLists", meritLists);
+        context.setVariable("MathsCount", (Object)mathsCount);
+        context.setVariable("EngCount", (Object)engCount);
+        context.setVariable("KisCount", (Object)kisCount);
+        context.setVariable("BioCount", (Object)bioCount);
+        context.setVariable("ChemCount", (Object)chemCount);
+        context.setVariable("PhyCount", (Object)phyCount);
+        context.setVariable("HistCount", (Object)histCount);
+        context.setVariable("creCount", (Object)creCount);
+        context.setVariable("GeoCount", (Object)geoCount);
+        context.setVariable("ireCount", (Object)ireCount);
+        context.setVariable("hreCount", (Object)hreCount);
+        context.setVariable("HsciCount", (Object)hsciCount);
+        context.setVariable("AnDCount", (Object)andCount);
+        context.setVariable("AgricCount", (Object)agricCount);
+        context.setVariable("CompCount", (Object)compCount);
+        context.setVariable("AviCount", (Object)aviCount);
+        context.setVariable("ElecCount", (Object)elecCount);
+        context.setVariable("PwrCount", (Object)pwrCount);
+        context.setVariable("WoodCount", (Object)woodCount);
+        context.setVariable("MetalCount", (Object)metalCount);
+        context.setVariable("BcCount", (Object)bcCount);
+        context.setVariable("FrenCount", (Object)frenCount);
+        context.setVariable("GermCount", (Object)germCount);
+        context.setVariable("ArabCount", (Object)arabCount);
+        context.setVariable("MscCount", (Object)mscCount);
+        context.setVariable("BsCount", (Object)bsCount);
+        context.setVariable("DndCount", (Object)dndCount);
+        String meritListHtml = this.templateEngine.process("meritListPdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter((OutputStream)target);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        PageSize pageSize = PageSize.A4.rotate();
+        pdfDocument.setDefaultPageSize(pageSize);
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        MediaDeviceDescription mediaDeviceDescription = new MediaDeviceDescription(MediaType.SCREEN);
+        mediaDeviceDescription.setWidth(pageSize.getWidth());
+        converterProperties.setMediaDeviceDescription(mediaDeviceDescription);
+        HtmlConverter.convertToPdf((String)meritListHtml, (PdfDocument)pdfDocument, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/students/{admNo}/termlyReport/pdf"})
+    public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int form, @PathVariable int year, @PathVariable int term, @PathVariable String admNo, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        School school = this.schoolService.getSchool(code).get();
+        Student student = this.studentService.getStudentInSchool(admNo, code);
+        List<Subject> subjects = this.subjectService.getSubjectDoneByStudent(admNo);
+        List<Year> years = this.yearService.allYearsForStudent(admNo);
+        List<Form> forms = this.formService.studentForms(admNo);
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        List<ExamName> examNames = this.examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
+        List<Mark> marks = this.markService.getTermlySubjectMark(admNo, form, term);
+        List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, student.getStream().getId(), year);
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("marks", marks);
+        context.setVariable("forms", forms);
+        context.setVariable("years", years);
+        context.setVariable("subjects", subjects);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        context.setVariable("examNames", examNames);
+        context.setVariable("year", (Object)year);
+        context.setVariable("form", (Object)form);
+        context.setVariable("term", (Object)term);
+        context.setVariable("teachers", teachers);
+        String termlyReportHtml = this.templateEngine.process("termlyReportPdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)termlyReportHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/studentsReport/pdf"})
+    public ResponseEntity<?> getStudentReportPDF(@PathVariable int code, @PathVariable int form, @PathVariable int year, @PathVariable int term, @PathVariable String stream, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        List<Student> students = this.studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+        List<Student> streamStudents = this.studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term, stream);
+        List<ExamName> examNames = this.examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+        int cnt = 0;
+        WebContext context = new WebContext(request, response, this.servletContext);
+        for (int i = 0; i < students.size(); ++i) {
+            context.setVariable("subjects" + students.get(i).getAdmNo(), this.subjectService.getSubjectDoneByStudent(students.get(i).getAdmNo()));
+            List<Mark> marks = this.markService.getTermlySubjectMark(students.get(i).getAdmNo(), form, term);
+            int overalTotal = 0;
+            for (int j = 0; j < subjects.size(); ++j) {
+                int sum = 0;
+                int totalOutOf = 0;
+                for (int k = 0; k < marks.size(); ++k) {
+                    if (!marks.get(k).getSubject().equals(subjects.get(j))) continue;
+                    sum += marks.get(k).getMark();
+                    totalOutOf += marks.get(k).getExamName().getOutOf();
+                }
+                if (sum > 0) {
+                    ++cnt;
+                }
+                if (totalOutOf > 0) {
+                    if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
+                        context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        overalTotal += sum * 100 / totalOutOf;
+                    }
+                    if (subjects.get(j).getInitials().equals("C.R.E")) {
+                        context.setVariable("Cresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        overalTotal += sum * 100 / totalOutOf;
+                        continue;
+                    }
+                    if (subjects.get(j).getInitials().equals("H.R.E")) {
+                        context.setVariable("Hresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        overalTotal += sum * 100 / totalOutOf;
+                        continue;
+                    }
+                    if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
+                    context.setVariable("Iresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                    overalTotal += sum * 100 / totalOutOf;
+                    continue;
+                }
+                if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
+                    context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)sum);
+                    overalTotal += sum;
+                }
+                if (subjects.get(j).getInitials().equals("C.R.E")) {
+                    context.setVariable("Cresum" + students.get(i).getAdmNo(), (Object)sum);
+                    overalTotal += sum;
+                    continue;
+                }
+                if (subjects.get(j).getInitials().equals("H.R.E")) {
+                    context.setVariable("Hresum" + students.get(i).getAdmNo(), (Object)sum);
+                    overalTotal += sum;
+                    continue;
+                }
+                if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
+                context.setVariable("Iresum" + students.get(i).getAdmNo(), (Object)sum);
+                overalTotal += sum;
+            }
+            context.setVariable("total" + students.get(i).getAdmNo(), (Object)overalTotal);
+            context.setVariable("marks" + students.get(i).getAdmNo(), marks);
+            List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, students.get(i).getStream().getId(), year);
+            context.setVariable("teachers" + students.get(i).getAdmNo(), teachers);
+        }
+        ArrayList<ExamName> eNs = new ArrayList<ExamName>();
+        for (int i = 0; i < examNames.size(); ++i) {
+            if (eNs.size() > 0) {
+                for (int k = 0; k < eNs.size(); ++k) {
+                    if (((ExamName)eNs.get(k)).getName().equals(examNames.get(i).getName())) {
+                        eNs.remove(examNames.get(i));
+                        continue;
+                    }
+                    eNs.add(examNames.get(i));
+                }
+                continue;
+            }
+            eNs.add(examNames.get(i));
+        }
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("school", (Object)school);
+        context.setVariable("streams", this.streamService.getStreamsInSchool(code));
+        context.setVariable("student", (Object)student);
+        context.setVariable("students", students);
+        context.setVariable("streamStudents", streamStudents);
+        context.setVariable("year", (Object)year);
+        context.setVariable("form", (Object)form);
+        context.setVariable("term", (Object)term);
+        context.setVariable("stream", (Object)stream);
+        context.setVariable("examNames", eNs);
+        context.setVariable("meritLists", this.getMeritList(students, subjects, year, form, term));
+        context.setVariable("studentMeritList", this.getMeritList(streamStudents, subjects, year, form, term));
+        context.setVariable("count", (Object)cnt);
+        String studentReportHtml = this.templateEngine.process("studentsReportPdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)studentReportHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/timetable/pdf"})
+    public ResponseEntity<?> getMeritListPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable int stream, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        List<Timetable> finalTimetables;
+        int i;
+        School school = this.schoolService.getSchool(code).get();
+        Year yearObj = this.yearService.getYearFromSchool(year, code).get();
+        Form formObj = this.formService.getFormByForm(form);
+        Term termObj = this.termService.getTerm(term, form, year, code);
+        Stream streamObj = this.streamService.getStream(stream);
+        Student student = new Student();
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+        Random rand = new Random();
+        ArrayList<String> days = new ArrayList<String>();
+        days.add("Mon");
+        days.add("Tue");
+        days.add("Wed");
+        days.add("Thu");
+        days.add("Fri");
+        Timetable timetable = new Timetable();
+        List<Timetable> timetables = this.timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream);
+        String[] breaks = new String[]{"B", "R", "E", "A", "K"};
+        String[] lunch = new String[]{"L", "U", "N", "C", "H"};
+        if (timetables.isEmpty()) {
+            for (i = 0; i < days.size(); ++i) {
+                timetable = new Timetable((String)days.get(i), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), subjects.get(rand.nextInt(subjects.size())).getInitials(), school, yearObj, formObj, termObj, streamObj);
+                timetables.add(timetable);
+            }
+        }
+        for (i = 0; i < 5; ++i) {
+            for (int j = 0; j < 10; ++j) {
+                if (j == 2) {
+                    timetables.get(i).setTime3(breaks[i]);
+                    continue;
+                }
+                if (j == 4) {
+                    timetables.get(i).setTime6(breaks[i]);
+                    continue;
+                }
+                if (j != 6) continue;
+                timetables.get(i).setTime9(lunch[i]);
+            }
+        }
+        if (this.formService.getFormByForm(form) != null) {
+            for (i = 0; i < timetables.size(); ++i) {
+                this.timetableService.saveTimetableItem(timetables.get(i));
+            }
+        }
+        if ((finalTimetables = this.timetableService.getTimetableBySchoolYearFormStream(code, year, form, term, stream)) == null) {
+            finalTimetables = new ArrayList<Timetable>();
+        }
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("year", (Object)year);
+        context.setVariable("form", (Object)form);
+        context.setVariable("term", (Object)term);
+        context.setVariable("stream", (Object)streamObj);
+        context.setVariable("years", years);
+        context.setVariable("streams", streams);
+        context.setVariable("timetables", finalTimetables);
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        String timetableHtml = this.templateEngine.process("timetablePdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        PdfWriter writer = new PdfWriter((OutputStream)target);
+        PdfDocument pdfDocument = new PdfDocument(writer);
+        pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)timetableHtml, (PdfDocument)pdfDocument, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/classList/pdf"})
+    public ResponseEntity<?> getPDF(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable String stream, HttpServletRequest request, HttpServletResponse response, Principal principal) throws IOException {
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        User user = new User();
+        List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        List<Student> students = this.studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("subjects", subjects);
+        context.setVariable("form", (Object)form);
+        context.setVariable("stream", (Object)stream);
+        context.setVariable("year", (Object)year);
+        context.setVariable("students", students);
+        context.setVariable("streams", streams);
+        context.setVariable("years", years);
+        context.setVariable("schoolUsers", schoolUsers);
+        context.setVariable("user", (Object)user);
+        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("student", (Object)student);
+        context.setVariable("school", (Object)school);
+        String classListHtml = this.templateEngine.process("classListPdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)classListHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    @PostMapping(value={"/school/{code}/feeRalance/pdf"})
+    public String feeBalance(@PathVariable int code, @RequestParam int academicYear, @RequestParam int form, @RequestParam int term, @RequestParam String stream) {
+        return "redirect:/schools/" + code + "/years/" + academicYear + "/forms/" + form + "/terms/" + term + "/streams/" + stream + "/feeBalance/pdf";
+    }
+
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/feeBalance/pdf"})
+    public ResponseEntity<?> getFeeBalancePdf(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String stream, Principal principal, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        User user = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        int totalAmountExpected = 0;
+        List<FeeStructure> feeStructures = new ArrayList();
+        for (int i = 1; i <= form; ++i) {
+            for (int j = 1; j <= term; ++j) {
+                feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormTerm(code, year, i, j);
+                for (int k = 0; k < feeStructures.size(); ++k) {
+                    totalAmountExpected += ((FeeStructure)feeStructures.get(k)).getCost();
+                }
+            }
+        }
+        ArrayList<FeeBalance> feeBalances = new ArrayList<FeeBalance>();
+        List<Student> students = this.studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term, stream);
+        List<FeeRecord> feeRecords = new ArrayList();
+        for (int i = 0; i < students.size(); ++i) {
+            int totalFeePaid = 0;
+            FeeBalance feeBalance = new FeeBalance(students.get(i).getFirstname(), students.get(i).getSecondname(), students.get(i).getThirdname(), students.get(i).getAdmNo());
+            feeRecords = this.feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo());
+            for (int j = 0; j < feeRecords.size(); ++j) {
+                totalFeePaid += ((FeeRecord)feeRecords.get(j)).getAmount();
+            }
+            feeBalance.setBalance(totalAmountExpected - totalFeePaid);
+            feeBalances.add(feeBalance);
+        }
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("activeUser", (Object)user);
+        context.setVariable("school", (Object)school);
+        context.setVariable("student", (Object)student);
+        context.setVariable("feeBalances", feeBalances);
+        context.setVariable("form", (Object)form);
+        context.setVariable("year", (Object)year);
+        context.setVariable("term", (Object)term);
+        context.setVariable("stream", (Object)stream);
+        String feeBalanceHtml = this.templateEngine.process("feeBalancePdf", (IContext)context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
+        HtmlConverter.convertToPdf((String)feeBalanceHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
+    }
+
+    public List<MeritList> getSubjectMeritList(int code, int year, int form, int term, String initials, List<MeritList> meritLists) {
+        List<Student> subjectStudents = this.studentService.findAllStudentDoingSubject(code, year, form, term, initials);
+        ArrayList<MeritList> subjectMerits = new ArrayList<MeritList>();
+        for (int i = 0; i < meritLists.size(); ++i) {
+            if (subjectStudents.size() == 0) {
+                MeritList meritList = new MeritList("-", "-", "-", "-");
+                subjectMerits.add(meritList);
+                break;
+            }
+            for (int j = 0; j < subjectStudents.size(); ++j) {
+                if (meritLists.get(i).getAdmNo() != subjectStudents.get(j).getAdmNo()) continue;
+                subjectMerits.add(meritLists.get(i));
+            }
+        }
+        return subjectMerits;
+    }
+
+    public String getGrade(int mark) {
+        if (mark <= 100 && mark >= 80) {
+            return "A";
+        }
+        if (mark < 80 && mark >= 75) {
+            return "A-";
+        }
+        if (mark < 75 && mark >= 70) {
+            return "B+";
+        }
+        if (mark < 70 && mark >= 65) {
+            return "B";
+        }
+        if (mark < 65 && mark >= 60) {
+            return "B-";
+        }
+        if (mark < 60 && mark >= 55) {
+            return "C+";
+        }
+        if (mark < 55 && mark >= 50) {
+            return "C";
+        }
+        if (mark < 50 && mark >= 45) {
+            return "C-";
+        }
+        if (mark < 45 && mark >= 40) {
+            return "D+";
+        }
+        if (mark < 40 && mark >= 35) {
+            return "D";
+        }
+        if (mark < 35 && mark >= 30) {
+            return "D-";
+        }
+        if (mark < 30 && mark > 0) {
+            return "E";
+        }
+        return "-";
+    }
+
+    public int getPoints(int mark) {
+        if (mark <= 100 && mark >= 80) {
+            return 12;
+        }
+        if (mark < 80 && mark >= 75) {
+            return 11;
+        }
+        if (mark < 75 && mark >= 70) {
+            return 10;
+        }
+        if (mark < 70 && mark >= 65) {
+            return 9;
+        }
+        if (mark < 65 && mark >= 60) {
+            return 8;
+        }
+        if (mark < 60 && mark >= 55) {
+            return 7;
+        }
+        if (mark < 55 && mark >= 50) {
+            return 6;
+        }
+        if (mark < 50 && mark >= 45) {
+            return 5;
+        }
+        if (mark < 45 && mark >= 40) {
+            return 4;
+        }
+        if (mark < 40 && mark >= 35) {
+            return 3;
+        }
+        if (mark < 35 && mark >= 30) {
+            return 2;
+        }
+        if (mark < 30 && mark > 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public List<MeritList> getMeritList(List<Student> students, List<Subject> subjects, int year, int form, int term) {
+        int i;
+        ArrayList<Student> studentsWithoutMarks = new ArrayList<Student>();
+        ArrayList<Student> studentsWithMarks = new ArrayList<Student>();
+        for (int i2 = 0; i2 < students.size(); ++i2) {
+            if (!this.markService.getMarkByAdm(students.get(i2).getAdmNo()).booleanValue()) {
+                studentsWithoutMarks.add(students.get(i2));
+                continue;
+            }
+            studentsWithMarks.add(students.get(i2));
+        }
+        ArrayList<MeritList> meritLists = new ArrayList<MeritList>();
+        int mathsCount = 0;
+        int engCount = 0;
+        int kisCount = 0;
+        int bioCount = 0;
+        int chemCount = 0;
+        int phyCount = 0;
+        int histCount = 0;
+        int creCount = 0;
+        int geoCount = 0;
+        int ireCount = 0;
+        int hreCount = 0;
+        int hsciCount = 0;
+        int andCount = 0;
+        int agricCount = 0;
+        int compCount = 0;
+        int aviCount = 0;
+        int elecCount = 0;
+        int pwrCount = 0;
+        int woodCount = 0;
+        int metalCount = 0;
+        int bcCount = 0;
+        int frenCount = 0;
+        int germCount = 0;
+        int arabCount = 0;
+        int mscCount = 0;
+        int bsCount = 0;
+        int dndCount = 0;
+        for (i = 0; i < studentsWithMarks.size(); ++i) {
+            int count = 0;
+            MeritList meritList = new MeritList();
+            block60: for (int j = 0; j < subjects.size(); ++j) {
+                meritList.setFirstname(students.get(i).getFirstname());
+                meritList.setSecondname(students.get(i).getThirdname());
+                meritList.setAdmNo(students.get(i).getAdmNo());
+                meritList.setKcpe(students.get(i).getKcpeMarks());
+                meritList.setStream(students.get(i).getStream().getStream());
+                List<Mark> marks = new ArrayList();
+                int sum = 0;
+                switch (subjects.get(j).getInitials()) {
+                    case "Maths": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++mathsCount;
+                        }
+                        meritList.setMaths(sum);
+                        continue block60;
+                    }
+                    case "Eng": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++engCount;
+                        }
+                        meritList.setEng(sum);
+                        continue block60;
+                    }
+                    case "Kis": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++kisCount;
+                        }
+                        meritList.setKis(sum);
+                        continue block60;
+                    }
+                    case "Bio": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bioCount;
+                        }
+                        meritList.setBio(sum);
+                        continue block60;
+                    }
+                    case "Chem": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++chemCount;
+                        }
+                        meritList.setChem(sum);
+                        continue block60;
+                    }
+                    case "Phy": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++phyCount;
+                        }
+                        meritList.setPhy(sum);
+                        continue block60;
+                    }
+                    case "Hist": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++histCount;
+                        }
+                        meritList.setHist(sum);
+                        continue block60;
+                    }
+                    case "C.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++creCount;
+                        }
+                        meritList.setCre(sum);
+                        continue block60;
+                    }
+                    case "Geo": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++geoCount;
+                        }
+                        meritList.setGeo(sum);
+                        continue block60;
+                    }
+                    case "I.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++ireCount;
+                        }
+                        meritList.setIre(sum);
+                        continue block60;
+                    }
+                    case "H.R.E": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++hreCount;
+                        }
+                        meritList.setHre(sum);
+                        continue block60;
+                    }
+                    case "Hsci": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++hsciCount;
+                        }
+                        meritList.setHsci(sum);
+                        continue block60;
+                    }
+                    case "AnD": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++andCount;
+                        }
+                        meritList.setAnD(sum);
+                        continue block60;
+                    }
+                    case "Agric": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++agricCount;
+                        }
+                        meritList.setAgric(sum);
+                        continue block60;
+                    }
+                    case "Comp": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++compCount;
+                        }
+                        meritList.setComp(sum);
+                        continue block60;
+                    }
+                    case "Avi": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++aviCount;
+                        }
+                        meritList.setAvi(sum);
+                        continue block60;
+                    }
+                    case "Elec": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++elecCount;
+                        }
+                        meritList.setElec(sum);
+                        continue block60;
+                    }
+                    case "Pwr": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++pwrCount;
+                        }
+                        meritList.setPwr(sum);
+                        continue block60;
+                    }
+                    case "Wood": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++woodCount;
+                        }
+                        meritList.setWood(sum);
+                        continue block60;
+                    }
+                    case "Metal": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++metalCount;
+                        }
+                        meritList.setMetal(sum);
+                        continue block60;
+                    }
+                    case "Bc": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bcCount;
+                        }
+                        meritList.setBc(sum);
+                        continue block60;
+                    }
+                    case "Fren": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++frenCount;
+                        }
+                        meritList.setFren(sum);
+                        continue block60;
+                    }
+                    case "Germ": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++germCount;
+                        }
+                        meritList.setGerm(sum);
+                        continue block60;
+                    }
+                    case "Arab": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++arabCount;
+                        }
+                        meritList.setArab(sum);
+                        continue block60;
+                    }
+                    case "Msc": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++mscCount;
+                        }
+                        meritList.setMsc(sum);
+                        continue block60;
+                    }
+                    case "Bs": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++bsCount;
+                        }
+                        meritList.setBs(sum);
+                        continue block60;
+                    }
+                    case "DnD": {
+                        int k;
+                        marks = this.markService.getMarkByStudentOnAsubject(students.get(i).getAdmNo(), year, form, term, subjects.get(j).getInitials());
+                        for (k = 0; k < marks.size(); ++k) {
+                            sum += ((Mark)marks.get(k)).getMark();
+                        }
+                        if (sum > 0) {
+                            ++count;
+                            ++dndCount;
+                        }
+                        meritList.setDnd(sum);
+                    }
+                }
+            }
+            meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio() + meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre() + meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci() + meritList.getAnD() + meritList.getAgric() + meritList.getComp() + meritList.getAvi() + meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal() + meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab() + meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+            if (count > 0) {
+                meritList.setAverage(meritList.getTotal() / count);
+                meritList.setDeviation(meritList.getAverage() - students.get(i).getKcpeMarks() / 5);
+                meritLists.add(meritList);
+                continue;
+            }
+            meritList.setAverage(0);
+            meritList.setDeviation(meritList.getAverage() - students.get(i).getKcpeMarks() / 5);
+            meritLists.add(meritList);
+        }
+        Collections.sort(meritLists, new SortByTotal());
+        for (i = 0; i < studentsWithoutMarks.size(); ++i) {
+            MeritList meritList = new MeritList();
+            meritList.setFirstname(((Student)studentsWithoutMarks.get(i)).getFirstname());
+            meritList.setSecondname(((Student)studentsWithoutMarks.get(i)).getSecondname());
+            meritList.setAdmNo(((Student)studentsWithoutMarks.get(i)).getAdmNo());
+            meritList.setKcpe(((Student)studentsWithoutMarks.get(i)).getKcpeMarks());
+            meritList.setStream(((Student)studentsWithoutMarks.get(i)).getStream().getStream());
+            meritList.setTotal(0);
+            meritLists.add(meritList);
+        }
+        for (i = 0; i < meritLists.size(); ++i) {
+            ((MeritList)meritLists.get(i)).setRank(i + 1);
+        }
+        return meritLists;
+    }
 }
 
 class SortByTotal implements Comparator<MeritList> {
@@ -1355,7 +2250,7 @@ class SortByHsci implements Comparator<MeritList> {
 class SortByAnd implements Comparator<MeritList> {
 
 	public int compare(MeritList a, MeritList b) {
-		return a.getAnd() - b.getAnd();
+		return a.getAnD() - b.getAnD();
 	}
 }
 
@@ -1709,7 +2604,7 @@ class getMeritList {
 						count++;
 						andCount++;
 					}
-					meritList.setAnd(sum);
+					meritList.setAnD(sum);
 
 					break;
 				case "Agric":
@@ -1943,7 +2838,7 @@ class getMeritList {
 			meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio()
 					+ meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre()
 					+ meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci()
-					+ meritList.getAnd() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
+					+ meritList.getAnD() + meritList.getAgric() + meritList.getComp() + meritList.getAvi()
 					+ meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal()
 					+ meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab()
 					+ meritList.getMsc() + meritList.getBs() + meritList.getDnd());

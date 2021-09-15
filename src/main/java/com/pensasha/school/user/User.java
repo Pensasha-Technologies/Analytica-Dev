@@ -1,5 +1,6 @@
 package com.pensasha.school.user;
 
+import com.pensasha.school.role.Role;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -9,133 +10,121 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.pensasha.school.role.Role;
-
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public class User {
+    @Id
+    private String username;
+    @NotNull
+    @Size(min=3, max=24)
+    private @NotNull @Size(min=3, max=24) String firstname;
+    private String secondname;
+    private String thirdname;
+    private String password;
+    private String email;
+    private int phoneNumber;
+    private String address;
+    @ManyToOne
+    @JoinColumn(name="role_id")
+    private Role role;
 
-	@Id
-	private String username;
-	
-	@NotNull
-	@Size(min=3,max=24)
-	private String firstname;
-	private String secondname;
-	private String thirdname;
-	private String password;
-	private String email;
-	private int phoneNumber;
-	private String address;
-	
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
-	
-	public User(String username, String firstname, String secondname, String thirdname, String password, String email,
-			int phoneNumber, String address) {
-		super();
-		this.username = username;
-		this.firstname = firstname;
-		this.secondname = secondname;
-		this.thirdname = thirdname;
-		this.password = password;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.address = address;
-	}
-	
-	public User(String username, String firstname, String secondname, String thirdname, String password,
-			int phoneNumber) {
-		super();
-		this.username = username;
-		this.firstname = firstname;
-		this.secondname = secondname;
-		this.thirdname = thirdname;
-		this.password = password;
-		this.phoneNumber = phoneNumber;
-	}
+    public User(String username, String firstname, String secondname, String thirdname, String password, String email, int phoneNumber, String address) {
+        this.username = username;
+        this.firstname = firstname;
+        this.secondname = secondname;
+        this.thirdname = thirdname;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
 
-	public User(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
-	}
+    public User(String username, String firstname, String secondname, String thirdname, String password, int phoneNumber) {
+        this.username = username;
+        this.firstname = firstname;
+        this.secondname = secondname;
+        this.thirdname = thirdname;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
 
-	public User() {
-		super();
-	}
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public User() {
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public String getUsername() {
+        return this.username;
+    }
 
-	public Role getRole() {
-		return role;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
+    public Role getRole() {
+        return this.role;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
-	public String getFirstname() {
-		return firstname;
-	}
+    public String getPassword() {
+        return this.password;
+    }
 
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getSecondname() {
-		return secondname;
-	}
+    public String getFirstname() {
+        return this.firstname;
+    }
 
-	public void setSecondname(String secondname) {
-		this.secondname = secondname;
-	}
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
 
-	public String getThirdname() {
-		return thirdname;
-	}
+    public String getSecondname() {
+        return this.secondname;
+    }
 
-	public void setThirdname(String thirdname) {
-		this.thirdname = thirdname;
-	}
+    public void setSecondname(String secondname) {
+        this.secondname = secondname;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getThirdname() {
+        return this.thirdname;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setThirdname(String thirdname) {
+        this.thirdname = thirdname;
+    }
 
-	public int getPhoneNumber() {
-		return phoneNumber;
-	}
+    public String getEmail() {
+        return this.email;
+    }
 
-	public void setPhoneNumber(int phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public int getPhoneNumber() {
+        return this.phoneNumber;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

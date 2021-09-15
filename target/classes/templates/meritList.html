@@ -75,7 +75,8 @@
 						th:if="${meritLists} and ${meritLists.size()}">
 						<a
 							th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/meritList/pdf(code=${school.code},year=${year}, form=${form},term=${term})}"
-							class="btn btn-primary"> Download</a>
+							class="btn btn-primary"> Download <i
+							class="fas fa-fw fa-download"></i></a>
 					</div>
 
 					<div class="table-responsive">
@@ -85,14 +86,15 @@
 									<th scope="col">Adm No.</th>
 									<th scope="col">Name</th>
 									<th scope="col">K.C.P.E</th>
-									<th scope="col">Stream</th>
+									<th scope="col">Strm</th>
 									<th:block th:each="subject : ${subjects}">
 										<th scope="col" th:text="${subject.initials}">subject</th>
 									</th:block>
-									<th scope="col">Total</th>
+									<th scope="col">Tot</th>
 									<th scope="col">Mean</th>
-									<th scope="col">Grade</th>
-									<th scope="col">Points</th>
+									<th scope="col">Grd</th>
+									<th scope="col">Pnts</th>
+									<th scope="col">V.A</th>
 									<th scope="col">Rank</th>
 								</tr>
 							</thead>
@@ -109,47 +111,36 @@
 									<td th:text="${meritList.kcpe}">kcpe</td>
 									<td th:text="${meritList.stream}">stream</td>
 									<th:block th:each="subject : ${subjects}">
-										<td th:text="${meritList.__${subject.initials}__}"
-											th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"></td>
 										<td th:text="${meritList.cre}"
 											th:if="${subject.initials == 'C.R.E'}"></td>
 										<td th:text="${meritList.hre}"
 											th:if="${subject.initials == 'H.R.E'}"></td>
 										<td th:text="${meritList.ire}"
 											th:if="${subject.initials == 'I.R.E'}"></td>
+										<td
+											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"
+											th:text="${meritList.__${subject.initials}__}"></td>
 									</th:block>
 									<td th:text="${meritList.total}"></td>
 									<td th:text="${meritList.average}">Average</td>
-									<td th:with="isEven=${meritList.average}">
-										<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
-										<p th:if="${isEven<80 && isEven>=75}">A-</p>
-										<p th:if="${isEven<75 && isEven>=70}">B+</p>
-										<p th:if="${isEven<70 && isEven>=65}">B</p>
-										<p th:if="${isEven<65 && isEven>=60}">B-</p>
-										<p th:if="${isEven<60 && isEven>=55}">C+</p>
-										<p th:if="${isEven<55 && isEven>=50}">C</p>
-										<p th:if="${isEven<50 && isEven>=45}">C-</p>
-										<p th:if="${isEven<45 && isEven>=40}">D+</p>
-										<p th:if="${isEven<40 && isEven>=35}">D</p>
-										<p th:if="${isEven<35 && isEven>=30}">D-</p>
-										<p th:if="${isEven<30 && isEven>0}">E</p>
-										<p th:if="${isEven == 0 }">...</p>
-									</td>
-									<td th:with="isOdd = ${meritList.average}">
-										<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
-										<p th:if="${isOdd<80 && isOdd>=75}">11</p>
-										<p th:if="${isOdd<75 && isOdd>=70}">10</p>
-										<p th:if="${isOdd<70 && isOdd>=65}">9</p>
-										<p th:if="${isOdd<65 && isOdd>=60}">8</p>
-										<p th:if="${isOdd<60 && isOdd>=55}">7</p>
-										<p th:if="${isOdd<55 && isOdd>=50}">6</p>
-										<p th:if="${isOdd<50 && isOdd>=45}">5</p>
-										<p th:if="${isOdd<45 && isOdd>=40}">4</p>
-										<p th:if="${isOdd<40 && isOdd>=35}">3</p>
-										<p th:if="${isOdd<35 && isOdd>=30}">2</p>
-										<p th:if="${isOdd<30 && isOdd>0}">1</p>
-										<p th:if="${isOdd == 0 }">...</p>
-									</td>
+									<th:block th:with="isEven=${meritList.average}">
+										<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
+										<td th:if="${isEven<80 && isEven>=75}">A-</td>
+										<td th:if="${isEven<75 && isEven>=70}">B+</td>
+										<td th:if="${isEven<70 && isEven>=65}">B</td>
+										<td th:if="${isEven<65 && isEven>=60}">B-</td>
+										<td th:if="${isEven<60 && isEven>=55}">C+</td>
+										<td th:if="${isEven<55 && isEven>=50}">C</td>
+										<td th:if="${isEven<50 && isEven>=45}">C-</td>
+										<td th:if="${isEven<45 && isEven>=40}">D+</td>
+										<td th:if="${isEven<40 && isEven>=35}">D</td>
+										<td th:if="${isEven<35 && isEven>=30}">D-</td>
+										<td th:if="${isEven<30 && isEven>0}">E</td>
+										<td th:if="${isEven == 0 }">...</td>
+									</th:block>
+									<td th:text="${__${'Mpoints' + meritList.admNo}__}">-</td>
+									<td
+										th:text="${__${'Mpoints' + meritList.admNo}__ - __${'Points' + meritList.admNo}__}"></td>
 									<th scope="row" th:text="${rank.index + 1}">1</th>
 								</tr>
 							</tbody>
@@ -160,7 +151,8 @@
 						<h4>Subject Means/Averages</h4>
 					</div>
 
-					<div class="table-responsive" style="padding: 20px;">
+					<div class="table-responsive"
+						style="padding: 20px; font-size: 14px;">
 						<table class="table">
 							<thead>
 								<tr>
@@ -172,7 +164,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>Mean</td>
+									<td>Average</td>
 									<th:block th:each="subject : ${subjects}">
 										<td scope="col"
 											th:text="${(#aggregates.sum(meritLists.![cre]))/creCount}"
@@ -188,6 +180,7 @@
 											<td scope="col"
 												th:text="${(#aggregates.sum(meritLists.![__${subject.initials}__]))/__${subject.initials}__Count}"
 												th:if="${__${subject.initials}__Count > 0}">-</td>
+											<td th:if="${__${subject.initials}__Count == 0}">-</td>
 										</th:block>
 									</th:block>
 
@@ -210,13 +203,31 @@
 						</table>
 					</div>
 
-					<!--  
+					<div style="text-align: center;">
+						<h4>Subject Means/Averages Chart</h4>
+					</div>
+
+					<div style="padding: 20px;">
+						<!-- Bar Chart -->
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary">Subject
+									Averages</h6>
+							</div>
+							<div class="card-body">
+								<div class="chart-bar">
+									<canvas id="myBarChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div style="text-align: center;">
 						<h4>Students Grade Distribution</h4>
 					</div>
 
 					<div class="table-responsive">
-						<table class="table">
+						<table class="table table-sm" style="font-size: 14px;">
 							<thead>
 								<tr>
 									<th>Grade</th>
@@ -227,24 +238,79 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>A</td>
+								<tr th:each="grade : ${grades}">
+									<td th:if="${grade == 'Am'}">A-</td>
+									<td th:if="${grade == 'Bp'}">B+</td>
+									<td th:if="${grade == 'Bm'}">B-</td>
+									<td th:if="${grade == 'Cp'}">C+</td>
+									<td th:if="${grade == 'Cm'}">C-</td>
+									<td th:if="${grade == 'Dp'}">D+</td>
+									<td th:if="${grade == 'Dm'}">D-</td>
+									<td
+										th:if="${grade != 'Am' && grade != 'Bp' && grade != 'Bm' && grade != 'Cp' && grade != 'Cm' && grade != 'Dp' && grade != 'Dm'}"
+										th:text="${grade}"></td>
 									<th:block th:each="subject : ${subjects}">
-										<td scope="col">-</td>
+										<th:block
+											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+											<td th:text="${__${grade + subject.initials + 'Count'}__}">
+												-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'C.R.E'}">
+											<td th:text="${__${grade + 'CreCount'}__}">-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'H.R.E'}">
+											<td th:text="${__${grade + 'HreCount'}__}">-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'I.R.E'}">
+											<td th:text="${__${grade + 'IreCount'}__}">-</td>
+										</th:block>
 									</th:block>
-									<td></td>
+									<th:block>
+										<td th:text="${__${grade + 'Count'}__}">Total</td>
+									</th:block>
 								</tr>
 								<tr>
-									<td>A-</td>
+									<td><strong> Total </strong></td>
 									<th:block th:each="subject : ${subjects}">
-										<td scope="col">-</td>
+										<th:block
+											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+											<td th:text="${__${subject.initials}__Count}">-</td>
+										</th:block>
+										<td th:if="${subject.initials == 'C.R.E'}"
+											th:text="${creCount}"></td>
+										<td th:if="${subject.initials == 'H.R.E'}"
+											th:text="${hreCount}"></td>
+										<td th:if="${subject.initials == 'I.R.E'}"
+											th:text="${ireCount}"></td>
 									</th:block>
-									<td></td>
+									<td
+										th:text="${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}"></td>
+
 								</tr>
 							</tbody>
 						</table>
 					</div>
 
+					<div style="text-align: center; padding-top: 20px;">
+						<h4>Subject Grade Distribution Chart</h4>
+					</div>
+
+					<div style="padding: 20px;">
+						<!-- Bar Chart -->
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary">Subject Grade
+									Distribution Chart</h6>
+							</div>
+							<div class="card-body">
+								<div class="chart-bar">
+									<canvas id="myGradeChart"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!--  
 					<div style="text-align: center; padding-top: 20px;">
 						<h4>Performance Analysis</h4>
 						<h5>Overal Grade Distribution. (Based on Ranking).</h5>
@@ -254,7 +320,7 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th>Grade</th>
+									<th>Class</th>
 									<th>A</th>
 									<th>A-</th>
 									<th>B+</th>
@@ -268,35 +334,42 @@
 									<th>D-</th>
 									<th>E</th>
 									<th>Y</th>
+									<th>Entry</th>
+									<th>Mean Points</th>
+									<th>Mean Grade</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
 									<th>Total</th>
-									<td>A</td>
-									<td>A-</td>
-									<td>B+</td>
-									<td>B</td>
-									<td>B-</td>
-									<td>C+</td>
-									<td>C</td>
-									<td>C-</td>
-									<td>D+</td>
-									<td>D</td>
-									<td>D-</td>
-									<td>E</td>
-									<td>Y</td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+
 -->
 					<div style="text-align: center;">
 						<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
 					</div>
 
 					<div class="table-responsive" style="padding: 20px;">
-						<table class="table">
+						<table class="table" style="font-size: 14px;">
 							<thead>
 								<tr>
 									<th>First Name</th>
@@ -332,7 +405,7 @@
 						<h6 th:text="${subject.name}">Subject Name</h6>
 
 						<div class="table-responsive" style="padding-bottom: 20px;">
-							<table class="table">
+							<table class="table" style="font-size: 14px;">
 								<thead>
 									<tr>
 										<th>Adm No.</th>
@@ -354,23 +427,42 @@
 									</th:block>
 									<th:block th:if="${meritLists} and ${meritLists.size()}">
 										<tr>
-											<td
-												th:text="${#strings.substringAfter(__${subject.initials}__Giant.admNo,'_')}">Adm
-												No.</td>
-											<td th:text="${__${subject.initials}__Giant.firstname}">First
-												Name</td>
-											<td th:text="${__${subject.initials}__Giant.secondname}">Third
-												Name</td>
-											<td th:text="${__${subject.initials}__Giant.stream}">Stream</td>
-											<th:block th:each="meritList : ${meritLists}">
-												<td th:text="${meritList.__${subject.initials}__}"
-													th:if="${subject.initials != 'C.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo || subject.initials != 'H.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo || subject.initials != 'I.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
-												<td th:text="${meritList.cre}"
-													th:if="${subject.initials == 'C.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
-												<td th:text="${meritList.hre}"
-													th:if="${subject.initials == 'H.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
-												<td th:text="${meritList.ire}"
-													th:if="${subject.initials == 'I.R.E' && meritList.admNo == __${subject.initials}__Giant.admNo}"></td>
+											<th:block
+												th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
+												<td
+													th:text="${#strings.substringAfter(__${subject.initials}__Giant.admNo,'_')}">Adm
+													No.</td>
+												<td th:text="${__${subject.initials}__Giant.firstname}">First
+													Name</td>
+												<td th:text="${__${subject.initials}__Giant.secondname}">Third
+													Name</td>
+												<td th:text="${__${subject.initials}__Giant.stream}">Stream</td>
+												<td
+													th:text="${__${subject.initials}__Giant.__${subject.initials}__}">Stream</td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'C.R.E'}">
+												<td th:text="${#strings.substringAfter(creGiant.admNo,'_')}">Adm
+													No.</td>
+												<td th:text="${creGiant.firstname}">First Name</td>
+												<td th:text="${creGiant.secondname}">Third Name</td>
+												<td th:text="${creGiant.stream}">Stream</td>
+												<td th:text="${creGiant.cre}">Stream</td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'I.R.E'}">
+												<td th:text="${#strings.substringAfter(ireGiant.admNo,'_')}">Adm
+													No.</td>
+												<td th:text="${ireGiant.firstname}">First Name</td>
+												<td th:text="${ireGiant.secondname}">Third Name</td>
+												<td th:text="${ireGiant.stream}">Stream</td>
+												<td th:text="${ireGiant.ire}">Stream</td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'H.R.E'}">
+												<td th:text="${#strings.substringAfter(hreGiant.admNo,'_')}">Adm
+													No.</td>
+												<td th:text="${hreGiant.firstname}">First Name</td>
+												<td th:text="${hreGiant.secondname}">Third Name</td>
+												<td th:text="${hreGiant.stream}">Stream</td>
+												<td th:text="${hreGiant.hre}">Stream</td>
 											</th:block>
 										</tr>
 									</th:block>
@@ -398,6 +490,446 @@
 
 		<!-- Logout modal -->
 		<div th:replace="fragments :: logoutModal"></div>
+
+		<script th:inline="javascript">
+			var i, j;
+
+			var subjects = /*[[${subjects}]]*/null;
+			var meritLists = /*[[${meritLists}]]*/null;
+			var labels = [];
+			var data = [];
+
+			var grades = /*[[${grades}]]*/null;
+			var grds = [ "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+",
+					"D", "D-", "E" ];
+			var count = [];
+			var maxTotal = /*[[${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}]]*/null;
+
+			for (i = 0; i < grades.length; i++) {
+
+				switch (grades[i]) {
+				case "A":
+
+					count.push(/*[[${ACount}]]*/ null);
+					break;
+					
+				case "Am":
+					
+					count.push(/*[[${AmCount}]]*/ null);
+					break;
+					
+				case "Bp":
+					
+					count.push(/*[[${BpCount}]]*/ null);
+					break;
+					
+				case "B":
+					
+					count.push(/*[[${BCount}]]*/ null);
+					break;
+				case "Bm":
+					
+					count.push(/*[[${BmCount}]]*/ null);
+					break;
+					
+				case "Cp":
+					
+					count.push(/*[[${CpCount}]]*/ null);
+					break;
+					
+				case "C":
+					
+					count.push(/*[[${CCount}]]*/ null);
+					break;
+					
+				case "Cm":
+					
+					count.push(/*[[${CmCount}]]*/ null);
+					break;
+					
+				case "Dp":
+					
+					count.push(/*[[${DpCount}]]*/ null);
+					break;
+				
+				case "D":
+					
+					count.push(/*[[${DCount}]]*/ null);
+					break;
+					
+				case "Dm":
+					
+					count.push(/*[[${DmCount}]]*/ null);
+					break;
+				
+				case "E":
+					
+					count.push(/*[[${ECount}]]*/ null);
+					break;
+					
+				}
+			}
+
+			for (i = 0; i < subjects.length; i++) {
+				labels.push(subjects[i].initials);
+
+				switch (subjects[i].initials) {
+				case "Maths":
+
+					var datas = /*[[${MathsCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].maths;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Eng":
+
+					var datas = /*[[${EngCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].eng;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Kis":
+
+					var datas = /*[[${KisCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].kis;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Bio":
+
+					var datas = /*[[${BioCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].bio;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Chem":
+
+					var datas = /*[[${ChemCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].chem;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Phy":
+
+					var datas = /*[[${PhyCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].phy;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Hist":
+
+					var datas = /*[[${HistCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].hist;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "C.R.E":
+
+					var datas = /*[[${creCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].cre;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Geo":
+
+					var datas = /*[[${GeoCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].geo;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "I.R.E":
+
+					var datas = /*[[${ireCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].ire;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "H.R.E":
+
+					var datas = /*[[${hreCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].hre;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Hsci":
+
+					var datas = /*[[${HsciCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].hsci;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "AnD":
+
+					var datas = /*[[${AnDCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].anD;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Agric":
+
+					var datas = /*[[${AgricCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].agric;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Comp":
+
+					var datas = /*[[${CompCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].comp;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Avi":
+
+					var datas = /*[[${AviCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].avi;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Elec":
+
+					var datas = /*[[${ElecCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].elec;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Pwr":
+
+					var datas = /*[[${PwrCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].pwr;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Wood":
+
+					var datas = /*[[${WoodCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].wood;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Metal":
+
+					var datas = /*[[${MetalCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].metal;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Bc":
+
+					var datas = /*[[${BcCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].bc;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Fren":
+
+					var datas = /*[[${FrenCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].fren;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Germ":
+
+					var datas = /*[[${GermCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].germ;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Arab":
+
+					var datas = /*[[${ArabCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].arab;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Msc":
+
+					var datas = /*[[${MscCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].msc;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Bs":
+
+					var datas = /*[[${BsCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].bs;
+					}
+
+					data.push(sum / datas);
+
+					break;
+				case "Dnd":
+
+					var datas = /*[[${DndCount}]]*/null;
+
+					var sum = 0;
+
+					for (j = 0; j < meritLists.length; j++) {
+						sum = sum + meritLists[j].dnd;
+					}
+
+					data.push(sum / datas);
+
+					break;
+
+				}
+
+			}
+		</script>
 
 		<div th:replace="fragments :: endScript"></div>
 </body>

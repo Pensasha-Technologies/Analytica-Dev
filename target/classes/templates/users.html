@@ -50,9 +50,9 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addSchoolModal">Add
-									User</button>
+								<button type="button" class="btn btn-success"
+									data-toggle="modal" data-target="#addSchoolModal"><i class="fas fa-fw fa-plus"></i> Add
+									User </button>
 							</div>
 						</nav>
 					</div>
@@ -69,7 +69,9 @@
 							<table class="table" id="allSchools">
 								<thead>
 									<tr>
-										<th scope="col">Name</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
 										<th scope="col">Role</th>
 										<th></th>
 										<th></th>
@@ -84,12 +86,14 @@
 
 									<tr th:each="user : ${users}">
 										<td th:text="${user.firstname}">User name</td>
+										<td th:text="${user.secondname}">User name</td>
+										<td th:text="${user.thirdname}">User name</td>
 										<td th:text="${user.role.name}">User role</td>
 										<td>
 											<div class="d-flex justify-content-center">
 												<a
 													th:href="@{profile/{username}(username = ${user.username})}"
-													class="btn btn-primary"> View </a>
+													class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
 											</div>
 										</td>
 										<td>
@@ -97,7 +101,7 @@
 												<a th:if="${activeUser.username} != ${user.username}"
 													data-toggle="modal" href="#" data-target="#deleteCampUserModal"
 													th:data-href="@{/user/{username}(username = ${user.username})}"
-													class="btn btn-danger"> Delete </a>
+													class="btn btn-danger"> Delete <i class="fas fa-fw fa-trash-alt"></i></a>
 											</div>
 										</td>
 									</tr>
@@ -198,8 +202,8 @@
 											</select>
 										</div>
 
-										<button class="btn btn-primary fadeIn fourth" type="submit"
-											style="margin-top: 10px;">Add User</button>
+										<button class="btn btn-success fadeIn fourth" type="submit"
+											style="margin-top: 10px;"> <i class="fas fa-fw fa-plus"></i> Add User</button>
 									</form>
 								</div>
 
@@ -207,8 +211,8 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger"
+								data-dismiss="modal">Close <i class="fas fa-fw fa-times"></i> </button>
 						</div>
 					</div>
 				</div>
@@ -234,8 +238,8 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-success"
-								data-dismiss="modal">No! Don't Delete</button>
-							<a class="btn btn-danger ok-button">Yes! Delete</a>
+								data-dismiss="modal">No! Don't Delete <i class="fas fa-fw fa-times"></i></button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
 						</div>
 					</div>
 				</div>
@@ -367,6 +371,8 @@
 					$(this).find('.ok-button').attr('href',
 							$(e.relatedTarget).data('href'));
 				});
+		
+
 	</script>
 
 </body>

@@ -1,38 +1,33 @@
 package com.pensasha.school.term;
 
+import com.pensasha.school.term.Term;
+import com.pensasha.school.term.TermRepository;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TermService {
+    @Autowired
+    TermRepository termRepository;
 
-	@Autowired
-	TermRepository termRepository;
+    public List<Term> getAllTerms(int form, int year, int code) {
+        return this.termRepository.findByFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(form, year, code);
+    }
 
-	// getting all terms in school by form, year and school
-	public List<Term> getAllTerms(int form, int year, int code) {
-		return termRepository.findByFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(form, year, code);
-	}
-	
-	//getting all terms by exam name
-	public List<Term> getAllTermByExamName(String name){
-		return termRepository.findByExamNamesName(name);
-	}
+    public List<Term> getAllTermByExamName(String name) {
+        return this.termRepository.findByExamNamesName(name);
+    }
 
-	// get one by in school by form, year and school
-	public Term getTerm(int term, int form, int year, int code) {
-		return termRepository.findByTermAndFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(term, form, year, code);
-	}
+    public Term getTerm(int term, int form, int year, int code) {
+        return this.termRepository.findByTermAndFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(term, form, year, code);
+    }
 
-	// Get one term in school
-	public Term getOneTerm(int term, int form, int code) {
-		return termRepository.findByTermAndFormsFormAndFormsYearsSchoolsCode(term, form, code);
-	}
+    public Term getOneTerm(int term, int form, int code) {
+        return this.termRepository.findByTermAndFormsFormAndFormsYearsSchoolsCode(term, form, code);
+    }
 
-	// Saving a term
-	public Term addTerm(Term term) {
-		return termRepository.save(term);
-	}
+    public Term addTerm(Term term) {
+        return (Term)this.termRepository.save(term);
+    }
 }

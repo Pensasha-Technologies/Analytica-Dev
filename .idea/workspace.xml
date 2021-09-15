@@ -4,19 +4,391 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating student reports and merit list">
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Improved updates">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/GradeCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeBalance.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/chart-bar-demo.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/chart.js/Chart.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/chart.js/Chart.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/chart.js/Chart.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/chart.js/Chart.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/disciplinePdf.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/feeBalance.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/feeBalancePdf.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/viewDisciplinePdf.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CustomSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CustomSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/MvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/MvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/Discipline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/Discipline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/Mark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/Mark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FinanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FinanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/Form.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/Form.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/School.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/School.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/sms/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/sms/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/Stream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/Stream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamRespository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamRespository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/Subject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/Term.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/Term.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/Timetable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/Timetable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/Teacher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/Teacher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/Year.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/Year.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/addStudent.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/addStudent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/body.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/body.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/error.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/error.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/heading.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/heading.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/sb-admin-2.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/sb-admin-2.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/sb-admin-2.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/sb-admin-2.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/avataaars.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/img/avataaars.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/datatables-demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/datatables-demo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/html2pdf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/html2pdf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/jspdf.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/jspdf.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/schImg/ANALYTICA SOFT LOGO222444.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/bootstrap/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/dataTables.bootstrap4.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/dataTables.bootstrap4.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/dataTables.bootstrap4.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/dataTables.bootstrap4.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/jquery.dataTables.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/datatables/jquery.dataTables.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/css/all.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/css/all.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/css/all.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/css/all.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/all.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/all.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/all.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/fontawesome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/fontawesome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/fontawesome.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/js/fontawesome.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/svgs/brands/keybase.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/svgs/brands/keybase.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery-easing/jquery.easing.compatibility.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery-easing/jquery.easing.compatibility.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery-easing/jquery.easing.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery-easing/jquery.easing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/accountsClerkHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/accountsClerkHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/addSchool.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/addSchool.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/addStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/addStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/adminHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/adminHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/assignTeachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/assignTeachers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/bursarHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/bursarHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/ceoHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/ceoHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/changePassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/changePassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/classList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/classList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/comingSoon.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/comingSoon.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/createFeeStructure.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/createFeeStructure.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/deputyPrincipal.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/deputyPrincipal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/discipline.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/discipline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/dosHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/dosHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/editSchool.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/editSchool.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/examination.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/examination.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/feeStatement.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/feeStatement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/feeStatements.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/feeStatements.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fieldOfficerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fieldOfficerHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragment2.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragment2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/generateTimetable.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/generateTimetable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/markEntryPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/markEntryPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/marksEntry.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/marksEntry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/officeAssistantHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/officeAssistantHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/principalHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/principalHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/progressReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/progressReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/school.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/school.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/schoolUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/schoolUsers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/smsHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/smsHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/student.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/student.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/studentFeeStatement.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/studentFeeStatement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/studentReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/studentReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/studentsReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/studentsReportPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teacherHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teacherHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teachers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/termlyReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/termlyReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/termlyReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/termlyReportPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/timetable.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/timetable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/timetablePdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/timetablePdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/userHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/userHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/viewDiscipline.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/viewDiscipline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/viewFeeStructure.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/viewFeeStructure.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/CommandLineAppStartupRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/CommandLineAppStartupRunner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/CustomSuccessHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/CustomSuccessHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/MvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/config/MvcConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/Discipline.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/Discipline.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/DisciplineRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/DisciplineRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/DisciplineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/discipline/DisciplineService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamName.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamName.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamNameRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamNameRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamNameService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/ExamNameService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/Mark.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/Mark.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MeritList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByArab.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByArab.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAvi.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAvi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBio.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByChem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByChem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByComp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByComp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByCre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByCre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDeviation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDeviation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByElec.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByElec.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByEng.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByEng.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByFren.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByFren.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGeo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGeo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGerm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGerm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHist.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHist.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHsci.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHsci.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByIre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByIre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByKis.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByKis.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMaths.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMaths.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMetal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMetal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMsc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMsc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPhy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPhy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPwr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPwr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByTotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByWood.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByWood.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecord.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecord.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecordRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecordRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecordService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeRecordService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructure.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructure.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructureRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructureRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructureService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FeeStructureService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FinanceController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/finance/FinanceController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/Form.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/Form.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/form/FormService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/interfaceController/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/interfaceController/MainController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/interfaceController/MyErrorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/interfaceController/MyErrorController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/ReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/ReportController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAgric.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAgric.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByArab.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByArab.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAvi.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAvi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBio.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBio.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByChem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByChem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByComp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByComp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByCre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByCre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDeviation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDeviation.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByElec.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByElec.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByEng.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByEng.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByFren.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByFren.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGeo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGeo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGerm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGerm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHist.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHist.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHsci.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHsci.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByIre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByIre.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByKis.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByKis.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMaths.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMaths.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMetal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMetal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMsc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMsc.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPhy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPhy.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPwr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPwr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByTotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/role/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/role/Role.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/role/RoleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/role/RoleService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/School.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/School.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/school/SchoolService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/sms/Gateway.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/sms/Gateway.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/Stream.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/Stream.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamRespository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamRespository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/stream/StreamService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/Student.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/Subject.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/Subject.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/subject/SubjectService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/SortByTotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/Term.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/Term.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/SortByTotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/Timetable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/Timetable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/timetable/TimetableService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/SchoolUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/SchoolUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/SchoolUserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/SchoolUserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/Teacher.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/Teacher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/TeacherRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/TeacherRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/user/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/Year.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/Year.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/year/YearService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/addStudent.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/addStudent.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/body.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/body.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/error.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/error.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/heading.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/heading.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/sb-admin-2.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/sb-admin-2.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/sb-admin-2.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/sb-admin-2.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/img/avataaars.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/img/avataaars.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/datatables-demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/datatables-demo.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/html2pdf.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/html2pdf.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/jspdf.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/jspdf.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/sb-admin-2.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/sb-admin-2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/js/sb-admin-2.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/sb-admin-2.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/schImg/ANALYTICA SOFT LOGO222444.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/bootstrap/js/bootstrap.bundle.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/bootstrap/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/bootstrap/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/bootstrap/js/bootstrap.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/datatables/dataTables.bootstrap4.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/datatables/dataTables.bootstrap4.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/datatables/dataTables.bootstrap4.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/datatables/dataTables.bootstrap4.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/datatables/jquery.dataTables.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/datatables/jquery.dataTables.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/css/all.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/css/all.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/css/all.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/css/all.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/all.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/all.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/all.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/all.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/fontawesome.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/fontawesome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/fontawesome.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/js/fontawesome.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/svgs/brands/keybase.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/svgs/brands/keybase.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/jquery-easing/jquery.easing.compatibility.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/jquery-easing/jquery.easing.compatibility.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/jquery-easing/jquery.easing.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/jquery-easing/jquery.easing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/jquery/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/jquery/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/vendor/jquery/jquery.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/vendor/jquery/jquery.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/accountsClerkHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/accountsClerkHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/addSchool.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/addSchool.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/addStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/addStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/adminHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/adminHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/assignTeachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/assignTeachers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/bursarHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/bursarHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/ceoHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/ceoHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/changePassword.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/changePassword.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/classList.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/classList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/classListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/classListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/comingSoon.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/comingSoon.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/createFeeStructure.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/createFeeStructure.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/deputyPrincipal.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/deputyPrincipal.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/discipline.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/discipline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/dosHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/dosHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/editSchool.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/editSchool.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/editStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/editStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/examination.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/examination.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/feeStatement.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/feeStatement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/feeStatements.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/feeStatements.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fieldOfficerHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fieldOfficerHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragment2.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragment2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/fragments.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/generateTimetable.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/generateTimetable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/markEntryPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/markEntryPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/marksEntry.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/marksEntry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/officeAssistantHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/officeAssistantHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/principalHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/principalHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/progressReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/progressReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/school.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/school.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/schoolUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/schoolUsers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/smsHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/smsHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/student.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/student.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/studentFeeStatement.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/studentFeeStatement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/studentReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/studentReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/studentsReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/studentsReportPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/teacherHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/teacherHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/teachers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/teachers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/termlyReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/termlyReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/termlyReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/termlyReportPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/timetable.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/timetable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/timetablePdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/timetablePdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/userHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/userHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/users.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/users.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/viewDiscipline.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/viewDiscipline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/viewFeeStructure.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/viewFeeStructure.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631488752402</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Updating pom.xml removing jasperReport">
+      <created>1631515060736</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1631515060736</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -183,6 +562,8 @@
     <MESSAGE value="deleting unwanted files" />
     <MESSAGE value="Updating adding of student and school image" />
     <MESSAGE value="Updating student reports and merit list" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating student reports and merit list" />
+    <MESSAGE value="Updating pom.xml removing jasperReport" />
+    <MESSAGE value="Improved updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved updates" />
   </component>
 </project>

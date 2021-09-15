@@ -1,7 +1,9 @@
 package com.pensasha.school.stream;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.school.School;
+import com.pensasha.school.user.Teacher;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,79 +13,67 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.school.School;
-import com.pensasha.school.user.Teacher;
-
 @Entity
 public class Stream {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
+    private String stream;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="school_code")
+    private School school;
+    @JsonIgnore
+    @ManyToMany(mappedBy="streams", cascade={CascadeType.MERGE, CascadeType.PERSIST})
+    private List<Teacher> teachers;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private String stream;
+    public Stream(int id, String stream, School school) {
+        this.id = id;
+        this.stream = stream;
+        this.school = school;
+    }
 
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "school_code")
-	private School school;
-	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "streams", cascade = { CascadeType.MERGE, CascadeType.PERSIST })
-	private List<Teacher> teachers;
+    public Stream(int id, String stream) {
+        this.id = id;
+        this.stream = stream;
+    }
 
-	public Stream(int id, String stream, School school) {
-		super();
-		this.id = id;
-		this.stream = stream;
-		this.school = school;
-	}
+    public Stream(String stream) {
+        this.stream = stream;
+    }
 
-	public Stream(int id, String stream) {
-		super();
-		this.id = id;
-		this.stream = stream;
-	}
+    public Stream() {
+    }
 
-	public Stream(String stream) {
-		super();
-		this.stream = stream;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public Stream() {
-		super();
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public String getStream() {
+        return this.stream;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setStream(String stream) {
+        this.stream = stream;
+    }
 
-	public String getStream() {
-		return stream;
-	}
+    public School getSchool() {
+        return this.school;
+    }
 
-	public void setStream(String stream) {
-		this.stream = stream;
-	}
+    public void setSchool(School school) {
+        this.school = school;
+    }
 
-	public School getSchool() {
-		return school;
-	}
+    public List<Teacher> getTeachers() {
+        return this.teachers;
+    }
 
-	public void setSchool(School school) {
-		this.school = school;
-	}
-
-	public List<Teacher> getTeachers() {
-		return teachers;
-	}
-
-	public void setTeachers(List<Teacher> teachers) {
-		this.teachers = teachers;
-	}
-
+    public void setTeachers(List<Teacher> teachers) {
+        this.teachers = teachers;
+    }
 }

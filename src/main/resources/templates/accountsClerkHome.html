@@ -50,7 +50,7 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
-						<table class="table">
+						<table class="table" id="allSchools">
 							<thead>
 								<tr>
 									<th scope="col">First Name</th>
@@ -78,8 +78,8 @@
 									<td>
 										<div class="d-flex justify-content-center">
 											<a
-												th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
-												class="btn btn-primary"> View </a>
+												th:href="@{/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}"
+												class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
 										</div>
 									</td>
 								</tr>

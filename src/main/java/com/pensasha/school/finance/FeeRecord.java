@@ -1,102 +1,93 @@
 package com.pensasha.school.finance;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.student.Student;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.student.Student;
-
 @Entity
 public class FeeRecord {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private int id;
+    private String receiptNo;
+    private int amount;
+    private String datePaid;
+    @JsonIgnore
+    @ManyToOne
+    private Student student;
+    @ManyToOne
+    private Form form;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	private String receiptNo;
-	private int amount;
-	private String datePaid;
+    public FeeRecord(int id, String receiptNo, int amount, String datePaid, Student student, Form form) {
+        this.id = id;
+        this.receiptNo = receiptNo;
+        this.amount = amount;
+        this.datePaid = datePaid;
+        this.student = student;
+        this.form = form;
+    }
 
-	@JsonIgnore
-	@ManyToOne
-	private Student student;
-	
-	@ManyToOne
-	private Form form;
+    public FeeRecord(String receiptNo, int amount, String datePaid, Student student, Form form) {
+        this.receiptNo = receiptNo;
+        this.amount = amount;
+        this.datePaid = datePaid;
+        this.student = student;
+        this.form = form;
+    }
 
-	public FeeRecord(int id, String receiptNo, int amount, String datePaid, Student student, Form form) {
-		super();
-		this.id = id;
-		this.receiptNo = receiptNo;
-		this.amount = amount;
-		this.datePaid = datePaid;
-		this.student = student;
-		this.form = form;
-	}
+    public FeeRecord() {
+    }
 
-	public FeeRecord(String receiptNo, int amount, String datePaid, Student student, Form form) {
-		super();
-		this.receiptNo = receiptNo;
-		this.amount = amount;
-		this.datePaid = datePaid;
-		this.student = student;
-		this.form = form;
-	}
+    public int getId() {
+        return this.id;
+    }
 
-	public FeeRecord() {
-		super();
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public String getReceiptNo() {
+        return this.receiptNo;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setReceiptNo(String receiptNo) {
+        this.receiptNo = receiptNo;
+    }
 
-	public String getReceiptNo() {
-		return receiptNo;
-	}
+    public int getAmount() {
+        return this.amount;
+    }
 
-	public void setReceiptNo(String receiptNo) {
-		this.receiptNo = receiptNo;
-	}
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 
-	public int getAmount() {
-		return amount;
-	}
+    public Student getStudent() {
+        return this.student;
+    }
 
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
-	public Student getStudent() {
-		return student;
-	}
+    public String getDatePaid() {
+        return this.datePaid;
+    }
 
-	public void setStudent(Student student) {
-		this.student = student;
-	}
+    public void setDatePaid(String datePaid) {
+        this.datePaid = datePaid;
+    }
 
+    public Form getForm() {
+        return this.form;
+    }
 
-	public String getDatePaid() {
-		return datePaid;
-	}
-
-	public void setDatePaid(String datePaid) {
-		this.datePaid = datePaid;
-	}
-
-	public Form getForm() {
-		return form;
-	}
-
-	public void setForm(Form form) {
-		this.form = form;
-	}
-
+    public void setForm(Form form) {
+        this.form = form;
+    }
 }

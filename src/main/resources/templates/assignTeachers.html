@@ -57,7 +57,7 @@
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
 								<a th:href="@{/schools/{code}/teachers(code=${school.code})}"
-									class="btn btn-primary">Teachers</a>
+									class="btn btn-primary">Teachers <i class="fas fa-fw fa-users"></i></a>
 
 							</div>
 						</nav>
@@ -73,9 +73,10 @@
 					<div th:each="i : ${#numbers.sequence(1, 4)}">
 						<h3>Form [[${i}]]</h3>
 						<br>
-						<div class="row">
+						<div class="card-columns">
 							<div class="card" style="width:500px;" th:each="stream : ${streams}">
-								<div class="card-header" th:text="${stream.stream}"> Stream </div>
+								<div class="card-header" th:text="${stream.stream}">Stream
+									1</div>
 								<div class="card-body">
 									<table class="table">
 										<thead>
@@ -121,7 +122,7 @@
 										</tbody>
 									</table>
 									<button type="submit" class="btn btn-primary"
-										th:form="f + ${i} + s + ${stream.stream}">Submit</button>
+										th:form="f + ${i} + s + ${stream.stream}">Submit <i class="fas fa-fw fa-save"></i></button>
 								</div>
 							</div>
 

@@ -56,8 +56,9 @@
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
 								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#addStudentModal">Add
-									Teacher</button>
+									data-toggle="modal" data-target="#addStudentModal">
+									<i class="fas fa-fw fa-plus"></i> Add Teacher
+								</button>
 
 							</div>
 						</nav>
@@ -71,7 +72,7 @@
 						th:text="${success}">Teacher saved</div>
 
 					<div class="table-responsive">
-						<table class="table">
+						<table class="table" id="allSchools">
 							<thead>
 								<tr>
 									<th scope="col">First Name</th>
@@ -97,14 +98,17 @@
 										<div class="d-flex justify-content-center">
 											<a
 												th:href="@{/profile/{username}(username=${teacher.username})}"
-												class="btn btn-primary"> View </a>
+												class="btn btn-primary"> View <i
+												class="fas fa-fw fa-book-reader"></i></a>
 										</div>
 									</td>
 									<td>
 										<div class="d-flex justify-content-center">
-											<a
-												th:href="@{/school/teachers/{username}(username=${teacher.username})}"
-												class="btn btn-danger"> Delete </a>
+											<a data-toggle="modal" href="#"
+												data-target="#deleteTeacherModal"
+												th:data-href="@{/school/teachers/{username}(username=${teacher.username})}"
+												class="btn btn-danger"> Delete <i
+												class="fas fa-fw fa-trash-alt"></i></a>
 										</div>
 									</td>
 								</tr>
@@ -143,49 +147,49 @@
 									<!-- Login Form -->
 									<form class="addUserForm" th:action="@{/school/teachers}"
 										method="post" th:object="${user}">
-										<div class="form-group fadeIn first">
+										<div class="form-group">
 											<label for="firstname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												First Name</label> <input type="text" id="firstname"
 												th:field="*{firstname}" class="fadeIn first"
 												name="firstname" placeholder="Enter First Name" required />
 										</div>
-										<div class="form-group fadeIn first">
+										<div class="form-group">
 											<label for="secondname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Second Name</label> <input type="text" id="secondname"
 												th:field="*{secondname}" class="fadeIn first"
 												name="secondname" placeholder="Enter Second Name" required />
 										</div>
-										<div class="form-group fadeIn first">
+										<div class="form-group">
 											<label for="thirdname"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Third Name</label> <input type="text" id="thirdname"
 												th:field="*{thirdname}" class="fadeIn first"
 												name="thirdname" placeholder="Enter Third Name" required />
 										</div>
-										<div class="form-group fadeIn second">
+										<div class="form-group">
 											<label for="username"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Username</label> <input type="text" id="username"
 												th:field="*{username}" class="fadeIn second" name="username"
 												placeholder="Enter Username" required />
 										</div>
-										<div class="form-group fadeIn third">
+										<div class="form-group">
 											<label for="phoneNumber"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Phone Number</label> <input type="text" id="phoneNumber"
 												th:field="*{phoneNumber}" class="fadeIn third"
 												name="phoneNumber" placeholder="Enter Phone Number" required />
 										</div>
-										<div class="form-group fadeIn second">
+										<div class="form-group">
 											<label for="address"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Address</label> <input type="text" id="address"
 												th:field="*{address}" class="fadeIn second" name="address"
 												placeholder="Enter Address" required />
 										</div>
-										<div class="form-group fadeIn second">
+										<div class="form-group">
 											<label for="email"
 												style="display: block; text-align: left; margin-bottom: -5px;">Enter
 												Email</label> <input type="email" id="email" th:field="*{email}"
@@ -209,8 +213,10 @@
 										<input type="hidden" th:value="${school.code}" name="code"
 											id="code" />
 
-										<button class="btn btn-primary fadeIn fourth" type="submit"
-											style="margin-top: 10px;">Add Teacher</button>
+										<button class="btn btn-success" type="submit"
+											style="margin-top: 10px;">
+											<i class="fas fa-fw fa-plus"></i> Add Teacher
+										</button>
 									</form>
 								</div>
 
@@ -218,10 +224,41 @@
 
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">
+								Close <i class="fas fa-fw fa-times"></i>
+							</button>
 						</div>
 
+					</div>
+				</div>
+			</div>
+			<!-- Delete Company User Model -->
+			<div class="modal fade" id="deleteTeacherModal" tabindex="-1"
+				role="dialog" aria-labelledby="deleteTeacherModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteTeacherModalLabel">Delete
+								Teacher</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">All teachers details and information will
+								be deleted and will not be recovered. Are you sure you want to
+								delete?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">
+								No! Don't Delete <i class="fas fa-fw fa-times"></i>
+							</button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i
+								class="fas fa-fw fa-trash-alt"></i></a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -239,7 +276,14 @@
 	<div th:replace="fragments :: logoutModal"></div>
 	<div th:replace="fragments :: endScript"></div>
 	<script th:src="@{/js/index.js}"></script>
-
+	<script type="text/javascript">
+		$('#deleteTeacherModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 </body>
 
 </html>

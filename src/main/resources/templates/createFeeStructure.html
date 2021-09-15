@@ -43,14 +43,16 @@
 						<section>
 							<h3>Bursar Dashboard</h3>
 						</section>
-						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target="#addItemModal">Add Item</button>
+						<button type="button" class="btn btn-success" data-toggle="modal"
+							data-target="#addItemModal">
+							<i class="fas fa-fw fa-plus"></i> Add Item
+						</button>
 					</div>
 
 					<div>
 
-						<h4 th:text="'Academic Year: ' + ${year}" style="text-align: center;">
-							Year</h4>
+						<h4 th:text="'Academic Year: ' + ${year}"
+							style="text-align: center;">Year</h4>
 						<h5 th:text="'Form: ' + ${form} + ', Term: ' + ${term}"
 							style="text-align: center;">Form One</h5>
 
@@ -61,7 +63,7 @@
 							th:text="${success}">Staff saved</div>
 
 						<div class="table-responsive">
-							<table class="table">
+							<table class="table" id="allSchools">
 								<thead>
 									<tr>
 										<th scope="col">#</th>
@@ -80,9 +82,11 @@
 										<th scope="row" th:text="${iter.index +1}">1</th>
 										<td th:text="${feeStructure.name}">Name</td>
 										<td th:text="${feeStructure.cost}">Cost</td>
-										<td><a class="btn btn-danger"
-											th:href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items/{id}(code=${school.code}, year = ${year}, form = ${form}, term = ${term}, id = ${feeStructure.id})}">
-												Delete </a></td>
+										<td><a class="btn btn-danger" data-toggle="modal"
+											href="#" data-target="#deleteModal"
+											th:data-href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items/{id}(code=${school.code}, year = ${year}, form = ${form}, term = ${term}, id = ${feeStructure.id})}">
+												Delete <i class="fas fa-fw fa-trash-alt"></i>
+										</a></td>
 									</tr>
 									<tr th:if="${feeStructures.size() > 0}">
 										<th>Total</th>
@@ -158,6 +162,35 @@
 				</div>
 			</div>
 
+			<!-- Delete Model -->
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteModalLabel">Delete
+								Fee Structure</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">Are you sure you want to delete this
+								fee structure?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">
+								No! Don't Delete <i class="fas fa-fw fa-times"></i>
+							</button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i
+								class="fas fa-fw fa-trash-alt"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!-- End of Content Wrapper -->
 
@@ -171,6 +204,14 @@
 	<div th:replace="fragments :: logoutModal"></div>
 
 	<div th:replace="fragments :: endScript"></div>
+	<script type="text/javascript">
+		$('#deleteModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+	</script>
 
 </body>
 
