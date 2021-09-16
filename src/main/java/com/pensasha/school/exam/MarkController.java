@@ -168,6 +168,7 @@ public class MarkController {
         ExamName examName = this.examNameService.getExam(exam);
         String subject = request.getParameter("subject");
         Subject subjectObj = this.subjectService.getSubject(subject);
+
         List<Student> students = this.studentService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
         for (int i = 0; i < students.size(); ++i) {
             Mark mark = new Mark();
@@ -187,6 +188,7 @@ public class MarkController {
             model.addAttribute("fail", (Object)"No student. Cannot add marks");
         }
         return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/" + subject + "/streams/" + stream + "/exams/" + exam;
+
     }
 
     @PostMapping(value={"/schools/{code}/marksSheet"})
@@ -204,12 +206,13 @@ public class MarkController {
         Year yearObj = this.yearService.getYearFromSchool(year, code).get();
         Form formObj = this.formService.getFormByForm(form);
         Stream streamObj = this.streamService.getStream(stream);
-        ExamName examName = this.examNameService.getExamBySchoolCodeYearFormTermSubject(code, year, form, term, subject);
+        ExamName examName = examNameService.getExam(exam);
         List<Student> students = this.studentService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
         ArrayList<Mark> marks = new ArrayList<Mark>();
+
         for (int i = 0; i < students.size(); ++i) {
             Mark mark = new Mark();
             if (this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
@@ -230,16 +233,18 @@ public class MarkController {
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
         model.addAttribute("students", students);
-        model.addAttribute("subject", (Object)subjectObj);
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
-        model.addAttribute("stream", (Object)streamObj);
-        model.addAttribute("examName", (Object)examName);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("subject", subjectObj);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
+        model.addAttribute("stream", streamObj);
+        model.addAttribute("examName", examName);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
+        model.addAttribute("activeUser", activeUser);
+
         return "marksEntry";
+
     }
 
     @PostMapping(value={"/schools/{code}/meritList"})

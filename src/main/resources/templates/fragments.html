@@ -653,7 +653,7 @@
 			class="nav-link collapsed" href="#" data-toggle="collapse"
 			data-target="#schoolUtilities" aria-expanded="true"
 			aria-controls="schoolUtilities"> <i class="fas fa-fw fa-school"></i>
-				<span th:text="${school.name}"> School name </span>
+				<span th:utext="${#strings.substringBefore(school.name,' ')} + ' School'"> School name </span>
 		</a>
 			<div id="schoolUtilities" class="collapse"
 				aria-labelledby="headingUtilities" data-parent="#accordionSidebar">

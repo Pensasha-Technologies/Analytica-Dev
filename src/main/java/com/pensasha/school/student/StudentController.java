@@ -156,9 +156,6 @@ public class StudentController {
         return view;
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
     @PostMapping(value={"/schools/{code}/students"})
     public String addStudent(@RequestParam(value="file") MultipartFile file, @PathVariable int code, @ModelAttribute @Valid Student student, BindingResult bindingResult, RedirectAttributes redit, Principal principal, @RequestParam int stream) throws IOException {
         String view;
