@@ -894,137 +894,403 @@ public class MarkController {
         List<MeritList> mathsMerits = this.getSubjectMeritList(code, year, form, term, "Maths", meritLists);
         Collections.sort(mathsMerits, new SortByMaths().reversed());
         if (mathsMerits.size() > 0) {
-            model.addAttribute("MathsGiant", (Object)mathsMerits.get(0));
+
+            List<MeritList> mathsGiant = new ArrayList<>();
+
+            int mostMarks = mathsMerits.get(0).getMaths();
+            for(int j=0;j<mathsMerits.size();j++){
+                if(mathsMerits.get(j).getMaths() == mostMarks){
+                    mathsGiant.add(mathsMerits.get(j));
+                }
+            }
+            model.addAttribute("MathsGiants", mathsGiant);
         }
         List<MeritList> engMerits = this.getSubjectMeritList(code, year, form, term, "Eng", meritLists);
         Collections.sort(engMerits, new SortByEng().reversed());
         if (engMerits.size() > 0) {
-            model.addAttribute("EngGiant", (Object)engMerits.get(0));
+
+            List<MeritList> engGiant = new ArrayList<>();
+
+            int mostMarks = engMerits.get(0).getEng();
+            for(int j=0;j<engMerits.size();j++){
+                if(engMerits.get(j).getEng() == mostMarks){
+                    engGiant.add(engMerits.get(j));
+                }
+            }
+            model.addAttribute("EngGiants", engGiant);
         }
         List<MeritList> kisMerits = this.getSubjectMeritList(code, year, form, term, "Kis", meritLists);
         Collections.sort(kisMerits, new SortByKis().reversed());
         if (kisMerits.size() > 0) {
-            model.addAttribute("KisGiant", (Object)kisMerits.get(0));
+
+            List<MeritList> kisGiant = new ArrayList<>();
+
+            int mostMarks = kisMerits.get(0).getKis();
+            for(int j=0;j<kisMerits.size();j++){
+                if(kisMerits.get(j).getKis() == mostMarks){
+                    kisGiant.add(kisMerits.get(j));
+                }
+            }
+            model.addAttribute("KisGiants", kisGiant);
+
         }
         List<MeritList> bioMerits = this.getSubjectMeritList(code, year, form, term, "Bio", meritLists);
         Collections.sort(bioMerits, new SortByBio().reversed());
         if (bioMerits.size() > 0) {
-            model.addAttribute("BioGiant", (Object)bioMerits.get(0));
+
+            List<MeritList> bioGiant = new ArrayList<>();
+
+            int mostMarks = bioMerits.get(0).getBio();
+            for(int j=0;j<bioMerits.size();j++){
+                if(bioMerits.get(j).getBio() == mostMarks){
+                    bioGiant.add(bioMerits.get(j));
+                }
+            }
+            model.addAttribute("BioGiants", bioGiant);
+
         }
         List<MeritList> chemMerits = this.getSubjectMeritList(code, year, form, term, "Chem", meritLists);
         Collections.sort(chemMerits, new SortByChem().reversed());
-        if (meritLists.size() > 0) {
-            model.addAttribute("ChemGiant", (Object)chemMerits.get(0));
+        if (chemMerits.size() > 0) {
+
+            List<MeritList> chemGiant = new ArrayList<>();
+
+            int mostMarks = chemMerits.get(0).getChem();
+            for(int j=0;j<chemMerits.size();j++){
+                if(chemMerits.get(j).getChem() == mostMarks){
+                    chemGiant.add(chemMerits.get(j));
+                }
+            }
+            model.addAttribute("ChemGiants", chemGiant);
         }
         List<MeritList> phyMerits = this.getSubjectMeritList(code, year, form, term, "Phy", meritLists);
         Collections.sort(phyMerits, new SortByPhy().reversed());
         if (phyMerits.size() > 0) {
-            model.addAttribute("PhyGiant", (Object)phyMerits.get(0));
+
+            List<MeritList> phyGiant = new ArrayList<>();
+
+            int mostMarks = phyMerits.get(0).getPhy();
+            for(int j=0;j<phyMerits.size();j++){
+                if(phyMerits.get(j).getPhy() == mostMarks){
+                    phyGiant.add(phyMerits.get(j));
+                }
+            }
+            model.addAttribute("PhyGiants", phyGiant);
         }
         List<MeritList> histMerits = this.getSubjectMeritList(code, year, form, term, "Hist", meritLists);
         Collections.sort(histMerits, new SortByHist().reversed());
         if (histMerits.size() > 0) {
-            model.addAttribute("HistGiant", (Object)histMerits.get(0));
+
+            List<MeritList> histGiant = new ArrayList<>();
+
+            int mostMarks = histMerits.get(0).getHist();
+            for(int j=0;j<histMerits.size();j++){
+                if(histMerits.get(j).getHist() == mostMarks){
+                    histGiant.add(histMerits.get(j));
+                }
+            }
+            model.addAttribute("HistGiants", histGiant);
+
         }
         List<MeritList> creMerits = this.getSubjectMeritList(code, year, form, term, "C.R.E", meritLists);
         Collections.sort(creMerits, new SortByCre().reversed());
         if (creMerits.size() > 0) {
-            model.addAttribute("creGiant", (Object)creMerits.get(0));
+
+            List<MeritList> creGiant = new ArrayList<>();
+
+            int mostMarks = creMerits.get(0).getCre();
+
+            for(int j=0;j<creMerits.size();j++){
+                if(creMerits.get(j).getCre() == mostMarks){
+                    creGiant.add(creMerits.get(j));
+                }
+            }
+            model.addAttribute("CreGiants", creGiant);
+
         }
         List<MeritList> geoMerits = this.getSubjectMeritList(code, year, form, term, "Geo", meritLists);
         Collections.sort(geoMerits, new SortByGeo().reversed());
         if (geoMerits.size() > 0) {
-            model.addAttribute("GeoGiant", (Object)geoMerits.get(0));
+
+            List<MeritList> geoGiant = new ArrayList<>();
+
+            int mostMarks = geoMerits.get(0).getGeo();
+            for(int j=0;j<geoMerits.size();j++){
+                if(geoMerits.get(j).getGeo() == mostMarks){
+                    geoGiant.add(geoMerits.get(j));
+                }
+            }
+            model.addAttribute("GeoGiants", geoGiant);
+
         }
+
         List<MeritList> ireMerits = this.getSubjectMeritList(code, year, form, term, "I.R.E", meritLists);
         Collections.sort(ireMerits, new SortByIre().reversed());
         if (ireMerits.size() > 0) {
-            model.addAttribute("ireGiant", (Object)ireMerits.get(0));
+
+            List<MeritList> ireGiant = new ArrayList<>();
+
+            int mostMarks = ireMerits.get(0).getIre();
+            for(int j=0;j<ireMerits.size();j++){
+                if(ireMerits.get(j).getIre() == mostMarks){
+                    ireGiant.add(ireMerits.get(j));
+                }
+            }
+            model.addAttribute("IreGiants", ireGiant);
+
         }
         List<MeritList> hreMerits = this.getSubjectMeritList(code, year, form, term, "H.R.E", meritLists);
         Collections.sort(hreMerits, new SortByHre().reversed());
         if (hreMerits.size() > 0) {
-            model.addAttribute("hreGiant", (Object)hreMerits.get(0));
+
+            List<MeritList> hreGiant = new ArrayList<>();
+
+            int mostMarks = hreMerits.get(0).getHre();
+            for(int j=0;j<hreMerits.size();j++){
+                if(hreMerits.get(j).getHre() == mostMarks){
+                    hreGiant.add(hreMerits.get(j));
+                }
+            }
+            model.addAttribute("HreGiants", hreGiant);
+
         }
         List<MeritList> hsciMerits = this.getSubjectMeritList(code, year, form, term, "Hsci", meritLists);
         Collections.sort(hsciMerits, new SortByHsci().reversed());
         if (hsciMerits.size() > 0) {
-            model.addAttribute("HsciGiant", (Object)hsciMerits.get(0));
+
+            List<MeritList> hsciGiant = new ArrayList<>();
+
+            int mostMarks = hsciMerits.get(0).getHsci();
+            for(int j=0;j<hsciMerits.size();j++){
+                if(hsciMerits.get(j).getHsci() == mostMarks){
+                    hsciGiant.add(hsciMerits.get(j));
+                }
+            }
+            model.addAttribute("HsciGiants", hsciGiant);
+
         }
         List<MeritList> andMerits = this.getSubjectMeritList(code, year, form, term, "AnD", meritLists);
         Collections.sort(andMerits, new SortByAnd().reversed());
         if (andMerits.size() > 0) {
-            model.addAttribute("AnDGiant", (Object)andMerits.get(0));
+
+            List<MeritList> andGiant = new ArrayList<>();
+
+            int mostMarks = andMerits.get(0).getAnD();
+            for(int j=0;j<andMerits.size();j++){
+                if(andMerits.get(j).getAnD() == mostMarks){
+                    andGiant.add(andMerits.get(j));
+                }
+            }
+
+            model.addAttribute("AnDGiants", andGiant);
         }
         List<MeritList> agricMerits = this.getSubjectMeritList(code, year, form, term, "Agric", meritLists);
         Collections.sort(agricMerits, new SortByAgric().reversed());
         if (agricMerits.size() > 0) {
-            model.addAttribute("AgricGiant", (Object)agricMerits.get(0));
+
+            List<MeritList> agricGiant = new ArrayList<>();
+
+            int mostMarks = agricMerits.get(0).getAnD();
+            for(int j=0;j<agricMerits.size();j++){
+                if(agricMerits.get(j).getAnD() == mostMarks){
+                    agricGiant.add(agricMerits.get(j));
+                }
+            }
+
+            model.addAttribute("AgricGiants", agricGiant);
         }
         List<MeritList> compMerits = this.getSubjectMeritList(code, year, form, term, "Comp", meritLists);
         Collections.sort(compMerits, new SortByComp().reversed());
         if (compMerits.size() > 0) {
-            model.addAttribute("CompGiant", (Object)compMerits.get(0));
+
+            List<MeritList> compGiant = new ArrayList<>();
+
+            int mostMarks = compMerits.get(0).getComp();
+            for(int j=0;j<compMerits.size();j++){
+                if(compMerits.get(j).getComp() == mostMarks){
+                    compGiant.add(compMerits.get(j));
+                }
+            }
+            model.addAttribute("CompGiants", compGiant);
         }
         List<MeritList> aviMerits = this.getSubjectMeritList(code, year, form, term, "Avi", meritLists);
         Collections.sort(aviMerits, new SortByAvi().reversed());
         if (aviMerits.size() > 0) {
-            model.addAttribute("AviGiant", (Object)aviMerits.get(0));
+
+            List<MeritList> aviGiant = new ArrayList<>();
+
+            int mostMarks = aviMerits.get(0).getAvi();
+            for(int j=0;j<aviMerits.size();j++){
+                if(aviMerits.get(j).getAvi() == mostMarks){
+                    aviGiant.add(aviMerits.get(j));
+                }
+            }
+            model.addAttribute("AviGiants", aviGiant);
         }
         List<MeritList> elecMerits = this.getSubjectMeritList(code, year, form, term, "Elec", meritLists);
         Collections.sort(elecMerits, new SortByElec().reversed());
         if (elecMerits.size() > 0) {
-            model.addAttribute("ElecGiant", (Object)elecMerits.get(0));
+
+            List<MeritList> elecGiant = new ArrayList<>();
+
+            int mostMarks = elecMerits.get(0).getElec();
+            for(int j=0;j<elecMerits.size();j++){
+                if(elecMerits.get(j).getElec() == mostMarks){
+                    elecGiant.add(elecMerits.get(j));
+                }
+            }
+            model.addAttribute("ElecGiants", elecGiant);
         }
         List<MeritList> pwrMerits = this.getSubjectMeritList(code, year, form, term, "Pwr", meritLists);
         Collections.sort(pwrMerits, new SortByPwr().reversed());
         if (pwrMerits.size() > 0) {
-            model.addAttribute("PwrGiant", (Object)pwrMerits.get(0));
+
+            List<MeritList> pwrGiant = new ArrayList<>();
+
+            int mostMarks = pwrMerits.get(0).getPwr();
+            for(int j=0;j<pwrMerits.size();j++){
+                if(pwrMerits.get(j).getPwr() == mostMarks){
+                    pwrGiant.add(pwrMerits.get(j));
+                }
+            }
+
+            model.addAttribute("PwrGiants", pwrGiant);
+
         }
         List<MeritList> woodMerits = this.getSubjectMeritList(code, year, form, term, "Wood", meritLists);
         Collections.sort(woodMerits, new SortByWood().reversed());
         if (woodMerits.size() > 0) {
-            model.addAttribute("WoodGiant", (Object)woodMerits.get(0));
+
+            List<MeritList> woodGiant = new ArrayList<>();
+
+            int mostMarks = woodMerits.get(0).getWood();
+            for(int j=0;j<woodMerits.size();j++){
+                if(woodMerits.get(j).getWood() == mostMarks){
+                    woodGiant.add(woodMerits.get(j));
+                }
+            }
+
+            model.addAttribute("WoodGiants", woodGiant);
         }
         List<MeritList> metalMerits = this.getSubjectMeritList(code, year, form, term, "Metal", meritLists);
         Collections.sort(metalMerits, new SortByMetal().reversed());
         if (metalMerits.size() > 0) {
-            model.addAttribute("MetalGiant", (Object)metalMerits.get(0));
+
+            List<MeritList> metalGiant = new ArrayList<>();
+
+            int mostMarks =metalMerits.get(0).getMetal();
+            for(int j=0;j<metalMerits.size();j++){
+                if(metalMerits.get(j).getMetal() == mostMarks){
+                    metalGiant.add(metalMerits.get(j));
+                }
+            }
+
+            model.addAttribute("MetalGiants", metalGiant);
         }
         List<MeritList> bcMerits = this.getSubjectMeritList(code, year, form, term, "Bc", meritLists);
         Collections.sort(bcMerits, new SortByBc().reversed());
         if (bcMerits.size() > 0) {
-            model.addAttribute("BcGiant", (Object)bcMerits.get(0));
+
+            List<MeritList> bcGiant = new ArrayList<>();
+
+            int mostMarks = bcMerits.get(0).getBc();
+            for(int j=0;j<bcMerits.size();j++){
+                if(bcMerits.get(j).getBc() == mostMarks){
+                    bcGiant.add(bcMerits.get(j));
+                }
+            }
+
+            model.addAttribute("BcGiants", bcGiant);
         }
         List<MeritList> frenMerits = this.getSubjectMeritList(code, year, form, term, "Fren", meritLists);
         Collections.sort(frenMerits, new SortByFren().reversed());
         if (frenMerits.size() > 0) {
-            model.addAttribute("FrenGiant", (Object)frenMerits.get(0));
+
+            List<MeritList> frenGiant = new ArrayList<>();
+
+            int mostMarks = frenMerits.get(0).getFren();
+            for(int j=0;j<frenMerits.size();j++){
+                if(frenMerits.get(j).getFren() == mostMarks){
+                    frenGiant.add(frenMerits.get(j));
+                }
+            }
+
+            model.addAttribute("FrenGiants", frenGiant);
         }
         List<MeritList> germMerits = this.getSubjectMeritList(code, year, form, term, "Germ", meritLists);
         Collections.sort(germMerits, new SortByGerm().reversed());
         if (germMerits.size() > 0) {
-            model.addAttribute("GermGiant", (Object)germMerits.get(0));
+
+            List<MeritList> germGiant = new ArrayList<>();
+
+            int mostMarks = germMerits.get(0).getGerm();
+            for(int j=0;j<germMerits.size();j++){
+                if(germMerits.get(j).getGerm() == mostMarks){
+                    germGiant.add(germMerits.get(j));
+                }
+            }
+
+            model.addAttribute("GermGiants", germGiant);
         }
         List<MeritList> arabMerits = this.getSubjectMeritList(code, year, form, term, "Arab", meritLists);
         Collections.sort(arabMerits, new SortByArab().reversed());
         if (arabMerits.size() > 0) {
-            model.addAttribute("ArabGiant", (Object)arabMerits.get(0));
+
+            List<MeritList> arabGiant = new ArrayList<>();
+
+            int mostMarks = arabMerits.get(0).getArab();
+            for(int j=0;j<arabMerits.size();j++){
+                if(arabMerits.get(j).getArab() == mostMarks){
+                    arabGiant.add(arabMerits.get(j));
+                }
+            }
+
+            model.addAttribute("ArabGiants", arabGiant);
         }
         List<MeritList> mscMerits = this.getSubjectMeritList(code, year, form, term, "Msc", meritLists);
         Collections.sort(mscMerits, new SortByMsc().reversed());
         if (mscMerits.size() > 0) {
-            model.addAttribute("MscGiant", (Object)mscMerits.get(0));
+
+            List<MeritList> mscGiant = new ArrayList<>();
+
+            int mostMarks = mscMerits.get(0).getMsc();
+            for(int j=0;j<mscMerits.size();j++){
+                if(mscMerits.get(j).getMsc() == mostMarks){
+                    mscGiant.add(mscMerits.get(j));
+                }
+            }
+
+            model.addAttribute("MscGiants", mscGiant);
         }
         List<MeritList> bsMerits = this.getSubjectMeritList(code, year, form, term, "Bs", meritLists);
         Collections.sort(bsMerits, new SortByBs().reversed());
         if (bsMerits.size() > 0) {
-            model.addAttribute("BsGiant", (Object)bsMerits.get(0));
+
+            List<MeritList> bsGiant = new ArrayList<>();
+
+            int mostMarks = bsMerits.get(0).getBs();
+            for(int j=0;j<bsMerits.size();j++){
+                if(bsMerits.get(j).getBs() == mostMarks){
+                    bsGiant.add(bsMerits.get(j));
+                }
+            }
+
+            model.addAttribute("BsGiants", bsGiant);
         }
         List<MeritList> dndMerits = this.getSubjectMeritList(code, year, form, term, "Dnd", meritLists);
         Collections.sort(dndMerits, new SortByDnd().reversed());
         if (dndMerits.size() > 0) {
-            model.addAttribute("DndGiant", (Object)dndMerits.get(0));
+
+            List<MeritList> dndGiant = new ArrayList<>();
+
+            int mostMarks = dndMerits.get(0).getDnd();
+            for(int j=0;j<dndMerits.size();j++){
+                if(dndMerits.get(j).getDnd() == mostMarks){
+                    dndGiant.add(dndMerits.get(j));
+                }
+            }
+
+            model.addAttribute("DndGiants", dndGiant);
         }
         Collections.sort(meritLists, new SortByTotal().reversed());
         for (int j = 0; j < gds.length; ++j) {
@@ -1311,6 +1577,19 @@ public class MarkController {
         for (i = 0; i < meritLists.size(); ++i) {
             model.addAttribute("Mpoints" + ((MeritList)meritLists.get(i)).getAdmNo(), (Object)this.getPoints(((MeritList)meritLists.get(i)).getAverage()));
         }
+
+        int count = 0;
+
+        for(int j = 0; j<meritLists.size();j++){
+            count++;
+            if(count>1){
+                if(meritLists.get(j).getTotal() == meritLists.get(j-1).getTotal()){
+                    count--;
+                }
+            }
+            meritLists.get(j).setRank(count);
+        }
+
         model.addAttribute("meritLists", meritLists);
         model.addAttribute("activeUser", (Object)activeUser);
         model.addAttribute("school", (Object)school);
@@ -1350,6 +1629,7 @@ public class MarkController {
         model.addAttribute("MscCount", (Object)mscCount);
         model.addAttribute("BsCount", (Object)bsCount);
         model.addAttribute("DndCount", (Object)dndCount);
+
         return "meritList";
     }
 

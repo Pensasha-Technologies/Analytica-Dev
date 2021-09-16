@@ -110,9 +110,6 @@ public class SchoolController {
         return redirectView;
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
     @PostMapping(value={"/schools"})
     public RedirectView addSchool(@RequestParam(value="file") MultipartFile file, @Valid School school, BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
         User user = this.userService.getByUsername(principal.getName()).get();
@@ -135,6 +132,7 @@ public class SchoolController {
             }
             return redirectView;
         }
+
         String path = new File("src/main/resources/static/schImg").getAbsolutePath();
         String fileName = file.getOriginalFilename();
         if (fileName.isEmpty()) {

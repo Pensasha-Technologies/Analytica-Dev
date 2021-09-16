@@ -27,10 +27,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TermController {
@@ -63,6 +60,7 @@ public class TermController {
 
     @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/streams/{stream}/studentsReport"})
     public String getStudentReport(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String stream, Model model, Principal principal) {
+
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
@@ -70,6 +68,7 @@ public class TermController {
         List<Student> streamStudents = this.studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term, stream);
         List<ExamName> examNames = this.examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+
         int cnt = 0;
         for (int i = 0; i < students.size(); ++i) {
             model.addAttribute("subjects" + students.get(i).getAdmNo(), this.subjectService.getSubjectDoneByStudent(students.get(i).getAdmNo()));
@@ -143,21 +142,24 @@ public class TermController {
             }
             eNs.add(examNames.get(i));
         }
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("school", (Object)school);
+
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("school", school);
         model.addAttribute("streams", this.streamService.getStreamsInSchool(code));
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("student", student);
         model.addAttribute("students", students);
         model.addAttribute("streamStudents", streamStudents);
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
-        model.addAttribute("stream", (Object)stream);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
+        model.addAttribute("stream", stream);
         model.addAttribute("examNames", eNs);
         model.addAttribute("meritLists", this.getMeritList(students, subjects, year, form, term));
         model.addAttribute("studentMeritList", this.getMeritList(streamStudents, subjects, year, form, term));
-        model.addAttribute("count", (Object)cnt);
+        model.addAttribute("count", cnt);
+
         return "studentReport";
+
     }
 
     @PostMapping(value={"/schools/{code}/student/{admNo}/termlyReport"})

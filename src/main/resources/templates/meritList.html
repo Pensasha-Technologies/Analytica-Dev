@@ -141,7 +141,7 @@
 									<td th:text="${__${'Mpoints' + meritList.admNo}__}">-</td>
 									<td
 										th:text="${__${'Mpoints' + meritList.admNo}__ - __${'Points' + meritList.admNo}__}"></td>
-									<th scope="row" th:text="${rank.index + 1}">1</th>
+									<th scope="row" th:text="${meritList.rank}">1</th>
 								</tr>
 							</tbody>
 						</table>
@@ -426,45 +426,50 @@
 										</tr>
 									</th:block>
 									<th:block th:if="${meritLists} and ${meritLists.size()}">
-										<tr>
-											<th:block
-												th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
-												<td
-													th:text="${#strings.substringAfter(__${subject.initials}__Giant.admNo,'_')}">Adm
-													No.</td>
-												<td th:text="${__${subject.initials}__Giant.firstname}">First
-													Name</td>
-												<td th:text="${__${subject.initials}__Giant.secondname}">Third
-													Name</td>
-												<td th:text="${__${subject.initials}__Giant.stream}">Stream</td>
-												<td
-													th:text="${__${subject.initials}__Giant.__${subject.initials}__}">Stream</td>
+											<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
+												<th:block th:each = "subjectGiant : ${__${subject.initials}__Giants}">
+													<tr>
+														<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+														<td th:text="${subjectGiant.firstname}"> First Name </td>
+														<td th:text="${subjectGiant.secondname}"> Third Name </td>
+														<td th:text="${subjectGiant.stream}"> Stream </td>
+														<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+													</tr>
+												</th:block>
+												<th:block th:if="${subject.initials == 'C.R.E'}">
+													<th:block th:each = "subjectGiant : ${CreGiants}">
+														<tr>
+															<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+															<td th:text="${subjectGiant.firstname}"> First Name </td>
+															<td th:text="${subjectGiant.secondname}"> Third Name </td>
+															<td th:text="${subjectGiant.stream}"> Stream </td>
+															<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+														</tr>
+													</th:block>
+												</th:block>
+												<th:block th:if="${subject.initials == 'H.R.E'}">
+													<th:block th:each = "subjectGiant : ${HreGiants}">
+														<tr>
+															<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+															<td th:text="${subjectGiant.firstname}"> First Name </td>
+															<td th:text="${subjectGiant.secondname}"> Third Name </td>
+															<td th:text="${subjectGiant.stream}"> Stream </td>
+															<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+														</tr>
+													</th:block>
+												</th:block>
+												<th:block th:if="${subject.initials == 'I.R.E'}">
+													<th:block th:each = "subjectGiant : ${IreGiants}">
+														<tr>
+															<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+															<td th:text="${subjectGiant.firstname}"> First Name </td>
+															<td th:text="${subjectGiant.secondname}"> Third Name </td>
+															<td th:text="${subjectGiant.stream}"> Stream </td>
+															<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+														</tr>
+													</th:block>
+												</th:block>
 											</th:block>
-											<th:block th:if="${subject.initials == 'C.R.E'}">
-												<td th:text="${#strings.substringAfter(creGiant.admNo,'_')}">Adm
-													No.</td>
-												<td th:text="${creGiant.firstname}">First Name</td>
-												<td th:text="${creGiant.secondname}">Third Name</td>
-												<td th:text="${creGiant.stream}">Stream</td>
-												<td th:text="${creGiant.cre}">Stream</td>
-											</th:block>
-											<th:block th:if="${subject.initials == 'I.R.E'}">
-												<td th:text="${#strings.substringAfter(ireGiant.admNo,'_')}">Adm
-													No.</td>
-												<td th:text="${ireGiant.firstname}">First Name</td>
-												<td th:text="${ireGiant.secondname}">Third Name</td>
-												<td th:text="${ireGiant.stream}">Stream</td>
-												<td th:text="${ireGiant.ire}">Stream</td>
-											</th:block>
-											<th:block th:if="${subject.initials == 'H.R.E'}">
-												<td th:text="${#strings.substringAfter(hreGiant.admNo,'_')}">Adm
-													No.</td>
-												<td th:text="${hreGiant.firstname}">First Name</td>
-												<td th:text="${hreGiant.secondname}">Third Name</td>
-												<td th:text="${hreGiant.stream}">Stream</td>
-												<td th:text="${hreGiant.hre}">Stream</td>
-											</th:block>
-										</tr>
 									</th:block>
 								</tbody>
 							</table>

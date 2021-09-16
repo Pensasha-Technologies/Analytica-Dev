@@ -175,11 +175,13 @@ public class StudentController {
             } else {
                 Iterator<Subject> iterator;
                 student.setSchool(this.schoolService.getSchool(code).get());
-                String path = new File("src/main/resources/static/studImg").getAbsolutePath();
-                String fileName = school.getCode() + "_" + student.getAdmNo();
-                if (fileName.isEmpty()) {
+                if (file.isEmpty()) {
                     student.setPhoto("noStudent");
                 } else {
+
+                    String path = new File("src/main/resources/static/studImg").getAbsolutePath();
+                    String fileName = school.getCode() + "_" + student.getAdmNo();
+
                     OutputStream out = null;
                     InputStream filecontent = null;
                     try {
