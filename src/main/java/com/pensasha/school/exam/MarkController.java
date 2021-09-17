@@ -17,10 +17,7 @@ import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,23 +55,29 @@ public class MarkController {
 
     @GetMapping(value={"/schools/{code}/years/{year}/examination"})
     public String examinations(@PathVariable int code, @PathVariable int year, Model model, Principal principal) {
+
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         List<ExamName> examNames = this.examNameService.getExamBySchoolYear(code, year);
         ArrayList<ExamName> eNs = new ArrayList<ExamName>();
         for (int i = 0; i < examNames.size(); ++i) {
+
+            eNs.add(examNames.get(i));
+
             if (eNs.size() > 0) {
                 for (int k = 0; k < eNs.size(); ++k) {
-                    if (((ExamName)eNs.get(k)).getName().equals(examNames.get(i).getName())) {
-                        eNs.remove(examNames.get(i));
-                        continue;
-                    }
-                    eNs.add(examNames.get(i));
+                   if(k>0)
+                       {
+                           if (eNs.get(k - 1).getName().equals(eNs.get(k).getName())) {
+                               eNs.remove(eNs.get(k));
+                               continue;
+                           }
+                       }
                 }
-                continue;
+
             }
-            eNs.add(examNames.get(i));
+
         }
         List<ExamName> form1term1 = this.examNameService.getExamBySchoolYearFormTerm(code, year, 1, 1);
         List<ExamName> form1term2 = this.examNameService.getExamBySchoolYearFormTerm(code, year, 1, 2);
@@ -89,7 +92,10 @@ public class MarkController {
         model.addAttribute("form1term1", form1term1);
         model.addAttribute("form1term2", form1term2);
         model.addAttribute("form1term3", form1term3);
+
         return "examination";
+
+
     }
 
     @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/exams"})
@@ -120,32 +126,43 @@ public class MarkController {
 
     @PostMapping(value={"/schools/{code}/years/{year}/examination"})
     public String addingExamination(@PathVariable int code, @PathVariable int year, @RequestParam String name, @RequestParam int form, @RequestParam int term, HttpServletRequest request) {
+
         School school = this.schoolService.getSchool(code).get();
         ArrayList subjects = new ArrayList();
+
         school.getSubjects().forEach(subject -> subjects.add(subject));
         for (int i = 0; i < subjects.size(); ++i) {
+
             ExamName examName = new ExamName();
             examName.setName(name);
+
             ArrayList<School> schools = new ArrayList<School>();
             schools.add(school);
             examName.setSchools(schools);
+
             Year yearObj = this.yearService.getYearFromSchool(year, code).get();
             ArrayList<Year> years = new ArrayList<Year>();
             years.add(yearObj);
             examName.setYears(years);
+
             Form formObj = this.formService.getForm(form, year, code).get();
             ArrayList<Form> forms = new ArrayList<Form>();
             forms.add(formObj);
             examName.setForms(forms);
+
             Term termObj = this.termService.getTerm(term, form, year, code);
             ArrayList<Term> terms = new ArrayList<Term>();
             terms.add(termObj);
             examName.setTerms(terms);
+
             examName.setOutOf(Integer.parseInt(request.getParameter(((Subject)subjects.get(i)).getInitials() + "OutOf")));
             examName.setSubject((Subject)subjects.get(i));
+
             this.examNameService.addExam(examName);
         }
+
         return "redirect:/schools/" + code + "/years/" + year + "/examination";
+
     }
 
     @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/examination/{name}"})

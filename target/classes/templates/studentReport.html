@@ -136,23 +136,28 @@
 												Student marks has been added</p>
 										</div>
 										<tbody>
-											<div
+											<!--<div
 												th:unless="${examNames.size() == marks__${student.admNo}__.size()}">
 												<br>
 												<p class="text text-center alert alert-warning">Enter
 													all results for student</p>
-											</div>
-											<tr th:each="subject : ${subjects__${student.admNo}__}"
-												th:if="${examNames.size() == marks__${student.admNo}__.size()}">
+											</div>-->
+											<tr th:each="subject : ${subjects__${student.admNo}__}">
 												<td th:text="${subject.name}">subject name</td>
 												<th:block th:each="examName : ${examNames}">
 													<th:block th:each="mark : ${marks__${student.admNo}__}">
-														<td
-																th:if="${mark.subject.initials == subject.initials && mark.examName == examName}"> <span th:text="${mark.mark}">  </span></td>
-														<th:block th:unless="${mark.subject.initials == subject.initials}">
-															<td th:if="${mark.examName == examName}">  -  </td>
+														<th:block th:switch="${mark.subject.initials}">
+															<th:block th:case="${subject.initials}">
+																<td th:if="${mark.examName == examName}"> marks </td>
+															</th:block>
 														</th:block>
-													</th:block>
+													<!--	<th:block th:if="${mark.subject.initials == subject.initials && mark.examName == examName}">
+															 	<td th:text="${mark.mark}">  </td>
+														</th:block>
+														<th:block th:unless="${mark.subject.initials == subject.initials}">
+															 <td th:if="${mark.examName == examName}">  -  </td>
+														</th:block>
+													</th:block>-->
 												</th:block>
 												<td
 														th:text="${#aggregates.sum(marks__${student.admNo}__.?[subject.initials == '__${subject.initials}__'].![mark])}">100</td>
