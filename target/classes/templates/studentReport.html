@@ -148,7 +148,7 @@
 													<th:block th:each="mark : ${marks__${student.admNo}__}">
 														<th:block th:switch="${mark.subject.initials}">
 															<th:block th:case="${subject.initials}">
-																<td th:if="${mark.examName == examName}"> marks </td>
+																<td th:if="${mark.examName == examName}" th:text="${mark.mark}"> marks </td>
 															</th:block>
 														</th:block>
 													<!--	<th:block th:if="${mark.subject.initials == subject.initials && mark.examName == examName}">

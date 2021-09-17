@@ -73,12 +73,6 @@
 											marks has been added</p>
 									</div>
 									<tbody>
-										<div
-											th:unless="${examNames.size() == marks__${student.admNo}__.size()}">
-											<br>
-											<p class="text text-center alert alert-warning">Enter all
-												results for student</p>
-										</div>
 										<tr th:each="subject : ${subjects__${student.admNo}__}"
 											th:if="${examNames.size() == marks__${student.admNo}__.size()}">
 											<td th:text="${subject.name}">subject name</td>

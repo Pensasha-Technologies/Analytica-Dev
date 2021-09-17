@@ -143,6 +143,8 @@ public class TermController {
             eNs.add(examNames.get(i));
         }
 
+        getMeritList get = new getMeritList();
+
         model.addAttribute("activeUser", activeUser);
         model.addAttribute("school", school);
         model.addAttribute("streams", this.streamService.getStreamsInSchool(code));
@@ -154,11 +156,44 @@ public class TermController {
         model.addAttribute("term", term);
         model.addAttribute("stream", stream);
         model.addAttribute("examNames", eNs);
-        model.addAttribute("meritLists", this.getMeritList(students, subjects, year, form, term));
-        model.addAttribute("studentMeritList", this.getMeritList(streamStudents, subjects, year, form, term));
+
+        int count = 0;
+
+        List<MeritList> allStudentsMeritList = get.getList(students, subjects, markService, year, form, term);
+        Collections.sort(allStudentsMeritList, new SortByTotal().reversed());
+
+        for(int i=0;i<allStudentsMeritList.size();i++){
+            count++;
+            if(count>1){
+                if(allStudentsMeritList.get(i).getTotal() == allStudentsMeritList.get(i-1).getTotal()){
+                    count--;
+                }
+            }
+            allStudentsMeritList.get(i).setRank(count);
+        }
+
+        model.addAttribute("meritLists", allStudentsMeritList);
+
+        int counter = 0;
+
+        List<MeritList> streamStudentsMeritList = get.getList(streamStudents, subjects, markService, year, form, term);
+        Collections.sort(streamStudentsMeritList, new SortByTotal().reversed());
+
+        for(int i=0;i<streamStudentsMeritList.size();i++){
+            counter++;
+            if(counter>1){
+                if(streamStudentsMeritList.get(i).getTotal() == streamStudentsMeritList.get(i-1).getTotal()){
+                    counter--;
+                }
+            }
+            streamStudentsMeritList.get(i).setRank(counter);
+        }
+
+        model.addAttribute("studentMeritList", streamStudentsMeritList);
+
         model.addAttribute("count", cnt);
 
-        return "studentReport";
+       return "studentReport";
 
     }
 
@@ -1147,9 +1182,17 @@ class getMeritList {
 
 		}
 
-		for (int i = 0; i < meritLists.size(); i++) {
-			meritLists.get(i).setRank(i + 1);
-		}
+        int count = 0;
+
+        for(int j = 0; j<meritLists.size();j++){
+            count++;
+            if(count>1){
+                if(meritLists.get(j).getTotal() == meritLists.get(j-1).getTotal()){
+                    count--;
+                }
+            }
+            meritLists.get(j).setRank(count);
+        }
 
 		return meritLists;
 	}
