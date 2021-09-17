@@ -349,16 +349,7 @@
 						<th:block th:if="${meritLists} and ${meritLists.size()}">
 							<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
 								<th:block th:each = "subjectGiant : ${__${subject.initials}__Giants}">
-									<tr>
-										<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-										<td th:text="${subjectGiant.firstname}"> First Name </td>
-										<td th:text="${subjectGiant.secondname}"> Third Name </td>
-										<td th:text="${subjectGiant.stream}"> Stream </td>
-										<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
-									</tr>
-								</th:block>
-								<th:block th:if="${subject.initials == 'C.R.E'}">
-									<th:block th:each = "subjectGiant : ${CreGiants}">
+									<th:block th:if="${subjectGiant.__${subject.initials}__ > 0}">
 										<tr>
 											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
 											<td th:text="${subjectGiant.firstname}"> First Name </td>
@@ -366,28 +357,45 @@
 											<td th:text="${subjectGiant.stream}"> Stream </td>
 											<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
 										</tr>
+									</th:block>
+								</th:block>
+								<th:block th:if="${subject.initials == 'C.R.E'}">
+									<th:block th:each = "subjectGiant : ${CreGiants}">
+										<th:block th:if="${subjectGiant.cre > 0}">
+											<tr>
+												<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+												<td th:text="${subjectGiant.firstname}"> First Name </td>
+												<td th:text="${subjectGiant.secondname}"> Third Name </td>
+												<td th:text="${subjectGiant.stream}"> Stream </td>
+												<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+											</tr>
+										</th:block>
 									</th:block>
 								</th:block>
 								<th:block th:if="${subject.initials == 'H.R.E'}">
 									<th:block th:each = "subjectGiant : ${HreGiants}">
-										<tr>
-											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-											<td th:text="${subjectGiant.firstname}"> First Name </td>
-											<td th:text="${subjectGiant.secondname}"> Third Name </td>
-											<td th:text="${subjectGiant.stream}"> Stream </td>
-											<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
-										</tr>
+										<th:block th:if="${subjectGiant.hre > 0}">
+											<tr>
+												<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+												<td th:text="${subjectGiant.firstname}"> First Name </td>
+												<td th:text="${subjectGiant.secondname}"> Third Name </td>
+												<td th:text="${subjectGiant.stream}"> Stream </td>
+												<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+											</tr>
+										</th:block>
 									</th:block>
 								</th:block>
 								<th:block th:if="${subject.initials == 'I.R.E'}">
 									<th:block th:each = "subjectGiant : ${IreGiants}">
-										<tr>
-											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-											<td th:text="${subjectGiant.firstname}"> First Name </td>
-											<td th:text="${subjectGiant.secondname}"> Third Name </td>
-											<td th:text="${subjectGiant.stream}"> Stream </td>
-											<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
-										</tr>
+										<th:block th:if="${subjectGiant.ire > 0}">
+											<tr>
+												<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+												<td th:text="${subjectGiant.firstname}"> First Name </td>
+												<td th:text="${subjectGiant.secondname}"> Third Name </td>
+												<td th:text="${subjectGiant.stream}"> Stream </td>
+												<td th:text="${subjectGiant.__${subject.initials}__}"> Marks</td>
+											</tr>
+										</th:block>
 									</th:block>
 								</th:block>
 							</th:block>
