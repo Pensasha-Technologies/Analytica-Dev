@@ -30,6 +30,7 @@ com\pensasha\school\report\SortByKis.class
 com\pensasha\school\student\StudentController.class
 com\pensasha\school\exam\SortByFren.class
 com\pensasha\school\year\YearController.class
+com\pensasha\school\exam\GradeCount.class
 com\pensasha\school\year\Year.class
 com\pensasha\school\exam\SortByComp.class
 com\pensasha\school\exam\SortByHre.class
@@ -116,6 +117,7 @@ com\pensasha\school\subject\SubjectRepository.class
 com\pensasha\school\exam\SortByHist.class
 com\pensasha\school\exam\SortByElec.class
 com\pensasha\school\report\SortByGerm.class
+com\pensasha\school\finance\FeeBalance.class
 com\pensasha\school\user\UserRepository.class
 com\pensasha\school\exam\ExamName.class
 com\pensasha\school\term\SortByTotal.class

@@ -4,12 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating subject champion in meritlist">
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating students report rank">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/studentReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/studentReport.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/studentsReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/studentsReportPdf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/studentReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/studentReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/SortByTotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/schImg/noSchool.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/202000_3000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40200_3000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40200_3001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40200_3002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40200_3003" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40201_3000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40201_3001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40201_3002" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40201_3003" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3000" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3001" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3003" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3004" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3005" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3006" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3007" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/40202_3008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/studImg/noStudent.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/studentsReportPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/studentsReportPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -212,7 +241,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631892606631</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Updating students report rank">
+      <created>1631895906645</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1631895906645</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +276,7 @@
     <MESSAGE value="fixing subject champion and marks entry" />
     <MESSAGE value="Fixing adding of exam to display all added exams" />
     <MESSAGE value="Updating subject champion in meritlist" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating subject champion in meritlist" />
+    <MESSAGE value="Updating students report rank" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating students report rank" />
   </component>
 </project>

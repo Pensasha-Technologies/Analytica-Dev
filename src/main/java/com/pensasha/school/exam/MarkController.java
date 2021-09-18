@@ -878,10 +878,9 @@ public class MarkController {
                 }
             }
             meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio() + meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre() + meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci() + meritList.getAnD() + meritList.getAgric() + meritList.getComp() + meritList.getAvi() + meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal() + meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab() + meritList.getMsc() + meritList.getBs() + meritList.getDnd());
-            if (count > 0) {
-                meritList.setAverage(meritList.getTotal() / count);
-            }
+            meritList.setAverage(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size());
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
+
             meritLists.add(meritList);
             gradeCounts.add(gradeCount);
         }
@@ -1107,9 +1106,9 @@ public class MarkController {
 
             List<MeritList> agricGiant = new ArrayList<>();
 
-            int mostMarks = agricMerits.get(0).getAnD();
+            int mostMarks = agricMerits.get(0).getAgric();
             for(int j=0;j<agricMerits.size();j++){
-                if(agricMerits.get(j).getAnD() == mostMarks){
+                if(agricMerits.get(j).getAgric() == mostMarks){
                     agricGiant.add(agricMerits.get(j));
                 }
             }
@@ -1607,6 +1606,47 @@ public class MarkController {
             meritLists.get(j).setRank(count);
         }
 
+        List<MeritList> topStudents = new ArrayList<>();
+        List<MeritList> bottomStudents = new ArrayList<>();
+
+        //Top Students
+        if(meritLists.size() < 5){
+            for(int j = 0; j<meritLists.size(); j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    topStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 5){
+            for(int j = 0; j<5; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    topStudents.add(meritLists.get(j));
+                }
+            }
+        }
+
+        //Bottom Students
+        if(meritLists.size() > 10 && meritLists.size() < 15 ){
+            for(int j = meritLists.size() - 3; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 15 && meritLists.size() < 40){
+            for(int j = meritLists.size() - 5; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 40){
+            for(int j = meritLists.size() - 10; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }
+
+        model.addAttribute("topStudents", topStudents);
+        model.addAttribute("bottomStudents", bottomStudents);
         model.addAttribute("meritLists", meritLists);
         model.addAttribute("activeUser", (Object)activeUser);
         model.addAttribute("school", (Object)school);
