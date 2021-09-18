@@ -1553,6 +1553,47 @@ public class ReportController {
             meritLists.get(j).setRank(count);
         }
 
+        List<MeritList> topStudents = new ArrayList<>();
+        List<MeritList> bottomStudents = new ArrayList<>();
+
+        //Top Students
+        if(meritLists.size() < 5){
+            for(int j = 0; j<meritLists.size(); j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    topStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 5){
+            for(int j = 0; j<5; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    topStudents.add(meritLists.get(j));
+                }
+            }
+        }
+
+        //Bottom Students
+        if(meritLists.size() > 10 && meritLists.size() < 15 ){
+            for(int j = meritLists.size() - 3; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 15 && meritLists.size() < 40){
+            for(int j = meritLists.size() - 5; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }else if(meritLists.size() > 40){
+            for(int j = meritLists.size() - 10; j < meritLists.size() - 1; j++){
+                if(meritLists.get(j).getAverage() > 0) {
+                    bottomStudents.add(meritLists.get(j));
+                }
+            }
+        }
+
+        context.setVariable("topStudents", topStudents);
+        context.setVariable("bottomStudents", bottomStudents);
         context.setVariable("activeUser", (Object)activeUser);
         context.setVariable("school", (Object)school);
         context.setVariable("student", (Object)student);

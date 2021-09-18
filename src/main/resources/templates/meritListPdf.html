@@ -232,65 +232,12 @@
 			</table>
 		</div>
 
-		<!--  
-					<div style="text-align: center; padding-top: 20px;">
-						<h4>Performance Analysis</h4>
-						<h5>Overal Grade Distribution. (Based on Ranking).</h5>
-					</div>
-
-					<div class="table-responsive" style="padding: 20px;">
-						<table class="table">
-							<thead>
-								<tr>
-									<th>Class</th>
-									<th>A</th>
-									<th>A-</th>
-									<th>B+</th>
-									<th>B</th>
-									<th>B-</th>
-									<th>C+</th>
-									<th>C</th>
-									<th>C-</th>
-									<th>D+</th>
-									<th>D</th>
-									<th>D-</th>
-									<th>E</th>
-									<th>Y</th>
-									<th>Entry</th>
-									<th>Mean Points</th>
-									<th>Mean Grade</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th>Total</th>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
--->
-		<div style="text-align: center;">
+		<div style="page-break-after: always;">
+			<div style="text-align: center;">
 			<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
 		</div>
 
-		<div class="table-responsive" style="margin-bottom: 30px;">
+			<div class="table-responsive" style="margin-bottom: 30px;">
 			<table class="table table-sm" style="font-size: 14px;">
 				<thead>
 					<tr>
@@ -317,17 +264,17 @@
 			</table>
 		</div>
 
-		<div style="text-align: center; margin-bottom: 30px;">
-			<h5>Subject Champions</h5>
-		</div>
+			<div style="text-align: center; margin-bottom: 30px;">
+				<h5>Subject Champions</h5>
+			</div>
 
-		<th:block th:each="subject : ${subjects}">
+			<th:block th:each="subject : ${subjects}">
 
-			<h6 th:text="${subject.name}">Subject Name</h6>
+				<h6 th:text="${subject.name}">Subject Name</h6>
 
-			<div class="table-responsive">
-				<table class="table table-sm" style="font-size: 14px;">
-					<thead>
+				<div class="table-responsive">
+					<table class="table table-sm" style="font-size: 14px;">
+						<thead>
 						<tr>
 							<th>Adm No.</th>
 							<th>First Name</th>
@@ -335,8 +282,8 @@
 							<th>Stream</th>
 							<th>Marks</th>
 						</tr>
-					</thead>
-					<tbody>
+						</thead>
+						<tbody>
 						<th:block th:unless="${meritLists} and ${meritLists.size()}">
 							<tr>
 								<td></td>
@@ -400,10 +347,101 @@
 								</th:block>
 							</th:block>
 						</th:block>
-					</tbody>
-				</table>
-			</div>
-		</th:block>
+						</tbody>
+					</table>
+				</div>
+			</th:block>
+		</div>
+
+		<!-- Top 5 Students -->
+
+		<div style="text-align: center;">
+			<h5> Top Students </h5>
+		</div>
+
+		<div class="table-responsive" style="padding-bottom: 20px;">
+			<table class="table" style="font-size: 14px;">
+				<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col"> Name </th>
+					<th scope="col"> Average </th>
+					<th scope="col"> Grade </th>
+				</tr>
+				</thead>
+				<tbody>
+				<th:block th:each = "topStudent, iterStat : ${topStudents}">
+					<tr>
+						<th scope="row" th:text="${iterStat.index + 1}">1</th>
+						<td th:text="${topStudent.firstname} + ' ' + ${topStudent.secondname}">Name</td>
+						<td th:text="${topStudent.average}">Average</td>
+						<th:block th:with="isEven=${topStudent.average}">
+							<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
+							<td th:if="${isEven<80 && isEven>=75}">A-</td>
+							<td th:if="${isEven<75 && isEven>=70}">B+</td>
+							<td th:if="${isEven<70 && isEven>=65}">B</td>
+							<td th:if="${isEven<65 && isEven>=60}">B-</td>
+							<td th:if="${isEven<60 && isEven>=55}">C+</td>
+							<td th:if="${isEven<55 && isEven>=50}">C</td>
+							<td th:if="${isEven<50 && isEven>=45}">C-</td>
+							<td th:if="${isEven<45 && isEven>=40}">D+</td>
+							<td th:if="${isEven<40 && isEven>=35}">D</td>
+							<td th:if="${isEven<35 && isEven>=30}">D-</td>
+							<td th:if="${isEven<30 && isEven>0}">E</td>
+						</th:block>
+					</tr>
+				</th:block>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Bottom Students
+            if students < 10 no bottom students
+            if Students > 10 && Students < 15 bottom 3
+            if Students > 15 && students <40 bottom 5
+            if Students > 40 bottom 10
+        -->
+
+		<div style="text-align: center;">
+			<h5> Bottom Students </h5>
+		</div>
+
+		<div class="table-responsive" style="padding-bottom: 20px;">
+			<table class="table" style="font-size: 14px;">
+				<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col"> Name </th>
+					<th scope="col"> Points </th>
+					<th scope="col"> Grade </th>
+				</tr>
+				</thead>
+				<tbody>
+				<th:block th:each = "bottomStudent, iterStat : ${bottomkStudents}">
+					<tr>
+						<th scope="row" th:text="${iterStat.index + 1}">1</th>
+						<td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>
+						<td th:text="${bottomStudent.average}">Average</td>
+						<th:block th:with="isEven=${topStudent.average}">
+							<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
+							<td th:if="${isEven<80 && isEven>=75}">A-</td>
+							<td th:if="${isEven<75 && isEven>=70}">B+</td>
+							<td th:if="${isEven<70 && isEven>=65}">B</td>
+							<td th:if="${isEven<65 && isEven>=60}">B-</td>
+							<td th:if="${isEven<60 && isEven>=55}">C+</td>
+							<td th:if="${isEven<55 && isEven>=50}">C</td>
+							<td th:if="${isEven<50 && isEven>=45}">C-</td>
+							<td th:if="${isEven<45 && isEven>=40}">D+</td>
+							<td th:if="${isEven<40 && isEven>=35}">D</td>
+							<td th:if="${isEven<35 && isEven>=30}">D-</td>
+							<td th:if="${isEven<30 && isEven>0}">E</td>
+						</th:block>
+					</tr>
+				</th:block>
+				</tbody>
+			</table>
+		</div>
+
 	</div>
 	<!-- End of Main Content -->
 
