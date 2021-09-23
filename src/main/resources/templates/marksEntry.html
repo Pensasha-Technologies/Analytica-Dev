@@ -124,7 +124,7 @@
 														   th:name="${mark.student.admNo + 'mark'}" type="text" th:value="${mark.mark}" /></td>
 											</th:block>
 											<th:block th:if="${mark.mark == -1}">
-												<td> - </td>
+												<td> <input class="form-control" th:name="${mark.student.admNo + 'mark'}" type="text" value="-" /> </td>
 											</th:block>
 
 											<td th:text="${examName.outOf}">/ 30%</td>
