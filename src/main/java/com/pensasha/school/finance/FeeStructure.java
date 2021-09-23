@@ -19,6 +19,7 @@ public class FeeStructure {
     private int id;
     private String name;
     private int cost;
+    private String scholar;
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="code")
@@ -34,19 +35,21 @@ public class FeeStructure {
     @JoinColumn(name="term")
     private Term term;
 
-    public FeeStructure(int id, String name, int cost, School school, Year year, Form form, Term term) {
+    public FeeStructure(int id, String name, int cost, String scholar, School school, Year year, Form form, Term term) {
         this.id = id;
         this.name = name;
         this.cost = cost;
+        this.scholar = scholar;
         this.school = school;
         this.year = year;
         this.form = form;
         this.term = term;
     }
 
-    public FeeStructure(String name, int cost, School school, Year year, Form form, Term term) {
+    public FeeStructure(String name, int cost, String scholar, School school, Year year, Form form, Term term) {
         this.name = name;
         this.cost = cost;
+        this.scholar = scholar;
         this.school = school;
         this.year = year;
         this.form = form;
@@ -115,5 +118,13 @@ public class FeeStructure {
 
     public void setTerm(Term term) {
         this.term = term;
+    }
+
+    public String getScholar() {
+        return scholar;
+    }
+
+    public void setScholar(String scholar) {
+        this.scholar = scholar;
     }
 }

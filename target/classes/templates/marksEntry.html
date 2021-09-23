@@ -119,9 +119,13 @@
 											<td scope="row" th:text="${mark.student.firstname + ' ' + mark.student.secondname + ' ' + mark.student.thirdname}">
 												Name</td>
 												<td th:text="${stream.stream}">Stream</td>
-											 <td><input class="form-control"
-												th:name="${mark.student.admNo + 'mark'}" type="number"
-												th:value="${mark.mark}" min="0" th:max="${examName.outOf}" /></td>
+											<th:block th:if="${mark.mark != -1}">
+												<td><input class="form-control"
+														   th:name="${mark.student.admNo + 'mark'}" type="text" th:value="${mark.mark}" /></td>
+											</th:block>
+											<th:block th:if="${mark.mark == -1}">
+												<td> - </td>
+											</th:block>
 
 											<td th:text="${examName.outOf}">/ 30%</td>
 										</tr>
@@ -134,13 +138,12 @@
 				</div>
 				<!-- End of Main Content -->
 
-				<!-- Footer -->
-				<footer th:replace="fragments :: footer2"></footer>
-				<!-- End of Footer -->
-
-
 			</div>
 			<!-- End of Content Wrapper -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
 
 		</div>
 		<!-- End of Page Wrapper -->
@@ -173,6 +176,8 @@
 						});
 
 			}
+
+
 		</script>
 </body>
 

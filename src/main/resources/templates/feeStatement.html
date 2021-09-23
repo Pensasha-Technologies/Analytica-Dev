@@ -56,27 +56,34 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
-						<div style="text-align: center;padding-top:20px;">
-							<h3
-								th:text="${feeRecord.student.firstname + ' ' + feeRecord.student.secondname + ' ' + feeRecord.student.thirdname}">
-								Student Name</h3>
-							<h4 th:text="${feeRecord.student.school.name}">School Name</h4>
-							<h5
-								th:text="${'Form: ' + feeRecord.form.form}">
-								Form Term</h5>
-								<h5 th:text="${'Admission Number: ' + #strings.substringAfter(feeRecord.student.admNo,'_')}"> Adm No </h5>
+						<div class="card text-center">
+							<div class="card-header">
+								<div style="text-align: center;padding-top:20px;">
+									<h4 th:text="${feeRecord.student.school.name}">School Name</h4>
+									<h5
+											th:text="${'Form: ' + feeRecord.form.form}">
+										Form Term</h5>
+									<h5 th:text="${'Admission Number: ' + #strings.substringAfter(feeRecord.student.admNo,'_')}"> Adm No </h5>
+								</div>
+							</div>
+							<div class="card-body">
+								<div style="padding-top:30px; padding-left:30px;">
+
+									<h3 th:text="${feeRecord.student.firstname + ' ' + feeRecord.student.secondname + ' ' + feeRecord.student.thirdname}">
+										Student Name</h3>
+
+									<h5 th:text="${'Fee id: ' + feeRecord.id}">Fee id:</h5>
+									<h5 th:text="${'Receipt Number: ' + feeRecord.receiptNo}">Receipt Number</h5>
+
+									<h5 th:text="${'Amount Paid: Ksh' + feeRecord.amount + '/-'}">Amount Paid</h5>
+									<h5 th:text="${'Date Paid: ' + feeRecord.datePaid}">Date Paid</h5>
+
+								</div>
+							</div>
+							<div class="card-footer text-muted">
+								2 days ago
+							</div>
 						</div>
-
-						<div style="padding-top:30px; padding-left:30px;">
-
-							<h5 th:text="${'Fee id: ' + feeRecord.id}">Fee id:</h5>
-							<h5 th:text="${'Receipt Number: ' + feeRecord.receiptNo}">Receipt Number</h5>
-
-							<h5 th:text="${'Amount Paid: Ksh' + feeRecord.amount + '/-'}">Amount Paid</h5>
-							<h5 th:text="${'Date Paid: ' + feeRecord.datePaid}">Date Paid</h5>
-
-						</div>
-
 					</div>
 
 				</div>

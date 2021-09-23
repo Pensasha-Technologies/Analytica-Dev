@@ -74,19 +74,28 @@
 					</div>
 					<tr th:each="meritList, rank : ${meritLists}">
 						<td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
-						<td th:text="${meritList.firstname + ' ' + meritList.secondname}"></td>
+						<td
+								th:text="${meritList.firstname + ' ' + meritList.secondname}"></td>
 						<td th:text="${meritList.kcpe}">kcpe</td>
 						<td th:text="${meritList.stream}">stream</td>
 						<th:block th:each="subject : ${subjects}">
-							<td th:text="${meritList.cre}"
-								th:if="${subject.initials == 'C.R.E'}"></td>
-							<td th:text="${meritList.hre}"
-								th:if="${subject.initials == 'H.R.E'}"></td>
-							<td th:text="${meritList.ire}"
-								th:if="${subject.initials == 'I.R.E'}"></td>
-							<td
-								th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"
-								th:text="${meritList.__${subject.initials}__}"></td>
+							<th:block th:if="${subject.initials == 'C.R.E'}">
+								<td th:if="${meritList.cre >= 0}" th:text="${meritList.cre}"></td>
+								<td th:if="${meritList.cre < 0}"> - </td>
+							</th:block>
+							<th:block th:if="${subject.initials == 'H.R.E'}">
+								<td th:if="${meritList.hre >= 0}" th:text="${meritList.hre}"></td>
+								<td th:if="${meritList.hre < 0}"> - </td>
+							</th:block>
+							<th:block th:if="${subject.initials == 'I.R.E'}">
+								<td th:if="${meritList.ire >= 0}" th:text="${meritList.ire}"></td>
+								<td th:if="${meritList.ire < 0}"> - </td>
+							</th:block>
+							<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+								<td th:if="${meritList.__${subject.initials}__ >= 0}" th:text="${meritList.__${subject.initials}__}"></td>
+								<td th:if="${meritList.__${subject.initials}__ < 0}"> - </td>
+							</th:block>
+
 						</th:block>
 						<td th:text="${meritList.total}"></td>
 						<td th:text="${meritList.average}">Average</td>
@@ -103,11 +112,11 @@
 							<td th:if="${isEven<40 && isEven>=35}">D</td>
 							<td th:if="${isEven<35 && isEven>=30}">D-</td>
 							<td th:if="${isEven<30 && isEven>0}">E</td>
-							<td th:if="${isEven == 0 }">...</td>
+							<td th:if="${isEven <= 0 }">...</td>
 						</th:block>
 						<td th:text="${__${'Mpoints' + meritList.admNo}__}">-</td>
 						<td
-							th:text="${__${'Mpoints' + meritList.admNo}__ - __${'Points' + meritList.admNo}__}"></td>
+								th:text="${__${'Mpoints' + meritList.admNo}__ - __${'Points' + meritList.admNo}__}"></td>
 						<th scope="row" th:text="${meritList.rank}">1</th>
 					</tr>
 				</tbody>

@@ -391,7 +391,7 @@
 							<div class="form-group">
 								<label for="receiptNo"
 									style="display: block; text-align: left; margin-bottom: -5px;">Enter
-									Academic Year</label> <input type="number" name="feeYear" min="1900" />
+									Academic Year</label> <input type="number" name="feeYear" min="1900" max="3000"/>
 							</div>
 
 							<div class="form-group">
@@ -415,6 +415,20 @@
 									<option value="2">Term 2</option>
 									<option value="3">Term 3</option>
 								</select>
+							</div>
+
+							<div class="form-group">
+								<label for="receiptNo" style="display: block; text-align: left; margin-bottom: -5px;"> Enter Scholar </label>
+								<th:block th:if="${school.scholar == 'Both'}">
+									<select name="scholar" required>
+										<option value="">Select Scholar ...</option>
+										<option value="Day">Day Scholar</option>
+										<option value="Border">Boarder</option>
+									</select>
+								</th:block>
+								<th:block th:if="${school.scholar != 'Both'}">
+									<input type="text" readonly th:value="${school.scholar}" name="scholar"/>
+								</th:block>
 							</div>
 
 							<button class="btn btn-success" type="submit"
@@ -1500,7 +1514,7 @@
 	<div class="sticky-footer" th:fragment="footer2">
 		<div class="container my-auto">
 			<div class="copyright py-1 text-center my-auto">
-				<span>Copyright &copy; Your Website 2019</span>
+				<span>Copyright &copy; Your Website 2021</span>
 			</div>
 		</div>
 	</div>

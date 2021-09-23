@@ -31,6 +31,7 @@
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
 						<a th:href="@{/schools/bursarHome}" th:if="${activeUser.role.name == 'BURSAR'}">Home</a>
+						<a th:href="@{/schools/accountsClerkHome}" th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}">Home</a>
 						<a th:href="@{/schools/principal}" th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a>
 						</li>
 						<li class="breadcrumb-item active" aria-current="page">View
@@ -52,6 +53,7 @@
 						<h4 th:text="'Academic Year: ' + ${year}" style="text-align:center;">Year</h4>
 						<h5 th:text="'Form ' + ${form} + ', Term ' + ${term}" style="text-align: center;">Form
 							One</h5>
+						<h6 style="text-align:center;margin-bottom:20px;"> Fee Structure </h6>
 
 						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
 							Staff exists</div>
@@ -59,16 +61,18 @@
 						<div class="alert alert-success" th:if="${success}"
 							th:text="${success}">Staff saved</div>
 
-						<div class="table-responsive">
-							<table class="table">
-								<thead>
+						<!-- If scholar is not equal to both -->
+						<th:block th:if="${school.scholar != 'Both'}">
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
 									<tr>
 										<th scope="col">#</th>
-										<th scope="col">Name</th>
+										<th scope="col">Vote Head</th>
 										<th scope="col">Cost</th>
 									</tr>
-								</thead>
-								<tbody>
+									</thead>
+									<tbody>
 									<div th:unless="${feeStructures} and ${feeStructures.size()}">
 										<br>
 										<p class="text text-center alert alert-warning">No record
@@ -84,9 +88,80 @@
 										<td></td>
 										<th th:text="${'Ksh ' + #aggregates.sum(feeStructures.![cost])} + '/-'"> total amount </th>
 									</tr>
-								</tbody>
-							</table>
-						</div>
+									</tbody>
+								</table>
+							</div>
+						</th:block>
+
+						<!-- If school scholar is equal to both day and boarding -->
+						<th:block  th:if="${school.scholar == 'Both'}">
+
+							<!-- Day Boarding -->
+							<h5> Day Fee Structure </h5>
+
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Name</th>
+										<th scope="col">Cost</th>
+									</tr>
+									</thead>
+									<tbody>
+									<div th:unless="${dayFeeStructures} and ${dayFeeStructures.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No record
+											has been added</p>
+									</div>
+									<tr th:each="feeStructure, iter : ${dayFeeStructures}">
+										<th scope="row" th:text="${iter.index +1}">1</th>
+										<td th:text="${feeStructure.name}">Name</td>
+										<td th:text="${'Ksh ' + feeStructure.cost + ' /-'}">Cost</td>
+									</tr>
+									<tr th:if="${dayFeeStructures.size() > 0}">
+										<th>Total</th>
+										<td></td>
+										<th th:text="${'Ksh ' + #aggregates.sum(dayFeeStructures.![cost])} + '/-'"> total amount </th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<!-- Boarding -->
+
+							<h5> Boarding Fee Structure </h5>
+
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Name</th>
+										<th scope="col">Cost</th>
+									</tr>
+									</thead>
+									<tbody>
+									<div th:unless="${boardingFeeStructures} and ${boardingFeeStructures.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No record
+											has been added</p>
+									</div>
+									<tr th:each="feeStructure, iter : ${boardingFeeStructures}">
+										<th scope="row" th:text="${iter.index +1}">1</th>
+										<td th:text="${feeStructure.name}">Name</td>
+										<td th:text="${'Ksh ' + feeStructure.cost + ' /-'}">Cost</td>
+									</tr>
+									<tr th:if="${boardingFeeStructures.size() > 0}">
+										<th>Total</th>
+										<td></td>
+										<th th:text="${'Ksh ' + #aggregates.sum(boardingFeeStructures.![cost])} + '/-'"> total amount </th>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</th:block>
 
 					</div>
 

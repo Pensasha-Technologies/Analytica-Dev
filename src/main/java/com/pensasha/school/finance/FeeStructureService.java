@@ -19,8 +19,8 @@ public class FeeStructureService {
         return this.feeStructureRepository.findBySchoolCodeAndYearYear(code, year);
     }
 
-    public List<FeeStructure> allFeeItemInSchoolYearFormTerm(int code, int year, int form, int term) {
-        return this.feeStructureRepository.findBySchoolCodeAndYearYearAndFormFormAndTermTerm(code, year, form, term);
+    public List<FeeStructure> allFeeItemInSchoolYearFormScholarTerm(int code, int year, int form, String scholar,int term) {
+        return this.feeStructureRepository.findBySchoolCodeAndYearYearAndFormFormAndScholarAndTermTerm(code, year, form, scholar, term);
     }
 
     public FeeStructure addItem(FeeStructure feeStructure) {

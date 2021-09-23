@@ -27,10 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -69,7 +66,18 @@ public class FinanceController {
         Student student = new Student();
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(code);
-        List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormTerm(code, year, form, term);
+
+        if(school.getScholar() == "Both"){
+                List<FeeStructure> dayFeeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, form, "Day", term);
+                model.addAttribute("dayFeeStructures", dayFeeStructures);
+                List<FeeStructure> boardingFeeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, form, "Boarding", term);
+                model.addAttribute("boardingFeeStructures", boardingFeeStructures);
+        }else{
+            List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, form, school.getScholar(), term);
+            model.addAttribute("feeStructures", feeStructures);
+        }
+
+        List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, form, school.getScholar(), term);
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         model.addAttribute("streams", streams);
         model.addAttribute("feeStructures", feeStructures);
@@ -85,18 +93,18 @@ public class FinanceController {
     }
 
     @PostMapping(value={"/schools/{code}/createFeeStructure"})
-    public String postCreateFeeStructure(@PathVariable int code, @RequestParam int feeYear, @RequestParam int feeTerm, @RequestParam int feeForm) {
-        return "redirect:/schools/" + code + "/years/" + feeYear + "/forms/" + feeForm + "/terms/" + feeTerm + "/createStructure";
+    public String postCreateFeeStructure(@PathVariable int code, @RequestParam int feeYear, @RequestParam int feeTerm, @RequestParam int feeForm, @RequestParam String scholar) {
+        return "redirect:/schools/" + code + "/years/" + feeYear + "/forms/" + feeForm + "/scholar/" + scholar + "/terms/" + feeTerm + "/createStructure";
     }
 
-    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure"})
-    public String createFeeStructure(Model model, Principal principal, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term) {
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/scholar/{scholar}/terms/{term}/createStructure"})
+    public String createFeeStructure(Model model, Principal principal, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable String scholar) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(code);
-        List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormTerm(code, year, form, term);
+        List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code,year,form,scholar,term);
         model.addAttribute("feeStructures", feeStructures);
         model.addAttribute("schoolUsers", schoolUsers);
         model.addAttribute("user", (Object)user);
@@ -109,8 +117,8 @@ public class FinanceController {
         return "createFeeStructure";
     }
 
-    @PostMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items"})
-    public String addItemToFeeStructure(RedirectAttributes redit, Principal principal, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @RequestParam String name, @RequestParam int cost) {
+    @PostMapping(value={"/schools/{code}/years/{year}/forms/{form}/scholar/{scholar}/terms/{term}/createStructure/items"})
+    public String addItemToFeeStructure(RedirectAttributes redit, Principal principal, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable String scholar, @PathVariable int term, @RequestParam String name, @RequestParam int cost) {
         School school = this.schoolService.getSchool(code).get();
         Form formObj = this.formService.getFormByForm(form);
         Term termObj = this.termService.getTerm(term, form, year, code);
@@ -134,31 +142,37 @@ public class FinanceController {
             yearObj.setSchools(schools);
             this.yearService.addYear(yearObj);
         }
-        FeeStructure feeStructure = new FeeStructure(name, cost, school, yearObj, formObj, termObj);
+        FeeStructure feeStructure = new FeeStructure(name, cost, scholar,school, yearObj, formObj, termObj);
         this.feeStructureService.addItem(feeStructure);
-        return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/createStructure";
+
+        return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/scholar/" + scholar +"/terms/" + term + "/createStructure";
     }
 
-    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items/{id}"})
-    public String deleteFeeStructureItem(Principal principal, Model model, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term, @PathVariable int id) {
+    @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/scholar/{scholar}/terms/{term}/createStructure/items/{id}"})
+    public String deleteFeeStructureItem(Principal principal, Model model, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable String scholar, @PathVariable int term, @PathVariable int id) {
         this.feeStructureService.deleteFeeStructureItem(id);
-        return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/createStructure";
+        return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/scholar/" + scholar + "/terms/" + term + "/createStructure";
     }
 
     @GetMapping(value={"/school/{code}/feeRecords"})
     public String getAllFeeRecords(@PathVariable int code, Model model, Principal principal, @RequestParam int academicYear) {
+
         SchoolUser activeUser = this.userService.getSchoolUserByUsername(principal.getName());
         School school = this.schoolService.getSchool(code).get();
         List<FeeRecord> feeRecords = this.feeRecordService.getAllFeeRecordByAcademicYear(code, academicYear);
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+
         Student student = new Student();
         ArrayList<FeeRecord> newRecords = new ArrayList<FeeRecord>();
         for (int i = 0; i < feeRecords.size(); ++i) {
             newRecords.add(feeRecords.get(i));
         }
+        model.addAttribute("streams", streams);
         model.addAttribute("student", (Object)student);
         model.addAttribute("feeRecords", newRecords);
         model.addAttribute("school", (Object)school);
         model.addAttribute("activeUser", (Object)activeUser);
+
         return "feeStatements";
     }
 
@@ -233,7 +247,9 @@ public class FinanceController {
         List<FeeStructure> feeStructures = new ArrayList();
         for (int i = 1; i <= form; ++i) {
             for (int j = 1; j <= term; ++j) {
-                feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormTerm(code, year, i, j);
+
+                feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, i, school.getScholar(), j);
+
                 for (int k = 0; k < feeStructures.size(); ++k) {
                     totalAmountExpected += ((FeeStructure)feeStructures.get(k)).getCost();
                 }

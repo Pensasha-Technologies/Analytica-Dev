@@ -191,7 +191,19 @@ public class MarkController {
             Mark mark = new Mark();
             if (this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
                 mark = this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam);
-                mark.setMark(Integer.parseInt(request.getParameter(students.get(i).getAdmNo() + "mark")));
+                String mrk = request.getParameter(students.get(i).getAdmNo() + "mark");
+
+                int mark1;
+                try{
+                   mark1 = Integer.parseInt(mrk);
+                   if(mark1 > examName.getOutOf() || mark1 < 0 ){
+                       mark1 = -1;
+                   }
+                }catch (NumberFormatException e){
+                    mark1 = -1;
+                }
+
+                mark.setMark(mark1);
                 this.markService.addMarksToSubject(mark);
                 continue;
             }
@@ -352,7 +364,12 @@ public class MarkController {
                             gradeCount.setMaths(this.getGrade(meritList.getMaths()));
                             continue block118;
                         }
-                        meritList.setMaths(sum);
+                        if(sum < 0){
+                            meritList.setMaths(-1);
+                        }else{
+                            meritList.setMaths(sum);
+                        }
+
                         gradeCount.setMaths(this.getGrade(meritList.getMaths()));
                         continue block118;
                     }
@@ -372,7 +389,13 @@ public class MarkController {
                             gradeCount.setEng(this.getGrade(meritList.getEng()));
                             continue block118;
                         }
-                        meritList.setEng(sum);
+
+                        if(sum < 0){
+                            meritList.setEng(-1);
+                        }else {
+                            meritList.setEng(sum);
+                        }
+
                         gradeCount.setEng(this.getGrade(meritList.getEng()));
                         continue block118;
                     }
@@ -392,7 +415,13 @@ public class MarkController {
                             gradeCount.setKis(this.getGrade(meritList.getKis()));
                             continue block118;
                         }
-                        meritList.setKis(sum);
+
+                        if(sum < 0){
+                            meritList.setKis(-1);
+                        }else{
+                            meritList.setKis(sum);
+                        }
+
                         gradeCount.setKis(this.getGrade(meritList.getKis()));
                         continue block118;
                     }
@@ -412,7 +441,13 @@ public class MarkController {
                             gradeCount.setBio(this.getGrade(meritList.getBio()));
                             continue block118;
                         }
-                        meritList.setBio(sum);
+
+                        if(sum < 0){
+                            meritList.setBio(-1);
+                        }else{
+                            meritList.setBio(sum);
+                        }
+
                         gradeCount.setBio(this.getGrade(meritList.getBio()));
                         continue block118;
                     }
@@ -432,7 +467,13 @@ public class MarkController {
                             gradeCount.setChem(this.getGrade(meritList.getChem()));
                             continue block118;
                         }
-                        meritList.setChem(sum);
+
+                        if(sum < 0){
+                            meritList.setChem(-1);
+                        }else{
+                            meritList.setChem(sum);
+                        }
+
                         gradeCount.setChem(this.getGrade(meritList.getChem()));
                         continue block118;
                     }
@@ -452,7 +493,13 @@ public class MarkController {
                             gradeCount.setPhy(this.getGrade(meritList.getPhy()));
                             continue block118;
                         }
-                        meritList.setPhy(sum);
+
+                        if(sum < 0){
+                            meritList.setChem(-1);
+                        }else {
+                            meritList.setChem(sum);
+                        }
+
                         gradeCount.setPhy(this.getGrade(meritList.getPhy()));
                         continue block118;
                     }
@@ -472,7 +519,13 @@ public class MarkController {
                             gradeCount.setHist(this.getGrade(meritList.getHist()));
                             continue block118;
                         }
-                        meritList.setHist(sum);
+
+                        if(sum < 0){
+                            meritList.setHist(-1);
+                        }else{
+                            meritList.setHist(sum);
+                        }
+
                         gradeCount.setHist(this.getGrade(meritList.getHist()));
                         continue block118;
                     }
@@ -492,7 +545,13 @@ public class MarkController {
                             gradeCount.setCre(this.getGrade(meritList.getCre()));
                             continue block118;
                         }
-                        meritList.setCre(sum);
+
+                        if(sum < 0){
+                            meritList.setCre(-1);
+                        }else{
+                            meritList.setCre(sum);
+                        }
+
                         gradeCount.setCre(this.getGrade(meritList.getCre()));
                         continue block118;
                     }
@@ -512,7 +571,13 @@ public class MarkController {
                             gradeCount.setGeo(this.getGrade(meritList.getGeo()));
                             continue block118;
                         }
-                        meritList.setGeo(sum);
+
+                        if(sum < 0){
+                            meritList.setGeo(-1);
+                        }else{
+                            meritList.setGeo(sum);
+                        }
+
                         gradeCount.setGeo(this.getGrade(meritList.getGeo()));
                         continue block118;
                     }
@@ -532,7 +597,13 @@ public class MarkController {
                             gradeCount.setIre(this.getGrade(meritList.getIre()));
                             continue block118;
                         }
-                        meritList.setIre(sum);
+
+                        if(sum < 0){
+                            meritList.setIre(-1);
+                        }else{
+                            meritList.setIre(sum);
+                        }
+
                         gradeCount.setIre(this.getGrade(meritList.getIre()));
                         continue block118;
                     }
@@ -552,7 +623,13 @@ public class MarkController {
                             gradeCount.setHre(this.getGrade(meritList.getHre()));
                             continue block118;
                         }
-                        meritList.setHre(sum);
+
+                        if(sum < 0){
+                            meritList.setHre(-1);
+                        }else{
+                            meritList.setHre(sum);
+                        }
+
                         gradeCount.setHre(this.getGrade(meritList.getHre()));
                         continue block118;
                     }
@@ -572,7 +649,13 @@ public class MarkController {
                             gradeCount.setHsci(this.getGrade(meritList.getHsci()));
                             continue block118;
                         }
-                        meritList.setHsci(sum);
+
+                        if(sum < 0){
+                            meritList.setHsci(-1);
+                        }else{
+                            meritList.setHsci(sum);
+                        }
+
                         gradeCount.setHsci(this.getGrade(meritList.getHsci()));
                         continue block118;
                     }
@@ -592,7 +675,13 @@ public class MarkController {
                             gradeCount.setAnd(this.getGrade(meritList.getAnD()));
                             continue block118;
                         }
-                        meritList.setAnD(sum);
+
+                        if(sum < 0){
+                            meritList.setAnD(-1);
+                        }else{
+                            meritList.setAnD(sum);
+                        }
+
                         gradeCount.setAnd(this.getGrade(meritList.getAnD()));
                         continue block118;
                     }
@@ -612,7 +701,13 @@ public class MarkController {
                             gradeCount.setAgric(this.getGrade(meritList.getAgric()));
                             continue block118;
                         }
-                        meritList.setAgric(sum);
+
+                        if(sum < 0){
+                            meritList.setAgric(-1);
+                        }else{
+                            meritList.setAgric(sum);
+                        }
+
                         gradeCount.setAgric(this.getGrade(meritList.getAgric()));
                         continue block118;
                     }
@@ -632,7 +727,13 @@ public class MarkController {
                             gradeCount.setComp(this.getGrade(meritList.getComp()));
                             continue block118;
                         }
-                        meritList.setComp(sum);
+
+                        if(sum < 0){
+                            meritList.setComp(-1);
+                        }else{
+                            meritList.setComp(sum);
+                        }
+
                         gradeCount.setComp(this.getGrade(meritList.getComp()));
                         continue block118;
                     }
@@ -652,7 +753,13 @@ public class MarkController {
                             gradeCount.setAvi(this.getGrade(meritList.getAvi()));
                             continue block118;
                         }
-                        meritList.setAvi(sum);
+
+                        if(sum < 0){
+                            meritList.setAvi(-1);
+                        }else{
+                            meritList.setAvi(sum);
+                        }
+
                         gradeCount.setAvi(this.getGrade(meritList.getAvi()));
                         continue block118;
                     }
@@ -672,7 +779,13 @@ public class MarkController {
                             gradeCount.setElec(this.getGrade(meritList.getElec()));
                             continue block118;
                         }
-                        meritList.setElec(sum);
+
+                        if(sum < 0){
+                            meritList.setElec(-1);
+                        }else{
+                            meritList.setElec(sum);
+                        }
+
                         gradeCount.setElec(this.getGrade(meritList.getElec()));
                         continue block118;
                     }
@@ -692,7 +805,13 @@ public class MarkController {
                             gradeCount.setPwr(this.getGrade(meritList.getPwr()));
                             continue block118;
                         }
-                        meritList.setPwr(sum);
+
+                        if(sum < 0){
+                            meritList.setPwr(-1);
+                        }else{
+                            meritList.setPwr(sum);
+                        }
+
                         gradeCount.setPwr(this.getGrade(meritList.getPwr()));
                         continue block118;
                     }
@@ -712,7 +831,13 @@ public class MarkController {
                             gradeCount.setWood(this.getGrade(meritList.getWood()));
                             continue block118;
                         }
-                        meritList.setWood(sum);
+
+                        if(sum < 0){
+                            meritList.setWood(-1);
+                        }else{
+                            meritList.setWood(sum);
+                        }
+
                         gradeCount.setWood(this.getGrade(meritList.getWood()));
                         continue block118;
                     }
@@ -732,7 +857,13 @@ public class MarkController {
                             gradeCount.setMetal(this.getGrade(meritList.getMetal()));
                             continue block118;
                         }
-                        meritList.setMetal(sum);
+
+                        if(sum < 0){
+                            meritList.setMetal(-1);
+                        }else{
+                            meritList.setMetal(sum);
+                        }
+
                         gradeCount.setMetal(this.getGrade(meritList.getMetal()));
                         continue block118;
                     }
@@ -752,7 +883,13 @@ public class MarkController {
                             gradeCount.setBc(this.getGrade(meritList.getBc()));
                             continue block118;
                         }
-                        meritList.setBc(sum);
+
+                        if(sum < 0){
+                            meritList.setBc(-1);
+                        }else {
+                            meritList.setBc(sum);
+                        }
+
                         gradeCount.setBc(this.getGrade(meritList.getBc()));
                         continue block118;
                     }
@@ -772,7 +909,13 @@ public class MarkController {
                             gradeCount.setFren(this.getGrade(meritList.getFren()));
                             continue block118;
                         }
-                        meritList.setFren(sum);
+
+                        if(sum < 0){
+                            meritList.setFren(-1);
+                        }else{
+                            meritList.setFren(sum);
+                        }
+
                         gradeCount.setFren(this.getGrade(meritList.getFren()));
                         continue block118;
                     }
@@ -792,7 +935,13 @@ public class MarkController {
                             gradeCount.setGerm(this.getGrade(meritList.getGerm()));
                             continue block118;
                         }
-                        meritList.setGerm(sum);
+
+                        if(sum < 0){
+                            meritList.setGerm(-1);
+                        }else{
+                            meritList.setGerm(sum);
+                        }
+
                         gradeCount.setGerm(this.getGrade(meritList.getGerm()));
                         continue block118;
                     }
@@ -812,7 +961,13 @@ public class MarkController {
                             gradeCount.setArab(this.getGrade(meritList.getArab()));
                             continue block118;
                         }
-                        meritList.setArab(sum);
+
+                        if(sum < 0){
+                            meritList.setArab(-1);
+                        }else{
+                            meritList.setArab(sum);
+                        }
+
                         gradeCount.setArab(this.getGrade(meritList.getArab()));
                         continue block118;
                     }
@@ -832,7 +987,13 @@ public class MarkController {
                             gradeCount.setMsc(this.getGrade(meritList.getMsc()));
                             continue block118;
                         }
-                        meritList.setMsc(sum);
+
+                        if(sum < 0){
+                            meritList.setMsc(-1);
+                        }else {
+                            meritList.setMsc(sum);
+                        }
+
                         gradeCount.setMsc(this.getGrade(meritList.getMsc()));
                         continue block118;
                     }
@@ -852,7 +1013,13 @@ public class MarkController {
                             gradeCount.setBs(this.getGrade(meritList.getBs()));
                             continue block118;
                         }
-                        meritList.setBs(sum);
+
+                        if(sum < 0){
+                            meritList.setBs(-1);
+                        }else {
+                            meritList.setBs(sum);
+                        }
+
                         gradeCount.setBs(this.getGrade(meritList.getBs()));
                         continue block118;
                     }
@@ -872,12 +1039,154 @@ public class MarkController {
                             gradeCount.setDnd(this.getGrade(meritList.getDnd()));
                             continue block118;
                         }
-                        meritList.setDnd(sum);
+
+                        if(sum < 0){
+                            meritList.setDnd(-1);
+                        }else{
+                            meritList.setDnd(sum);
+                        }
+
                         gradeCount.setDnd(this.getGrade(meritList.getDnd()));
                     }
                 }
             }
-            meritList.setTotal(meritList.getMaths() + meritList.getEng() + meritList.getKis() + meritList.getBio() + meritList.getChem() + meritList.getPhy() + meritList.getHist() + meritList.getCre() + meritList.getGeo() + meritList.getIre() + meritList.getHre() + meritList.getHsci() + meritList.getAnD() + meritList.getAgric() + meritList.getComp() + meritList.getAvi() + meritList.getElec() + meritList.getPwr() + meritList.getWood() + meritList.getMetal() + meritList.getBc() + meritList.getFren() + meritList.getGerm() + meritList.getArab() + meritList.getMsc() + meritList.getBs() + meritList.getDnd());
+
+            int maths01 = 0;
+            if(meritList.getMaths() >= 0){
+                maths01 = meritList.getMaths();
+            }
+
+            int eng01 = 0;
+            if(meritList.getEng() >= 0){
+                eng01 = meritList.getEng();
+            }
+
+            int kis01 = 0;
+            if(meritList.getKis() >= 0){
+                kis01 = meritList.getKis();
+            }
+
+            int bio01 = 0;
+            if(meritList.getBio() >= 0){
+                bio01 = meritList.getBio();
+            }
+
+            int chem01 = 0;
+            if(meritList.getChem() >= 0){
+                chem01 = meritList.getChem();
+            }
+
+            int phy01 = 0;
+            if(meritList.getPhy() >= 0 ){
+                phy01 = meritList.getPhy();
+            }
+
+            int hist01 = 0;
+            if(meritList.getHist() >= 0){
+                hist01 = meritList.getHist();
+            }
+
+            int cre01 = 0;
+            if(meritList.getCre() >= 0) {
+                cre01 = meritList.getCre();
+            }
+
+            int geo01 = 0;
+            if(meritList.getGeo() >= 0 ){
+                geo01 = meritList.getGeo();
+            }
+
+            int ire01 = 0;
+            if(meritList.getIre() >=0){
+                ire01 = meritList.getIre();
+            }
+
+            int hre01 = 0;
+            if(meritList.getHre() >= 0){
+                hre01 = meritList.getHre();
+            }
+
+            int hsci01 = 0;
+            if(meritList.getHsci() >= 0){
+                hsci01 = meritList.getHsci();
+            }
+
+            int and01 = 0;
+            if(meritList.getAnD() >= 0){
+                and01 = meritList.getAnD();
+            }
+
+            int agric01 = 0;
+            if(meritList.getAgric() >= 0){
+                agric01 = meritList.getAgric();
+            }
+
+            int comp01 = 0;
+            if(meritList.getComp() >= 0 ){
+                comp01 = meritList.getComp();
+            }
+
+            int avi01 = 0;
+            if(meritList.getAvi() >= 0){
+                avi01 = meritList.getAvi();
+            }
+
+            int elec01 = 0;
+            if(meritList.getElec() >= 0){
+                elec01 = meritList.getElec();
+            }
+
+            int pwr01 = 0;
+            if(meritList.getPwr() >= 0 ){
+                pwr01 = meritList.getPwr();
+            }
+
+            int wood01 = 0;
+            if(meritList.getWood() >= 0){
+                wood01 = meritList.getWood();
+            }
+
+            int metal01 = 0;
+            if(meritList.getMetal() >= 0){
+                metal01 = meritList.getMetal();
+            }
+
+            int bc01 = 0;
+            if(meritList.getBc() >= 0){
+                bc01 = meritList.getBc();
+            }
+
+            int fren01 = 0;
+            if(meritList.getFren() >= 0 ){
+                fren01 = meritList.getFren();
+            }
+
+            int germ01 = 0;
+            if(meritList.getGerm() >= 0){
+                germ01 = meritList.getGerm();
+            }
+
+            int arab01 = 0;
+            if(meritList.getArab() >= 0 ){
+                arab01 = meritList.getArab();
+            }
+
+            int msc01 = 0;
+            if(meritList.getMsc() >= 0){
+                msc01 = meritList.getMsc();
+            }
+
+            int bs01 = 0;
+            if(meritList.getBs() >= 0){
+                bs01 = meritList.getBs();
+            }
+
+            int dnd01 = 0;
+            if(meritList.getDnd() >= 0){
+                dnd01 = meritList.getDnd();
+            }
+
+            meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
             meritList.setAverage(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size());
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
 

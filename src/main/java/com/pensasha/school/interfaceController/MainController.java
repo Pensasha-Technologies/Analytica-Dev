@@ -587,12 +587,16 @@ public class MainController {
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Student> students = this.studentService.getAllStudentsInSchool(school.getCode());
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+
+        model.addAttribute("streams", streams);
         model.addAttribute("students", students);
         model.addAttribute("schoolUsers", schoolUsers);
         model.addAttribute("user", (Object)user);
         model.addAttribute("activeUser", (Object)activeUser);
         model.addAttribute("student", (Object)student);
         model.addAttribute("school", (Object)school);
+
         return "accountsClerkHome";
     }
 

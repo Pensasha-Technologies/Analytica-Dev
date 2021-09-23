@@ -84,7 +84,7 @@
 										<td th:text="${feeStructure.cost}">Cost</td>
 										<td><a class="btn btn-danger" data-toggle="modal"
 											href="#" data-target="#deleteModal"
-											th:data-href="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items/{id}(code=${school.code}, year = ${year}, form = ${form}, term = ${term}, id = ${feeStructure.id})}">
+											th:data-href="@{/schools/{code}/years/{year}/forms/{form}/scholar/{scholar}/terms/{term}/createStructure/items/{id}(code=${school.code}, year = ${year}, form = ${form}, scholar = ${feeStructure.scholar},term = ${term}, id = ${feeStructure.id})}">
 												Delete <i class="fas fa-fw fa-trash-alt"></i>
 										</a></td>
 									</tr>
@@ -131,7 +131,7 @@
 								<div id="formContent" style="margin-top: -2px; padding: 10px;">
 									<!-- Login Form -->
 									<form class="addUserForm"
-										th:action="@{/schools/{code}/years/{year}/forms/{form}/terms/{term}/createStructure/items(code=${school.code}, year = ${year}, form=${form}, term = ${term})}"
+										th:action="@{/schools/{code}/years/{year}/forms/{form}/scholar/{scholar}/terms/{term}/createStructure/items(code=${school.code}, year = ${year}, form=${form}, scholar=${school.scholar},term = ${term})}"
 										method="post">
 
 										<div class="form-group fadeIn first">
