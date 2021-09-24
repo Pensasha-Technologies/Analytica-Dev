@@ -1673,9 +1673,6 @@ public class ReportController {
         for (i = 0; i < students.size(); ++i) {
             context.setVariable("Points" + students.get(i).getAdmNo(), (Object)this.getPoints(students.get(i).getKcpeMarks() / 5));
         }
-        for (i = 0; i < meritLists.size(); ++i) {
-            context.setVariable("Mpoints" + ((MeritList)meritLists.get(i)).getAdmNo(), (Object)this.getPoints(((MeritList)meritLists.get(i)).getAverage()));
-        }
 
         int count = 0;
 
@@ -2850,7 +2847,7 @@ class SortByDnd implements Comparator<MeritList> {
 
 class SortByDeviation implements Comparator<MeritList> {
 	public int compare(MeritList a, MeritList b) {
-		return a.getDeviation() - b.getDeviation();
+		return (int) (a.getDeviation() - b.getDeviation());
 	}
 }
 

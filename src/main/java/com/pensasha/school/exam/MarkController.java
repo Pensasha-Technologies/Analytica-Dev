@@ -1051,143 +1051,202 @@ public class MarkController {
                 }
             }
 
+
+
             int maths01 = 0;
+            byte mathsPoints = 0;
             if(meritList.getMaths() >= 0){
                 maths01 = meritList.getMaths();
+                mathsPoints = this.getPoints(meritList.getMaths());
             }
 
             int eng01 = 0;
+            byte engPoints = 0;
             if(meritList.getEng() >= 0){
                 eng01 = meritList.getEng();
+                engPoints = this.getPoints(meritList.getEng());
             }
 
             int kis01 = 0;
+            byte kisPoints = 0;
             if(meritList.getKis() >= 0){
                 kis01 = meritList.getKis();
+                kisPoints = this.getPoints(meritList.getKis());
             }
 
             int bio01 = 0;
+            byte bioPoints = 0;
             if(meritList.getBio() >= 0){
                 bio01 = meritList.getBio();
+                bioPoints = this.getPoints(meritList.getBio());
             }
 
             int chem01 = 0;
+            byte chemPoints = 0;
             if(meritList.getChem() >= 0){
                 chem01 = meritList.getChem();
+                chemPoints = this.getPoints(meritList.getChem());
             }
 
             int phy01 = 0;
+            byte phyPoints = 0;
             if(meritList.getPhy() >= 0 ){
                 phy01 = meritList.getPhy();
+                phyPoints = this.getPoints(meritList.getPhy());
             }
 
             int hist01 = 0;
+            byte histPoints = 0;
             if(meritList.getHist() >= 0){
                 hist01 = meritList.getHist();
+                histPoints = this.getPoints(meritList.getHist());
             }
 
             int cre01 = 0;
+            byte crePoints = 0;
             if(meritList.getCre() >= 0) {
                 cre01 = meritList.getCre();
+                crePoints = this.getPoints(meritList.getCre());
             }
 
             int geo01 = 0;
+            byte geoPoints = 0;
             if(meritList.getGeo() >= 0 ){
                 geo01 = meritList.getGeo();
+                geoPoints = this.getPoints(meritList.getGeo());
             }
 
             int ire01 = 0;
+            byte irePoints = 0;
             if(meritList.getIre() >=0){
                 ire01 = meritList.getIre();
+                irePoints = this.getPoints(meritList.getIre());
             }
 
             int hre01 = 0;
+            byte hrePoints = 0;
             if(meritList.getHre() >= 0){
                 hre01 = meritList.getHre();
+                hrePoints = this.getPoints(meritList.getHre());
             }
 
             int hsci01 = 0;
+            byte hsciPoints = 0;
             if(meritList.getHsci() >= 0){
                 hsci01 = meritList.getHsci();
+                hsciPoints = this.getPoints(meritList.getHsci());
             }
 
             int and01 = 0;
+            byte andPoints = 0;
             if(meritList.getAnD() >= 0){
                 and01 = meritList.getAnD();
+                andPoints = this.getPoints(meritList.getAnD());
             }
 
             int agric01 = 0;
+            byte agricPoints = 0;
             if(meritList.getAgric() >= 0){
                 agric01 = meritList.getAgric();
+                agricPoints = this.getPoints(meritList.getAgric());
             }
 
             int comp01 = 0;
+            byte compPoints = 0;
             if(meritList.getComp() >= 0 ){
                 comp01 = meritList.getComp();
+                compPoints = this.getPoints(meritList.getComp());
             }
 
             int avi01 = 0;
+            byte aviPoints = 0;
             if(meritList.getAvi() >= 0){
                 avi01 = meritList.getAvi();
+                aviPoints = this.getPoints(meritList.getAvi());
             }
 
             int elec01 = 0;
+            byte elecPoints = 0;
             if(meritList.getElec() >= 0){
                 elec01 = meritList.getElec();
+                elecPoints = this.getPoints(meritList.getElec());
             }
 
             int pwr01 = 0;
+            byte pwrPoints = 0;
             if(meritList.getPwr() >= 0 ){
                 pwr01 = meritList.getPwr();
+                pwrPoints = this.getPoints(meritList.getPwr());
             }
 
             int wood01 = 0;
+            byte woodPoints = 0;
             if(meritList.getWood() >= 0){
                 wood01 = meritList.getWood();
+                woodPoints = this.getPoints(meritList.getWood());
             }
 
             int metal01 = 0;
+            byte metalPoints = 0;
             if(meritList.getMetal() >= 0){
                 metal01 = meritList.getMetal();
+                metalPoints = this.getPoints(meritList.getMetal());
             }
 
             int bc01 = 0;
+            byte bcPoints = 0;
             if(meritList.getBc() >= 0){
                 bc01 = meritList.getBc();
+                bcPoints = this.getPoints(meritList.getBc());
             }
 
             int fren01 = 0;
+            byte frenPoints = 0;
             if(meritList.getFren() >= 0 ){
                 fren01 = meritList.getFren();
+                frenPoints = this.getPoints(meritList.getFren());
             }
 
             int germ01 = 0;
+            byte germPoints = 0;
             if(meritList.getGerm() >= 0){
                 germ01 = meritList.getGerm();
+                germPoints = this.getPoints(meritList.getGerm());
             }
 
             int arab01 = 0;
+            byte arabPoints = 0;
             if(meritList.getArab() >= 0 ){
                 arab01 = meritList.getArab();
+                arabPoints = this.getPoints(meritList.getArab());
             }
 
             int msc01 = 0;
+            byte mscPoints = 0;
             if(meritList.getMsc() >= 0){
                 msc01 = meritList.getMsc();
+                mscPoints = this.getPoints(meritList.getMsc());
             }
 
             int bs01 = 0;
+            byte bsPoints = 0;
             if(meritList.getBs() >= 0){
                 bs01 = meritList.getBs();
+                bsPoints = this.getPoints(meritList.getBs());
             }
 
             int dnd01 = 0;
+            byte dndPoints= 0;
             if(meritList.getDnd() >= 0){
                 dnd01 = meritList.getDnd();
+                dndPoints = this.getPoints(meritList.getDnd());
             }
 
             meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
-            meritList.setAverage(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size());
+            int totalPoints = mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints;
+            meritList.setAverage(totalPoints / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size());
+            meritList.setPoints(this.getPoints(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
+            meritList.setGrade(this.getGrade(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
 
             meritLists.add(meritList);
@@ -1899,9 +1958,6 @@ public class MarkController {
         for (i = 0; i < students.size(); ++i) {
             model.addAttribute("Points" + students.get(i).getAdmNo(), (Object)this.getPoints(students.get(i).getKcpeMarks() / 5));
         }
-        for (i = 0; i < meritLists.size(); ++i) {
-            model.addAttribute("Mpoints" + ((MeritList)meritLists.get(i)).getAdmNo(), (Object)this.getPoints(((MeritList)meritLists.get(i)).getAverage()));
-        }
 
         int count = 0;
 
@@ -1921,13 +1977,13 @@ public class MarkController {
         //Top Students
         if(meritLists.size() < 5){
             for(int j = 0; j<meritLists.size(); j++){
-                if(meritLists.get(j).getAverage() > 0) {
+                if(meritLists.get(j).getTotal() > 0) {
                     topStudents.add(meritLists.get(j));
                 }
             }
         }else if(meritLists.size() > 5){
             for(int j = 0; j<5; j++){
-                if(meritLists.get(j).getAverage() > 0) {
+                if(meritLists.get(j).getTotal() > 0) {
                     topStudents.add(meritLists.get(j));
                 }
             }
@@ -1936,19 +1992,19 @@ public class MarkController {
         //Bottom Students
         if(meritLists.size() > 10 && meritLists.size() < 15 ){
             for(int j = meritLists.size() - 3; j < meritLists.size() - 1; j++){
-                if(meritLists.get(j).getAverage() > 0) {
+                if(meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
                 }
             }
         }else if(meritLists.size() > 15 && meritLists.size() < 40){
             for(int j = meritLists.size() - 5; j < meritLists.size() - 1; j++){
-                if(meritLists.get(j).getAverage() > 0) {
+                if(meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
                 }
             }
         }else if(meritLists.size() > 40){
             for(int j = meritLists.size() - 10; j < meritLists.size() - 1; j++){
-                if(meritLists.get(j).getAverage() > 0) {
+                if(meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
                 }
             }
@@ -2039,7 +2095,7 @@ public class MarkController {
         return "-";
     }
 
-    public int getPoints(int mark) {
+    public byte getPoints(int mark) {
         if (mark <= 100 && mark >= 80) {
             return 12;
         }
@@ -2295,6 +2351,6 @@ class SortByDnd implements Comparator<MeritList> {
 
 class SortByDeviation implements Comparator<MeritList> {
 	public int compare(MeritList a, MeritList b) {
-		return a.getDeviation() - b.getDeviation();
+		return (int) (a.getDeviation() - b.getDeviation());
 	}
 }

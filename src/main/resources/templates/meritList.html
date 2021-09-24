@@ -209,24 +209,10 @@
 									</th:block>
 									<td th:text="${meritList.total}"></td>
 									<td th:text="${meritList.average}">Average</td>
-									<th:block th:with="isEven=${meritList.average}">
-										<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
-										<td th:if="${isEven<80 && isEven>=75}">A-</td>
-										<td th:if="${isEven<75 && isEven>=70}">B+</td>
-										<td th:if="${isEven<70 && isEven>=65}">B</td>
-										<td th:if="${isEven<65 && isEven>=60}">B-</td>
-										<td th:if="${isEven<60 && isEven>=55}">C+</td>
-										<td th:if="${isEven<55 && isEven>=50}">C</td>
-										<td th:if="${isEven<50 && isEven>=45}">C-</td>
-										<td th:if="${isEven<45 && isEven>=40}">D+</td>
-										<td th:if="${isEven<40 && isEven>=35}">D</td>
-										<td th:if="${isEven<35 && isEven>=30}">D-</td>
-										<td th:if="${isEven<30 && isEven>0}">E</td>
-										<td th:if="${isEven <= 0 }">...</td>
-									</th:block>
-									<td th:text="${__${'Mpoints' + meritList.admNo}__}">-</td>
+									<td th:text="${meritList.grade}"> grade </td>
+									<td th:text="${meritList.points}">-</td>
 									<td
-										th:text="${__${'Mpoints' + meritList.admNo}__ - __${'Points' + meritList.admNo}__}"></td>
+										th:text="${meritList.points - __${'Points' + meritList.admNo}__}"></td>
 									<th scope="row" th:text="${meritList.rank}">1</th>
 								</tr>
 							</tbody>

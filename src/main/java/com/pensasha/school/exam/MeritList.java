@@ -34,11 +34,13 @@ public class MeritList {
     private int bs;
     private int dnd;
     private int total;
-    private int average;
-    private int deviation;
+    private float average;
+    private float deviation;
     private int rank;
+    private byte points;
+    private String grade;
 
-    public MeritList(String firstname, String secondname, String admNo, int kcpe, String stream, int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int anD, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd, int total, int average, int deviation, int rank) {
+    public MeritList(String firstname, String secondname, String admNo, int kcpe, String stream, int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int anD, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd, int total, float average, float deviation, int rank) {
         this.firstname = firstname;
         this.secondname = secondname;
         this.admNo = admNo;
@@ -77,7 +79,7 @@ public class MeritList {
         this.rank = rank;
     }
 
-    public MeritList(int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int and, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd, int total, int average) {
+    public MeritList(int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int and, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd, int total, float average) {
         this.maths = maths;
         this.eng = eng;
         this.kis = kis;
@@ -367,11 +369,11 @@ public class MeritList {
         this.total = total;
     }
 
-    public int getAverage() {
+    public float getAverage() {
         return this.average;
     }
 
-    public void setAverage(int average) {
+    public void setAverage(float average) {
         this.average = average;
     }
 
@@ -391,11 +393,11 @@ public class MeritList {
         this.stream = stream;
     }
 
-    public int getDeviation() {
+    public float getDeviation() {
         return this.deviation;
     }
 
-    public void setDeviation(int deviation) {
+    public void setDeviation(float deviation) {
         this.deviation = deviation;
     }
 
@@ -405,5 +407,21 @@ public class MeritList {
 
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    public byte getPoints() {
+        return points;
+    }
+
+    public void setPoints(byte points) {
+        this.points = points;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }
