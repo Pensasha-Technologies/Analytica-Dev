@@ -4,78 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating mean in meritList.html">
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating mean points in meritList.html">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MeritList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByArab.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByArab.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAvi.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAvi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBio.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBio.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByBs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByChem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByChem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByComp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByComp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByCre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByCre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDeviation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDeviation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByDnd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByElec.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByElec.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByEng.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByEng.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByFren.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByFren.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGeo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGeo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGerm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByGerm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHist.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHist.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHsci.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByHsci.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByIre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByIre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByKis.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByKis.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMaths.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMaths.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMetal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMetal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMsc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByMsc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPhy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPhy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPwr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByPwr.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByTotal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByWood.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByWood.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/ReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/ReportController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAgric.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAgric.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAnd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByArab.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByArab.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAvi.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByAvi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBio.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBio.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByBs.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByChem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByChem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByComp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByComp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByCre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByCre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDeviation.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDeviation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByDnd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByElec.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByElec.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByEng.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByEng.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByFren.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByFren.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGeo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGeo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGerm.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByGerm.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHist.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHist.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHsci.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByHsci.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByIre.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByIre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByKis.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByKis.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMaths.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMaths.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMetal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMetal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMsc.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByMsc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPhy.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPhy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPwr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByPwr.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByTotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByTotal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/TermController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/term/getMeritList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/TEST-com.pensasha.school.DemoApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/surefire-reports/com.pensasha.school.DemoApplicationTests.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -327,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1632494134680</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="updating mean points in meritList.html">
+      <created>1632545155983</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1632545155983</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -360,6 +304,7 @@
     <MESSAGE value="Adding top and bottom student to meritListPdf.html" />
     <MESSAGE value="updating meritlist and student report" />
     <MESSAGE value="updating mean in meritList.html" />
-    <option name="LAST_COMMIT_MESSAGE" value="updating mean in meritList.html" />
+    <MESSAGE value="updating mean points in meritList.html" />
+    <option name="LAST_COMMIT_MESSAGE" value="updating mean points in meritList.html" />
   </component>
 </project>

@@ -277,7 +277,7 @@
 						<tr>
 							<th th:text="${stream.stream}"> Stream Name </th>
 							<th:block th:each="subject : ${subjects}">
-								<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> stream mean points </td>
+								<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> stream mean points </td>
 								<td th:text="${cre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
 								<td th:text="${hre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
 								<td th:text="${ire__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
@@ -289,7 +289,7 @@
 							<tr>
 								<th> Male </th>
 								<th:block th:each="subject : ${subjects}">
-									<td th:text="${__${subject.initials}__MaleMeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+									<td th:text="${__${subject.initials}__MaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
 									<td th:text="${creMaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
 									<td th:text="${hreMaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
 									<td th:text="${ireMaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
@@ -300,7 +300,7 @@
 							<tr>
 								<th> Female </th>
 								<th:block th:each="subject : ${subjects}">
-									<td th:text="${__${subject.initials}__FemaleMeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+									<td th:text="${__${subject.initials}__FemaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
 									<td th:text="${creFemaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
 									<td th:text="${hreFemaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
 									<td th:text="${ireFemaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
@@ -311,7 +311,7 @@
 					<tr>
 						<th> C/MN </th>
 						<th:block th:each="subject : ${subjects}">
-							<td th:text="${__${subject.initials}__MeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+							<td th:text="${__${subject.initials}__MeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
 							<td th:text="${creMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
 							<td th:text="${hreMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
 							<td th:text="${ireMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
@@ -591,20 +591,7 @@
 						<th scope="row" th:text="${iterStat.index + 1}">1</th>
 						<td th:text="${topStudent.firstname} + ' ' + ${topStudent.secondname}">Name</td>
 						<td th:text="${topStudent.average}">Average</td>
-						<th:block th:with="isEven=${topStudent.average}">
-							<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
-							<td th:if="${isEven<80 && isEven>=75}">A-</td>
-							<td th:if="${isEven<75 && isEven>=70}">B+</td>
-							<td th:if="${isEven<70 && isEven>=65}">B</td>
-							<td th:if="${isEven<65 && isEven>=60}">B-</td>
-							<td th:if="${isEven<60 && isEven>=55}">C+</td>
-							<td th:if="${isEven<55 && isEven>=50}">C</td>
-							<td th:if="${isEven<50 && isEven>=45}">C-</td>
-							<td th:if="${isEven<45 && isEven>=40}">D+</td>
-							<td th:if="${isEven<40 && isEven>=35}">D</td>
-							<td th:if="${isEven<35 && isEven>=30}">D-</td>
-							<td th:if="${isEven<30 && isEven>0}">E</td>
-						</th:block>
+						<td th:text="${topStudent.grade}"> Grade </td>
 					</tr>
 				</th:block>
 				</tbody>
@@ -638,20 +625,7 @@
 						<th scope="row" th:text="${iterStat.index + 1}">1</th>
 						<td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>
 						<td th:text="${bottomStudent.average}">Average</td>
-						<th:block th:with="isEven=${topStudent.average}">
-							<td th:if="${(isEven<=100 && isEven>=80 )}">A</td>
-							<td th:if="${isEven<80 && isEven>=75}">A-</td>
-							<td th:if="${isEven<75 && isEven>=70}">B+</td>
-							<td th:if="${isEven<70 && isEven>=65}">B</td>
-							<td th:if="${isEven<65 && isEven>=60}">B-</td>
-							<td th:if="${isEven<60 && isEven>=55}">C+</td>
-							<td th:if="${isEven<55 && isEven>=50}">C</td>
-							<td th:if="${isEven<50 && isEven>=45}">C-</td>
-							<td th:if="${isEven<45 && isEven>=40}">D+</td>
-							<td th:if="${isEven<40 && isEven>=35}">D</td>
-							<td th:if="${isEven<35 && isEven>=30}">D-</td>
-							<td th:if="${isEven<30 && isEven>0}">E</td>
-						</th:block>
+						<td th:text="${bottomStudent.grade}">Grade</td>
 					</tr>
 				</th:block>
 				</tbody>
