@@ -9,12 +9,7 @@ import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
 import com.itextpdf.styledxmlparser.css.media.MediaType;
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.ExamNameService;
-import com.pensasha.school.exam.GradeCount;
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.exam.MeritList;
+import com.pensasha.school.exam.*;
 import com.pensasha.school.finance.FeeBalance;
 import com.pensasha.school.finance.FeeRecord;
 import com.pensasha.school.finance.FeeRecordService;
@@ -44,6 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.util.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -228,6 +224,8 @@ public class ReportController {
         List<Mark> allMarks = this.markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
         ArrayList<Student> studentsWithoutMarks = new ArrayList<Student>();
         ArrayList<Student> studentsWithMarks = new ArrayList<Student>();
+        WebContext context = new WebContext(request, response, this.servletContext);
+
         for (int i3 = 0; i3 < students.size(); ++i3) {
             if (!this.markService.getMarkByAdm(students.get(i3).getAdmNo()).booleanValue()) {
                 studentsWithoutMarks.add(students.get(i3));
@@ -824,148 +822,808 @@ public class ReportController {
             }
 
             int maths01 = 0;
+            byte mathsPoints = 0;
             if(meritList.getMaths() >= 0){
                 maths01 = meritList.getMaths();
+                mathsPoints = this.getPoints(meritList.getMaths());
             }
 
             int eng01 = 0;
+            byte engPoints = 0;
             if(meritList.getEng() >= 0){
                 eng01 = meritList.getEng();
+                engPoints = this.getPoints(meritList.getEng());
             }
 
             int kis01 = 0;
+            byte kisPoints = 0;
             if(meritList.getKis() >= 0){
                 kis01 = meritList.getKis();
+                kisPoints = this.getPoints(meritList.getKis());
             }
 
             int bio01 = 0;
+            byte bioPoints = 0;
             if(meritList.getBio() >= 0){
                 bio01 = meritList.getBio();
+                bioPoints = this.getPoints(meritList.getBio());
             }
 
             int chem01 = 0;
+            byte chemPoints = 0;
             if(meritList.getChem() >= 0){
                 chem01 = meritList.getChem();
+                chemPoints = this.getPoints(meritList.getChem());
             }
 
             int phy01 = 0;
+            byte phyPoints = 0;
             if(meritList.getPhy() >= 0 ){
                 phy01 = meritList.getPhy();
+                phyPoints = this.getPoints(meritList.getPhy());
             }
 
             int hist01 = 0;
+            byte histPoints = 0;
             if(meritList.getHist() >= 0){
                 hist01 = meritList.getHist();
+                histPoints = this.getPoints(meritList.getHist());
             }
 
             int cre01 = 0;
+            byte crePoints = 0;
             if(meritList.getCre() >= 0) {
                 cre01 = meritList.getCre();
+                crePoints = this.getPoints(meritList.getCre());
             }
 
             int geo01 = 0;
+            byte geoPoints = 0;
             if(meritList.getGeo() >= 0 ){
                 geo01 = meritList.getGeo();
+                geoPoints = this.getPoints(meritList.getGeo());
             }
 
             int ire01 = 0;
+            byte irePoints = 0;
             if(meritList.getIre() >=0){
                 ire01 = meritList.getIre();
+                irePoints = this.getPoints(meritList.getIre());
             }
 
             int hre01 = 0;
+            byte hrePoints = 0;
             if(meritList.getHre() >= 0){
                 hre01 = meritList.getHre();
+                hrePoints = this.getPoints(meritList.getHre());
             }
 
             int hsci01 = 0;
+            byte hsciPoints = 0;
             if(meritList.getHsci() >= 0){
                 hsci01 = meritList.getHsci();
+                hsciPoints = this.getPoints(meritList.getHsci());
             }
 
             int and01 = 0;
+            byte andPoints = 0;
             if(meritList.getAnD() >= 0){
                 and01 = meritList.getAnD();
+                andPoints = this.getPoints(meritList.getAnD());
             }
 
             int agric01 = 0;
+            byte agricPoints = 0;
             if(meritList.getAgric() >= 0){
                 agric01 = meritList.getAgric();
+                agricPoints = this.getPoints(meritList.getAgric());
             }
 
             int comp01 = 0;
+            byte compPoints = 0;
             if(meritList.getComp() >= 0 ){
                 comp01 = meritList.getComp();
+                compPoints = this.getPoints(meritList.getComp());
             }
 
             int avi01 = 0;
+            byte aviPoints = 0;
             if(meritList.getAvi() >= 0){
                 avi01 = meritList.getAvi();
+                aviPoints = this.getPoints(meritList.getAvi());
             }
 
             int elec01 = 0;
+            byte elecPoints = 0;
             if(meritList.getElec() >= 0){
                 elec01 = meritList.getElec();
+                elecPoints = this.getPoints(meritList.getElec());
             }
 
             int pwr01 = 0;
+            byte pwrPoints = 0;
             if(meritList.getPwr() >= 0 ){
                 pwr01 = meritList.getPwr();
+                pwrPoints = this.getPoints(meritList.getPwr());
             }
 
             int wood01 = 0;
+            byte woodPoints = 0;
             if(meritList.getWood() >= 0){
                 wood01 = meritList.getWood();
+                woodPoints = this.getPoints(meritList.getWood());
             }
 
             int metal01 = 0;
+            byte metalPoints = 0;
             if(meritList.getMetal() >= 0){
                 metal01 = meritList.getMetal();
+                metalPoints = this.getPoints(meritList.getMetal());
             }
 
             int bc01 = 0;
+            byte bcPoints = 0;
             if(meritList.getBc() >= 0){
                 bc01 = meritList.getBc();
+                bcPoints = this.getPoints(meritList.getBc());
             }
 
             int fren01 = 0;
+            byte frenPoints = 0;
             if(meritList.getFren() >= 0 ){
                 fren01 = meritList.getFren();
+                frenPoints = this.getPoints(meritList.getFren());
             }
 
             int germ01 = 0;
+            byte germPoints = 0;
             if(meritList.getGerm() >= 0){
                 germ01 = meritList.getGerm();
+                germPoints = this.getPoints(meritList.getGerm());
             }
 
             int arab01 = 0;
+            byte arabPoints = 0;
             if(meritList.getArab() >= 0 ){
                 arab01 = meritList.getArab();
+                arabPoints = this.getPoints(meritList.getArab());
             }
 
             int msc01 = 0;
+            byte mscPoints = 0;
             if(meritList.getMsc() >= 0){
                 msc01 = meritList.getMsc();
+                mscPoints = this.getPoints(meritList.getMsc());
             }
 
             int bs01 = 0;
+            byte bsPoints = 0;
             if(meritList.getBs() >= 0){
                 bs01 = meritList.getBs();
+                bsPoints = this.getPoints(meritList.getBs());
             }
 
             int dnd01 = 0;
+            byte dndPoints= 0;
             if(meritList.getDnd() >= 0){
                 dnd01 = meritList.getDnd();
+                dndPoints = this.getPoints(meritList.getDnd());
             }
 
+            DecimalFormat df = new DecimalFormat("#.####");
+
             meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
-
-
-            meritList.setAverage(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size());
+            int totalPoints = mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints;
+            float average = (float) totalPoints / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size();
+            meritList.setAverage(Float.valueOf(df.format(average)));
+            meritList.setPoints(this.getPoints(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
+            meritList.setGrade(this.getGrade(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
+
             meritLists.add(meritList);
             gradeCounts.add(gradeCount);
         }
+
+        for(int j = 0; j < subjects.size(); j++){
+
+            int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
+            List<Stream> streams = this.streamService.getStreamsInSchool(code);
+            List<StreamPoints> streamsMeanPoints = new ArrayList<>();
+            for(int k = 0; k<meritLists.size(); k++){
+                StreamPoints streamPoints = new StreamPoints();
+                switch (subjects.get(j).getInitials()) {
+                    case "Maths": {
+                        totalPoints += this.getPoints(meritLists.get(k).getMaths());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getMaths());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getMaths());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getMaths()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+
+                        break;
+                    }
+                    case "Eng": {
+                        totalPoints += this.getPoints(meritLists.get(k).getEng());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getEng());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getEng());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getEng()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Kis": {
+                        totalPoints += this.getPoints(meritLists.get(k).getKis());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getKis());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getKis());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getKis()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Bio": {
+                        totalPoints += this.getPoints(meritLists.get(k).getBio());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getBio());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getBio());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getBio()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Chem": {
+                        totalPoints += this.getPoints(meritLists.get(k).getChem());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getChem());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getChem());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getChem()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Phy": {
+                        totalPoints += this.getPoints(meritLists.get(k).getPhy());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getPhy());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getPhy());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getPhy()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Hist": {
+                        totalPoints += this.getPoints(meritLists.get(k).getHist());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getHist());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getHist());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getHist()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "C.R.E": {
+                        totalPoints += this.getPoints(meritLists.get(k).getCre());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getCre());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getCre());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getCre()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Geo": {
+                        totalPoints += this.getPoints(meritLists.get(k).getGeo());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getGeo());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getGeo());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getGeo()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "I.R.E": {
+                        totalPoints += this.getPoints(meritLists.get(k).getIre());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getIre());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getIre());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getIre()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "H.R.E": {
+                        totalPoints += this.getPoints(meritLists.get(k).getHre());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getHre());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getHre());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getHre()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Hsci": {
+                        totalPoints += this.getPoints(meritLists.get(k).getHsci());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getHsci());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getHsci());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getHsci()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "AnD": {
+                        totalPoints += this.getPoints(meritLists.get(k).getAnD());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getAnD());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getAnD());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getAnD()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Agric": {
+                        totalPoints += this.getPoints(meritLists.get(k).getAgric());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getAgric());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getAgric());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getAgric()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Comp": {
+                        totalPoints += this.getPoints(meritLists.get(k).getComp());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getComp());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getComp());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getComp()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Avi": {
+                        totalPoints += this.getPoints(meritLists.get(k).getAvi());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getAvi());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getAvi());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getAvi()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Elec": {
+                        totalPoints += this.getPoints(meritLists.get(k).getElec());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getElec());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getElec());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getElec()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Pwr": {
+                        totalPoints += this.getPoints(meritLists.get(k).getPwr());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getPwr());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getPwr());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getPwr()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Wood": {
+                        totalPoints += this.getPoints(meritLists.get(k).getWood());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getWood());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getWood());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getWood()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Metal": {
+                        totalPoints += this.getPoints(meritLists.get(k).getMetal());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getMetal());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getMetal());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getMetal()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Bc": {
+                        totalPoints += this.getPoints(meritLists.get(k).getBc());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getBc());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getBc());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getBc()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Fren": {
+                        totalPoints += this.getPoints(meritLists.get(k).getFren());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getFren());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getFren());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getFren()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Germ": {
+                        totalPoints += this.getPoints(meritLists.get(k).getGerm());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getGerm());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getGerm());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getGerm()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Arab": {
+                        totalPoints += this.getPoints(meritLists.get(k).getArab());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getArab());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getArab());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getArab()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Msc": {
+                        totalPoints += this.getPoints(meritLists.get(k).getMsc());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getMsc());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getMsc());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getMsc()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Bs": {
+                        totalPoints += this.getPoints(meritLists.get(k).getBs());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getBs());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getBs());
+                            mcount++;
+                        }
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getBs()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                    case "Dnd": {
+                        totalPoints += this.getPoints(meritLists.get(k).getDnd());
+                        count++;
+                        if(meritLists.get(k).getGender() == "Female"){
+                            femalePoints += this.getPoints(meritLists.get(k).getDnd());
+                            fcount++;
+                        }else if(meritLists.get(k).getGender() == "Male"){
+                            malePoints += this.getPoints(meritLists.get(k).getDnd());
+                            mcount++;
+                        }
+
+                        for(int l = 0; l<streams.size();l++){
+                            streamPoints.setStream(streams.get(l).getStream());
+                            streamPoints.setPoints(this.getPoints(meritLists.get(k).getDnd()));
+                            streamPoints.setCount(1);
+
+                            streamsMeanPoints.add(streamPoints);
+                        }
+                        break;
+                    }
+                }
+
+            }
+
+            DecimalFormat df = new DecimalFormat("#.####");
+            float avg = (float) totalPoints/count;
+            float favg = (float) femalePoints/fcount;
+            float mavg = (float) malePoints/mcount;
+
+            for (int k = 0; k < streams.size(); k++){
+                int sPoints = 0;
+                int sCount = 0;
+                for(int l = 0; l<streamsMeanPoints.size(); l++){
+                    if(streams.get(k).getStream().equals(streamsMeanPoints.get(l).getStream())){
+                        sPoints += streamsMeanPoints.get(l).getPoints();
+                        sCount += streamsMeanPoints.get(l).getCount();
+                    }
+                    float savg = (float) sPoints/sCount;
+                    if(subjects.get(j).getInitials() != "C.R.E" || subjects.get(j).getInitials() != "H.R.E" || subjects.get(j).getInitials() != "I.R.E") {
+                        context.setVariable(subjects.get(j).getInitials() + streams.get(k).getStream() + "MeanPoints", Float.valueOf(df.format(savg)));
+                    }else if(subjects.get(j).getInitials() == "C.R.E"){
+                        context.setVariable("cre" + streams.get(k).getStream() + "MeanPoints", Float.valueOf(df.format(savg)));
+                    }
+                    else if(subjects.get(j).getInitials() == "H.R.E"){
+                        context.setVariable("hre" + streams.get(k).getStream() + "MeanPoints", Float.valueOf(df.format(savg)));
+                    }
+                    else if(subjects.get(j).getInitials() == "I.R.E"){
+                        context.setVariable("ire" + streams.get(k).getStream() + "MeanPoints", Float.valueOf(df.format(savg)));
+                    }
+                }
+            }
+
+            if(subjects.get(j).getInitials() != "C.R.E" || subjects.get(j).getInitials() != "H.R.E" || subjects.get(j).getInitials() != "I.R.E"){
+                context.setVariable(subjects.get(j).getInitials() + "MeanPoints", Float.valueOf(df.format(avg)));
+                context.setVariable(subjects.get(j).getInitials() + "FemaleMeanPoints", Float.valueOf(df.format(favg)));
+                context.setVariable(subjects.get(j).getInitials() + "MaleMeanPoints", Float.valueOf(df.format(mavg)));
+            }else if(subjects.get(j).getInitials() == "C.R.E"){
+                context.setVariable("creMeanPoints", Float.valueOf(df.format(avg)));
+                context.setVariable("creFemaleMeanPoints", Float.valueOf(df.format(favg)));
+                context.setVariable( "creMaleMeanPoints", Float.valueOf(df.format(mavg)));
+            }else if(subjects.get(j).getInitials() == "H.R.E"){
+                context.setVariable("hreMeanPoints", Float.valueOf(df.format(avg)));
+                context.setVariable("hreFemaleMeanPoints", Float.valueOf(df.format(favg)));
+                context.setVariable( "hreMaleMeanPoints", Float.valueOf(df.format(mavg)));
+            }else if(subjects.get(j).getInitials() == "I.R.E"){
+                context.setVariable("ireMeanPoints", Float.valueOf(df.format(avg)));
+                context.setVariable("ireFemaleMeanPoints", Float.valueOf(df.format(favg)));
+                context.setVariable( "ireMaleMeanPoints", Float.valueOf(df.format(mavg)));
+            }
+
+        }
+
         for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {
             MeritList meritList = new MeritList();
             meritList.setFirstname(((Student)studentsWithoutMarks.get(i2)).getFirstname());
@@ -981,7 +1639,7 @@ public class ReportController {
             meritLists.add(meritList);
             gradeCounts.add(gradeCount);
         }
-        WebContext context = new WebContext(request, response, this.servletContext);
+
         String[] grades = new String[]{"A", "Am", "Bp", "B", "Bm", "Cp", "C", "Cm", "Dp", "D", "Dm", "E"};
         String[] gds = new String[]{"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"};
         context.setVariable("grades", (Object)grades);
@@ -1735,6 +2393,7 @@ public class ReportController {
         context.setVariable("term", (Object)term);
         context.setVariable("marks", allMarks);
         context.setVariable("subjects", subjects);
+        context.setVariable("streams", this.streamService.getStreamsInSchool(code));
         context.setVariable("students", students);
         context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
         context.setVariable("meritLists", meritLists);
@@ -2177,7 +2836,7 @@ public class ReportController {
         return "-";
     }
 
-    public int getPoints(int mark) {
+    public byte getPoints(int mark) {
         if (mark <= 100 && mark >= 80) {
             return 12;
         }
@@ -3646,5 +4305,35 @@ class getMeritList {
         }
 
         return meritLists;
+    }
+}
+
+class StreamPoints {
+    private String stream;
+    private int points;
+    private int count;
+
+    public String getStream() {
+        return stream;
+    }
+
+    public void setStream(String stream) {
+        this.stream = stream;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

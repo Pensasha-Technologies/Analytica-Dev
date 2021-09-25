@@ -4,6 +4,7 @@ public class MeritList {
     private String firstname;
     private String secondname;
     private String admNo;
+    private String gender;
     private int kcpe;
     private String stream;
     private int maths;
@@ -423,5 +424,13 @@ public class MeritList {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

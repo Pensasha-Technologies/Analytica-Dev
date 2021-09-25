@@ -220,7 +220,8 @@
 					</div>
 
 					<div style="text-align: center;">
-						<h4>Subject Means/Averages</h4>
+						<h4>Performance Analysis</h4>
+						<h5>Subject Means/Averages</h5>
 					</div>
 
 					<div class="table-responsive"
@@ -276,7 +277,7 @@
 					</div>
 
 					<div style="text-align: center;">
-						<h4>Subject Means/Averages Chart</h4>
+						<h5>Subject Means/Averages Chart</h5>
 					</div>
 
 					<div style="padding: 20px;">
@@ -295,7 +296,7 @@
 					</div>
 
 					<div style="text-align: center;">
-						<h4>Students Grade Distribution</h4>
+						<h5>Students Grade Distribution</h5>
 					</div>
 
 					<div class="table-responsive">
@@ -364,7 +365,7 @@
 					</div>
 
 					<div style="text-align: center; padding-top: 20px;">
-						<h4>Subject Grade Distribution Chart</h4>
+						<h5>Subject Grade Distribution Chart</h5>
 					</div>
 
 					<div style="padding: 20px;">
@@ -382,60 +383,69 @@
 						</div>
 					</div>
 
-					<!--  
 					<div style="text-align: center; padding-top: 20px;">
-						<h4>Performance Analysis</h4>
-						<h5>Overal Grade Distribution. (Based on Ranking).</h5>
+						<h5>Subject Mean Points.</h5>
 					</div>
 
 					<div class="table-responsive" style="padding: 20px;">
 						<table class="table">
 							<thead>
 								<tr>
-									<th>Class</th>
-									<th>A</th>
-									<th>A-</th>
-									<th>B+</th>
-									<th>B</th>
-									<th>B-</th>
-									<th>C+</th>
-									<th>C</th>
-									<th>C-</th>
-									<th>D+</th>
-									<th>D</th>
-									<th>D-</th>
-									<th>E</th>
-									<th>Y</th>
-									<th>Entry</th>
-									<th>Mean Points</th>
-									<th>Mean Grade</th>
+									<th>S/S</th>
+									<th:block th:each="subject : ${subjects}">
+										<th th:text="${subject.initials}"> Subject </th>
+									</th:block>
 								</tr>
 							</thead>
 							<tbody>
+								<th:block th:each="stream : ${streams}">
+									<tr>
+										<th th:text="${stream.stream}"> Stream Name </th>
+										<th:block th:each="subject : ${subjects}">
+											<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> stream mean points </td>
+											<td th:text="${cre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
+											<td th:text="${hre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
+											<td th:text="${ire__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+										</th:block>
+									</tr>
+								</th:block>
+								<th:block th:if="${school.gender == 'Both'}">
+									<th:block>
+										<tr>
+											<th> Male </th>
+											<th:block th:each="subject : ${subjects}">
+												<td th:text="${__${subject.initials}__MaleMeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+												<td th:text="${creMaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
+												<td th:text="${hreMaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
+												<td th:text="${ireMaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+											</th:block>
+										</tr>
+									</th:block>
+									<th:block>
+										<tr>
+											<th> Female </th>
+											<th:block th:each="subject : ${subjects}">
+												<td th:text="${__${subject.initials}__FemaleMeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+												<td th:text="${creFemaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
+												<td th:text="${hreFemaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
+												<td th:text="${ireFemaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+											</th:block>
+										</tr>
+									</th:block>
+								</th:block>
 								<tr>
-									<th>Total</th>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
+									<th> C/MN </th>
+									<th:block th:each="subject : ${subjects}">
+										<td th:text="${__${subject.initials}__MeanPoints}" th:if="${subject.initials != 'C.R.E' || subject.initials != 'H.R.E' || subject.initials != 'I.R.E'}"> Subject </td>
+										<td th:text="${creMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
+										<td th:text="${hreMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
+										<td th:text="${ireMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+									</th:block>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 
--->
 					<div style="text-align: center;">
 						<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
 					</div>
