@@ -78,7 +78,8 @@ public class ReportController {
     @Autowired
     ServletContext servletContext;
 
-    private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
+    private final String baseUrl = "http://localhost:8080/";
+    //private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
 
     public ReportController(UserService userService, SubjectService subjectService, TermService termService, YearService yearService, FormService formService, SchoolService schoolService, StreamService streamService, ExamNameService examNameService, StudentService studentService, MarkService markService, TimetableService timetableService, TemplateEngine templateEngine, FeeRecordService feeRecordService, FeeStructureService feeStructureService, DisciplineService disciplineService) {
         this.userService = userService;
@@ -1024,10 +1025,11 @@ public class ReportController {
             gradeCounts.add(gradeCount);
         }
 
+        List<Stream> streams = this.streamService.getStreamsInSchool(code);
+
         for(int j = 0; j < subjects.size(); j++){
 
             int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
-            List<Stream> streams = this.streamService.getStreamsInSchool(code);
             List<StreamPoints> streamsMeanPoints = new ArrayList<>();
             for(int k = 0; k<meritLists.size(); k++){
                 StreamPoints streamPoints = new StreamPoints();
@@ -1622,6 +1624,11 @@ public class ReportController {
                 context.setVariable( "ireMaleMeanPoints", Float.valueOf(df.format(mavg)));
             }
 
+        }
+
+        for(int k = 0; k < streams.size(); k++){
+            List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, streams.get(k).getId(), year);
+            context.setVariable("teachers", teachers);
         }
 
         for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {

@@ -383,25 +383,124 @@
 						</div>
 					</div>
 
+					<!-- Mean Points by teachers -->
 					<div style="text-align: center; padding-top: 20px;">
-						<h5>Subject Mean Points.</h5>
+						<h5>Subject Mean Points</h5>
 					</div>
 
 					<div class="table-responsive" style="padding: 20px;">
 						<table class="table">
 							<thead>
-								<tr>
-									<th>S/S</th>
-									<th:block th:each="subject : ${subjects}">
-										<th th:text="${subject.initials}"> Subject </th>
-									</th:block>
-								</tr>
+							<tr>
+								<th>S/S</th>
+								<th:block th:each="subject : ${subjects}">
+									<th th:text="${subject.initials}"> Subject </th>
+								</th:block>
+							</tr>
 							</thead>
 							<tbody>
-								<th:block th:each="stream : ${streams}">
+							<th:block th:each="stream : ${streams}">
+								<tr>
+									<th th:text="${stream.stream}"> Stream Name </th>
+									<th:block th:each="subject : ${subjects}">
+										<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+											<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'C.R.E'}">
+											<td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'H.R.E'}">
+											<td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'I.R.E'}">
+											<td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
+										</th:block>
+									</th:block>
+								</tr>
+							</th:block>
+							<th:block th:if="${school.gender == 'Both'}">
+								<th:block>
 									<tr>
-										<th th:text="${stream.stream}"> Stream Name </th>
+										<th> Male </th>
 										<th:block th:each="subject : ${subjects}">
+											<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+												<td th:text="${__${subject.initials}__MaleMeanPoints}"> Subject </td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'C.R.E'}">
+												<td th:text="${creMaleMeanPoints}" > Subject </td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'H.R.E'}">
+												<td th:text="${hreMaleMeanPoints}" > Subject </td>
+											</th:block>
+											<th:block th:if="${subject.initials == 'I.R.E'}">
+												<td  th:text="${ireMaleMeanPoints}" > Subject </td>
+											</th:block>
+										</th:block>
+									</tr>
+								</th:block>
+								<th:block>
+									<tr>
+										<th> Female </th>
+										<th:block th:each="subject : ${subjects}">
+											<th:block th:each="subject : ${subjects}">
+												<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+													<td th:text="${__${subject.initials}__FemaleMeanPoints}"> Subject </td>
+												</th:block>
+												<th:block th:if="${subject.initials == 'C.R.E'}">
+													<td th:text="${creFemaleMeanPoints}" > Subject </td>
+												</th:block>
+												<th:block th:if="${subject.initials == 'H.R.E'}">
+													<td th:text="${hreFemaleMeanPoints}" > Subject </td>
+												</th:block>
+												<th:block th:if="${subject.initials == 'I.R.E'}">
+													<td  th:text="${ireFemaleMeanPoints}" > Subject </td>
+												</th:block>
+											</th:block>
+										</th:block>
+									</tr>
+								</th:block>
+							</th:block>
+							<tr>
+								<th> C/MN </th>
+								<th:block th:each="subject : ${subjects}">
+									<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+										<td th:text="${__${subject.initials}__MeanPoints}"> Subject </td>
+									</th:block>
+									<th:block th:if="${subject.initials == 'C.R.E'}">
+										<td th:text="${creMeanPoints}" > Subject </td>
+									</th:block>
+									<th:block th:if="${subject.initials == 'H.R.E'}">
+										<td th:text="${hreMeanPoints}" > Subject </td>
+									</th:block>
+									<th:block th:if="${subject.initials == 'I.R.E'}">
+										<td  th:text="${ireMeanPoints}" > Subject </td>
+									</th:block>
+								</th:block>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div style="text-align: center; padding-top: 20px;">
+						<h5>Subject Mean Points with subject teachers</h5>
+					</div>
+
+					<div class="table-responsive" style="padding: 20px;">
+						<table class="table">
+							<thead>
+							<tr>
+								<th>Stream</th>
+								<th>Subject</th>
+								<th>Mean</th>
+								<th>Teacher</th>
+							</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="subject : ${subjects}">
+									<th:block th:each="stream : ${streams}">
+										<tr>
+											<td th:text="${stream.stream}"></td>
+											<td th:text="${subject.initials}"></td>
 											<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
 												<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
 											</th:block>
@@ -414,68 +513,15 @@
 											<th:block th:if="${subject.initials == 'I.R.E'}">
 												<td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
 											</th:block>
-										</th:block>
-									</tr>
-								</th:block>
-								<th:block th:if="${school.gender == 'Both'}">
-									<th:block>
-										<tr>
-											<th> Male </th>
-											<th:block th:each="subject : ${subjects}">
-												<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-													<td th:text="${__${subject.initials}__MaleMeanPoints}"> Subject </td>
-												</th:block>
-												<th:block th:if="${subject.initials == 'C.R.E'}">
-													<td th:text="${creMaleMeanPoints}" > Subject </td>
-												</th:block>
-												<th:block th:if="${subject.initials == 'H.R.E'}">
-													<td th:text="${hreMaleMeanPoints}" > Subject </td>
-												</th:block>
-												<th:block th:if="${subject.initials == 'I.R.E'}">
-													<td  th:text="${ireMaleMeanPoints}" > Subject </td>
-												</th:block>
-											</th:block>
-										</tr>
-									</th:block>
-									<th:block>
-										<tr>
-											<th> Female </th>
-											<th:block th:each="subject : ${subjects}">
-												<th:block th:each="subject : ${subjects}">
-													<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-														<td th:text="${__${subject.initials}__FemaleMeanPoints}"> Subject </td>
-													</th:block>
-													<th:block th:if="${subject.initials == 'C.R.E'}">
-														<td th:text="${creFemaleMeanPoints}" > Subject </td>
-													</th:block>
-													<th:block th:if="${subject.initials == 'H.R.E'}">
-														<td th:text="${hreFemaleMeanPoints}" > Subject </td>
-													</th:block>
-													<th:block th:if="${subject.initials == 'I.R.E'}">
-														<td  th:text="${ireFemaleMeanPoints}" > Subject </td>
-													</th:block>
+											<th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
+											<th:block th:if="${teachers.size() != 0}">
+												<th:block th:each = "teacher : ${teachers}">
+													<td th:if="${teacher.subjects.contains(subject)}" th:text="${teacher.initials}" >-</td>
 												</th:block>
 											</th:block>
 										</tr>
 									</th:block>
 								</th:block>
-								<tr>
-									<th> C/MN </th>
-										<th:block th:each="subject : ${subjects}">
-											<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-												<td th:text="${__${subject.initials}__MeanPoints}"> Subject </td>
-											</th:block>
-											<th:block th:if="${subject.initials == 'C.R.E'}">
-												<td th:text="${creMeanPoints}" > Subject </td>
-											</th:block>
-											<th:block th:if="${subject.initials == 'H.R.E'}">
-												<td th:text="${hreMeanPoints}" > Subject </td>
-											</th:block>
-											<th:block th:if="${subject.initials == 'I.R.E'}">
-												<td  th:text="${ireMeanPoints}" > Subject </td>
-											</th:block>
-										</th:block>
-								</tr>
 							</tbody>
 						</table>
 					</div>

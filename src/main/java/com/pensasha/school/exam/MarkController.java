@@ -12,6 +12,7 @@ import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
+import com.pensasha.school.user.Teacher;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -1257,10 +1258,11 @@ public class MarkController {
             gradeCounts.add(gradeCount);
         }
 
+        List<Stream> streams = this.streamService.getStreamsInSchool(code);
+
         for(int j = 0; j < subjects.size(); j++){
 
             int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
-            List<Stream> streams = this.streamService.getStreamsInSchool(code);
             List<StreamPoints> streamsMeanPoints = new ArrayList<>();
             for(int k = 0; k<meritLists.size(); k++){
                 StreamPoints streamPoints = new StreamPoints();
@@ -1835,6 +1837,8 @@ public class MarkController {
                         model.addAttribute("ire" + streams.get(k).getStream() + "MeanPoints", Float.valueOf(df.format(savg)));
                     }
                 }
+
+
             }
 
             if(subjects.get(j).getInitials() != "C.R.E" || subjects.get(j).getInitials() != "H.R.E" || subjects.get(j).getInitials() != "I.R.E"){
@@ -1855,6 +1859,11 @@ public class MarkController {
                 model.addAttribute( "ireMaleMeanPoints", Float.valueOf(df.format(mavg)));
             }
 
+        }
+
+        for(int k = 0; k < streams.size(); k++){
+            List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, streams.get(k).getId(), year);
+            model.addAttribute("teachers", teachers);
         }
 
         for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {
