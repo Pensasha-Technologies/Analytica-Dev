@@ -351,6 +351,58 @@
 				</table>
 			</div>
 
+			<div style="text-align: center; padding-top: 20px;page-break-before: always;">
+				<h5>Subject Mean Points with subject teachers</h5>
+			</div>
+
+			<div class="table-responsive" style="padding: 20px;">
+				<table class="table">
+					<thead>
+					<tr>
+						<th>Stream</th>
+						<th>Subject</th>
+						<th>Mean</th>
+						<th>Teacher</th>
+					</tr>
+					</thead>
+					<tbody>
+					<th:block th:each="subject : ${subjects}">
+						<th:block th:each="stream : ${streams}">
+							<tr>
+								<td th:text="${stream.stream}"></td>
+								<td th:text="${subject.initials}"></td>
+								<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+									<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
+								</th:block>
+								<th:block th:if="${subject.initials == 'C.R.E'}">
+									<td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
+								</th:block>
+								<th:block th:if="${subject.initials == 'H.R.E'}">
+									<td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
+								</th:block>
+								<th:block th:if="${subject.initials == 'I.R.E'}">
+									<td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
+								</th:block>
+								<th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
+								<th:block th:if="${teachers.size() != 0}">
+									<th:block th:each = "teacher : ${teachers}">
+										<td th:if="${teacher.subjects.contains(subject)}" th:text="${teacher.initials}" >-</td>
+									</th:block>
+								</th:block>
+							</tr>
+						</th:block>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</th:block>
+					</tbody>
+				</table>
+			</div>
+
+
 		<div style="text-align: center; page-break-before: always;">
 			<h5>Students Grade Distribution</h5>
 		</div>

@@ -321,7 +321,37 @@
 				</table>
 			</div>
 
-			<div style="text-align: center; padding-top: 20px;">
+			<div style="text-align: center; font-size: 12px;">
+				<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
+			</div>
+
+			<div class="table-responsive" style="padding: 20px;">
+				<table class="table" style="font-size: 14px;">
+					<thead>
+					<tr>
+						<th>Name</th>
+						<th>Stream</th>
+						<th>Adm No</th>
+					</tr>
+					</thead>
+					<tbody>
+					<div th:if="${mostImproved == null}">
+						<br>
+						<p class="text text-center alert alert-warning">No Student
+							Marks has been added</p>
+					</div>
+					<tr th:if="${mostImproved != null}">
+						<td th:text="${mostImproved.firstname} + ' ' + ${mostImproved.secondname}"> Name</td>
+						<td th:text="${mostImproved.stream}">Stream</td>
+						<td
+								th:text="${#strings.substringAfter(mostImproved.admNo,'_')}">Adm
+							No</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div style="text-align: center; padding-top: 20px;page-break-before: always;">
 				<h5>Subject Mean Points with subject teachers</h5>
 			</div>
 
@@ -361,40 +391,17 @@
 								</th:block>
 							</tr>
 						</th:block>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
 					</th:block>
 					</tbody>
 				</table>
 			</div>
 
-			<div style="text-align: center; font-size: 12px;">
-				<h5>Most Improved Student. (Against K.C.P.E Marks)</h5>
-			</div>
-
-			<div class="table-responsive" style="padding: 20px;">
-				<table class="table" style="font-size: 14px;">
-					<thead>
-					<tr>
-						<th>Name</th>
-						<th>Stream</th>
-						<th>Adm No</th>
-					</tr>
-					</thead>
-					<tbody>
-					<div th:if="${mostImproved == null}">
-						<br>
-						<p class="text text-center alert alert-warning">No Student
-							Marks has been added</p>
-					</div>
-					<tr th:if="${mostImproved != null}">
-						<td th:text="${mostImproved.firstname} + ' ' + ${mostImproved.secondname}"> Name</td>
-						<td th:text="${mostImproved.stream}">Stream</td>
-						<td
-								th:text="${#strings.substringAfter(mostImproved.admNo,'_')}">Adm
-							No</td>
-					</tr>
-					</tbody>
-				</table>
-			</div>
 
 		<div style="text-align: center; page-break-before: always;">
 			<h5>Students Grade Distribution</h5>
