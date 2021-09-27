@@ -1,7 +1,7 @@
 package com.pensasha.school.exam;
 
-import com.pensasha.school.exam.ExamName;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExamNameRepository extends JpaRepository<ExamName, Integer> {

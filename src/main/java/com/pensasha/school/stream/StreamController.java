@@ -1,9 +1,19 @@
 package com.pensasha.school.stream;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
@@ -13,16 +23,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class StreamController {

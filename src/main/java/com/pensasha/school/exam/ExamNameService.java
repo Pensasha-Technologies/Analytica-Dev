@@ -1,8 +1,7 @@
 package com.pensasha.school.exam;
 
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.ExamNameRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,11 @@ public class ExamNameService {
     ExamNameRepository examNameRepository;
 
     public ExamName addExam(ExamName examName) {
-        return (ExamName)this.examNameRepository.save(examName);
+        return this.examNameRepository.save(examName);
     }
 
     public ExamName updateExam(ExamName examName) {
-        return (ExamName)this.examNameRepository.save(examName);
+        return this.examNameRepository.save(examName);
     }
 
     public Boolean nameExists(int id) {

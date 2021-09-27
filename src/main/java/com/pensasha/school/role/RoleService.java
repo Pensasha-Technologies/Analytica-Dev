@@ -1,9 +1,8 @@
 package com.pensasha.school.role;
 
-import com.pensasha.school.role.Role;
-import com.pensasha.school.role.RoleRepository;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +22,11 @@ public class RoleService {
     }
 
     public Role addRole(Role role) {
-        return (Role)this.roleRepository.save(role);
+        return this.roleRepository.save(role);
     }
 
     public Role updateRole(Role role) {
-        return (Role)this.roleRepository.save(role);
+        return this.roleRepository.save(role);
     }
 
     public void deleteRole(String role) {

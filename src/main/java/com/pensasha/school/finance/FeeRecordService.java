@@ -1,9 +1,8 @@
 package com.pensasha.school.finance;
 
-import com.pensasha.school.finance.FeeRecord;
-import com.pensasha.school.finance.FeeRecordRepository;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +28,11 @@ public class FeeRecordService {
     }
 
     public FeeRecord saveFeeRecord(FeeRecord feeRecord) {
-        return (FeeRecord)this.feeRecordRepository.save(feeRecord);
+        return this.feeRecordRepository.save(feeRecord);
     }
 
     public FeeRecord updateFeeRecord(FeeRecord feeRecord) {
-        return (FeeRecord)this.feeRecordRepository.save(feeRecord);
+        return this.feeRecordRepository.save(feeRecord);
     }
 
     public void deleteFeeRecord(int id) {

@@ -1,8 +1,7 @@
 package com.pensasha.school.term;
 
-import com.pensasha.school.term.Term;
-import com.pensasha.school.term.TermRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,6 @@ public class TermService {
     }
 
     public Term addTerm(Term term) {
-        return (Term)this.termRepository.save(term);
+        return this.termRepository.save(term);
     }
 }

@@ -1,9 +1,8 @@
 package com.pensasha.school.form;
 
-import com.pensasha.school.form.Form;
-import com.pensasha.school.form.FormRepository;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,7 @@ public class FormService {
     }
 
     public Form addForm(Form form) {
-        return (Form)this.formRepository.save(form);
+        return this.formRepository.save(form);
     }
 
     public void deleteForm(int form) {

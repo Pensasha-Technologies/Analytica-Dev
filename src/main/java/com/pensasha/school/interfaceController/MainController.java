@@ -1,5 +1,26 @@
 package com.pensasha.school.interfaceController;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
@@ -25,24 +46,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class MainController {
@@ -391,7 +394,7 @@ public class MainController {
             terms.add(new Term(2));
             terms.add(new Term(3));
             for (int i = 0; i < terms.size(); ++i) {
-                this.termService.addTerm((Term)terms.get(i));
+                this.termService.addTerm(terms.get(i));
             }
             ArrayList<Form> forms = new ArrayList<Form>();
             switch (student.getCurrentForm()) {
@@ -419,7 +422,7 @@ public class MainController {
                 }
             }
             for (int i = 0; i < forms.size(); ++i) {
-                this.formService.addForm((Form)forms.get(i));
+                this.formService.addForm(forms.get(i));
             }
             Year year = new Year(student.getYearAdmitted());
             year.setSchools(schools);

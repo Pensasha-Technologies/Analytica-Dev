@@ -1,8 +1,7 @@
 package com.pensasha.school.exam;
 
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.exam.MarkRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +44,11 @@ public class MarkService {
     }
 
     public Mark addMarksToSubject(Mark mark) {
-        return (Mark)this.markRepository.save(mark);
+        return this.markRepository.save(mark);
     }
 
     public Mark updateMark(Mark mark) {
-        return (Mark)this.markRepository.save(mark);
+        return this.markRepository.save(mark);
     }
 
     public void deleteMark(int id) {

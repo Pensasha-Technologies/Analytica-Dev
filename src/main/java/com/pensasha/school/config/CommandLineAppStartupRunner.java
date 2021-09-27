@@ -1,5 +1,13 @@
 package com.pensasha.school.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -12,13 +20,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {
@@ -81,21 +82,21 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         subjects.add(new Subject("Bs", "Business Studies"));
         subjects.add(new Subject("Dnd", "Drawing and design"));
        
-        List<School> schools = new ArrayList();
-        List<Student> students = new ArrayList();
-        List<Form> forms = new ArrayList();
-        List<Year> years = new ArrayList();
+        List<School> schools = new ArrayList<School>();
+        List<Student> students = new ArrayList<Student>();
+        List<Form> forms = new ArrayList<Form>();
+        List<Year> years = new ArrayList<Year>();
        
         for (int i = 0; i < subjects.size(); ++i) {
-            schools = this.schoolService.getAllSchoolsWithSubject(((Subject)subjects.get(i)).getInitials());
-            students = this.studentService.getAllStudentsDoing(((Subject)subjects.get(i)).getInitials());
-            forms = this.formService.getAllFormsBySubject(((Subject)subjects.get(i)).getInitials());
-            years = this.yearService.allYearsForSubject(((Subject)subjects.get(i)).getInitials());
-            ((Subject)subjects.get(i)).setSchools(schools);
-            ((Subject)subjects.get(i)).setStudents(students);
-            ((Subject)subjects.get(i)).setForms(forms);
-            ((Subject)subjects.get(i)).setYears(years);
-            this.subjectService.addSubject((Subject)subjects.get(i));
+            schools = this.schoolService.getAllSchoolsWithSubject(subjects.get(i).getInitials());
+            students = this.studentService.getAllStudentsDoing(subjects.get(i).getInitials());
+            forms = this.formService.getAllFormsBySubject(subjects.get(i).getInitials());
+            years = this.yearService.allYearsForSubject(subjects.get(i).getInitials());
+            subjects.get(i).setSchools(schools);
+            subjects.get(i).setStudents(students);
+            subjects.get(i).setForms(forms);
+            subjects.get(i).setYears(years);
+            this.subjectService.addSubject(subjects.get(i));
         }
     }
 }

@@ -1,16 +1,9 @@
 package com.pensasha.school.year;
 
-import com.pensasha.school.form.Form;
-import com.pensasha.school.form.FormService;
-import com.pensasha.school.school.School;
-import com.pensasha.school.school.SchoolService;
-import com.pensasha.school.term.Term;
-import com.pensasha.school.term.TermService;
-import com.pensasha.school.year.Year;
-import com.pensasha.school.year.YearService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.pensasha.school.form.Form;
+import com.pensasha.school.form.FormService;
+import com.pensasha.school.school.School;
+import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.term.Term;
+import com.pensasha.school.term.TermService;
 
 @RestController
 public class YearController {
@@ -59,7 +59,7 @@ public class YearController {
         terms.add(new Term(2));
         terms.add(new Term(3));
         for (int i = 0; i < terms.size(); ++i) {
-            this.termService.addTerm((Term)terms.get(i));
+            this.termService.addTerm(terms.get(i));
         }
         ArrayList<Form> forms = new ArrayList<Form>();
         forms.add(new Form(1, terms));
@@ -67,7 +67,7 @@ public class YearController {
         forms.add(new Form(3, terms));
         forms.add(new Form(4, terms));
         for (int i = 0; i < forms.size(); ++i) {
-            this.formService.addForm((Form)forms.get(i));
+            this.formService.addForm(forms.get(i));
         }
         year.setSchools(schools);
         year.setForms(forms);

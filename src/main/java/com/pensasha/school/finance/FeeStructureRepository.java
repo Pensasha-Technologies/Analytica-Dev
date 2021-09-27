@@ -1,7 +1,7 @@
 package com.pensasha.school.finance;
 
-import com.pensasha.school.finance.FeeStructure;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FeeStructureRepository extends JpaRepository<FeeStructure, Integer> {

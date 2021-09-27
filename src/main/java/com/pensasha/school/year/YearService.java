@@ -1,10 +1,9 @@
 package com.pensasha.school.year;
 
-import com.pensasha.school.year.Year;
-import com.pensasha.school.year.YearRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,15 +47,15 @@ public class YearService {
     }
 
     public Year addYear(Year year) {
-        return (Year)this.yearRepository.save(year);
+        return this.yearRepository.save(year);
     }
 
     public Year updateYear(Year year) {
-        return (Year)this.yearRepository.save(year);
+        return this.yearRepository.save(year);
     }
 
     public void deleteYearById(int year) {
-        Year yearObj = (Year)this.yearRepository.findById(year).get();
+        Year yearObj = this.yearRepository.findById(year).get();
         yearObj.getSchools().forEach(school -> school.getYears().remove(yearObj));
         yearObj.getForms().forEach(form -> form.getYears().remove(yearObj));
         this.yearRepository.deleteById(year);

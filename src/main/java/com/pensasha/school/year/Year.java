@@ -1,15 +1,9 @@
 package com.pensasha.school.year;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.school.School;
-import com.pensasha.school.student.Student;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.user.Teacher;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.school.School;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.user.Teacher;
 
 @Entity
 public class Year {

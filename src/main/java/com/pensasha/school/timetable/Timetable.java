@@ -1,15 +1,16 @@
 package com.pensasha.school.timetable;
 
-import com.pensasha.school.form.Form;
-import com.pensasha.school.school.School;
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.term.Term;
-import com.pensasha.school.year.Year;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import com.pensasha.school.form.Form;
+import com.pensasha.school.school.School;
+import com.pensasha.school.stream.Stream;
+import com.pensasha.school.term.Term;
+import com.pensasha.school.year.Year;
 
 @Entity
 public class Timetable {

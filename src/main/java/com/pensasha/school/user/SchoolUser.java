@@ -1,13 +1,13 @@
 package com.pensasha.school.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.school.School;
-import com.pensasha.school.user.User;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.school.School;
 
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @Entity

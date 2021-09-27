@@ -1,18 +1,19 @@
 package com.pensasha.school.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.user.SchoolUser;
-import com.pensasha.school.year.Year;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.stream.Stream;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.year.Year;
 
 @Entity
 public class Teacher extends SchoolUser {

@@ -1,8 +1,8 @@
 package com.pensasha.school.year;
 
-import com.pensasha.school.year.Year;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface YearRepository extends JpaRepository<Year, Integer> {

@@ -1,7 +1,7 @@
 package com.pensasha.school.timetable;
 
-import com.pensasha.school.timetable.Timetable;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TimetableRepository extends JpaRepository<Timetable, Integer> {

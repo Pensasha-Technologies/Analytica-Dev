@@ -1,13 +1,15 @@
 package com.pensasha.school.term;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.form.Form;
 import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.exam.ExamName;
+import com.pensasha.school.form.Form;
 
 @Entity
 public class Term {

@@ -1,6 +1,5 @@
 package com.pensasha.school.user;
 
-import com.pensasha.school.role.Role;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -9,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.pensasha.school.role.Role;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)

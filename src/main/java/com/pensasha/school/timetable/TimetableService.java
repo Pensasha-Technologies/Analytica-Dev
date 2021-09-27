@@ -1,8 +1,7 @@
 package com.pensasha.school.timetable;
 
-import com.pensasha.school.timetable.Timetable;
-import com.pensasha.school.timetable.TimetableRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class TimetableService {
     }
 
     public Timetable saveTimetableItem(Timetable timetable) {
-        return (Timetable)this.timetableRepository.save(timetable);
+        return this.timetableRepository.save(timetable);
     }
 
     public void deleteTimetableItem(int id) {

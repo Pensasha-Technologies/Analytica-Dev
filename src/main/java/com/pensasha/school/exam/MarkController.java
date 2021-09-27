@@ -1,5 +1,22 @@
 package com.pensasha.school.exam;
 
+import java.security.Principal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -17,18 +34,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-
-import java.security.Principal;
-import java.text.DecimalFormat;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class MarkController {
@@ -109,7 +114,7 @@ public class MarkController {
         for (int i = 0; i < examNames.size(); ++i) {
             if (eNs.size() > 0) {
                 for (int k = 0; k < eNs.size(); ++k) {
-                    if (((ExamName)eNs.get(k)).getName().equals(examNames.get(i).getName())) {
+                    if (eNs.get(k).getName().equals(examNames.get(i).getName())) {
                         eNs.remove(examNames.get(i));
                         continue;
                     }
@@ -131,7 +136,7 @@ public class MarkController {
     public String addingExamination(@PathVariable int code, @PathVariable int year, @RequestParam String name, @RequestParam int form, @RequestParam int term, HttpServletRequest request) {
 
         School school = this.schoolService.getSchool(code).get();
-        ArrayList subjects = new ArrayList();
+        ArrayList<Subject> subjects = new ArrayList<Subject>();
 
         school.getSubjects().forEach(subject -> subjects.add(subject));
         for (int i = 0; i < subjects.size(); ++i) {
@@ -158,8 +163,8 @@ public class MarkController {
             terms.add(termObj);
             examName.setTerms(terms);
 
-            examName.setOutOf(Integer.parseInt(request.getParameter(((Subject)subjects.get(i)).getInitials() + "OutOf")));
-            examName.setSubject((Subject)subjects.get(i));
+            examName.setOutOf(Integer.parseInt(request.getParameter(subjects.get(i).getInitials() + "OutOf")));
+            examName.setSubject(subjects.get(i));
 
             this.examNameService.addExam(examName);
         }
@@ -348,7 +353,7 @@ public class MarkController {
                 gradeCount.setFirstname(students.get(i2).getFirstname());
                 gradeCount.setSecondname(students.get(i2).getThirdname());
                 gradeCount.setAdmNo(students.get(i2).getAdmNo());
-                List<Mark> marks = new ArrayList();
+                List<Mark> marks = new ArrayList<Mark>();
                 int sum = 0;
                 int totalOutOf = 0;
                 switch (subjects.get(j).getInitials()) {
@@ -356,8 +361,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -381,8 +386,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -407,8 +412,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -433,8 +438,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -459,8 +464,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -485,8 +490,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -511,8 +516,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -537,8 +542,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -563,8 +568,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -589,8 +594,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -615,8 +620,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -641,8 +646,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -667,8 +672,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -693,8 +698,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -719,8 +724,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -745,8 +750,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -771,8 +776,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -797,8 +802,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -823,8 +828,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -849,8 +854,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -875,8 +880,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -901,8 +906,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -927,8 +932,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -953,8 +958,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -979,8 +984,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -1005,8 +1010,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -1031,8 +1036,8 @@ public class MarkController {
                         int k;
                         marks = this.markService.getMarkByStudentOnAsubject(students.get(i2).getAdmNo(), year, form, term, subjects.get(j).getInitials());
                         for (k = 0; k < marks.size(); ++k) {
-                            sum += ((Mark)marks.get(k)).getMark();
-                            totalOutOf += ((Mark)marks.get(k)).getExamName().getOutOf();
+                            sum += marks.get(k).getMark();
+                            totalOutOf += marks.get(k).getExamName().getOutOf();
                         }
                         if (sum > 0) {
                             ++count;
@@ -1868,16 +1873,16 @@ public class MarkController {
 
         for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {
             MeritList meritList = new MeritList();
-            meritList.setFirstname(((Student)studentsWithoutMarks.get(i2)).getFirstname());
-            meritList.setSecondname(((Student)studentsWithoutMarks.get(i2)).getThirdname());
-            meritList.setAdmNo(((Student)studentsWithoutMarks.get(i2)).getAdmNo());
-            meritList.setKcpe(((Student)studentsWithoutMarks.get(i2)).getKcpeMarks());
-            meritList.setStream(((Student)studentsWithoutMarks.get(i2)).getStream().getStream());
+            meritList.setFirstname(studentsWithoutMarks.get(i2).getFirstname());
+            meritList.setSecondname(studentsWithoutMarks.get(i2).getThirdname());
+            meritList.setAdmNo(studentsWithoutMarks.get(i2).getAdmNo());
+            meritList.setKcpe(studentsWithoutMarks.get(i2).getKcpeMarks());
+            meritList.setStream(studentsWithoutMarks.get(i2).getStream().getStream());
             meritList.setTotal(0);
             gradeCount = new GradeCount();
-            gradeCount.setFirstname(((Student)studentsWithoutMarks.get(i2)).getFirstname());
-            gradeCount.setSecondname(((Student)studentsWithoutMarks.get(i2)).getThirdname());
-            gradeCount.setAdmNo(((Student)studentsWithoutMarks.get(i2)).getAdmNo());
+            gradeCount.setFirstname(studentsWithoutMarks.get(i2).getFirstname());
+            gradeCount.setSecondname(studentsWithoutMarks.get(i2).getThirdname());
+            gradeCount.setAdmNo(studentsWithoutMarks.get(i2).getAdmNo());
             meritLists.add(meritList);
             gradeCounts.add(gradeCount);
         }
@@ -2299,7 +2304,7 @@ public class MarkController {
                     case "Maths": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getMaths() != gds[j]) continue;
+                            if (gradeCounts.get(k).getMaths() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2309,7 +2314,7 @@ public class MarkController {
                     case "Eng": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getEng() != gds[j]) continue;
+                            if (gradeCounts.get(k).getEng() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2319,7 +2324,7 @@ public class MarkController {
                     case "Kis": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getKis() != gds[j]) continue;
+                            if (gradeCounts.get(k).getKis() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2329,7 +2334,7 @@ public class MarkController {
                     case "Bio": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getBio() != gds[j]) continue;
+                            if (gradeCounts.get(k).getBio() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2339,7 +2344,7 @@ public class MarkController {
                     case "Chem": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getChem() != gds[j]) continue;
+                            if (gradeCounts.get(k).getChem() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2349,7 +2354,7 @@ public class MarkController {
                     case "Phy": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getPhy() != gds[j]) continue;
+                            if (gradeCounts.get(k).getPhy() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2359,7 +2364,7 @@ public class MarkController {
                     case "Hist": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getHist() != gds[j]) continue;
+                            if (gradeCounts.get(k).getHist() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2369,7 +2374,7 @@ public class MarkController {
                     case "C.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getCre() != gds[j]) continue;
+                            if (gradeCounts.get(k).getCre() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2379,7 +2384,7 @@ public class MarkController {
                     case "Geo": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getGeo() != gds[j]) continue;
+                            if (gradeCounts.get(k).getGeo() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2389,7 +2394,7 @@ public class MarkController {
                     case "I.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getIre() != gds[j]) continue;
+                            if (gradeCounts.get(k).getIre() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2399,7 +2404,7 @@ public class MarkController {
                     case "H.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getHre() != gds[j]) continue;
+                            if (gradeCounts.get(k).getHre() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2409,7 +2414,7 @@ public class MarkController {
                     case "Hsci": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getHsci() != gds[j]) continue;
+                            if (gradeCounts.get(k).getHsci() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2419,7 +2424,7 @@ public class MarkController {
                     case "AnD": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getAnd() != gds[j]) continue;
+                            if (gradeCounts.get(k).getAnd() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2429,7 +2434,7 @@ public class MarkController {
                     case "Agric": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getAgric() != gds[j]) continue;
+                            if (gradeCounts.get(k).getAgric() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2439,7 +2444,7 @@ public class MarkController {
                     case "Comp": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getComp() != gds[j]) continue;
+                            if (gradeCounts.get(k).getComp() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2449,7 +2454,7 @@ public class MarkController {
                     case "Avi": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getAvi() != gds[j]) continue;
+                            if (gradeCounts.get(k).getAvi() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2459,7 +2464,7 @@ public class MarkController {
                     case "Elec": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getElec() != gds[j]) continue;
+                            if (gradeCounts.get(k).getElec() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2469,7 +2474,7 @@ public class MarkController {
                     case "Pwr": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getPwr() != gds[j]) continue;
+                            if (gradeCounts.get(k).getPwr() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2479,7 +2484,7 @@ public class MarkController {
                     case "Wood": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getWood() != gds[j]) continue;
+                            if (gradeCounts.get(k).getWood() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2489,7 +2494,7 @@ public class MarkController {
                     case "Metal": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getMetal() != gds[j]) continue;
+                            if (gradeCounts.get(k).getMetal() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2499,7 +2504,7 @@ public class MarkController {
                     case "Bc": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getBc() != gds[j]) continue;
+                            if (gradeCounts.get(k).getBc() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2509,7 +2514,7 @@ public class MarkController {
                     case "Fren": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getFren() != gds[j]) continue;
+                            if (gradeCounts.get(k).getFren() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2519,7 +2524,7 @@ public class MarkController {
                     case "Germ": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getGerm() != gds[j]) continue;
+                            if (gradeCounts.get(k).getGerm() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2529,7 +2534,7 @@ public class MarkController {
                     case "Arab": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getArab() != gds[j]) continue;
+                            if (gradeCounts.get(k).getArab() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2539,7 +2544,7 @@ public class MarkController {
                     case "Msc": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getMsc() != gds[j]) continue;
+                            if (gradeCounts.get(k).getMsc() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2549,7 +2554,7 @@ public class MarkController {
                     case "Bs": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getBs() != gds[j]) continue;
+                            if (gradeCounts.get(k).getBs() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }
@@ -2559,7 +2564,7 @@ public class MarkController {
                     case "Dnd": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
-                            if (((GradeCount)gradeCounts.get(k)).getDnd() != gds[j]) continue;
+                            if (gradeCounts.get(k).getDnd() != gds[j]) continue;
                             ++count;
                             ++totalS;
                         }

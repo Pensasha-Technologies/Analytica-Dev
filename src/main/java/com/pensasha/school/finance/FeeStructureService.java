@@ -1,8 +1,7 @@
 package com.pensasha.school.finance;
 
-import com.pensasha.school.finance.FeeStructure;
-import com.pensasha.school.finance.FeeStructureRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class FeeStructureService {
     }
 
     public FeeStructure addItem(FeeStructure feeStructure) {
-        return (FeeStructure)this.feeStructureRepository.save(feeStructure);
+        return this.feeStructureRepository.save(feeStructure);
     }
 
     public void deleteFeeStructureItem(int id) {

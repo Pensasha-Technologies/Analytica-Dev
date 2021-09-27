@@ -1,22 +1,12 @@
 package com.pensasha.school.subject;
 
-import com.pensasha.school.form.Form;
-import com.pensasha.school.form.FormService;
-import com.pensasha.school.school.School;
-import com.pensasha.school.school.SchoolService;
-import com.pensasha.school.student.Student;
-import com.pensasha.school.student.StudentService;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.subject.SubjectService;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.user.UserService;
-import com.pensasha.school.year.Year;
-import com.pensasha.school.year.YearService;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +14,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.pensasha.school.form.Form;
+import com.pensasha.school.form.FormService;
+import com.pensasha.school.school.School;
+import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentService;
+import com.pensasha.school.user.Teacher;
+import com.pensasha.school.user.UserService;
+import com.pensasha.school.year.Year;
+import com.pensasha.school.year.YearService;
 
 @Controller
 public class SubjectController {
@@ -119,14 +120,14 @@ public class SubjectController {
         }
         School school = this.schoolService.getSchool(code).get();
         for (int i = 0; i < subjects.size(); ++i) {
-            List<School> schools = this.schoolService.getAllSchoolsWithSubject(((Subject)subjects.get(i)).getInitials());
+            List<School> schools = this.schoolService.getAllSchoolsWithSubject(subjects.get(i).getInitials());
             for (int j = 0; j < schools.size(); ++j) {
                 if (schools.get(j) != school) continue;
                 schools.remove(j);
             }
             schools.add(school);
-            ((Subject)subjects.get(i)).setSchools(schools);
-            this.subjectService.addSubject((Subject)subjects.get(i));
+            subjects.get(i).setSchools(schools);
+            this.subjectService.addSubject(subjects.get(i));
         }
         List<Subject> subjects1 = this.subjectService.getAllSubjectInSchool(code);
         for (int i = 0; i < subjects1.size(); ++i) {
@@ -247,8 +248,8 @@ public class SubjectController {
         ArrayList<String> paramList = new ArrayList<String>();
         for (int i = 0; i < schoolSubjects.size(); ++i) {
             paramList.add(request.getParameter(schoolSubjects.get(i).getInitials()));
-            if (paramList.get(i) == null || studentSubjects.contains(this.subjectService.getSubject((String)paramList.get(i)))) continue;
-            studentSubjects.add(this.subjectService.getSubject((String)paramList.get(i)));
+            if (paramList.get(i) == null || studentSubjects.contains(this.subjectService.getSubject(paramList.get(i)))) continue;
+            studentSubjects.add(this.subjectService.getSubject(paramList.get(i)));
         }
         Form formObj = this.formService.getStudentForm(form, admNo);
         formObj.setSubjects(studentSubjects);

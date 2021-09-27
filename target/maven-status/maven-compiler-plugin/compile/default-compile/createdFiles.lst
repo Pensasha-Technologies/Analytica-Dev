@@ -37,6 +37,7 @@ com\pensasha\school\exam\SortByHre.class
 com\pensasha\school\form\FormRepository.class
 com\pensasha\school\report\SortByDeviation.class
 com\pensasha\school\config\CommandLineAppStartupRunner.class
+com\pensasha\school\exam\StreamPoints.class
 com\pensasha\school\finance\FeeRecord.class
 com\pensasha\school\report\SortByMaths.class
 com\pensasha\school\exam\SortByBc.class
@@ -126,6 +127,7 @@ com\pensasha\school\sms\Gateway.class
 com\pensasha\school\discipline\DisciplineService.class
 com\pensasha\school\student\StudentService.class
 com\pensasha\school\DemoApplication.class
+com\pensasha\school\report\StreamPoints.class
 com\pensasha\school\exam\Mark.class
 com\pensasha\school\report\SortByPhy.class
 com\pensasha\school\term\getMeritList.class

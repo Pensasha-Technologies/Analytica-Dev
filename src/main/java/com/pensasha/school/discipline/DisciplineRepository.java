@@ -1,7 +1,7 @@
 package com.pensasha.school.discipline;
 
-import com.pensasha.school.discipline.Discipline;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DisciplineRepository extends JpaRepository<Discipline, Integer> {

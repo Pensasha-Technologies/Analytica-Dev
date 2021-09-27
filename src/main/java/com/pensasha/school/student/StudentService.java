@@ -1,8 +1,7 @@
 package com.pensasha.school.student;
 
-import com.pensasha.school.student.Student;
-import com.pensasha.school.student.StudentRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public Student addStudent(Student student) {
-        return (Student)this.studentRepository.save(student);
+        return this.studentRepository.save(student);
     }
 
     public List<Student> getAllStudentsInSchool(int code) {
@@ -56,7 +55,7 @@ public class StudentService {
     }
 
     public Student updateStudentDetails(String admNo, Student student) {
-        return (Student)this.studentRepository.save(student);
+        return this.studentRepository.save(student);
     }
 
     public void deleteStudent(String admNo) {

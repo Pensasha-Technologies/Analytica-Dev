@@ -1,17 +1,19 @@
 package com.pensasha.school.subject;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.school.School;
-import com.pensasha.school.student.Student;
-import com.pensasha.school.year.Year;
 import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.school.School;
+import com.pensasha.school.student.Student;
+import com.pensasha.school.year.Year;
 
 @Entity
 public class Subject {

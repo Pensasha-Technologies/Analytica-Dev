@@ -1,19 +1,15 @@
 package com.pensasha.school.user;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleRepository;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolRepository;
-import com.pensasha.school.user.SchoolUser;
-import com.pensasha.school.user.SchoolUserRepository;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.user.TeacherRepository;
-import com.pensasha.school.user.User;
-import com.pensasha.school.user.UserRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
@@ -86,33 +82,33 @@ public class UserService {
     public User addAdmin(User user) {
         this.roleRepository.save(new Role("ADMIN"));
         user.setRole(new Role("ADMIN"));
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public User addManager(User user) {
         this.roleRepository.save(new Role("MANAGER"));
         user.setRole(new Role("MANAGER"));
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public User addOfficeAssistant(User user) {
         this.roleRepository.save(new Role("OFFICE_ASSISTANT"));
         user.setRole(new Role("OFFICE_ASSISTANT"));
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public User addFieldOfficer(User user) {
         this.roleRepository.save(new Role("FIELD_OFFICER"));
         user.setRole(new Role("FIELD_OFFICER"));
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public User addUser(User user) {
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public Teacher addUser(Teacher teacher) {
-        return (Teacher)this.userRepository.save(teacher);
+        return this.userRepository.save(teacher);
     }
 
     public SchoolUser addPrincipal(int code, SchoolUser user) {
@@ -194,7 +190,7 @@ public class UserService {
     }
 
     public User updateUser(String username, User user) {
-        return (User)this.userRepository.save(user);
+        return this.userRepository.save(user);
     }
 
     public void deleteUser(String username) {

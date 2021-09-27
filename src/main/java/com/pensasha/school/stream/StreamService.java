@@ -1,8 +1,7 @@
 package com.pensasha.school.stream;
 
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.stream.StreamRespository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,11 @@ public class StreamService {
     StreamRespository streamRespository;
 
     public Stream addStreamSchool(Stream stream) {
-        return (Stream)this.streamRespository.save(stream);
+        return this.streamRespository.save(stream);
     }
 
     public Stream updatestream(Stream stream) {
-        return (Stream)this.streamRespository.save(stream);
+        return this.streamRespository.save(stream);
     }
 
     public void deleteStream(int id) {

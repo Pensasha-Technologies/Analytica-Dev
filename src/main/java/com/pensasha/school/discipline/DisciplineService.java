@@ -1,9 +1,8 @@
 package com.pensasha.school.discipline;
 
-import com.pensasha.school.discipline.Discipline;
-import com.pensasha.school.discipline.DisciplineRepository;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +33,11 @@ public class DisciplineService {
     }
 
     public Discipline saveDisciplineReport(Discipline discipline) {
-        return (Discipline)this.disciplineRepository.save(discipline);
+        return this.disciplineRepository.save(discipline);
     }
 
     public Discipline updateDisciplineReport(Discipline discipline) {
-        return (Discipline)this.disciplineRepository.save(discipline);
+        return this.disciplineRepository.save(discipline);
     }
 
     public void deleteDisciplineReport(int id) {

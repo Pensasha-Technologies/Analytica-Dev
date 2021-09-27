@@ -1,8 +1,7 @@
 package com.pensasha.school.subject;
 
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.subject.SubjectRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ public class SubjectService {
     private SubjectRepository subjectRepository;
 
     public Subject addSubject(Subject subject) {
-        return (Subject)this.subjectRepository.save(subject);
+        return this.subjectRepository.save(subject);
     }
 
     public Boolean doesSubjectExistsInSchool(String initials, int code) {
@@ -20,7 +19,7 @@ public class SubjectService {
     }
 
     public Subject updateSubject(Subject subject) {
-        return (Subject)this.subjectRepository.save(subject);
+        return this.subjectRepository.save(subject);
     }
 
     public List<Subject> getAllSubjects() {

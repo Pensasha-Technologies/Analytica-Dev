@@ -1,10 +1,19 @@
 package com.pensasha.school.finance;
 
-import com.pensasha.school.finance.FeeBalance;
-import com.pensasha.school.finance.FeeRecord;
-import com.pensasha.school.finance.FeeRecordService;
-import com.pensasha.school.finance.FeeStructure;
-import com.pensasha.school.finance.FeeStructureService;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -20,15 +29,6 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class FinanceController {
@@ -244,26 +244,26 @@ public class FinanceController {
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         int totalAmountExpected = 0;
-        List<FeeStructure> feeStructures = new ArrayList();
+        List<FeeStructure> feeStructures = new ArrayList<FeeStructure>();
         for (int i = 1; i <= form; ++i) {
             for (int j = 1; j <= term; ++j) {
 
                 feeStructures = this.feeStructureService.allFeeItemInSchoolYearFormScholarTerm(code, year, i, school.getScholar(), j);
 
                 for (int k = 0; k < feeStructures.size(); ++k) {
-                    totalAmountExpected += ((FeeStructure)feeStructures.get(k)).getCost();
+                    totalAmountExpected += feeStructures.get(k).getCost();
                 }
             }
         }
         ArrayList<FeeBalance> feeBalances = new ArrayList<FeeBalance>();
         List<Student> students = this.studentService.getAllStudentinSchoolYearFormTermStream(code, year, form, term, stream);
-        List<FeeRecord> feeRecords = new ArrayList();
+        List<FeeRecord> feeRecords = new ArrayList<FeeRecord>();
         for (int i = 0; i < students.size(); ++i) {
             int totalFeePaid = 0;
             FeeBalance feeBalance = new FeeBalance(students.get(i).getFirstname(), students.get(i).getSecondname(), students.get(i).getThirdname(), students.get(i).getAdmNo());
             feeRecords = this.feeRecordService.getAllFeeRecordForStudent(students.get(i).getAdmNo());
             for (int j = 0; j < feeRecords.size(); ++j) {
-                totalFeePaid += ((FeeRecord)feeRecords.get(j)).getAmount();
+                totalFeePaid += feeRecords.get(j).getAmount();
             }
             feeBalance.setBalance(totalAmountExpected - totalFeePaid);
             feeBalances.add(feeBalance);

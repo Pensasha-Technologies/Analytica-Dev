@@ -1,23 +1,5 @@
 package com.pensasha.school.student;
 
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.form.FormService;
-import com.pensasha.school.school.School;
-import com.pensasha.school.school.SchoolService;
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.stream.StreamService;
-import com.pensasha.school.student.Student;
-import com.pensasha.school.student.StudentService;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.subject.SubjectService;
-import com.pensasha.school.term.Term;
-import com.pensasha.school.term.TermService;
-import com.pensasha.school.user.User;
-import com.pensasha.school.user.UserService;
-import com.pensasha.school.year.Year;
-import com.pensasha.school.year.YearService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -27,7 +9,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +22,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.pensasha.school.exam.Mark;
+import com.pensasha.school.exam.MarkService;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.form.FormService;
+import com.pensasha.school.school.School;
+import com.pensasha.school.school.SchoolService;
+import com.pensasha.school.stream.Stream;
+import com.pensasha.school.stream.StreamService;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.subject.SubjectService;
+import com.pensasha.school.term.Term;
+import com.pensasha.school.term.TermService;
+import com.pensasha.school.user.User;
+import com.pensasha.school.user.UserService;
+import com.pensasha.school.year.Year;
+import com.pensasha.school.year.YearService;
 
 @Controller
 public class StudentController {
@@ -217,7 +218,7 @@ public class StudentController {
                 terms.add(new Term(2));
                 terms.add(new Term(3));
                 for (int i = 0; i < terms.size(); ++i) {
-                    this.termService.addTerm((Term)terms.get(i));
+                    this.termService.addTerm(terms.get(i));
                 }
                 ArrayList<Form> forms = new ArrayList<Form>();
                 switch (student.getCurrentForm()) {
@@ -243,7 +244,7 @@ public class StudentController {
                     }
                 }
                 for (int i = 0; i < forms.size(); ++i) {
-                    this.formService.addForm((Form)forms.get(i));
+                    this.formService.addForm(forms.get(i));
                 }
                 if (!this.yearService.doesYearExist(year.getYear())) {
                     year.setSchools(schools);
@@ -258,11 +259,11 @@ public class StudentController {
                     year.setSchools(schools);
                     ArrayList<Form> newForms = new ArrayList<Form>();
                     for (int i = 0; i < forms.size(); ++i) {
-                        if (this.formService.doesFormExists(((Form)forms.get(i)).getForm()).booleanValue()) {
-                            newForms.add(this.formService.getFormByForm(((Form)forms.get(i)).getForm()));
+                        if (this.formService.doesFormExists(forms.get(i).getForm()).booleanValue()) {
+                            newForms.add(this.formService.getFormByForm(forms.get(i).getForm()));
                             continue;
                         }
-                        newForms.add((Form)forms.get(i));
+                        newForms.add(forms.get(i));
                     }
                     year.setForms(newForms);
                     this.yearService.addYear(year);

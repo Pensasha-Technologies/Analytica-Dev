@@ -1,7 +1,7 @@
 package com.pensasha.school.term;
 
-import com.pensasha.school.term.Term;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TermRepository extends JpaRepository<Term, Integer> {

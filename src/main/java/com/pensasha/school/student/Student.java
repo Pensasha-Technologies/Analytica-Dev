@@ -1,13 +1,8 @@
 package com.pensasha.school.student;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pensasha.school.form.Form;
-import com.pensasha.school.school.School;
-import com.pensasha.school.stream.Stream;
-import com.pensasha.school.subject.Subject;
-import com.pensasha.school.year.Year;
 import java.sql.Date;
 import java.util.Collection;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,6 +14,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pensasha.school.form.Form;
+import com.pensasha.school.school.School;
+import com.pensasha.school.stream.Stream;
+import com.pensasha.school.subject.Subject;
+import com.pensasha.school.year.Year;
 
 @Entity
 public class Student {

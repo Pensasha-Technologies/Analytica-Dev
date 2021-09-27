@@ -1,8 +1,8 @@
 package com.pensasha.school.form;
 
-import com.pensasha.school.form.Form;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FormRepository extends JpaRepository<Form, Integer> {

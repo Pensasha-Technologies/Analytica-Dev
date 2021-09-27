@@ -1,4 +1,11 @@
 -------------------------------------------------------------------------------
 Test set: com.pensasha.school.DemoApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 358.98 s - in com.pensasha.school.DemoApplicationTests
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 253.329 s <<< FAILURE! - in com.pensasha.school.DemoApplicationTests
+contextLoads  Time elapsed: 0.162 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: java.lang.IllegalStateException: Failed to execute CommandLineRunner
+Caused by: org.springframework.transaction.TransactionSystemException: Could not roll back JPA transaction; nested exception is org.hibernate.TransactionException: Unable to rollback against JDBC Connection
+Caused by: org.hibernate.TransactionException: Unable to rollback against JDBC Connection
+Caused by: java.sql.SQLException: Connection is closed
+

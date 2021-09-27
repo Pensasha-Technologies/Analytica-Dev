@@ -1,7 +1,7 @@
 package com.pensasha.school.student;
 
-import com.pensasha.school.student.Student;
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, String> {
