@@ -20,6 +20,7 @@ public class Subject {
     @Id
     private String initials;
     private String name;
+    private int code;
     @JsonIgnore
     @ManyToMany
     @JoinTable(name="Subject_school", joinColumns={@JoinColumn(name="initials")}, inverseJoinColumns={@JoinColumn(name="code")})
@@ -37,7 +38,14 @@ public class Subject {
     @ManyToMany(mappedBy="compSubjectF3F4", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<School> compF3F4schools;
 
-    public Subject(String initials, String name, Collection<School> schools, Collection<Student> students, Collection<Form> forms, Collection<Year> years, Collection<School> compF1F2schools, Collection<School> compF3F4schools) {
+	public Subject(String initials, String name, int code) {
+		super();
+		this.initials = initials;
+		this.name = name;
+		this.code = code;
+	}
+
+	public Subject(String initials, String name, Collection<School> schools, Collection<Student> students, Collection<Form> forms, Collection<Year> years, Collection<School> compF1F2schools, Collection<School> compF3F4schools) {
         this.initials = initials;
         this.name = name;
         this.schools = schools;
@@ -72,6 +80,14 @@ public class Subject {
         this.name = name;
     }
 
+    public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+    
     public Collection<School> getSchools() {
         return this.schools;
     }
@@ -119,4 +135,6 @@ public class Subject {
     public void setCompF3F4schools(Collection<School> compF3F4schools) {
         this.compF3F4schools = compF3F4schools;
     }
+    
+    
 }

@@ -1,12 +1,19 @@
 package com.pensasha.school.subject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class SubjectService {
+	
+	List<Subject> subjects = new ArrayList<Subject>();
+	
     @Autowired
     private SubjectRepository subjectRepository;
 
@@ -23,7 +30,9 @@ public class SubjectService {
     }
 
     public List<Subject> getAllSubjects() {
-        return this.subjectRepository.findAll();
+    	subjects = this.subjectRepository.findAll();
+    	Collections.sort(subjects, new SortByCode());
+        return subjects;
     }
 
     public Subject getSubjectByName(String name) {
@@ -31,15 +40,21 @@ public class SubjectService {
     }
 
     public List<Subject> getAllSubjectInSchool(int code) {
-        return this.subjectRepository.findBySchoolsCode(code);
+        subjects = this.subjectRepository.findBySchoolsCode(code);
+        Collections.sort(subjects, new SortByCode());
+        return subjects;
     }
 
     public List<Subject> getAllSubjectsByFormAndAdmNo(int form, String admNo) {
-        return this.subjectRepository.findByFormsFormAndStudentsAdmNo(form, admNo);
+        subjects = this.subjectRepository.findByFormsFormAndStudentsAdmNo(form, admNo);
+        Collections.sort(subjects, new SortByCode());
+        return subjects;
     }
 
     public List<Subject> getAllSubjectsByYearFormAndAdmNo(int year, int form, String admNo) {
-        return this.subjectRepository.findByYearsYearAndFormsFormAndStudentsAdmNo(year, form, admNo);
+        subjects = this.subjectRepository.findByYearsYearAndFormsFormAndStudentsAdmNo(year, form, admNo);
+        Collections.sort(subjects, new SortByCode());
+        return subjects;
     }
 
     public Subject getSubjectInSchool(String initials, int code) {
@@ -55,10 +70,19 @@ public class SubjectService {
     }
 
     public List<Subject> getSubjectDoneByStudent(String admNo) {
-        return this.subjectRepository.findByStudentsAdmNo(admNo);
+       	subjects =  this.subjectRepository.findByStudentsAdmNo(admNo);
+        Collections.sort(subjects, new SortByCode());
+        return subjects;
     }
 
     public Subject getSubjectByStudent(String initials, String admNo) {
         return this.subjectRepository.findByInitialsAndStudentsAdmNo(initials, admNo);
     }
+}
+
+class SortByCode implements Comparator<Subject> {
+
+	public int compare(Subject a, Subject b) {
+		return a.getCode() - b.getCode();
+	}
 }

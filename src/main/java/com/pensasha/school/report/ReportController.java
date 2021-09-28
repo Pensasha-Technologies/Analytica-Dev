@@ -90,8 +90,8 @@ public class ReportController {
     @Autowired
     ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8080/";
-    private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
+    private final String baseUrl = "http://localhost:8080/";
+    //private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
 
     public ReportController(UserService userService, SubjectService subjectService, TermService termService, YearService yearService, FormService formService, SchoolService schoolService, StreamService streamService, ExamNameService examNameService, StudentService studentService, MarkService markService, TimetableService timetableService, TemplateEngine templateEngine, FeeRecordService feeRecordService, FeeStructureService feeStructureService, DisciplineService disciplineService) {
         this.userService = userService;

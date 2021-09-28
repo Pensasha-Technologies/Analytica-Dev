@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -286,7 +288,8 @@ public class SchoolController {
                 }
                 if (compF3F4Subjects.contains(subject)) continue;
                 allCompF3F4Subjects.add(subject);
-            }
+            }           
+            
             model.addAttribute("allCompF1F2Subjects", allCompF1F2Subjects);
             model.addAttribute("allCompF3F4Subjects", allCompF3F4Subjects);
             model.addAttribute("years", years);

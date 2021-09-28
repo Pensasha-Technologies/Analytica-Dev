@@ -38,8 +38,6 @@
 </head>
 <body>
 
-	<!-- Begin Page Content -->
-		<div class="container-fluid">
 
 		<div class="d-flex flex-column" style="text-align:center;">
 
@@ -61,8 +59,8 @@
 		<div class="alert alert-success" th:if="${success}"
 			 th:text="${success}">Student saved</div>
 
-		<div class="table-responsive">
-			<table class="table" style="font-size: 12px;">
+	
+			<table  class="table table-sm"  style="font-size:11px; text-align:center;">
 				<thead>
 				<tr>
 					<th scope="col">Adm No.</th>
@@ -199,7 +197,7 @@
 				</tr>
 				</tbody>
 			</table>
-		</div>
+
 
 		<div style="text-align: center; page-break-before: always;">
 			<h4>Performance Analysis</h4>
@@ -207,19 +205,19 @@
 		</div>
 
 		<div class="table-responsive"
-			 style="padding-bottom: 10px; font-size: 12px;">
-			<table class="table">
+			 style="padding: 20px;">
+			<table class="table table-sm" style="font-size: 11px;">
 				<thead>
 				<tr>
 					<th></th>
 					<th:block th:each="subject : ${subjects}">
-						<th scope="col" th:text="${subject.initials}">subject</th>
+						<th scope="col" th:text="${subject.initials}" >subject</th>
 					</th:block>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td>Average</td>
+					<td style="padding-right:10px;">Average</td>
 					<th:block th:each="subject : ${subjects}">
 						<td scope="col"
 							th:text="${(#aggregates.sum(meritLists.![cre]))/creCount}"
@@ -241,7 +239,7 @@
 
 				</tr>
 				<tr>
-					<td>Entry</td>
+					<td style="padding-right:10px;">Entry</td>
 					<th:block th:each="subject : ${subjects}">
 						<td th:text="${creCount}"
 							th:if="${subject.initials == 'C.R.E'}">C.R.E</td>
@@ -263,12 +261,12 @@
 			</div>
 
 			<div class="table-responsive" style="padding: 20px;">
-				<table class="table">
+				<table class="table table-sm" style="font-size: 11px;">
 					<thead>
 					<tr>
 						<th>S/S</th>
 						<th:block th:each="subject : ${subjects}">
-							<th th:text="${subject.initials}"> Subject </th>
+							<th th:text="${subject.initials}" > Subject </th>
 						</th:block>
 					</tr>
 					</thead>
@@ -278,7 +276,7 @@
 							<th th:text="${stream.stream}"> Stream Name </th>
 							<th:block th:each="subject : ${subjects}">
 								<td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> stream mean points </td>
-								<td th:text="${cre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
+								<td th:text="${cre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'C.R.E'}" > Subject </td>
 								<td th:text="${hre__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
 								<td th:text="${ire__${stream.stream}__MeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
 							</th:block>
@@ -289,10 +287,10 @@
 							<tr>
 								<th> Male </th>
 								<th:block th:each="subject : ${subjects}">
-									<td th:text="${__${subject.initials}__MaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
-									<td th:text="${creMaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
-									<td th:text="${hreMaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
-									<td th:text="${ireMaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+									<td th:text="${__${subject.initials}__MaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}" > Subject </td>
+									<td th:text="${creMaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}" > Subject </td>
+									<td th:text="${hreMaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}" > Subject </td>
+									<td th:text="${ireMaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}" > Subject </td>
 								</th:block>
 							</tr>
 						</th:block>
@@ -300,10 +298,10 @@
 							<tr>
 								<th> Female </th>
 								<th:block th:each="subject : ${subjects}">
-									<td th:text="${__${subject.initials}__FemaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
-									<td th:text="${creFemaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
-									<td th:text="${hreFemaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
-									<td th:text="${ireFemaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+									<td th:text="${__${subject.initials}__FemaleMeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}" > Subject </td>
+									<td th:text="${creFemaleMeanPoints}" th:if="${subject.initials == 'C.R.E'}" > Subject </td>
+									<td th:text="${hreFemaleMeanPoints}" th:if="${subject.initials == 'H.R.E'}" > Subject </td>
+									<td th:text="${ireFemaleMeanPoints}" th:if="${subject.initials == 'I.R.E'}" > Subject </td>
 								</th:block>
 							</tr>
 						</th:block>
@@ -311,10 +309,10 @@
 					<tr>
 						<th> C/MN </th>
 						<th:block th:each="subject : ${subjects}">
-							<td th:text="${__${subject.initials}__MeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}"> Subject </td>
-							<td th:text="${creMeanPoints}" th:if="${subject.initials == 'C.R.E'}"> Subject </td>
-							<td th:text="${hreMeanPoints}" th:if="${subject.initials == 'H.R.E'}"> Subject </td>
-							<td th:text="${ireMeanPoints}" th:if="${subject.initials == 'I.R.E'}"> Subject </td>
+							<td th:text="${__${subject.initials}__MeanPoints}" th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}" > Subject </td>
+							<td th:text="${creMeanPoints}" th:if="${subject.initials == 'C.R.E'}" > Subject </td>
+							<td th:text="${hreMeanPoints}" th:if="${subject.initials == 'H.R.E'}" > Subject </td>
+							<td th:text="${ireMeanPoints}" th:if="${subject.initials == 'I.R.E'}" > Subject </td>
 						</th:block>
 					</tr>
 					</tbody>
@@ -326,7 +324,7 @@
 			</div>
 
 			<div class="table-responsive" style="padding: 20px;">
-				<table class="table" style="font-size: 14px;">
+				<table class="table" style="font-size: 12px;">
 					<thead>
 					<tr>
 						<th>Name</th>
@@ -356,7 +354,7 @@
 			</div>
 
 			<div class="table-responsive" style="padding: 20px;">
-				<table class="table">
+				<table class="table" style="font-size: 11px;">
 					<thead>
 					<tr>
 						<th>Stream</th>
@@ -408,7 +406,7 @@
 		</div>
 
 		<div class="table-responsive">
-			<table class="table table-sm" style="font-size: 14px;">
+			<table class="table table-sm" style="font-size: 11px;">
 				<thead>
 				<tr>
 					<th>Grade</th>
@@ -481,7 +479,7 @@
 			<h6 th:text="${subject.name} + ' Champion'">Subject Name</h6>
 
 			<div class="table-responsive" style="padding-bottom: 20px;">
-				<table class="table" style="font-size: 14px;">
+				<table class="table" style="font-size: 11px;">
 					<thead>
 					<tr>
 						<th>#</th>
@@ -683,10 +681,6 @@
 				</tbody>
 			</table>
 		</div>
-
-
-	</div>
-	<!-- End of Main Content -->
 
 	<div th:replace="fragments :: endScript"></div>
 
