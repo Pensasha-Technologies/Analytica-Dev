@@ -527,9 +527,10 @@
 									</tr>
 								</th:block>
 							</th:block>
-							<th:block th:if="${subject.initials == 'C.R.E'}">
-								<th:block th:each = "subjectGiant : ${CreGiants}">
-									<th:block th:if="${subjectGiant.cre > 0}">
+						</th:block>
+						<th:block th:if="${subject.initials == 'C.R.E'}">
+							<th:block th:each = "subjectGiant : ${CreGiants}">
+								<th:block th:if="${subjectGiant.cre > 0}">
 										<tr>
 											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
 											<td th:text="${subjectGiant.firstname}"> First Name </td>
@@ -553,12 +554,12 @@
 												<td th:if="${isEven <= 0 }">...</td>
 											</th:block>
 										</tr>
-									</th:block>
 								</th:block>
 							</th:block>
-							<th:block th:if="${subject.initials == 'H.R.E'}">
-								<th:block th:each = "subjectGiant : ${HreGiants}">
-									<th:block th:if="${subjectGiant.hre > 0}">
+						</th:block>
+						<th:block th:if="${subject.initials == 'H.R.E'}">
+							<th:block th:each = "subjectGiant : ${HreGiants}">
+								<th:block th:if="${subjectGiant.hre > 0}">
 										<tr>
 											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
 											<td th:text="${subjectGiant.firstname}"> First Name </td>
@@ -581,12 +582,12 @@
 												<td th:if="${isEven <= 0 }">...</td>
 											</th:block>
 										</tr>
-									</th:block>
 								</th:block>
 							</th:block>
-							<th:block th:if="${subject.initials == 'I.R.E'}">
-								<th:block th:each = "subjectGiant : ${IreGiants}">
-									<th:block th:if="${subjectGiant.ire > 0}">
+						</th:block>
+						<th:block th:if="${subject.initials == 'I.R.E'}">
+							<th:block th:each = "subjectGiant : ${IreGiants}">
+								<th:block th:if="${subjectGiant.ire > 0}">
 										<tr>
 											<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
 											<td th:text="${subjectGiant.firstname}"> First Name </td>
@@ -609,7 +610,6 @@
 												<td th:if="${isEven <= 0 }">...</td>
 											</th:block>
 										</tr>
-									</th:block>
 								</th:block>
 							</th:block>
 						</th:block>

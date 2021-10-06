@@ -80,7 +80,7 @@
 					</div>
 
 					<div class="table-responsive">
-						<table class="table" style="font-size: 12px;">
+						<table class="table table-sm" style="font-size: 12px;">
 							<thead>
 								<tr>
 									<th scope="col">Adm No.</th>
@@ -226,7 +226,7 @@
 
 					<div class="table-responsive"
 						style="padding: 20px; font-size: 14px;">
-						<table class="table">
+						<table class="table table-sm">
 							<thead>
 								<tr>
 									<th></th>
@@ -619,7 +619,8 @@
 														</tr>
 													</th:block>
 												</th:block>
-												<th:block th:if="${subject.initials == 'C.R.E'}">
+											</th:block>
+											<th:block th:if="${subject.initials == 'C.R.E'}">
 													<th:block th:each = "subjectGiant : ${CreGiants}">
 														<th:block th:if="${subjectGiant.cre > 0}">
 															<tr>
@@ -647,8 +648,8 @@
 															</tr>
 														</th:block>
 													</th:block>
-												</th:block>
-												<th:block th:if="${subject.initials == 'H.R.E'}">
+											</th:block>
+											<th:block th:if="${subject.initials == 'H.R.E'}">
 													<th:block th:each = "subjectGiant : ${HreGiants}">
 														<th:block th:if="${subjectGiant.hre > 0}">
 															<tr>
@@ -675,10 +676,10 @@
 															</tr>
 														</th:block>
 													</th:block>
-												</th:block>
-												<th:block th:if="${subject.initials == 'I.R.E'}">
-													<th:block th:each = "subjectGiant : ${IreGiants}">
-														<th:block th:if="${subjectGiant.ire > 0}">
+											</th:block>
+											<th:block th:if="${subject.initials == 'I.R.E'}">
+												<th:block th:each = "subjectGiant : ${IreGiants}">
+													<th:block th:if="${subjectGiant.ire > 0}">
 															<tr>
 																<td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
 																<td th:text="${subjectGiant.firstname}"> First Name </td>
@@ -701,7 +702,6 @@
 																	<td th:if="${isEven <= 0 }">...</td>
 																</th:block>
 															</tr>
-														</th:block>
 													</th:block>
 												</th:block>
 											</th:block>
