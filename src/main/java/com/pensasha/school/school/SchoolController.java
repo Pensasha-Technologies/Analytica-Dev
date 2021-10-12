@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -114,15 +115,14 @@ public class SchoolController {
     }
 
     @PostMapping(value={"/schools"})
-    public RedirectView addSchool(@RequestParam(value="file") MultipartFile file, @Valid School school, BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
+    public RedirectView addSchool(@RequestParam(value="file") MultipartFile file,  @RequestParam(value="file") MultipartFile banner, @Valid School school, BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
         User user = this.userService.getByUsername(principal.getName()).get();
         RedirectView redirectView = new RedirectView();
         if (bindingResult.hasErrors()) {
-            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", (Object)bindingResult);
-            redit.addFlashAttribute("school", (Object)school);
+            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", bindingResult);
+            redit.addFlashAttribute("school", school);
             return new RedirectView("/addSchool", true);
-        }
-        if (this.schoolService.doesSchoolExists(school.getCode()).booleanValue()) {
+        }else if (this.schoolService.doesSchoolExists(school.getCode()).booleanValue()) {
             redit.addFlashAttribute("fail", (Object)("School with code:" + school.getCode() + " already exists"));
             if (user.getRole().getName().equals("ADMIN")) {
                 redirectView = new RedirectView("/adminHome", true);
@@ -138,6 +138,7 @@ public class SchoolController {
 
         String path = new File("src/main/resources/static/schImg").getAbsolutePath();
         String fileName = file.getOriginalFilename();
+
         if (fileName.isEmpty()) {
             school.setLogo("noSchool");
         } else {
@@ -165,6 +166,36 @@ public class SchoolController {
             }
             school.setLogo(fileName);
         }
+        
+        String bannerPath = new File("src/main/resources/static/schBanner").getAbsolutePath();
+        String bannerFileName = banner.getOriginalFilename();
+       
+        if (!bannerFileName.isEmpty()) {
+            OutputStream out = null;
+            InputStream filecontent = null;
+            try {
+                out = new FileOutputStream(new File(bannerPath + File.separator + bannerFileName));
+                filecontent = banner.getInputStream();
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    filecontent.close();
+                }
+            }
+            school.setBanner(bannerFileName);
+        }
+        
         this.schoolService.addSchool(school);
         redit.addFlashAttribute("success", (Object)("School with code:" + school.getCode() + " saved successfully"));
         if (user.getRole().getName().equals("ADMIN")) {
@@ -177,6 +208,7 @@ public class SchoolController {
             redirectView = new RedirectView("/fieldOfficerHome", true);
         }
         return redirectView;
+
     }
 
     @GetMapping(value={"/schools/{code}"})

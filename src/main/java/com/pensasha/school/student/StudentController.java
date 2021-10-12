@@ -73,6 +73,7 @@ public class StudentController {
         Student student = new Student();
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         List<Year> years = this.yearService.getAllYearsInSchool(code);
+        
         model.addAttribute("years", years);
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
@@ -210,8 +211,7 @@ public class StudentController {
                 
                 Stream streamObj = this.streamService.getStream(stream);
                 student.setStream(streamObj);
-                
-                
+ 
                 ArrayList<Year> years = new ArrayList<Year>();
                 
                 ArrayList<Term> terms = new ArrayList<Term>();
@@ -223,6 +223,7 @@ public class StudentController {
                     this.termService.addTerm(terms.get(i));
                 }
                 
+                Form form;
                 ArrayList<Form> forms = new ArrayList<Form>();
                 ArrayList<Form> forms1 = new ArrayList<Form>();
             	ArrayList<Form> forms2 = new ArrayList<Form>();
@@ -232,7 +233,12 @@ public class StudentController {
                 switch (student.getCurrentForm()) {
                     case 1: {
                     	Year year = new Year(student.getYearAdmitted());
-                    	forms.add(new Form(1, terms));
+                    	form = new Form(1, terms);
+                    	forms.add(form);
+                    	if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                    		 this.formService.addForm(form);
+                    	}
+                       
                     	year.setForms(forms);
                         years.add(year);
                     	student.setYears(years);
@@ -259,19 +265,21 @@ public class StudentController {
                             this.yearService.addYear(year);
                         }
                     	student.setForms(forms);
-                    	for (int i = 0; i < forms.size(); ++i) {
-                            this.formService.addForm(forms.get(i));
-                        }
+                 
                         break;
                     }
                     case 2: {
                     	Year year = new Year(student.getYearAdmitted());
-                    	forms.add(new Form(1, terms));
-                    	year.setForms(forms);
-                        years.add(year);
+                    	form = new Form(2, terms);
+                    	forms.add(form);
+                    	if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                    		this.formService.addForm(form);
+                    	}
+                    	
                         if (!this.yearService.doesYearExist(year.getYear())) {
                             year.setSchools(schools);
                             year.setForms(forms);
+                            years.add(year);
                             this.yearService.addYear(year);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
@@ -289,19 +297,21 @@ public class StudentController {
                                 newForms.add(forms.get(i));
                             }
                             year.setForms(newForms);
+                            years.add(year);
                             this.yearService.addYear(year);
-                        }
-                        for (int i = 0; i < forms.size(); ++i) {
-                            this.formService.addForm(forms.get(i));
                         }
                         
                         Year year1 = new Year(student.getYearAdmitted() -  1);
-                        forms1.add(new Form(2, terms));
-                        year1.setForms(forms1);
-                    	years.add(year1);
+                        form = new Form(1, terms);
+                        forms1.add(form);
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+                    	
                     	if (!this.yearService.doesYearExist(year1.getYear())) {
                             year1.setSchools(schools);
                             year1.setForms(forms1);
+                            years.add(year1);
                             this.yearService.addYear(year1);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
@@ -319,26 +329,29 @@ public class StudentController {
                                 newForms.add(forms1.get(i));
                             }
                             year1.setForms(newForms);
+                            years.add(year1);
                             this.yearService.addYear(year1);
-                        }
-                    	for (int i = 0; i < forms1.size(); ++i) {
-                            this.formService.addForm(forms1.get(i));
                         }
                     	
                     	allForms.addAll(forms);
                     	allForms.addAll(forms1);
                     	student.setForms(allForms);
                         student.setYears(years);
+                        
                         break;
                     }
                     case 3: {
                     	Year year = new Year(student.getYearAdmitted());
-                    	forms.add(new Form(1, terms));
-                    	year.setForms(forms);
-                        years.add(year);
+                    	form = new Form(3, terms);
+                    	forms.add(form);
+                    	if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                    		this.formService.addForm(form);
+                    	}
+                        
                         if (!this.yearService.doesYearExist(year.getYear())) {
                             year.setSchools(schools);
                             year.setForms(forms);
+                            years.add(year);
                             this.yearService.addYear(year);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
@@ -356,20 +369,22 @@ public class StudentController {
                                 newForms.add(forms.get(i));
                             }
                             year.setForms(newForms);
+                            years.add(year);
                             this.yearService.addYear(year);
                         }
-                        student.setForms(forms);
-                        for (int i = 0; i < forms.size(); ++i) {
-                            this.formService.addForm(forms.get(i));
-                        }
+                        allForms.addAll(forms);
                         
                         Year year1 = new Year(student.getYearAdmitted() -  1);
-                        forms1.add(new Form(2, terms));
-                        year1.setForms(forms1);
-                    	years.add(year1);
+                        form = new Form(2, terms);
+                        forms1.add(form);
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+                     
                     	if (!this.yearService.doesYearExist(year1.getYear())) {
                             year1.setSchools(schools);
                             year1.setForms(forms1);
+                            years.add(year1);
                             this.yearService.addYear(year1);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
@@ -387,19 +402,22 @@ public class StudentController {
                                 newForms.add(forms1.get(i));
                             }
                             year1.setForms(newForms);
+                            years.add(year1);
                             this.yearService.addYear(year1);
                         }
-                        for (int i = 0; i < forms1.size(); ++i) {
-                            this.formService.addForm(forms1.get(i));
-                        }
+                    	allForms.addAll(forms1);
                     	
                         Year year2 = new Year(student.getYearAdmitted() -  2);
-                        forms2.add(new Form(3, terms));
-                        year2.setForms(forms2);
-                    	years.add(year2);
+                        form = new Form(1, terms);
+                        forms2.add(new Form(1, terms));
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+                        
                     	if (!this.yearService.doesYearExist(year2.getYear())) {
                             year2.setSchools(schools);
                             year2.setForms(forms2);
+                            years.add(year2);
                             this.yearService.addYear(year2);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year2.getYear());
@@ -417,26 +435,27 @@ public class StudentController {
                                 newForms.add(forms2.get(i));
                             }
                             year2.setForms(newForms);
+                            years.add(year2);
                             this.yearService.addYear(year2);
                         }
-                        for (int i = 0; i < forms2.size(); ++i) {
-                            this.formService.addForm(forms2.get(i));
-                        }
-                        allForms.addAll(forms);
-                        allForms.addAll(forms1);
-                        allForms.addAll(forms2);
+                    	allForms.addAll(forms2);
+                        
                         student.setForms(allForms);
                         student.setYears(years);
                         break;
                     }
                     case 4: {
                     	Year year = new Year(student.getYearAdmitted());
-                    	forms.add(new Form(1, terms));
-                    	year.setForms(forms);
-                        years.add(year);
+                    	form = new Form(4, terms);
+                    	forms.add(form);
+                    	if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                    		this.formService.addForm(form);
+                    	}
+  
                         if (!this.yearService.doesYearExist(year.getYear())) {
                             year.setSchools(schools);
                             year.setForms(forms);
+                            years.add(year);
                             this.yearService.addYear(year);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
@@ -454,20 +473,22 @@ public class StudentController {
                                 newForms.add(forms.get(i));
                             }
                             year.setForms(newForms);
+                            years.add(year);
                             this.yearService.addYear(year);
                         }
                         allForms.addAll(forms);
-                        for (int i = 0; i < forms.size(); ++i) {
-                            this.formService.addForm(forms.get(i));
-                        }
                         
                         Year year1 = new Year(student.getYearAdmitted() -  1);
-                        forms1.add(new Form(2, terms));
-                        year1.setForms(forms1);
-                    	years.add(year1);
+                        form = new Form(3, terms);
+                        forms1.add(form);
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+
                     	if (!this.yearService.doesYearExist(year1.getYear())) {
                             year1.setSchools(schools);
                             year1.setForms(forms1);
+                            years.add(year1);
                             this.yearService.addYear(year1);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
@@ -485,20 +506,22 @@ public class StudentController {
                                 newForms.add(forms1.get(i));
                             }
                             year1.setForms(newForms);
+                            years.add(year1);
                             this.yearService.addYear(year1);
                         }
                     	allForms.addAll(forms1);
-                        for (int i = 0; i < forms1.size(); ++i) {
-                            this.formService.addForm(forms1.get(i));
-                        }
                     	
                         Year year2 = new Year(student.getYearAdmitted() -  2);
-                        forms2.add(new Form(3, terms));
-                        year2.setForms(forms2);
-                    	years.add(year2);
+                        form = new Form(2, terms);
+                        forms2.add(form);
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+                        
                     	if (!this.yearService.doesYearExist(year2.getYear())) {
                             year2.setSchools(schools);
                             year2.setForms(forms2);
+                            years.add(year2);
                             this.yearService.addYear(year2);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year2.getYear());
@@ -516,20 +539,22 @@ public class StudentController {
                                 newForms.add(forms2.get(i));
                             }
                             year2.setForms(newForms);
+                            years.add(year2);
                             this.yearService.addYear(year2);
                         }
                     	allForms.addAll(forms2);
-                        for (int i = 0; i < forms2.size(); ++i) {
-                            this.formService.addForm(forms2.get(i));
-                        }
                     
                         Year year3 = new Year(student.getYearAdmitted() -  3);
-                        forms3.add(new Form(4, terms));
-                        year3.setForms(forms3);
-                    	years.add(year3);
+                        form = new Form(1, terms);
+                        forms3.add(form);
+                        if(!formService.ifFormExists(form.getForm(), year.getYear(), code)) {
+                        	this.formService.addForm(form);
+                        }
+                        
                     	if (!this.yearService.doesYearExist(year3.getYear())) {
                             year3.setSchools(schools);
                             year3.setForms(forms3);
+                            years.add(year3);
                             this.yearService.addYear(year3);
                         } else {
                             List<School> newSchools = this.schoolService.getSchoolsByYear(year3.getYear());
@@ -547,12 +572,11 @@ public class StudentController {
                                 newForms.add(forms3.get(i));
                             }
                             year3.setForms(newForms);
+                            years.add(year3);
                             this.yearService.addYear(year3);
                         }
                     	allForms.addAll(forms3);
-                        for (int i = 0; i < forms3.size(); ++i) {
-                            this.formService.addForm(forms3.get(i));
-                        }
+
                     	student.setForms(allForms);
                         student.setYears(years);
                         break;

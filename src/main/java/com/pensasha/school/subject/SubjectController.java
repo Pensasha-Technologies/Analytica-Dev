@@ -256,7 +256,7 @@ public class SubjectController {
         Form formObj = this.formService.getStudentForm(form, admNo);
         formObj.setSubjects(studentSubjects);
         this.formService.addForm(formObj);
-        Year yearObj = this.yearService.getYearFromSchool(2020, code).get();
+        Year yearObj = this.yearService.getYearFromSchool(year, code).get();
         yearObj.setSubjects(studentSubjects);
         this.yearService.addYear(yearObj);
         student.setSubjects(studentSubjects);

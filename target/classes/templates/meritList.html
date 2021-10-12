@@ -442,7 +442,6 @@
 									<tr>
 										<th> Female </th>
 										<th:block th:each="subject : ${subjects}">
-											<th:block th:each="subject : ${subjects}">
 												<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
 													<td th:text="${__${subject.initials}__FemaleMeanPoints}"> Subject </td>
 												</th:block>
@@ -455,7 +454,6 @@
 												<th:block th:if="${subject.initials == 'I.R.E'}">
 													<td  th:text="${ireFemaleMeanPoints}" > Subject </td>
 												</th:block>
-											</th:block>
 										</th:block>
 									</tr>
 								</th:block>

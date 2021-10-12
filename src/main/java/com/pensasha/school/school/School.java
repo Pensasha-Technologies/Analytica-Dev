@@ -25,6 +25,7 @@ public class School {
     private String address;
     private int contactNumber;
     private String logo;
+    private String banner;
     private int fax;
     private String email;
     private String location;
@@ -140,7 +141,15 @@ public class School {
         this.logo = logo;
     }
 
-    public int getFax() {
+    public String getBanner() {
+		return banner;
+	}
+
+	public void setBanner(String banner) {
+		this.banner = banner;
+	}
+
+	public int getFax() {
         return this.fax;
     }
 
