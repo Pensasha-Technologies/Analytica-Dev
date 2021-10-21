@@ -3,8 +3,10 @@ package com.pensasha.school.interfaceController;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -42,6 +45,8 @@ import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
 import com.pensasha.school.user.SchoolUser;
 import com.pensasha.school.user.Teacher;
+import com.pensasha.school.user.TeacherYearFormStream;
+import com.pensasha.school.user.TeacherYearFormStreamService;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -60,22 +65,28 @@ public class MainController {
     private RoleService roleService;
     private StreamService streamService;
     private DisciplineService disciplineService;
+    private TeacherYearFormStreamService teacherYearFormStreamService;
 
-    public MainController(SchoolService schoolService, StudentService studentService, TermService termService, SubjectService subjectService, FormService formService, YearService yearService, MarkService markService, UserService userService, RoleService roleService, StreamService streamService, DisciplineService disciplineService) {
-        this.schoolService = schoolService;
-        this.studentService = studentService;
-        this.termService = termService;
-        this.subjectService = subjectService;
-        this.formService = formService;
-        this.yearService = yearService;
-        this.markService = markService;
-        this.userService = userService;
-        this.roleService = roleService;
-        this.streamService = streamService;
-        this.disciplineService = disciplineService;
-    }
+    public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
+			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
+			UserService userService, RoleService roleService, StreamService streamService,
+			DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService) {
+		super();
+		this.schoolService = schoolService;
+		this.studentService = studentService;
+		this.termService = termService;
+		this.subjectService = subjectService;
+		this.formService = formService;
+		this.yearService = yearService;
+		this.markService = markService;
+		this.userService = userService;
+		this.roleService = roleService;
+		this.streamService = streamService;
+		this.disciplineService = disciplineService;
+		this.teacherYearFormStreamService = teacherYearFormStreamService;
+	}
 
-    @GetMapping(value={"index"})
+	@GetMapping(value={"index"})
     public String index(Principal principal, Model model) {
         User user = new User();
         model.addAttribute("activeUser", (Object)user);
@@ -560,6 +571,7 @@ public class MainController {
         model.addAttribute("activeUser", (Object)activeUser);
         model.addAttribute("student", (Object)student);
         model.addAttribute("school", (Object)school);
+        model.addAttribute("streams", this.streamService.getStreamsInSchool(school.getCode()));
         return "dosHome";
     }
 
@@ -729,13 +741,13 @@ public class MainController {
 
     @GetMapping(value={"/schools/{code}/years/{year}/assignTeacher"})
     public String assignTeachers(Model model, Principal principal, @PathVariable int code, @PathVariable int year) {
-        int i;
+    	
         User user = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
-        for (i = 0; i < subjects.size(); ++i) {
+        for (int i = 0; i < subjects.size(); ++i) {
             if (subjects.get(i).getInitials() == "C.R.E") {
                 model.addAttribute("creTeacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
                 continue;
@@ -750,9 +762,9 @@ public class MainController {
             }
             model.addAttribute(subjects.get(i).getInitials() + "Teacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
         }
-        for (i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < streams.size(); ++j) {
-                model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, i, streams.get(j).getId(), year));
+                model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code,  year, i, streams.get(j).getId()));
             }
         }
         model.addAttribute("activeUser", (Object)user);
@@ -761,31 +773,56 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("subjects", subjects);
         model.addAttribute("year", (Object)year);
+        
         return "assignTeachers";
+       
     }
 
     @PostMapping(value={"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher"})
     public String assignTeachers(RedirectAttributes redit, HttpServletRequest request, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int stream) {
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
-        ArrayList<Form> forms = new ArrayList<Form>();
-        Form formObj = this.formService.getForm(form, year, code).get();
-        forms.add(formObj);
-        ArrayList<Year> years = new ArrayList<Year>();
-        Year yearObj = this.yearService.getYearFromSchool(year, code).get();
-        years.add(yearObj);
-        ArrayList<Stream> streams = new ArrayList<Stream>();
-        Stream streamObj = this.streamService.getStream(stream);
-        streams.add(streamObj);
+        
         for (int i = 0; i < subjects.size(); ++i) {
             Teacher teacher = this.userService.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
+            
             if (teacher == null) continue;
+            
+            List<Form> UpdatedForms = this.formService.getAllFormsByTeacher(teacher.getUsername());
+            Form formObj = this.formService.getForm(form, year, code).get();
+            UpdatedForms.add(formObj);
+            Set<Form> frms = new HashSet<>();
+            frms.addAll(UpdatedForms);
+            List<Form> forms = new ArrayList<>();
+            forms.addAll(frms);
+            
+            List<Year> UpdatedYears = this.yearService.getAllYearsByTeacher(teacher.getUsername());
+            Year yearObj = this.yearService.getYearFromSchool(year, code).get();
+            UpdatedYears.add(yearObj);
+            Set<Year> yrs = new HashSet<>();
+            yrs.addAll(UpdatedYears);
+            List<Year> years = new ArrayList<>();
+            years.addAll(yrs);
+            
+            List<Stream> UpdatedStreams = this.streamService.getAllStreamOfTeacher(teacher.getUsername());
+            Stream streamObj = this.streamService.getStream(stream);
+            UpdatedStreams.add(streamObj);
+            Set<Stream> strms = new HashSet<>();
+            strms.addAll(UpdatedStreams);
+            List<Stream> streams = new ArrayList<>();
+            streams.addAll(strms);
+            
             teacher.setYears(years);
             teacher.setForms(forms);
             teacher.setStreams(streams);
-            ArrayList<Teacher> teachers = new ArrayList<Teacher>();
-            teachers.add(teacher);
+            
+            TeacherYearFormStream teacherYearFormStream = new TeacherYearFormStream(teacher, yearObj, formObj, streamObj, subjects.get(i));
+            teacherYearFormStreamService.addTeacherTeachingSubjectToStream(teacherYearFormStream);
+            
             this.userService.addUser(teacher);
+             
         }
-        return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
+        
+       return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
+     
     }
 }

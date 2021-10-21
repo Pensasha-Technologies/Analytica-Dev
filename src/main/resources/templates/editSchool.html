@@ -53,7 +53,7 @@
 
 					<div class="admissionForm">
 
-						<form id="addSchool" action="" enctype="multipart/form-data"
+						<form id="editSchool" action="" enctype="multipart/form-data"
 							th:action="@{/editSchool/{code}(code=${school.code})}"
 							th:object="${school}" method="POST">
 
@@ -64,7 +64,12 @@
 								<img id="output" width="100"
 									style="display: block; margin-left: auto; margin-right: auto;" />
 							</p>
-
+								
+							<div class="form-group">
+								<label for="file"> School banner </label> <input type="file"
+									accept="image/*" name="file" id="file"
+									onchange="loadFile(event)" />
+							</div>	
 							<div class="form-group">
 								<label for="name">School Name</label> <input type="text"
 									th:field="*{name}" class="form-control" id="name"

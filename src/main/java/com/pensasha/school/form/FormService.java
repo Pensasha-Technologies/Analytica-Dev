@@ -62,4 +62,8 @@ public class FormService {
     public List<Form> getFormsWithYear(int year) {
         return this.formRepository.findByYearsYear(year);
     }
+    
+    public List<Form> getAllFormsByTeacher(String username){
+    	return this.formRepository.findByTeachersUsername(username);
+    }
 }

@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 public class YearService {
     @Autowired
     YearRepository yearRepository;
-
+    
+    public List<Year> getAllYears(){
+    	return yearRepository.findAll();
+    }
+    
     public List<Year> getAllYearsInSchool(int code) {
         ArrayList<Year> years = new ArrayList<Year>();
         this.yearRepository.findBySchoolsCode(code).forEach(years::add);
@@ -63,5 +67,9 @@ public class YearService {
 
     public boolean doesYearExist(int year) {
         return this.yearRepository.existsById(year);
+    }
+    
+    public List<Year> getAllYearsByTeacher(String username){
+    	return this.yearRepository.findByTeachersUsername(username);
     }
 }

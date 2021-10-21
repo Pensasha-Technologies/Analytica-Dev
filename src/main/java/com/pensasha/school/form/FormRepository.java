@@ -26,4 +26,6 @@ public interface FormRepository extends JpaRepository<Form, Integer> {
     public Boolean existsByFormAndYearsYearAndYearsSchoolsCode(int var1, int var2, int var3);
 
     public List<Form> findByYearsYear(int var1);
+
+	public List<Form> findByTeachersUsername(String username);
 }

@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.school.School;
+import com.pensasha.school.subject.Subject;
 import com.pensasha.school.user.Teacher;
 
 @Entity
@@ -28,7 +29,7 @@ public class Stream {
     @JsonIgnore
     @ManyToMany(mappedBy="streams", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private List<Teacher> teachers;
-
+    
     public Stream(int id, String stream, School school) {
         this.id = id;
         this.stream = stream;
@@ -78,4 +79,5 @@ public class Stream {
     public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
     }
+    
 }

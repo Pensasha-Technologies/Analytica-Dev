@@ -997,7 +997,7 @@
 				<i class="fas fa-fw fa-school"></i> <span> My School </span>
 		</a></li>
 		<li class="nav-item"
-			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL'}"
+			th:if="${activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'DEPUTYPRINCIPAL' || activeUser.role.name == 'D.O.S'}"
 			th:classappend="${#httpServletRequest.getRequestURI() == '/school/teachers' ? 'active':''}"><a
 			class="nav-link" th:href="@{/school/teachers}"> <i
 				class="fas fa-fw fa-users"></i> <span> Teachers </span></a></li>
@@ -1008,7 +1008,7 @@
 				class="fas fa-fw fa-users"></i> <span> Students </span></a></li>
 
 		<li
-			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null || activeUser.role.name == 'FIELDOFFICER' && school.name != null || activeUser.role.name == 'OFFICEASSISTANT' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'BURSAR'}"
+			th:if="${activeUser.role.name == 'ADMIN' && school.name != null || activeUser.role.name == 'C.E.O' && school.name != null || activeUser.role.name == 'FIELDOFFICER' && school.name != null || activeUser.role.name == 'OFFICEASSISTANT' && school.name != null || activeUser.role.name == 'PRINCIPAL' || activeUser.role.name == 'D.O.S' || activeUser.role.name == 'TEACHER' || activeUser.role.name == 'BURSAR'}"
 			class="nav-item"><a class="nav-link collapsed" href="#"
 			data-toggle="collapse" data-target="#reportUtilities"
 			aria-expanded="true" aria-controls="reportUtilities"> <i

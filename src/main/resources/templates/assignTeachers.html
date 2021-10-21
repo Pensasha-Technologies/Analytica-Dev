@@ -73,12 +73,13 @@
 					<div th:each="i : ${#numbers.sequence(1, 4)}">
 						<h3>Form [[${i}]]</h3>
 						<br>
+						<div class="row">
 						<div class="card-columns">
 							<div class="card" style="width:500px;" th:each="stream : ${streams}">
 								<div class="card-header" th:text="${stream.stream}">Stream
 									1</div>
 								<div class="card-body">
-									<table class="table">
+									<table class="table table-sm">
 										<thead>
 											<tr>
 												<th scope="col">#</th>
@@ -95,8 +96,7 @@
 													<td th:text="${subject.name}">Mark</td>
 													<td><th:block
 															th:each="teacher : ${f__${i}____${stream.id}__Teachers}">
-															<p th:if="${teacher.subjects.contains(subject)}"
-																th:text="${teacher.firstname + ' ' + teacher.thirdname}">
+															<p th:if="${teacher.subject.equals(subject)}" th:text="${teacher.teacher.firstname + ' ' + teacher.teacher.thirdname}">
 																Hello</p>
 														</th:block></td>
 													<td><select class="custom-select"
@@ -126,6 +126,7 @@
 								</div>
 							</div>
 
+						</div>
 						</div>
 					</div>
 

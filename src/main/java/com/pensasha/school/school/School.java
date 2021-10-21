@@ -62,8 +62,23 @@ public class School {
         this.name = name;
         this.code = code;
     }
+    
+    public School(String name, int code, String address, int contactNumber, String logo, int fax, String email,
+			String location, String gender, String scholar) {
+		super();
+		this.name = name;
+		this.code = code;
+		this.address = address;
+		this.contactNumber = contactNumber;
+		this.logo = logo;
+		this.fax = fax;
+		this.email = email;
+		this.location = location;
+		this.gender = gender;
+		this.scholar = scholar;
+	}
 
-    public School(String name, int code, String address, int contactNumber, String logo, int fax, String email, String location, String gender, String scholar, Collection<SchoolUser> users, Collection<Subject> subjects, Collection<Subject> compSubjectF1F2, Collection<Subject> compSubjectF3F4, Collection<Year> years, Collection<Student> students, Collection<ExamName> examNames) {
+	public School(String name, int code, String address, int contactNumber, String logo, int fax, String email, String location, String gender, String scholar, Collection<SchoolUser> users, Collection<Subject> subjects, Collection<Subject> compSubjectF1F2, Collection<Subject> compSubjectF3F4, Collection<Year> years, Collection<Student> students, Collection<ExamName> examNames) {
         this.name = name;
         this.code = code;
         this.address = address;

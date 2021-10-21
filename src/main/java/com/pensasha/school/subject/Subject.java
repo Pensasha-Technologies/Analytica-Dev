@@ -1,9 +1,11 @@
-package com.pensasha.school.subject;
+	package com.pensasha.school.subject;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -12,7 +14,9 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
+import com.pensasha.school.stream.Stream;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.user.Teacher;
 import com.pensasha.school.year.Year;
 
 @Entity
@@ -22,22 +26,28 @@ public class Subject {
     private String name;
     private int code;
     @JsonIgnore
+    @ManyToMany(mappedBy="subjects", cascade= {CascadeType.MERGE, CascadeType.PERSIST})
+    private Collection<Teacher> teachers;
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name="Subject_school", joinColumns={@JoinColumn(name="initials")}, inverseJoinColumns={@JoinColumn(name="code")})
     private Collection<School> schools;
     @JsonIgnore
     @ManyToMany(mappedBy="subjects", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Student> students;
+    @JsonIgnore
     @ManyToMany(mappedBy="subjects", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Form> forms;
+    @JsonIgnore
     @ManyToMany(mappedBy="subjects", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Year> years;
+    @JsonIgnore
     @ManyToMany(mappedBy="compSubjectF1F2", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<School> compF1F2schools;
     @JsonIgnore
     @ManyToMany(mappedBy="compSubjectF3F4", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<School> compF3F4schools;
-
+    
 	public Subject(String initials, String name, int code) {
 		super();
 		this.initials = initials;
@@ -135,6 +145,14 @@ public class Subject {
     public void setCompF3F4schools(Collection<School> compF3F4schools) {
         this.compF3F4schools = compF3F4schools;
     }
-    
+
+	public Collection<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(Collection<Teacher> teachers) {
+		this.teachers = teachers;
+	}
+
     
 }

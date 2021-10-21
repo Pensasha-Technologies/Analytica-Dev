@@ -295,94 +295,6 @@
 						</div>
 					</div>
 
-					<div style="text-align: center;">
-						<h5>Students Grade Distribution</h5>
-					</div>
-
-					<div class="table-responsive">
-						<table class="table table-sm" style="font-size: 14px;">
-							<thead>
-								<tr>
-									<th>Grade</th>
-									<th:block th:each="subject : ${subjects}">
-										<th scope="col" th:text="${subject.initials}">subject</th>
-									</th:block>
-									<th>Total</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="grade : ${grades}">
-									<td th:if="${grade == 'Am'}">A-</td>
-									<td th:if="${grade == 'Bp'}">B+</td>
-									<td th:if="${grade == 'Bm'}">B-</td>
-									<td th:if="${grade == 'Cp'}">C+</td>
-									<td th:if="${grade == 'Cm'}">C-</td>
-									<td th:if="${grade == 'Dp'}">D+</td>
-									<td th:if="${grade == 'Dm'}">D-</td>
-									<td
-										th:if="${grade != 'Am' && grade != 'Bp' && grade != 'Bm' && grade != 'Cp' && grade != 'Cm' && grade != 'Dp' && grade != 'Dm'}"
-										th:text="${grade}"></td>
-									<th:block th:each="subject : ${subjects}">
-										<th:block
-											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-											<td th:text="${__${grade + subject.initials + 'Count'}__}">
-												-</td>
-										</th:block>
-										<th:block th:if="${subject.initials == 'C.R.E'}">
-											<td th:text="${__${grade + 'CreCount'}__}">-</td>
-										</th:block>
-										<th:block th:if="${subject.initials == 'H.R.E'}">
-											<td th:text="${__${grade + 'HreCount'}__}">-</td>
-										</th:block>
-										<th:block th:if="${subject.initials == 'I.R.E'}">
-											<td th:text="${__${grade + 'IreCount'}__}">-</td>
-										</th:block>
-									</th:block>
-									<th:block>
-										<td th:text="${__${grade + 'Count'}__}">Entry</td>
-									</th:block>
-								</tr>
-								<tr>
-									<td><strong> Total </strong></td>
-									<th:block th:each="subject : ${subjects}">
-										<th:block
-											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-											<td th:text="${__${subject.initials}__Count}">-</td>
-										</th:block>
-										<td th:if="${subject.initials == 'C.R.E'}"
-											th:text="${creCount}"></td>
-										<td th:if="${subject.initials == 'H.R.E'}"
-											th:text="${hreCount}"></td>
-										<td th:if="${subject.initials == 'I.R.E'}"
-											th:text="${ireCount}"></td>
-									</th:block>
-									<td
-										th:text="${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}"></td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-					<div style="text-align: center; padding-top: 20px;">
-						<h5>Subject Grade Distribution Chart</h5>
-					</div>
-
-					<div style="padding: 20px;">
-						<!-- Bar Chart -->
-						<div class="card shadow mb-4">
-							<div class="card-header py-3">
-								<h6 class="m-0 font-weight-bold text-primary">Subject Grade
-									Distribution Chart</h6>
-							</div>
-							<div class="card-body">
-								<div class="chart-bar">
-									<canvas id="myGradeChart"></canvas>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<!-- Mean Points by teachers -->
 					<div style="text-align: center; padding-top: 20px;">
 						<h5>Subject Mean Points</h5>
@@ -513,9 +425,7 @@
 											</th:block>
 											<th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
 											<th:block th:if="${teachers.size() != 0}">
-												<th:block th:each = "teacher : ${teachers}">
-													<td th:if="${teacher.subjects.contains(subject)}" th:text="${teacher.initials}" >-</td>
-												</th:block>
+													<td th:each = "teacher : ${teachers}" th:if="${teacher.subject.equals(subject) && teacher.stream.equals(stream)}" th:text="${teacher.teacher.initials}" >-</td>
 											</th:block>
 										</tr>
 									</th:block>
@@ -528,6 +438,94 @@
 								</th:block>
 							</tbody>
 						</table>
+					</div>
+
+					<div style="text-align: center;">
+						<h5>Students Grade Distribution</h5>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table table-sm" style="font-size: 14px;">
+							<thead>
+								<tr>
+									<th>Grade</th>
+									<th:block th:each="subject : ${subjects}">
+										<th scope="col" th:text="${subject.initials}">subject</th>
+									</th:block>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="grade : ${grades}">
+									<td th:if="${grade == 'Am'}">A-</td>
+									<td th:if="${grade == 'Bp'}">B+</td>
+									<td th:if="${grade == 'Bm'}">B-</td>
+									<td th:if="${grade == 'Cp'}">C+</td>
+									<td th:if="${grade == 'Cm'}">C-</td>
+									<td th:if="${grade == 'Dp'}">D+</td>
+									<td th:if="${grade == 'Dm'}">D-</td>
+									<td
+										th:if="${grade != 'Am' && grade != 'Bp' && grade != 'Bm' && grade != 'Cp' && grade != 'Cm' && grade != 'Dp' && grade != 'Dm'}"
+										th:text="${grade}"></td>
+									<th:block th:each="subject : ${subjects}">
+										<th:block
+											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+											<td th:text="${__${grade + subject.initials + 'Count'}__}">
+												-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'C.R.E'}">
+											<td th:text="${__${grade + 'CreCount'}__}">-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'H.R.E'}">
+											<td th:text="${__${grade + 'HreCount'}__}">-</td>
+										</th:block>
+										<th:block th:if="${subject.initials == 'I.R.E'}">
+											<td th:text="${__${grade + 'IreCount'}__}">-</td>
+										</th:block>
+									</th:block>
+									<th:block>
+										<td th:text="${__${grade + 'Count'}__}">Entry</td>
+									</th:block>
+								</tr>
+								<tr>
+									<td><strong> Total </strong></td>
+									<th:block th:each="subject : ${subjects}">
+										<th:block
+											th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+											<td th:text="${__${subject.initials}__Count}">-</td>
+										</th:block>
+										<td th:if="${subject.initials == 'C.R.E'}"
+											th:text="${creCount}"></td>
+										<td th:if="${subject.initials == 'H.R.E'}"
+											th:text="${hreCount}"></td>
+										<td th:if="${subject.initials == 'I.R.E'}"
+											th:text="${ireCount}"></td>
+									</th:block>
+									<td
+										th:text="${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}"></td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div style="text-align: center; padding-top: 20px;">
+						<h5>Subject Grade Distribution Chart</h5>
+					</div>
+
+					<div style="padding: 20px;">
+						<!-- Bar Chart -->
+						<div class="card shadow mb-4">
+							<div class="card-header py-3">
+								<h6 class="m-0 font-weight-bold text-primary">Subject Grade
+									Distribution Chart</h6>
+							</div>
+							<div class="card-body">
+								<div class="chart-bar">
+									<canvas id="myGradeChart"></canvas>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<div style="text-align: center;">
@@ -760,7 +758,7 @@
 							</tr>
 							</thead>
 							<tbody>
-								<th:block th:each = "bottomStudent, iterStat : ${bottomkStudents}">
+								<th:block th:each = "bottomStudent, iterStat : ${bottomStudents}">
 									<tr>
 										<th scope="row" th:text="${iterStat.index + 1}">1</th>
 										<td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>

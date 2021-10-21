@@ -14,4 +14,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
     public List<Teacher> findBySchoolCodeAndYearsYearAndFormsFormAndStreamsId(int var1, int var2, int var3, int var4);
 
     public List<Teacher> findBySchoolCode(int var1);
+
+	public List<Teacher> findByFormsForm(int form);
 }

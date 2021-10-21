@@ -24,12 +24,16 @@ import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.stream.Stream;
 import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentFormYear;
+import com.pensasha.school.student.StudentFormYearService;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
 import com.pensasha.school.user.Teacher;
+import com.pensasha.school.user.TeacherYearFormStream;
+import com.pensasha.school.user.TeacherYearFormStreamService;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
@@ -47,21 +51,29 @@ public class MarkController {
     private StreamService streamService;
     private SchoolService schoolService;
     private ExamNameService examNameService;
+    private StudentFormYearService studentFormYearService;
+    private TeacherYearFormStreamService teacherYearFormStreamService;
+    
+	public MarkController(StudentService studentService, MarkService markService, FormService formService,
+			YearService yearService, TermService termService, SubjectService subjectService, UserService userService,
+			StreamService streamService, SchoolService schoolService, ExamNameService examNameService,
+			StudentFormYearService studentFormYearService, TeacherYearFormStreamService teacherYearFormStreamService) {
+		super();
+		this.studentService = studentService;
+		this.markService = markService;
+		this.formService = formService;
+		this.yearService = yearService;
+		this.termService = termService;
+		this.subjectService = subjectService;
+		this.userService = userService;
+		this.streamService = streamService;
+		this.schoolService = schoolService;
+		this.examNameService = examNameService;
+		this.studentFormYearService = studentFormYearService;
+		this.teacherYearFormStreamService = teacherYearFormStreamService;
+	}
 
-    public MarkController(StudentService studentService, MarkService markService, FormService formService, YearService yearService, TermService termService, SubjectService subjectService, UserService userService, StreamService streamService, SchoolService schoolService, ExamNameService examNameService) {
-        this.studentService = studentService;
-        this.markService = markService;
-        this.formService = formService;
-        this.yearService = yearService;
-        this.termService = termService;
-        this.subjectService = subjectService;
-        this.userService = userService;
-        this.streamService = streamService;
-        this.schoolService = schoolService;
-        this.examNameService = examNameService;
-    }
-
-    @GetMapping(value={"/schools/{code}/years/{year}/examination"})
+	@GetMapping(value={"/schools/{code}/years/{year}/examination"})
     public String examinations(@PathVariable int code, @PathVariable int year, Model model, Principal principal) {
 
         User activeUser = this.userService.getByUsername(principal.getName()).get();
@@ -69,8 +81,8 @@ public class MarkController {
         Student student = new Student();
         List<ExamName> examNames = new ArrayList<ExamName>();
         
-        for(int m = 0; m < 4; m++) {
-        	for(int n =0; n < 3; n++) {
+        for(int m = 1; m <= 4; m++) {
+        	for(int n =1; n <= 3; n++) {
         		List<ExamName> endNames = new ArrayList<>();
         		List<ExamName> eNs = this.examNameService.getExamBySchoolYearFormTerm(code, year, m, n);
         		
@@ -115,22 +127,30 @@ public class MarkController {
     @GetMapping(value={"/schools/{code}/years/{year}/forms/{form}/terms/{term}/exams"})
     @ResponseBody
     public List<ExamName> examNames(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int term) {
-        List<ExamName> examNames = this.examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
-        ArrayList<ExamName> eNs = new ArrayList<ExamName>();
-        for (int i = 0; i < examNames.size(); ++i) {
-            if (eNs.size() > 0) {
-                for (int k = 0; k < eNs.size(); ++k) {
-                    if (eNs.get(k).getName().equals(examNames.get(i).getName())) {
-                        eNs.remove(examNames.get(i));
-                        continue;
-                    }
-                    eNs.add(examNames.get(i));
+       
+    	List<ExamName> endNames = new ArrayList<>();
+		List<ExamName> eNs = this.examNameService.getExamBySchoolYearFormTerm(code, year, form, term);
+		
+		for (int i = 0; i < eNs.size(); ++i) {
+
+            endNames.add(eNs.get(i));
+            
+            if (endNames.size() > 0) {
+                for (int k = 0; k < endNames.size(); ++k) {
+                   if(k>0)
+                       {
+                           if (endNames.get(k - 1).getName().equals(endNames.get(k).getName())) {
+                               endNames.remove(endNames.get(k));
+                               continue;
+                           }
+                       }
                 }
-                continue;
+			
             }
-            eNs.add(examNames.get(i));
+            
         }
-        return eNs;
+		
+    	return endNames;
     }
 
     @PostMapping(value={"/schools/{code}/examination"})
@@ -175,7 +195,7 @@ public class MarkController {
             this.examNameService.addExam(examName);
         }
 
-        return "redirect:/schools/" + code + "/years/" + year + "/examination";
+       return "redirect:/schools/" + code + "/years/" + year + "/examination";
 
     }
 
@@ -200,7 +220,15 @@ public class MarkController {
         String subject = request.getParameter("subject");
         Subject subjectObj = this.subjectService.getSubject(subject);
 
-        List<Student> students = this.studentService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
+        List<Student> students = new ArrayList<>();
+        List<StudentFormYear> studentsFormYear = this.studentFormYearService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
+        
+        for(StudentFormYear studentFormYear : studentsFormYear) {
+            if(!students.contains(studentFormYear.getStudent())) {
+             	students.add(studentFormYear.getStudent());
+            } 
+        }
+        
         for (int i = 0; i < students.size(); ++i) {
             Mark mark = new Mark();
             if (this.markService.getMarksByStudentOnSubjectByExamId(students.get(i).getAdmNo(), year, form, term, subject, exam) != null) {
@@ -251,7 +279,15 @@ public class MarkController {
         Form formObj = this.formService.getFormByForm(form);
         Stream streamObj = this.streamService.getStream(stream);
         ExamName examName = examNameService.getExam(exam);
-        List<Student> students = this.studentService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
+        List<Student> students = new ArrayList<>();
+        List<StudentFormYear> studentsFormYear = this.studentFormYearService.findAllStudentDoingSubjectInStream(code, year, form, term, subject, stream);
+        
+        for(StudentFormYear studentFormYear : studentsFormYear) {
+            if(!students.contains(studentFormYear.getStudent())) {
+             	students.add(studentFormYear.getStudent());
+            } 
+        }
+        
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
@@ -304,7 +340,16 @@ public class MarkController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
-        List<Student> students = this.studentService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+        
+        List<Student> students = new ArrayList<>();
+        List<StudentFormYear> studentsFormYear = this.studentFormYearService.getAllStudentsInSchoolByYearFormTerm(code, year, form, term);
+        
+        for(StudentFormYear studentFormYear : studentsFormYear) {
+            if(!students.contains(studentFormYear.getStudent())) {
+             	students.add(studentFormYear.getStudent());
+            } 
+        }
+        
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         List<Mark> allMarks = this.markService.getAllStudentsMarksBySchoolYearFormAndTerm(code, form, term, year);
         ArrayList<Student> studentsWithoutMarks = new ArrayList<Student>();
@@ -1262,7 +1307,14 @@ public class MarkController {
 
             meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
             int totalPoints = mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints;
-            float average = (float) totalPoints / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size();
+            
+            float average;
+            if(form == 1 || form == 2) {
+            	 average = (float) totalPoints / 11;
+            }else {
+            	average = (float) totalPoints / 8 ;
+            }
+           
             meritList.setAverage(Float.valueOf(df.format(average)));
             meritList.setPoints(this.getPoints(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
             meritList.setGrade(this.getGrade(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
@@ -1999,12 +2051,13 @@ public class MarkController {
 
         }
 
-  
+        List<TeacherYearFormStream> teachersYearFormStream = new ArrayList<>();
         for(int k = 0; k < streams.size(); k++){
-            List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, streams.get(k).getId(), year);
-            model.addAttribute("teachers", teachers);
+            List<TeacherYearFormStream> teachers = this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code, year, form, streams.get(k).getId());
+            teachersYearFormStream.addAll(teachers);
         }
-
+        model.addAttribute("teachers", teachersYearFormStream);
+        
         for (i2 = 0; i2 < studentsWithoutMarks.size(); ++i2) {
             MeritList meritList = new MeritList();
             meritList.setFirstname(studentsWithoutMarks.get(i2).getFirstname());
@@ -2434,7 +2487,7 @@ public class MarkController {
 
             model.addAttribute("DndGiants", dndGiant);
         }
-        Collections.sort(meritLists, new SortByTotal().reversed());
+        Collections.sort(meritLists, new SortByAverage().reversed());
         for (int j = 0; j < gds.length; ++j) {
             int totalS = 0;
             block148: for (int i4 = 0; i4 < subjects.size(); ++i4) {
@@ -2719,7 +2772,7 @@ public class MarkController {
         
         
 
-        Collections.sort(meritLists, new SortByPoints().reversed());
+        Collections.sort(meritLists, new SortByAverage().reversed());
         
         int count = 0;
 
@@ -2919,10 +2972,10 @@ public class MarkController {
     }
 }
 
-class SortByTotal implements Comparator<MeritList> {
-
+class SortByAverage implements Comparator<MeritList>{
+	
 	public int compare(MeritList a, MeritList b) {
-		return a.getTotal() - b.getTotal();
+		return Float.compare(a.getAverage(), b.getAverage());
 	}
 }
 

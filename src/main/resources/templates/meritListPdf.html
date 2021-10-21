@@ -383,9 +383,7 @@
 								</th:block>
 								<th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
 								<th:block th:if="${teachers.size() != 0}">
-									<th:block th:each = "teacher : ${teachers}">
-										<td th:if="${teacher.subjects.contains(subject)}" th:text="${teacher.initials}" >-</td>
-									</th:block>
+									<td th:each = "teacher : ${teachers}" th:if="${teacher.subject.equals(subject) && teacher.stream.equals(stream)}" th:text="${teacher.teacher.initials}" >-</td>
 								</th:block>
 							</tr>
 						</th:block>
@@ -670,7 +668,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				<th:block th:each = "bottomStudent, iterStat : ${bottomkStudents}">
+				<th:block th:each = "bottomStudent, iterStat : ${bottomStudents}">
 					<tr>
 						<th scope="row" th:text="${iterStat.index + 1}">1</th>
 						<td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>

@@ -6,12 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
+import javax.persistence.Id;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -39,6 +36,8 @@ import com.pensasha.school.finance.FeeStructureService;
 import com.pensasha.school.stream.Stream;
 import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentFormYear;
+import com.pensasha.school.student.StudentFormYearService;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
@@ -64,23 +63,30 @@ public class SchoolController {
     private DisciplineService disciplineService;
     private FeeRecordService feeRecordService;
     private ExamNameService examNameService;
+    private StudentFormYearService studentFormService;
+    
+    public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService,
+			StudentService studentService, MarkService markService, TimetableService timetableService,
+			StreamService streamService, YearService yearService, FeeStructureService feeStructureService,
+			DisciplineService disciplineService, FeeRecordService feeRecordService, ExamNameService examNameService,
+			StudentFormYearService studentFormService) {
+		super();
+		this.schoolService = schoolService;
+		this.userService = userService;
+		this.subjectService = subjectService;
+		this.studentService = studentService;
+		this.markService = markService;
+		this.timetableService = timetableService;
+		this.streamService = streamService;
+		this.yearService = yearService;
+		this.feeStructureService = feeStructureService;
+		this.disciplineService = disciplineService;
+		this.feeRecordService = feeRecordService;
+		this.examNameService = examNameService;
+		this.studentFormService = studentFormService;
+	}
 
-    public SchoolController(SchoolService schoolService, UserService userService, SubjectService subjectService, StudentService studentService, MarkService markService, TimetableService timetableService, StreamService streamService, YearService yearService, FeeStructureService feeStructureService, DisciplineService disciplineService, FeeRecordService feeRecordService, ExamNameService examNameService) {
-        this.schoolService = schoolService;
-        this.userService = userService;
-        this.subjectService = subjectService;
-        this.studentService = studentService;
-        this.markService = markService;
-        this.timetableService = timetableService;
-        this.streamService = streamService;
-        this.yearService = yearService;
-        this.feeStructureService = feeStructureService;
-        this.disciplineService = disciplineService;
-        this.feeRecordService = feeRecordService;
-        this.examNameService = examNameService;
-    }
-
-    @GetMapping(value={"/addSchool"})
+	@GetMapping(value={"/addSchool"})
     public String addSchoolGet(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = new School();
@@ -95,7 +101,9 @@ public class SchoolController {
     public String editSchool(@PathVariable int code, Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
+        List<Stream> streams = this.streamService.getStreamsInSchool(code);
         Student student = new Student();
+        model.addAttribute("streams",streams);
         model.addAttribute("student", (Object)student);
         model.addAttribute("school", (Object)school);
         model.addAttribute("activeUser", (Object)activeUser);
@@ -103,12 +111,54 @@ public class SchoolController {
     }
 
     @PostMapping(value={"/editSchool/{s_code}"})
-    public RedirectView saveSchoolEdits(@Valid School school, BindingResult bindingResult, RedirectAttributes redit, @PathVariable int s_code) {
-        if (bindingResult.hasErrors()) {
+    public RedirectView saveSchoolEdits(@Valid School school, BindingResult bindingResult, @RequestParam(value="file") MultipartFile file, RedirectAttributes redit, @PathVariable int s_code) throws IOException {
+        
+    	School updatedSchool = schoolService.getSchool(school.getCode()).get();
+    	updatedSchool.setName(school.getName());
+    	updatedSchool.setCode(school.getCode());
+        updatedSchool.setAddress(school.getAddress());
+        updatedSchool.setContactNumber(school.getContactNumber());
+        updatedSchool.setFax(school.getFax());
+        updatedSchool.setEmail(school.getEmail());
+        updatedSchool.setLocation(school.getLocation());
+        updatedSchool.setGender(school.getGender());
+        updatedSchool.setScholar(school.getScholar());
+    	
+    	if (bindingResult.hasErrors()) {
             RedirectView redirectView = new RedirectView("/editSchool/" + s_code, true);
             return redirectView;
         }
-        this.schoolService.addSchool(school);
+        
+        String bannerPath = new File("src/main/resources/static/schBanner").getAbsolutePath();
+        String bannerFileName = file.getOriginalFilename();
+       
+        if (!bannerFileName.isEmpty()) {
+            OutputStream out = null;
+            InputStream filecontent = null;
+            try {
+                out = new FileOutputStream(new File(bannerPath + File.separator + bannerFileName));
+                filecontent = file.getInputStream();
+                int read = 0;
+                byte[] bytes = new byte[1024];
+                while ((read = filecontent.read(bytes)) != -1) {
+                    out.write(bytes, 0, read);
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    filecontent.close();
+                }
+            }
+            updatedSchool.setBanner(bannerFileName);
+        }
+        
+        this.schoolService.addSchool(updatedSchool);
         redit.addFlashAttribute("success", (Object)"School successfully updated");
         RedirectView redirectView = new RedirectView("/editSchool/" + s_code, true);
         return redirectView;
@@ -216,7 +266,11 @@ public class SchoolController {
         RedirectView redirectView = new RedirectView();
         User user = this.userService.getByUsername(principal.getName()).get();
         if (this.schoolService.doesSchoolExists(code).booleanValue()) {
-            List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchool(code);
+        	List<StudentFormYear> studentFormYears = this.studentFormService.getAllStudentFormYearInSchool(code);
+            for(StudentFormYear studentFormYear : studentFormYears) {
+            	this.studentFormService.deleteStudentById(studentFormYear.getId());
+            }
+        	List<FeeStructure> feeStructures = this.feeStructureService.allFeeItemInSchool(code);
             for (int j = 0; j < feeStructures.size(); ++j) {
                 this.feeStructureService.deleteFeeStructureItem(feeStructures.get(j).getId());
             }
@@ -246,7 +300,7 @@ public class SchoolController {
             List<Timetable> timetableItems = this.timetableService.getALlTimetableItemsInSchoolByCode(code);
             for (int i = 0; i < timetableItems.size(); ++i) {
                 this.timetableService.deleteTimetableItem(timetableItems.get(i).getId());
-            }
+            }  
             List<Stream> streams = this.streamService.getStreamsInSchool(code);
             for (int i = 0; i < streams.size(); ++i) {
                 this.streamService.deleteStream(streams.get(i).getId());
@@ -274,6 +328,7 @@ public class SchoolController {
 
     @GetMapping(value={"/school/{code}"})
     public String school(@PathVariable int code, Model model, Principal principal) {
+    	
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         if (this.schoolService.doesSchoolExists(code).booleanValue()) {
             School school = this.schoolService.getSchool(code).get();
@@ -309,7 +364,9 @@ public class SchoolController {
             }
             Stream stream = new Stream();
             List<Stream> streams = this.streamService.getStreamsInSchool(code);
+
             List<Year> years = this.yearService.getAllYearsInSchool(code);
+
             ArrayList<Subject> allCompF1F2Subjects = new ArrayList<Subject>();
             Collection<Subject> compF1F2Subjects = school.getCompSubjectF1F2();
             ArrayList<Subject> allCompF3F4Subjects = new ArrayList<Subject>();
@@ -358,6 +415,7 @@ public class SchoolController {
             return "/officeAssistantHome";
         }
         return "/fieldOfficerHome";
+
     }
 }
 

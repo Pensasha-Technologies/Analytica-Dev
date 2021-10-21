@@ -41,4 +41,8 @@ public class StreamService {
     public boolean doesStreamExistInSchool(int id, int code) {
         return this.streamRespository.existsByIdAndSchoolCode(id, code);
     }
+    
+    public List<Stream> getAllStreamOfTeacher(String username){
+    	return this.streamRespository.findByTeachersUsername(username);
+    }
 }

@@ -34,11 +34,11 @@ public class ExamName {
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="examName_year", joinColumns={@JoinColumn(name="examName_id")}, inverseJoinColumns={@JoinColumn(name="year")})
     private Collection<Year> years;
-    
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="examName_form", joinColumns={@JoinColumn(name="examName_id")}, inverseJoinColumns={@JoinColumn(name="form")})
     private Collection<Form> forms;
-  
+    @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="examName_term", joinColumns={@JoinColumn(name="examName_id")}, inverseJoinColumns={@JoinColumn(name="term")})
     private Collection<Term> terms;

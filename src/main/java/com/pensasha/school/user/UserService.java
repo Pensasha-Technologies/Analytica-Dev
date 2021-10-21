@@ -46,6 +46,10 @@ public class UserService {
     public List<Teacher> getTeachersInSchool(int code) {
         return this.teacherRepository.findBySchoolCode(code);
     }
+    
+    public List<Teacher> getAllTeachersByForm(int form){
+    	return this.teacherRepository.findByFormsForm(form);
+    }
 
     public SchoolUser getSchoolUserByUsername(String username) {
         return this.schoolUserRepository.findByUsername(username);

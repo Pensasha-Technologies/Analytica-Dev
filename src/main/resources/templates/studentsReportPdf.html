@@ -44,7 +44,7 @@
 									<div class="col">
 										<h5 style="font-size: 14px;">Name: [[${student.firstname
 											+ ' ' + student.secondname + ' ' + student.thirdname}]] Adm
-											No:[[${student.admNo}]] Year: [[${year}]]</h5>
+											No:[[${#strings.substringAfter(student.admNo,'_')}]] Year: [[${year}]]</h5>
 										<h5 style="font-size: 13px;">Form: [[${form + ' ' +
 											student.stream.stream}]] Class Teacher:</h5>
 									</div>
@@ -92,19 +92,19 @@
 													</th:block>-->
 												</th:block>
 												<th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-													<td th:if="${__${subject.initials}__sum__${student.admNo}__ < 0}"> - </td>
+													<td th:if="${__${subject.initials}__sum__${student.admNo}__ <= 0}"> - </td>
 													<td th:unless="${__${subject.initials}__sum__${student.admNo}__ < 0}" th:text="${__${subject.initials}__sum__${student.admNo}__}"> - </td>
 												</th:block>
 												<th:block th:if="${subject.initials == 'C.R.E'}">
-													<td th:unless="${Cresum__${student.admNo}__ < 0}" th:text="${Cresum__${student.admNo}__}">100</td>
+													<td th:unless="${Cresum__${student.admNo}__ <= 0}" th:text="${Cresum__${student.admNo}__}">100</td>
 													<td th:if="${Cresum__${student.admNo}__ < 0}"> - </td>
 												</th:block>
-												<th:block th:if="${subject.initials == 'H.R.E'}">>
-													<td th:unless="${Hresum__${student.admNo}__ < 0}" th:text="${Hresum__${student.admNo}__}">100</td>
+												<th:block th:if="${subject.initials == 'H.R.E'}">
+													<td th:unless="${Hresum__${student.admNo}__ <= 0}" th:text="${Hresum__${student.admNo}__}">100</td>
 													<td th:if="${Hresum__${student.admNo}__ < 0}"> - </td>
 												</th:block>
-												<th:block th:if="${subject.initials == 'I.R.E'}">>
-													<td th:unless="${Iresum__${student.admNo}__ < 0}" th:text="${Iresum__${student.admNo}__}">100</td>
+												<th:block th:if="${subject.initials == 'I.R.E'}">
+													<td th:unless="${Iresum__${student.admNo}__ <= 0}" th:text="${Iresum__${student.admNo}__}">100</td>
 													<td th:if="${Iresum__${student.admNo}__ < 0}"> - </td>
 												</th:block>
 
@@ -311,8 +311,8 @@
 
 												<th:block
 														th:each="teacher : ${teachers__${student.admNo}__}">
-													<td th:text="${teacher.initials}"
-														th:if="${teacher.subjects.contains(subject)}">-</td>
+													<td th:text="${teacher.teacher.initials}"
+														th:if="${teacher.subject.equals(subject)}">-</td>
 												</th:block>
 										</tr>
 									</tbody>

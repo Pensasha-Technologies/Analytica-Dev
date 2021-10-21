@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentFormYear;
+import com.pensasha.school.student.StudentFormYearService;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
@@ -32,17 +34,22 @@ public class StreamController {
     private UserService userService;
     private StudentService studentService;
     private YearService yearService;
+    private StudentFormYearService studentFormYearService;
+    
+    public StreamController(SchoolService schoolService, StreamService streamService, SubjectService subjectService,
+			UserService userService, StudentService studentService, YearService yearService,
+			StudentFormYearService studentFormYearService) {
+		super();
+		this.schoolService = schoolService;
+		this.streamService = streamService;
+		this.subjectService = subjectService;
+		this.userService = userService;
+		this.studentService = studentService;
+		this.yearService = yearService;
+		this.studentFormYearService = studentFormYearService;
+	}
 
-    public StreamController(SchoolService schoolService, StreamService streamService, SubjectService subjectService, UserService userService, StudentService studentService, YearService yearService) {
-        this.schoolService = schoolService;
-        this.streamService = streamService;
-        this.subjectService = subjectService;
-        this.userService = userService;
-        this.studentService = studentService;
-        this.yearService = yearService;
-    }
-
-    @PostMapping(value={"/school/{code}/streams"})
+	@PostMapping(value={"/school/{code}/streams"})
     public String addStreamSchool(Model model, @PathVariable int code, @ModelAttribute Stream stream, Principal principal) {
         if (this.schoolService.doesSchoolExists(code).booleanValue()) {
             School school = this.schoolService.getSchool(code).get();
@@ -136,7 +143,11 @@ public class StreamController {
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
-        List<Student> students = this.studentService.getAllStudentsInSchoolByYearFormandStream(code, year, form, stream);
+        List<Student> students = new ArrayList<>();
+        List<StudentFormYear> studentsFormYear = this.studentFormYearService.getAllStudentFormYearbyFormYearandStream(code, year, form, stream);
+        for(StudentFormYear studentFormYear : studentsFormYear) {
+        	students.add(studentFormYear.getStudent());
+        }
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         model.addAttribute("subjects", subjects);
         model.addAttribute("form", (Object)form);

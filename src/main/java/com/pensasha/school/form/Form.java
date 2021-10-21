@@ -11,10 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.student.Student;
+import com.pensasha.school.student.StudentFormYear;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.user.Teacher;
@@ -24,23 +26,29 @@ import com.pensasha.school.year.Year;
 public class Form {
     @Id
     private int form;
+    
     @JsonIgnore
     @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Year> years;
+   
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="Form_Subject", joinColumns={@JoinColumn(name="form")}, inverseJoinColumns={@JoinColumn(name="subject")})
     private Collection<Subject> subjects;
+   
     @JsonIgnore
     @ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name="Form_Term", joinColumns={@JoinColumn(name="form")}, inverseJoinColumns={@JoinColumn(name="term")})
     private Collection<Term> terms;
+    
     @JsonIgnore
     @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<Student> students;
+    
     @JsonIgnore
     @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private Collection<ExamName> examNames;
+    
     @JsonIgnore
     @ManyToMany(mappedBy="forms", cascade={CascadeType.MERGE, CascadeType.PERSIST})
     private List<Teacher> teachers;

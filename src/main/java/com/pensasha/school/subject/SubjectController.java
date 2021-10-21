@@ -4,7 +4,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.pensasha.school.exam.MeritList;
@@ -99,9 +102,17 @@ public class SubjectController {
             if (request.getParameter(allSubjects.get(i).getInitials()) == null) continue;
             subjects.add(this.subjectService.getSubject(allSubjects.get(i).getInitials()));
         }
-        teacher.setSubjects(subjects);
+       
+        Set<Subject> orderedSubjects = new HashSet<>();
+        orderedSubjects.addAll(subjects);
+        List<Subject> subjectFinal = new ArrayList<>();
+        subjectFinal.addAll(orderedSubjects);
+        teacher.setSubjects(subjectFinal);
+       
         this.userService.addUser(teacher);
+        
         return "redirect:/profile/{username}";
+    
     }
 
     @GetMapping(value={"/teachers/{username}/subjects/{initials}"})
