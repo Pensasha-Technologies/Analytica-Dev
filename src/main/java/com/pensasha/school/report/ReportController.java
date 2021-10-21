@@ -5,11 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -3087,11 +3083,13 @@ public class ReportController {
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        Set<Student> orderedStudents = new HashSet<>();
         List<Student> students = new ArrayList<>();
         List<StudentFormYear> studentsFormYear = this.studentFormYearService.getAllStudentFormYearbyFormYearandStream(code, year, form, stream);
         for(StudentFormYear studentFormYear : studentsFormYear) {
-        	students.add(studentFormYear.getStudent());
+            orderedStudents.add(studentFormYear.getStudent());
         }
+        students.addAll(orderedStudents);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("subjects", subjects);

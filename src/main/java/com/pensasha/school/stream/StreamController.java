@@ -2,7 +2,9 @@ package com.pensasha.school.stream;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -143,11 +145,13 @@ public class StreamController {
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        Set<Student> orderedStudents = new HashSet<>();
         List<Student> students = new ArrayList<>();
         List<StudentFormYear> studentsFormYear = this.studentFormYearService.getAllStudentFormYearbyFormYearandStream(code, year, form, stream);
         for(StudentFormYear studentFormYear : studentsFormYear) {
-        	students.add(studentFormYear.getStudent());
+        	orderedStudents.add(studentFormYear.getStudent());
         }
+        students.addAll(orderedStudents);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         model.addAttribute("subjects", subjects);
         model.addAttribute("form", (Object)form);
