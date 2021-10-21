@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating merit list and class list">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating merit list and class list" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -343,7 +341,21 @@
       <option name="project" value="LOCAL" />
       <updated>1634823995386</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="updating merit list and class list">
+      <created>1634824538142</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1634824538142</updated>
+    </task>
+    <task id="LOCAL-00039" summary="updating merit list and class list">
+      <created>1634824603031</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1634824603031</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -382,6 +394,7 @@
     <MESSAGE value="Updating student capture" />
     <MESSAGE value="sort by points classes" />
     <MESSAGE value="updating merit list" />
+    <MESSAGE value="update before finance" />
     <MESSAGE value="updating merit list and class list" />
     <option name="LAST_COMMIT_MESSAGE" value="updating merit list and class list" />
   </component>
