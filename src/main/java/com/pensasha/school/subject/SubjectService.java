@@ -1,12 +1,12 @@
 package com.pensasha.school.subject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
 @Service
@@ -62,7 +62,7 @@ public class SubjectService {
     }
 
     public Subject getSubject(String initials) {
-        return (Subject)this.subjectRepository.findById(initials).get();
+        return this.subjectRepository.findById(initials).get();
     }
 
     public void deleteSubjectInSchool(String initials) {

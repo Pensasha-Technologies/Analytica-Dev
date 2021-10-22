@@ -1,17 +1,12 @@
 package com.pensasha.school.finance;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.year.Year;
+
+import javax.persistence.*;
 
 @Entity
 public class FeeStructure {

@@ -1,20 +1,5 @@
 package com.pensasha.school.timetable;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.pensasha.school.exam.MeritList;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
@@ -31,17 +16,30 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
 @Controller
 public class TimetableController {
-    private SchoolService schoolService;
-    private YearService yearService;
-    private FormService formService;
-    private TermService termService;
-    private StreamService streamService;
-    private UserService userService;
-    private SubjectService subjectService;
-    private TimetableService timetableService;
+    private final SchoolService schoolService;
+    private final YearService yearService;
+    private final FormService formService;
+    private final TermService termService;
+    private final StreamService streamService;
+    private final UserService userService;
+    private final SubjectService subjectService;
+    private final TimetableService timetableService;
 
     public TimetableController(SchoolService schoolService, YearService yearService, FormService formService, TermService termService, StreamService streamService, UserService userService, SubjectService subjectService, TimetableService timetableService) {
         this.schoolService = schoolService;
@@ -107,16 +105,16 @@ public class TimetableController {
         }
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
-        model.addAttribute("stream", (Object)streamObj);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
+        model.addAttribute("stream", streamObj);
         model.addAttribute("years", years);
         model.addAttribute("streams", streams);
         model.addAttribute("timetables", finalTimetables);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "timetable";
     }
 
@@ -146,16 +144,16 @@ public class TimetableController {
         }
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
-        model.addAttribute("stream", (Object)streamObj);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
+        model.addAttribute("stream", streamObj);
         model.addAttribute("years", years);
         model.addAttribute("streams", streams);
         model.addAttribute("timetables", finalTimetables);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "timetable";
     }
 
@@ -164,9 +162,9 @@ public class TimetableController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
+        model.addAttribute("activeUser", activeUser);
         return "generateTimetable";
     }
 }

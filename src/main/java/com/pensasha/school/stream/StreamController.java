@@ -1,19 +1,5 @@
 package com.pensasha.school.stream;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolService;
 import com.pensasha.school.student.Student;
@@ -27,16 +13,25 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class StreamController {
-    private SchoolService schoolService;
-    private StreamService streamService;
-    private SubjectService subjectService;
-    private UserService userService;
-    private StudentService studentService;
-    private YearService yearService;
-    private StudentFormYearService studentFormYearService;
+    private final SchoolService schoolService;
+    private final StreamService streamService;
+    private final SubjectService subjectService;
+    private final UserService userService;
+    private final StudentService studentService;
+    private final YearService yearService;
+    private final StudentFormYearService studentFormYearService;
     
     public StreamController(SchoolService schoolService, StreamService streamService, SubjectService subjectService,
 			UserService userService, StudentService studentService, YearService yearService,
@@ -95,9 +90,9 @@ public class StreamController {
     public String deleteStream(Model model, @PathVariable int code, @PathVariable int id, @ModelAttribute Stream stream, Principal principal) {
         if (this.streamService.doesStreamExistInSchool(id, code)) {
             this.streamService.deleteStream(id);
-            model.addAttribute("success", (Object)"Stream successfully deleted");
+            model.addAttribute("success", "Stream successfully deleted");
         } else {
-            model.addAttribute("fail", (Object)"Stream does not exist");
+            model.addAttribute("fail", "Stream does not exist");
         }
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         ArrayList<Subject> group1 = new ArrayList<Subject>();
@@ -154,17 +149,17 @@ public class StreamController {
         students.addAll(orderedStudents);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("stream", (Object)stream);
-        model.addAttribute("year", (Object)year);
+        model.addAttribute("form", form);
+        model.addAttribute("stream", stream);
+        model.addAttribute("year", year);
         model.addAttribute("students", students);
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "classList";
     }
 }

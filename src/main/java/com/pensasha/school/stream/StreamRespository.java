@@ -1,15 +1,15 @@
 package com.pensasha.school.stream;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface StreamRespository extends JpaRepository<Stream, Integer> {
-    public List<Stream> findBySchoolCode(int var1);
+    List<Stream> findBySchoolCode(int var1);
 
-    public boolean existsByIdAndSchoolCode(int var1, int var2);
+    boolean existsByIdAndSchoolCode(int var1, int var2);
 
-    public Stream findByStream(String var1);
+    Stream findByStream(String var1);
 
-	public List<Stream> findByTeachersUsername(String username);
+	List<Stream> findByTeachersUsername(String username);
 }

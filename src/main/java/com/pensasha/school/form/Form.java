@@ -1,26 +1,17 @@
 package com.pensasha.school.form;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.exam.ExamName;
 import com.pensasha.school.student.Student;
-import com.pensasha.school.student.StudentFormYear;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.user.Teacher;
 import com.pensasha.school.year.Year;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Form {

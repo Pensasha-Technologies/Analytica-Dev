@@ -1,29 +1,5 @@
 package com.pensasha.school.interfaceController;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
@@ -43,29 +19,37 @@ import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
-import com.pensasha.school.user.SchoolUser;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.user.TeacherYearFormStream;
-import com.pensasha.school.user.TeacherYearFormStreamService;
-import com.pensasha.school.user.User;
-import com.pensasha.school.user.UserService;
+import com.pensasha.school.user.*;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 public class MainController {
-    private SchoolService schoolService;
-    private StudentService studentService;
-    private TermService termService;
-    private SubjectService subjectService;
-    private FormService formService;
-    private YearService yearService;
-    private MarkService markService;
-    private UserService userService;
-    private RoleService roleService;
-    private StreamService streamService;
-    private DisciplineService disciplineService;
-    private TeacherYearFormStreamService teacherYearFormStreamService;
+    private final SchoolService schoolService;
+    private final StudentService studentService;
+    private final TermService termService;
+    private final SubjectService subjectService;
+    private final FormService formService;
+    private final YearService yearService;
+    private final MarkService markService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final StreamService streamService;
+    private final DisciplineService disciplineService;
+    private final TeacherYearFormStreamService teacherYearFormStreamService;
 
     public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
 			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
@@ -89,21 +73,21 @@ public class MainController {
 	@GetMapping(value={"index"})
     public String index(Principal principal, Model model) {
         User user = new User();
-        model.addAttribute("activeUser", (Object)user);
+        model.addAttribute("activeUser", user);
         return "index";
     }
 
     @GetMapping(value={"login"})
     public String login(Principal principal, Model model) {
         User user = new User();
-        model.addAttribute("activeUser", (Object)user);
+        model.addAttribute("activeUser", user);
         return "login";
     }
 
     @GetMapping(value={"changePassword"})
     public String changePassword(Model model) {
         User user = new User();
-        model.addAttribute("activeUser", (Object)user);
+        model.addAttribute("activeUser", user);
         return "changePassword";
     }
 
@@ -112,13 +96,13 @@ public class MainController {
         User user = this.userService.getByUsername(username).get();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!newPassword.contentEquals(confirmNewPassword)) {
-            redit.addFlashAttribute("fail", (Object)"New password and Confirm Password do not match");
-        } else if (!encoder.matches((CharSequence)currentPassword, user.getPassword())) {
-            redit.addFlashAttribute("fail", (Object)"Current Password is incorrect");
+            redit.addFlashAttribute("fail", "New password and Confirm Password do not match");
+        } else if (!encoder.matches(currentPassword, user.getPassword())) {
+            redit.addFlashAttribute("fail", "Current Password is incorrect");
         } else {
-            user.setPassword(encoder.encode((CharSequence)newPassword));
+            user.setPassword(encoder.encode(newPassword));
             this.userService.addUser(user);
-            redit.addFlashAttribute("success", (Object)"Password changed successfully");
+            redit.addFlashAttribute("success", "Password changed successfully");
         }
         return "redirect:/profile/" + username;
     }
@@ -126,7 +110,7 @@ public class MainController {
     @PostMapping(value={"/changePassword"})
     public String postChangePassword(Model model, @RequestParam int phoneNumber, @RequestParam String username) {
         User user = new User();
-        model.addAttribute("activeUser", (Object)user);
+        model.addAttribute("activeUser", user);
         if (this.userService.userExists(username).booleanValue()) {
             User testUser = this.userService.getByUsername(username).get();
             if (testUser.getPhoneNumber() == phoneNumber) {
@@ -138,7 +122,7 @@ public class MainController {
                 Random random = new Random();
                 int otp = random.nextInt(9999);
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-                testUser.setPassword(encoder.encode((CharSequence)Integer.toString(++otp)));
+                testUser.setPassword(encoder.encode(Integer.toString(++otp)));
                 this.userService.addUser(testUser);
                 try {
                     String res = gateway.sendSingleSms("Your Username is: " + testUser.getUsername() + " password is: " + otp + "Thanks for Registering with Analytica Soft.", Integer.toString(testUser.getPhoneNumber()));
@@ -147,13 +131,13 @@ public class MainController {
                 catch (IOException e) {
                     e.printStackTrace();
                 }
-                model.addAttribute("success", (Object)"Password send to phone Number");
+                model.addAttribute("success", "Password send to phone Number");
                 return "login";
             }
-            model.addAttribute("fail", (Object)"Phone number does not match");
+            model.addAttribute("fail", "Phone number does not match");
             return "changePassword";
         }
-        model.addAttribute("fail", (Object)"A user with this username does not exist");
+        model.addAttribute("fail", "A user with this username does not exist");
         return "changePassword";
     }
 
@@ -163,10 +147,10 @@ public class MainController {
         List<School> schools = this.schoolService.getAllSchools();
         School school = new School();
         Student student = new Student();
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
         model.addAttribute("schools", schools);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         return "adminHome";
     }
 
@@ -176,10 +160,10 @@ public class MainController {
         Student student = this.studentService.getStudentInSchool(admNo, code);
         List<Subject> subjects = this.subjectService.getSubjectDoneByStudent(admNo);
         User activeUser = this.userService.getByUsername(principal.getName()).get();
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("student", (Object)school);
+        model.addAttribute("student", student);
+        model.addAttribute("student", school);
         return "progressReport";
     }
 
@@ -192,13 +176,13 @@ public class MainController {
         List<Form> forms = this.formService.studentForms(admNo);
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<Mark> marks = this.markService.allMarks(admNo);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("marks", marks);
         model.addAttribute("forms", forms);
         model.addAttribute("years", years);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "yearlyReport";
     }
 
@@ -208,10 +192,10 @@ public class MainController {
         List<School> schools = this.schoolService.getAllSchools();
         School school = new School();
         Student student = new Student();
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
         model.addAttribute("schools", schools);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         return "ceoHome";
     }
 
@@ -221,10 +205,10 @@ public class MainController {
         List<School> schools = this.schoolService.getAllSchools();
         School school = new School();
         Student student = new Student();
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
         model.addAttribute("schools", schools);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         return "officeAssistantHome";
     }
 
@@ -234,10 +218,10 @@ public class MainController {
         List<School> schools = this.schoolService.getAllSchools();
         School school = new School();
         Student student = new Student();
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
         model.addAttribute("schools", schools);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         return "fieldOfficerHome";
     }
 
@@ -245,13 +229,13 @@ public class MainController {
     public String deleteSchoolUser(@PathVariable String username, RedirectAttributes redit, Principal principal) {
         if (this.userService.userExists(username).booleanValue()) {
             if (username.contentEquals(principal.getName())) {
-                redit.addFlashAttribute("fail", (Object)"You cannot delete yourself");
+                redit.addFlashAttribute("fail", "You cannot delete yourself");
             } else {
                 this.userService.deleteUser(username);
-                redit.addFlashAttribute("success", (Object)(username + " successfully deleted"));
+                redit.addFlashAttribute("success", username + " successfully deleted");
             }
         } else {
-            redit.addFlashAttribute("fail", (Object)("A user with username " + username + " does not exist"));
+            redit.addFlashAttribute("fail", "A user with username " + username + " does not exist");
         }
         return "redirect:/principalHome";
     }
@@ -270,10 +254,10 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "principalHome";
     }
 
@@ -291,10 +275,10 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "smsHome";
     }
 
@@ -312,7 +296,7 @@ public class MainController {
         catch (IOException e) {
             e.printStackTrace();
         }
-        redit.addFlashAttribute("success", (Object)"Message sent successfully");
+        redit.addFlashAttribute("success", "Message sent successfully");
         return "redirect:/principalHome";
     }
 
@@ -329,9 +313,9 @@ public class MainController {
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
         model.addAttribute("students", students);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "students";
     }
 
@@ -376,12 +360,12 @@ public class MainController {
         model.addAttribute("group3", group3);
         model.addAttribute("group4", group4);
         model.addAttribute("group5", group5);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("forms", forms);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         model.addAttribute("subjects", subjects);
         model.addAttribute("schoolSubjects", schoolSubjects);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("student", student);
         return "student";
     }
 
@@ -391,7 +375,7 @@ public class MainController {
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         student.setSchool(school);
         if (this.studentService.ifStudentExistsInSchool(school.getCode() + "_" + student.getAdmNo(), school.getCode()).booleanValue()) {
-            redit.addFlashAttribute("fail", (Object)("Student with adm No:" + student.getAdmNo() + " already exists"));
+            redit.addFlashAttribute("fail", "Student with adm No:" + student.getAdmNo() + " already exists");
         } else {
             ArrayList<School> schools = new ArrayList<School>();
             schools.add(school);
@@ -442,7 +426,7 @@ public class MainController {
             student.setForms(forms);
             student.setAdmNo(school.getCode() + "_" + student.getAdmNo());
             this.studentService.addStudent(student);
-            redit.addFlashAttribute("success", (Object)("Student with adm No: " + student.getAdmNo() + " added successfully"));
+            redit.addFlashAttribute("success", "Student with adm No: " + student.getAdmNo() + " added successfully");
         }
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
         ArrayList<Subject> group1 = new ArrayList<Subject>();
@@ -481,11 +465,11 @@ public class MainController {
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<User> teachers = this.userService.findUserByRole("TEACHER");
         model.addAttribute("streams", streams);
-        model.addAttribute("user", (Object)user);
+        model.addAttribute("user", user);
         model.addAttribute("teachers", teachers);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "teachers";
     }
 
@@ -498,11 +482,11 @@ public class MainController {
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         List<Teacher> teachers = this.userService.getTeachersInSchool(code);
         model.addAttribute("streams", streams);
-        model.addAttribute("user", (Object)user);
+        model.addAttribute("user", user);
         model.addAttribute("teachers", teachers);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "teachers";
     }
 
@@ -514,17 +498,17 @@ public class MainController {
         teacher.setTscNumber(request.getParameter("tscNumber"));
         teacher.setInitials(user.getFirstname().charAt(0) + "." + user.getSecondname().charAt(0) + "." + user.getThirdname().charAt(0));
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode((CharSequence)user.getUsername()));
+        user.setPassword(encoder.encode(user.getUsername()));
         Role roleObj = new Role();
         teacher.setSchool(new School("", code));
         roleObj.setName("TEACHER");
         teacher.setRole(roleObj);
         this.roleService.addRole(roleObj);
         if (this.userService.userExists(user.getUsername()).booleanValue()) {
-            redit.addFlashAttribute("fail", (Object)("A user with the username: " + user.getUsername() + " already exists"));
+            redit.addFlashAttribute("fail", "A user with the username: " + user.getUsername() + " already exists");
         } else {
             this.userService.addUser(teacher);
-            redit.addFlashAttribute("success", (Object)"Teacher saved successfully");
+            redit.addFlashAttribute("success", "Teacher saved successfully");
         }
         return "redirect:/schools/" + code + "/teachers";
     }
@@ -533,13 +517,13 @@ public class MainController {
     public String deleteTeacher(@PathVariable String username, RedirectAttributes redit, Principal principal) {
         if (this.userService.userExists(username).booleanValue()) {
             if (username.contentEquals(principal.getName())) {
-                redit.addFlashAttribute("fail", (Object)"You cannot delete yourself");
+                redit.addFlashAttribute("fail", "You cannot delete yourself");
             } else {
                 this.userService.deleteUser(username);
-                redit.addFlashAttribute("success", (Object)(username + " successfully deleted"));
+                redit.addFlashAttribute("success", username + " successfully deleted");
             }
         } else {
-            redit.addFlashAttribute("fail", (Object)("A teacher with username " + username + " does not exist"));
+            redit.addFlashAttribute("fail", "A teacher with username " + username + " does not exist");
         }
         return "redirect:/school/teachers";
     }
@@ -552,10 +536,10 @@ public class MainController {
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "deputyPrincipal";
     }
 
@@ -567,10 +551,10 @@ public class MainController {
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("streams", this.streamService.getStreamsInSchool(school.getCode()));
         return "dosHome";
     }
@@ -586,10 +570,10 @@ public class MainController {
         List<Student> students = this.studentService.getAllStudentsInSchool(activeUser.getSchool().getCode());
         model.addAttribute("students", students);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("streams", streams);
         return "bursarHome";
     }
@@ -607,10 +591,10 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("students", students);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
 
         return "accountsClerkHome";
     }
@@ -626,10 +610,10 @@ public class MainController {
         model.addAttribute("years", years);
         model.addAttribute("streams", streams);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("student", (Object)new Student());
+        model.addAttribute("student", new Student());
         model.addAttribute("students", students);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("school", school);
+        model.addAttribute("activeUser", activeUser);
         return "teacherHome";
     }
 
@@ -637,16 +621,16 @@ public class MainController {
     public String teacherProfile(Principal principal, Model model) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = ((SchoolUser)activeUser).getSchool();
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         if (this.userService.userExists(activeUser.getUsername()).booleanValue()) {
             Student student = new Student();
             List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
             List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
             model.addAttribute("years", years);
             model.addAttribute("streams", streams);
-            model.addAttribute("school", (Object)school);
-            model.addAttribute("student", (Object)student);
-            model.addAttribute("user", (Object)activeUser);
+            model.addAttribute("school", school);
+            model.addAttribute("student", student);
+            model.addAttribute("user", activeUser);
             return "userHome";
         }
         List<Student> students = this.studentService.getAllStudentsInSchool(school.getCode());
@@ -656,10 +640,10 @@ public class MainController {
         model.addAttribute("years", years);
         model.addAttribute("streams", streams);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("fail", (Object)("A teacher with username " + activeUser.getUsername() + " does not exist"));
+        model.addAttribute("fail", "A teacher with username " + activeUser.getUsername() + " does not exist");
         model.addAttribute("students", students);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("student", (Object)new Student());
+        model.addAttribute("school", school);
+        model.addAttribute("student", new Student());
         return "teacherHome";
     }
 
@@ -679,10 +663,10 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
         model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "discipline";
     }
 
@@ -696,14 +680,14 @@ public class MainController {
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
-        model.addAttribute("discipline", (Object)discipline);
+        model.addAttribute("discipline", discipline);
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
         model.addAttribute("years", years);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         return "viewDiscipline";
     }
 
@@ -711,7 +695,7 @@ public class MainController {
     public RedirectView deleteDisciplineReport(@PathVariable int code, @PathVariable int id, RedirectAttributes redit) {
         this.disciplineService.deleteDisciplineReport(id);
         RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
-        redit.addFlashAttribute("success", (Object)"Discipline Report successfully deleted");
+        redit.addFlashAttribute("success", "Discipline Report successfully deleted");
         return redirectView;
     }
 
@@ -721,9 +705,9 @@ public class MainController {
             Student student = this.studentService.getStudentInSchool(code + "_" + admNo, code);
             Discipline discipline = new Discipline(depature, arrival, reason, type, student);
             this.disciplineService.saveDisciplineReport(discipline);
-            redit.addFlashAttribute("success", (Object)"Discipline Report successfully added");
+            redit.addFlashAttribute("success", "Discipline Report successfully added");
         } else {
-            redit.addFlashAttribute("fail", (Object)("Student with Admission Number: " + admNo + " does not exist"));
+            redit.addFlashAttribute("fail", "Student with Admission Number: " + admNo + " does not exist");
         }
         RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
         return redirectView;
@@ -767,12 +751,12 @@ public class MainController {
                 model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code,  year, i, streams.get(j).getId()));
             }
         }
-        model.addAttribute("activeUser", (Object)user);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("activeUser", user);
+        model.addAttribute("school", school);
+        model.addAttribute("student", student);
         model.addAttribute("streams", streams);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("year", (Object)year);
+        model.addAttribute("year", year);
         
         return "assignTeachers";
        

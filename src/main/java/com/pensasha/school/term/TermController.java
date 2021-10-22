@@ -1,24 +1,6 @@
 package com.pensasha.school.term;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.ExamNameService;
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.exam.MeritList;
+import com.pensasha.school.exam.*;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -30,27 +12,35 @@ import com.pensasha.school.student.StudentFormYearService;
 import com.pensasha.school.student.StudentService;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.user.TeacherYearFormStream;
-import com.pensasha.school.user.TeacherYearFormStreamService;
-import com.pensasha.school.user.User;
-import com.pensasha.school.user.UserService;
+import com.pensasha.school.user.*;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class TermController {
-    private SubjectService subjectService;
-    private SchoolService schoolService;
-    private StudentService studentService;
-    private StreamService streamService;
-    private YearService yearService;
-    private FormService formService;
-    private UserService userService;
-    private MarkService markService;
-    private ExamNameService examNameService;
-    private StudentFormYearService studentFormYearService;
-    private TeacherYearFormStreamService teacherYearFormStreamService;
+    private final SubjectService subjectService;
+    private final SchoolService schoolService;
+    private final StudentService studentService;
+    private final StreamService streamService;
+    private final YearService yearService;
+    private final FormService formService;
+    private final UserService userService;
+    private final MarkService markService;
+    private final ExamNameService examNameService;
+    private final StudentFormYearService studentFormYearService;
+    private final TeacherYearFormStreamService teacherYearFormStreamService;
     
 	public TermController(SubjectService subjectService, SchoolService schoolService, StudentService studentService,
 			StreamService streamService, YearService yearService, FormService formService, UserService userService,
@@ -143,44 +133,44 @@ public class TermController {
                 }
                 if (totalOutOf > 0) {
                     if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
-                        model.addAttribute(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        model.addAttribute(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                     }
                     if (subjects.get(j).getInitials().equals("C.R.E")) {
-                        model.addAttribute("Cresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        model.addAttribute("Cresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                         continue;
                     }
                     if (subjects.get(j).getInitials().equals("H.R.E")) {
-                        model.addAttribute("Hresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        model.addAttribute("Hresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                         continue;
                     }
                     if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
-                    model.addAttribute("Iresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                    model.addAttribute("Iresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                     overalTotal += sum * 100 / totalOutOf;
                     continue;
                 }
                 if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
-                    model.addAttribute(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)sum);
+                    model.addAttribute(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                 }
                 if (subjects.get(j).getInitials().equals("C.R.E")) {
-                    model.addAttribute("Cresum" + students.get(i).getAdmNo(), (Object)sum);
+                    model.addAttribute("Cresum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                     continue;
                 }
                 if (subjects.get(j).getInitials().equals("H.R.E")) {
-                    model.addAttribute("Hresum" + students.get(i).getAdmNo(), (Object)sum);
+                    model.addAttribute("Hresum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                     continue;
                 }
                 if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
-                model.addAttribute("Iresum" + students.get(i).getAdmNo(), (Object)sum);
+                model.addAttribute("Iresum" + students.get(i).getAdmNo(), sum);
                 overalTotal += sum;
             }
             if(overalTotal >= 0){
-                model.addAttribute("total" + students.get(i).getAdmNo(), (Object)overalTotal);
+                model.addAttribute("total" + students.get(i).getAdmNo(), overalTotal);
             }else{
                 model.addAttribute("total" + students.get(i).getAdmNo(), 0);
             }
@@ -261,17 +251,17 @@ public class TermController {
         List<Mark> marks = this.markService.getTermlySubjectMark(admNo, form, term);
         List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, student.getStream().getId(), year);
         model.addAttribute("streams", this.streamService.getStreamsInSchool(code));
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("marks", marks);
         model.addAttribute("forms", forms);
         model.addAttribute("years", years);
         model.addAttribute("subjects", subjects);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("examNames", examNames);
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
         model.addAttribute("teachers", teachers);
         return "termlyReport";
     }

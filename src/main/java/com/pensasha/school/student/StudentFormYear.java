@@ -1,15 +1,10 @@
 package com.pensasha.school.student;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import com.pensasha.school.year.Year;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
+import com.pensasha.school.year.Year;
+
+import javax.persistence.*;
 
 @Entity
 public class StudentFormYear {

@@ -1,28 +1,5 @@
 package com.pensasha.school.report;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.Principal;
-import java.text.DecimalFormat;
-import java.util.*;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.IContext;
-import org.thymeleaf.context.WebContext;
-
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.geom.PageSize;
@@ -32,17 +9,8 @@ import com.itextpdf.styledxmlparser.css.media.MediaDeviceDescription;
 import com.itextpdf.styledxmlparser.css.media.MediaType;
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
-import com.pensasha.school.exam.ExamName;
-import com.pensasha.school.exam.ExamNameService;
-import com.pensasha.school.exam.GradeCount;
-import com.pensasha.school.exam.Mark;
-import com.pensasha.school.exam.MarkService;
-import com.pensasha.school.exam.MeritList;
-import com.pensasha.school.finance.FeeBalance;
-import com.pensasha.school.finance.FeeRecord;
-import com.pensasha.school.finance.FeeRecordService;
-import com.pensasha.school.finance.FeeStructure;
-import com.pensasha.school.finance.FeeStructureService;
+import com.pensasha.school.exam.*;
+import com.pensasha.school.finance.*;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -59,35 +27,51 @@ import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
 import com.pensasha.school.timetable.Timetable;
 import com.pensasha.school.timetable.TimetableService;
-import com.pensasha.school.user.SchoolUser;
-import com.pensasha.school.user.Teacher;
-import com.pensasha.school.user.TeacherYearFormStream;
-import com.pensasha.school.user.TeacherYearFormStreamService;
-import com.pensasha.school.user.User;
-import com.pensasha.school.user.UserService;
+import com.pensasha.school.user.*;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.IContext;
+import org.thymeleaf.context.WebContext;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.Principal;
+import java.text.DecimalFormat;
+import java.util.*;
 
 @Controller
 public class ReportController {
 
-    private UserService userService;
-    private SubjectService subjectService;
-    private TermService termService;
-    private YearService yearService;
-    private FormService formService;
-    private SchoolService schoolService;
-    private StreamService streamService;
-    private ExamNameService examNameService;
-    private StudentService studentService;
-    private MarkService markService;
-    private TimetableService timetableService;
+    private final UserService userService;
+    private final SubjectService subjectService;
+    private final TermService termService;
+    private final YearService yearService;
+    private final FormService formService;
+    private final SchoolService schoolService;
+    private final StreamService streamService;
+    private final ExamNameService examNameService;
+    private final StudentService studentService;
+    private final MarkService markService;
+    private final TimetableService timetableService;
     private final TemplateEngine templateEngine;
-    private FeeRecordService feeRecordService;
-    private FeeStructureService feeStructureService;
-    private DisciplineService disciplineService;
-    private StudentFormYearService studentFormYearService;
-    private TeacherYearFormStreamService teacherYearFormStreamService;
+    private final FeeRecordService feeRecordService;
+    private final FeeStructureService feeStructureService;
+    private final DisciplineService disciplineService;
+    private final StudentFormYearService studentFormYearService;
+    private final TeacherYearFormStreamService teacherYearFormStreamService;
 
     @Autowired
     ServletContext servletContext;
@@ -140,15 +124,15 @@ public class ReportController {
         context.setVariable("streams", streams);
         context.setVariable("years", years);
         context.setVariable("schoolUsers", schoolUsers);
-        context.setVariable("user", (Object)user);
-        context.setVariable("activeUser", (Object)activeUser);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
-        String disciplineHtml = this.templateEngine.process("disciplinePdf", (IContext)context);
+        context.setVariable("user", user);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        String disciplineHtml = this.templateEngine.process("disciplinePdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)disciplineHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(disciplineHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -165,19 +149,19 @@ public class ReportController {
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
         WebContext context = new WebContext(request, response, this.servletContext);
-        context.setVariable("discipline", (Object)discipline);
+        context.setVariable("discipline", discipline);
         context.setVariable("subjects", subjects);
         context.setVariable("streams", streams);
         context.setVariable("years", years);
-        context.setVariable("user", (Object)user);
-        context.setVariable("activeUser", (Object)activeUser);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
-        String viewDisciplineHtml = this.templateEngine.process("viewDisciplinePdf", (IContext)context);
+        context.setVariable("user", user);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        String viewDisciplineHtml = this.templateEngine.process("viewDisciplinePdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)viewDisciplineHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(viewDisciplineHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -227,20 +211,20 @@ public class ReportController {
         context.setVariable("streams", streams);
         context.setVariable("years", years);
         context.setVariable("students", students);
-        context.setVariable("subject", (Object)subjectObj);
-        context.setVariable("year", (Object)year);
-        context.setVariable("form", (Object)form);
-        context.setVariable("term", (Object)term);
-        context.setVariable("stream", (Object)streamObj);
-        context.setVariable("examName", (Object)examName);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
-        context.setVariable("activeUser", (Object)activeUser);
-        String marksSheetHtml = this.templateEngine.process("markEntryPdf", (IContext)context);
+        context.setVariable("subject", subjectObj);
+        context.setVariable("year", year);
+        context.setVariable("form", form);
+        context.setVariable("term", term);
+        context.setVariable("stream", streamObj);
+        context.setVariable("examName", examName);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        context.setVariable("activeUser", activeUser);
+        String marksSheetHtml = this.templateEngine.process("markEntryPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)marksSheetHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(marksSheetHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -1983,7 +1967,7 @@ public class ReportController {
          }
          String[] grades = new String[]{"A", "Am", "Bp", "B", "Bm", "Cp", "C", "Cm", "Dp", "D", "Dm", "E"};
          String[] gds = new String[]{"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"};
-         context.setVariable("grades", (Object)grades);
+         context.setVariable("grades", grades);
          context.setVariable("gradeCounts", gradeCounts);
          Collections.sort(meritLists, new SortByDeviation().reversed());
          if (meritLists.size() > 0) {
@@ -2408,7 +2392,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Eng": {
@@ -2418,7 +2402,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Kis": {
@@ -2428,7 +2412,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Bio": {
@@ -2438,7 +2422,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Chem": {
@@ -2448,7 +2432,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Phy": {
@@ -2458,7 +2442,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Hist": {
@@ -2468,7 +2452,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "C.R.E": {
@@ -2478,7 +2462,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + "CreCount", (Object)count);
+                         context.setVariable(grades[j] + "CreCount", count);
                          continue block148;
                      }
                      case "Geo": {
@@ -2488,7 +2472,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "I.R.E": {
@@ -2498,7 +2482,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + "IreCount", (Object)count);
+                         context.setVariable(grades[j] + "IreCount", count);
                          continue block148;
                      }
                      case "H.R.E": {
@@ -2508,7 +2492,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + "HreCount", (Object)count);
+                         context.setVariable(grades[j] + "HreCount", count);
                          continue block148;
                      }
                      case "Hsci": {
@@ -2518,7 +2502,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "AnD": {
@@ -2528,7 +2512,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Agric": {
@@ -2538,7 +2522,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Comp": {
@@ -2548,7 +2532,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Avi": {
@@ -2558,7 +2542,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Elec": {
@@ -2568,7 +2552,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Pwr": {
@@ -2578,7 +2562,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Wood": {
@@ -2588,7 +2572,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Metal": {
@@ -2598,7 +2582,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Bc": {
@@ -2608,7 +2592,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Fren": {
@@ -2618,7 +2602,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Germ": {
@@ -2628,7 +2612,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Arab": {
@@ -2638,7 +2622,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Msc": {
@@ -2648,7 +2632,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Bs": {
@@ -2658,7 +2642,7 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                          continue block148;
                      }
                      case "Dnd": {
@@ -2668,14 +2652,14 @@ public class ReportController {
                              ++count;
                              ++totalS;
                          }
-                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                         context.setVariable(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                      }
                  }
              }
-             context.setVariable(grades[j] + "Count", (Object)totalS);
+             context.setVariable(grades[j] + "Count", totalS);
          }
          for (i = 0; i < students.size(); ++i) {
-        	 context.setVariable("Points" + students.get(i).getAdmNo(), (Object)this.getPoints(students.get(i).getKcpeMarks() / 5));
+        	 context.setVariable("Points" + students.get(i).getAdmNo(), this.getPoints(students.get(i).getKcpeMarks() / 5));
          }
          
          
@@ -2738,48 +2722,48 @@ public class ReportController {
          context.setVariable("topStudents", topStudents);
          context.setVariable("bottomStudents", bottomStudents);
          context.setVariable("meritLists", meritLists);
-         context.setVariable("activeUser", (Object)activeUser);
-         context.setVariable("school", (Object)school);
-         context.setVariable("student", (Object)student);
-         context.setVariable("year", (Object)year);
-         context.setVariable("form", (Object)form);
-         context.setVariable("term", (Object)term);
+         context.setVariable("activeUser", activeUser);
+         context.setVariable("school", school);
+         context.setVariable("student", student);
+         context.setVariable("year", year);
+         context.setVariable("form", form);
+         context.setVariable("term", term);
          context.setVariable("marks", allMarks);
          context.setVariable("subjects", subjects);
          context.setVariable("streams", streams);
          context.setVariable("students", students);
          context.setVariable("studentsWithoutMarks", studentsWithoutMarks);
-         context.setVariable("MathsCount", (Object)mathsCount);
-         context.setVariable("EngCount", (Object)engCount);
-         context.setVariable("KisCount", (Object)kisCount);
-         context.setVariable("BioCount", (Object)bioCount);
-         context.setVariable("ChemCount", (Object)chemCount);
-         context.setVariable("PhyCount", (Object)phyCount);
-         context.setVariable("HistCount", (Object)histCount);
-         context.setVariable("creCount", (Object)creCount);
-         context.setVariable("GeoCount", (Object)geoCount);
-         context.setVariable("ireCount", (Object)ireCount);
-         context.setVariable("hreCount", (Object)hreCount);
-         context.setVariable("HsciCount", (Object)hsciCount);
-         context.setVariable("AnDCount", (Object)andCount);
-         context.setVariable("AgricCount", (Object)agricCount);
-         context.setVariable("CompCount", (Object)compCount);
-         context.setVariable("AviCount", (Object)aviCount);
-         context.setVariable("ElecCount", (Object)elecCount);
-         context.setVariable("PwrCount", (Object)pwrCount);
-         context.setVariable("WoodCount", (Object)woodCount);
-         context.setVariable("MetalCount", (Object)metalCount);
-         context.setVariable("BcCount", (Object)bcCount);
-         context.setVariable("FrenCount", (Object)frenCount);
-         context.setVariable("GermCount", (Object)germCount);
-         context.setVariable("ArabCount", (Object)arabCount);
-         context.setVariable("MscCount", (Object)mscCount);
-         context.setVariable("BsCount", (Object)bsCount);
-         context.setVariable("DndCount", (Object)dndCount);
+         context.setVariable("MathsCount", mathsCount);
+         context.setVariable("EngCount", engCount);
+         context.setVariable("KisCount", kisCount);
+         context.setVariable("BioCount", bioCount);
+         context.setVariable("ChemCount", chemCount);
+         context.setVariable("PhyCount", phyCount);
+         context.setVariable("HistCount", histCount);
+         context.setVariable("creCount", creCount);
+         context.setVariable("GeoCount", geoCount);
+         context.setVariable("ireCount", ireCount);
+         context.setVariable("hreCount", hreCount);
+         context.setVariable("HsciCount", hsciCount);
+         context.setVariable("AnDCount", andCount);
+         context.setVariable("AgricCount", agricCount);
+         context.setVariable("CompCount", compCount);
+         context.setVariable("AviCount", aviCount);
+         context.setVariable("ElecCount", elecCount);
+         context.setVariable("PwrCount", pwrCount);
+         context.setVariable("WoodCount", woodCount);
+         context.setVariable("MetalCount", metalCount);
+         context.setVariable("BcCount", bcCount);
+         context.setVariable("FrenCount", frenCount);
+         context.setVariable("GermCount", germCount);
+         context.setVariable("ArabCount", arabCount);
+         context.setVariable("MscCount", mscCount);
+         context.setVariable("BsCount", bsCount);
+         context.setVariable("DndCount", dndCount);
 
-        String meritListHtml = this.templateEngine.process("meritListPdf", (IContext)context);
+        String meritListHtml = this.templateEngine.process("meritListPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        PdfWriter writer = new PdfWriter((OutputStream)target);
+        PdfWriter writer = new PdfWriter(target);
         PdfDocument pdfDocument = new PdfDocument(writer);
         PageSize pageSize = PageSize.A4.rotate();
         pdfDocument.setDefaultPageSize(pageSize);
@@ -2788,7 +2772,7 @@ public class ReportController {
         MediaDeviceDescription mediaDeviceDescription = new MediaDeviceDescription(MediaType.SCREEN);
         mediaDeviceDescription.setWidth(pageSize.getWidth());
         converterProperties.setMediaDeviceDescription(mediaDeviceDescription);
-        HtmlConverter.convertToPdf((String)meritListHtml, (PdfDocument)pdfDocument, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(meritListHtml, pdfDocument, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -2805,23 +2789,23 @@ public class ReportController {
         List<Mark> marks = this.markService.getTermlySubjectMark(admNo, form, term);
         List<Teacher> teachers = this.userService.getAllTeachersByAcademicYearAndSchoolFormStream(code, form, student.getStream().getId(), year);
         WebContext context = new WebContext(request, response, this.servletContext);
-        context.setVariable("activeUser", (Object)activeUser);
+        context.setVariable("activeUser", activeUser);
         context.setVariable("marks", marks);
         context.setVariable("forms", forms);
         context.setVariable("years", years);
         context.setVariable("subjects", subjects);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
         context.setVariable("examNames", examNames);
-        context.setVariable("year", (Object)year);
-        context.setVariable("form", (Object)form);
-        context.setVariable("term", (Object)term);
+        context.setVariable("year", year);
+        context.setVariable("form", form);
+        context.setVariable("term", term);
         context.setVariable("teachers", teachers);
-        String termlyReportHtml = this.templateEngine.process("termlyReportPdf", (IContext)context);
+        String termlyReportHtml = this.templateEngine.process("termlyReportPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)termlyReportHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(termlyReportHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -2893,45 +2877,45 @@ public class ReportController {
                 }
                 if (totalOutOf > 0) {
                     if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
-                        context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                     }
                     if (subjects.get(j).getInitials().equals("C.R.E")) {
-                        context.setVariable("Cresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        context.setVariable("Cresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                         continue;
                     }
                     if (subjects.get(j).getInitials().equals("H.R.E")) {
-                        context.setVariable("Hresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                        context.setVariable("Hresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                         overalTotal += sum * 100 / totalOutOf;
                         continue;
                     }
                     if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
-                    context.setVariable("Iresum" + students.get(i).getAdmNo(), (Object)(sum * 100 / totalOutOf));
+                    context.setVariable("Iresum" + students.get(i).getAdmNo(), sum * 100 / totalOutOf);
                     overalTotal += sum * 100 / totalOutOf;
                     continue;
                 }
                 if (subjects.get(j).getInitials() != "C.R.E" && subjects.get(j).getInitials() != "I.R.E" && subjects.get(j).getInitials() != "H.R.E") {
-                    context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), (Object)sum);
+                    context.setVariable(subjects.get(j).getInitials() + "sum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                 }
                 if (subjects.get(j).getInitials().equals("C.R.E")) {
-                    context.setVariable("Cresum" + students.get(i).getAdmNo(), (Object)sum);
+                    context.setVariable("Cresum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                     continue;
                 }
                 if (subjects.get(j).getInitials().equals("H.R.E")) {
-                    context.setVariable("Hresum" + students.get(i).getAdmNo(), (Object)sum);
+                    context.setVariable("Hresum" + students.get(i).getAdmNo(), sum);
                     overalTotal += sum;
                     continue;
                 }
                 if (!subjects.get(j).getInitials().equals("I.R.E")) continue;
-                context.setVariable("Iresum" + students.get(i).getAdmNo(), (Object)sum);
+                context.setVariable("Iresum" + students.get(i).getAdmNo(), sum);
                 overalTotal += sum;
             }
 
             if(overalTotal >= 0){
-                context.setVariable("total" + students.get(i).getAdmNo(), (Object)overalTotal);
+                context.setVariable("total" + students.get(i).getAdmNo(), overalTotal);
             }else{
                 context.setVariable("total" + students.get(i).getAdmNo(), 0);
             }
@@ -2941,16 +2925,16 @@ public class ReportController {
             context.setVariable("teachers" + students.get(i).getAdmNo(), teachers);
         }
         
-        context.setVariable("activeUser", (Object)activeUser);
-        context.setVariable("school", (Object)school);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("school", school);
         context.setVariable("streams", this.streamService.getStreamsInSchool(code));
-        context.setVariable("student", (Object)student);
+        context.setVariable("student", student);
         context.setVariable("students", students);
         context.setVariable("streamStudents", streamStudents);
-        context.setVariable("year", (Object)year);
-        context.setVariable("form", (Object)form);
-        context.setVariable("term", (Object)term);
-        context.setVariable("stream", (Object)stream);
+        context.setVariable("year", year);
+        context.setVariable("form", form);
+        context.setVariable("term", term);
+        context.setVariable("stream", stream);
         context.setVariable("examNames", examNames);
 
         getMeritList get = new getMeritList();
@@ -2988,12 +2972,12 @@ public class ReportController {
         }
 
         context.setVariable("studentMeritList", streamStudentsMeritList);
-        context.setVariable("count", (Object)cnt);
-        String studentReportHtml = this.templateEngine.process("studentsReportPdf", (IContext)context);
+        context.setVariable("count", cnt);
+        String studentReportHtml = this.templateEngine.process("studentsReportPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)studentReportHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(studentReportHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -3052,24 +3036,24 @@ public class ReportController {
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
         WebContext context = new WebContext(request, response, this.servletContext);
-        context.setVariable("year", (Object)year);
-        context.setVariable("form", (Object)form);
-        context.setVariable("term", (Object)term);
-        context.setVariable("stream", (Object)streamObj);
+        context.setVariable("year", year);
+        context.setVariable("form", form);
+        context.setVariable("term", term);
+        context.setVariable("stream", streamObj);
         context.setVariable("years", years);
         context.setVariable("streams", streams);
         context.setVariable("timetables", finalTimetables);
-        context.setVariable("activeUser", (Object)activeUser);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
-        String timetableHtml = this.templateEngine.process("timetablePdf", (IContext)context);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        String timetableHtml = this.templateEngine.process("timetablePdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
-        PdfWriter writer = new PdfWriter((OutputStream)target);
+        PdfWriter writer = new PdfWriter(target);
         PdfDocument pdfDocument = new PdfDocument(writer);
         pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)timetableHtml, (PdfDocument)pdfDocument, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(timetableHtml, pdfDocument, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -3093,22 +3077,22 @@ public class ReportController {
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         WebContext context = new WebContext(request, response, this.servletContext);
         context.setVariable("subjects", subjects);
-        context.setVariable("form", (Object)form);
-        context.setVariable("stream", (Object)stream);
-        context.setVariable("year", (Object)year);
+        context.setVariable("form", form);
+        context.setVariable("stream", stream);
+        context.setVariable("year", year);
         context.setVariable("students", students);
         context.setVariable("streams", streams);
         context.setVariable("years", years);
         context.setVariable("schoolUsers", schoolUsers);
-        context.setVariable("user", (Object)user);
-        context.setVariable("activeUser", (Object)activeUser);
-        context.setVariable("student", (Object)student);
-        context.setVariable("school", (Object)school);
-        String classListHtml = this.templateEngine.process("classListPdf", (IContext)context);
+        context.setVariable("user", user);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        String classListHtml = this.templateEngine.process("classListPdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)classListHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(classListHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
@@ -3147,19 +3131,19 @@ public class ReportController {
             feeBalances.add(feeBalance);
         }
         WebContext context = new WebContext(request, response, this.servletContext);
-        context.setVariable("activeUser", (Object)user);
-        context.setVariable("school", (Object)school);
-        context.setVariable("student", (Object)student);
+        context.setVariable("activeUser", user);
+        context.setVariable("school", school);
+        context.setVariable("student", student);
         context.setVariable("feeBalances", feeBalances);
-        context.setVariable("form", (Object)form);
-        context.setVariable("year", (Object)year);
-        context.setVariable("term", (Object)term);
-        context.setVariable("stream", (Object)stream);
-        String feeBalanceHtml = this.templateEngine.process("feeBalancePdf", (IContext)context);
+        context.setVariable("form", form);
+        context.setVariable("year", year);
+        context.setVariable("term", term);
+        context.setVariable("stream", stream);
+        String feeBalanceHtml = this.templateEngine.process("feeBalancePdf", context);
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         converterProperties.setBaseUri("http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/");
-        HtmlConverter.convertToPdf((String)feeBalanceHtml, (OutputStream)target, (ConverterProperties)converterProperties);
+        HtmlConverter.convertToPdf(feeBalanceHtml, target, converterProperties);
         byte[] bytes = target.toByteArray();
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }

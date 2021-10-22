@@ -1,25 +1,5 @@
 package com.pensasha.school.subject;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.pensasha.school.exam.MeritList;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -30,15 +10,26 @@ import com.pensasha.school.user.Teacher;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 public class SubjectController {
-    private SchoolService schoolService;
-    private SubjectService subjectService;
-    private StudentService studentService;
-    private FormService formService;
-    private YearService yearService;
-    private UserService userService;
+    private final SchoolService schoolService;
+    private final SubjectService subjectService;
+    private final StudentService studentService;
+    private final FormService formService;
+    private final YearService yearService;
+    private final UserService userService;
 
     public SubjectController(SchoolService schoolService, SubjectService subjectService, StudentService studentService, FormService formService, YearService yearService, UserService userService) {
         this.schoolService = schoolService;
@@ -179,9 +170,9 @@ public class SubjectController {
             Subject subject = this.subjectService.getSubjectInSchool(initials, code);
             subject.getSchools().remove(this.schoolService.getSchool(code).get());
             this.subjectService.addSubject(subject);
-            model.addAttribute("success", (Object)(initials + " subject successfully deleted"));
+            model.addAttribute("success", initials + " subject successfully deleted");
         } else {
-            model.addAttribute("fail", (Object)(initials + " subject does not exist"));
+            model.addAttribute("fail", initials + " subject does not exist");
         }
         List<Subject> subjects1 = this.subjectService.getAllSubjectInSchool(code);
         ArrayList<Subject> group1 = new ArrayList<Subject>();

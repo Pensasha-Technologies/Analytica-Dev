@@ -1,31 +1,5 @@
 package com.pensasha.school.student;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.validation.Valid;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.form.Form;
@@ -42,19 +16,30 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.io.*;
+import java.security.Principal;
+import java.util.*;
 
 @Controller
 public class StudentController {
-    private StudentService studentService;
-    private SchoolService schoolService;
-    private UserService userService;
-    private StreamService streamService;
-    private YearService yearService;
-    private SubjectService subjectService;
-    private FormService formService;
-    private TermService termService;
-    private MarkService markService;
-    private StudentFormYearService studentFormYearService;
+    private final StudentService studentService;
+    private final SchoolService schoolService;
+    private final UserService userService;
+    private final StreamService streamService;
+    private final YearService yearService;
+    private final SubjectService subjectService;
+    private final FormService formService;
+    private final TermService termService;
+    private final MarkService markService;
+    private final StudentFormYearService studentFormYearService;
 
     public StudentController(StudentService studentService, SchoolService schoolService, UserService userService,
 			StreamService streamService, YearService yearService, SubjectService subjectService,
@@ -627,9 +612,9 @@ public class StudentController {
         model.addAttribute("years", years);
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("students", students);
         
         return "students";
@@ -642,11 +627,11 @@ public class StudentController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         if (!model.containsAttribute("student")) {
-            model.addAttribute("student", (Object)new Student());
+            model.addAttribute("student", new Student());
         }
         model.addAttribute("streams", streams);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("school", school);
+        model.addAttribute("activeUser", activeUser);
         return "addStudent";
     }
 
@@ -656,11 +641,11 @@ public class StudentController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         if (!model.containsAttribute("student")) {
-            model.addAttribute("student", (Object)this.studentService.getStudentInSchool(admNo, code));
+            model.addAttribute("student", this.studentService.getStudentInSchool(admNo, code));
         }
         model.addAttribute("streams", streams);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("school", school);
+        model.addAttribute("activeUser", activeUser);
         return "editStudent";
     }
 
@@ -668,8 +653,8 @@ public class StudentController {
     public String updateStudent(@PathVariable int code, @ModelAttribute @Valid Student student, @PathVariable String admNo, BindingResult bindingResult, RedirectAttributes redit, Principal principal, @RequestParam int stream) throws IOException {
         String view;
         if (bindingResult.hasErrors()) {
-            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", (Object)bindingResult);
-            redit.addFlashAttribute("student", (Object)student);
+            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", bindingResult);
+            redit.addFlashAttribute("student", student);
             view = "redirect:/schools/" + code + "/addStudent";
         } else {
             Student studentObj = this.studentService.getStudentInSchool(admNo, code);
@@ -704,7 +689,7 @@ public class StudentController {
             studentObj.setCurrentForm(student.getCurrentForm());
             this.studentService.addStudent(studentObj);
             String[] admString = student.getAdmNo().split("_");
-            redit.addFlashAttribute("success", (Object)("Student with admision number: " + admString[0] + " updated successfully"));
+            redit.addFlashAttribute("success", "Student with admision number: " + admString[0] + " updated successfully");
             view = "redirect:/schools/" + code + "/students";
         }
         return view;
@@ -716,17 +701,17 @@ public class StudentController {
     	String view;
         String[] admString = student.getAdmNo().split("_");
         if (bindingResult.hasErrors()) {
-            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", (Object)bindingResult);
-            redit.addFlashAttribute("student", (Object)student);
+            redit.addFlashAttribute("org.springframework.validation.BindingResult.student", bindingResult);
+            redit.addFlashAttribute("student", student);
             view = "redirect:/schools/" + code + "/addStudent";
         } else {
         	Set<School> schools = new HashSet<School>();
             School school = this.schoolService.getSchool(code).get();
             schools.add(school);
             if (this.studentService.ifStudentExistsInSchool(code + "_" + student.getAdmNo(), code).booleanValue()) {
-                redit.addFlashAttribute("fail", (Object)("Student with admision number: " + admString[0] + " already exists"));
+                redit.addFlashAttribute("fail", "Student with admision number: " + admString[0] + " already exists");
             } else if (student.getAdmNo() == "" || Integer.parseInt(student.getAdmNo()) < 1) {
-                redit.addFlashAttribute("fail", (Object)"Admission number cannot be less than 1");
+                redit.addFlashAttribute("fail", "Admission number cannot be less than 1");
             } else {
                 Iterator<Subject> iterator;
                 student.setSchool(this.schoolService.getSchool(code).get());
@@ -818,9 +803,7 @@ public class StudentController {
                     	
                     	if(intYears.contains(year.getYear())) {
                     		 List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
-                             if (newSchools.contains(school)) {
-                                 newSchools.remove(school);
-                             }
+                            newSchools.remove(school);
                              schools.addAll(newSchools);
                              year.setSchools(schools);
                              
@@ -879,9 +862,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year.setSchools(schools);
 	                            
@@ -928,9 +909,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year1.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year1.setSchools(schools);
 	                            
@@ -990,9 +969,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year.setSchools(schools);
 	                            
@@ -1039,9 +1016,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year1.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year1.setSchools(schools);
 	                            
@@ -1088,9 +1063,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year2.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year2.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year2.setSchools(schools);
 	                            
@@ -1149,9 +1122,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year.setSchools(schools);
 	                            
@@ -1198,9 +1169,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year1.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year1.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year1.setSchools(schools);
 	                            
@@ -1247,9 +1216,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year2.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year2.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year2.setSchools(schools);
 	                            
@@ -1296,9 +1263,7 @@ public class StudentController {
 	                   	
 	                   	if(intYears.contains(year3.getYear())) {
 	                   		 List<School> newSchools = this.schoolService.getSchoolsByYear(year3.getYear());
-	                            if (newSchools.contains(school)) {
-	                                newSchools.remove(school);
-	                            }
+                            newSchools.remove(school);
 	                            schools.addAll(newSchools);
 	                            year3.setSchools(schools);
 	                            
@@ -1329,7 +1294,7 @@ public class StudentController {
                     }
                 }
                 
-                redit.addFlashAttribute("success", (Object)("Student with admision number: " + admString[0] + " saved successfully"));
+                redit.addFlashAttribute("success", "Student with admision number: " + admString[0] + " saved successfully");
             }
             view = "redirect:/schools/" + code + "/students";
         }
@@ -1355,9 +1320,9 @@ public class StudentController {
             }
             
             this.studentService.deleteStudent(admNo);
-            model.addAttribute("success", (Object)("Student with admision number:" + admNo + " successfully deleted"));
+            model.addAttribute("success", "Student with admision number:" + admNo + " successfully deleted");
         } else {
-            model.addAttribute("fail", (Object)("Student with admision number:" + admNo + " does not exist"));
+            model.addAttribute("fail", "Student with admision number:" + admNo + " does not exist");
         }
         List<Student> students = this.studentService.getAllStudentsInSchool(code);
         User activeUser = this.userService.getByUsername(principal.getName()).get();
@@ -1369,9 +1334,9 @@ public class StudentController {
         model.addAttribute("years", years);
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("students", students);
         if (activeUser.getRole().getName().contains("TEACHER")) {
             return "teacherHome";
@@ -1423,13 +1388,13 @@ public class StudentController {
         model.addAttribute("group3", group3);
         model.addAttribute("group4", group4);
         model.addAttribute("group5", group5);
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("years", years);
         model.addAttribute("forms", forms);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("school", school);
         model.addAttribute("subjects", subjects);
         model.addAttribute("schoolSubjects", schoolSubjects);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("student", student);
         return "student";
     }
 }

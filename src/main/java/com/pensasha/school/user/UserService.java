@@ -1,23 +1,22 @@
 package com.pensasha.school.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleRepository;
 import com.pensasha.school.school.School;
 import com.pensasha.school.school.SchoolRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
-    private SchoolRepository schoolRepository;
-    private SchoolUserRepository schoolUserRepository;
-    private TeacherRepository teacherRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final SchoolRepository schoolRepository;
+    private final SchoolUserRepository schoolUserRepository;
+    private final TeacherRepository teacherRepository;
 
     public UserService(RoleRepository roleRepository, UserRepository userRepository, SchoolRepository schoolRepository, SchoolUserRepository schoolUserRepository, TeacherRepository teacherRepository) {
         this.roleRepository = roleRepository;
@@ -117,7 +116,7 @@ public class UserService {
 
     public SchoolUser addPrincipal(int code, SchoolUser user) {
         this.roleRepository.save(new Role("PRINCIPAL"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);
@@ -130,7 +129,7 @@ public class UserService {
 
     public SchoolUser addDeputyPricipal(int code, SchoolUser user) {
         this.roleRepository.save(new Role("DEPUTY_PRINCIPAL"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);
@@ -143,7 +142,7 @@ public class UserService {
 
     public SchoolUser addDirectorAcademic(int code, SchoolUser user) {
         this.roleRepository.save(new Role("DIRECTOR_ACADEMIC"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);
@@ -156,7 +155,7 @@ public class UserService {
 
     public Teacher addTeacher(int code, Teacher user) {
         this.roleRepository.save(new Role("TEACHER"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);
@@ -169,7 +168,7 @@ public class UserService {
 
     public SchoolUser addBursar(int code, SchoolUser user) {
         this.roleRepository.save(new Role("BURSAR"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);
@@ -182,7 +181,7 @@ public class UserService {
 
     public SchoolUser addAccountsClerk(int code, SchoolUser user) {
         this.roleRepository.save(new Role("ACCOUNTS_CLERK"));
-        School school = (School)this.schoolRepository.findById(code).get();
+        School school = this.schoolRepository.findById(code).get();
         ArrayList<SchoolUser> users = new ArrayList<SchoolUser>();
         users.add(user);
         school.setUsers(users);

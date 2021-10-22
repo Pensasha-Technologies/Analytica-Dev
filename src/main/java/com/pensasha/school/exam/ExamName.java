@@ -1,23 +1,14 @@
 package com.pensasha.school.exam;
 
-import java.util.Collection;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.school.School;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.year.Year;
+
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class ExamName {

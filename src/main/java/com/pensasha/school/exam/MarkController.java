@@ -1,22 +1,5 @@
 package com.pensasha.school.exam;
 
-import java.security.Principal;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -31,28 +14,38 @@ import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
-import com.pensasha.school.user.Teacher;
 import com.pensasha.school.user.TeacherYearFormStream;
 import com.pensasha.school.user.TeacherYearFormStreamService;
 import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 public class MarkController {
-    private StudentService studentService;
-    private MarkService markService;
-    private FormService formService;
-    private YearService yearService;
-    private TermService termService;
-    private SubjectService subjectService;
-    private UserService userService;
-    private StreamService streamService;
-    private SchoolService schoolService;
-    private ExamNameService examNameService;
-    private StudentFormYearService studentFormYearService;
-    private TeacherYearFormStreamService teacherYearFormStreamService;
+    private final StudentService studentService;
+    private final MarkService markService;
+    private final FormService formService;
+    private final YearService yearService;
+    private final TermService termService;
+    private final SubjectService subjectService;
+    private final UserService userService;
+    private final StreamService streamService;
+    private final SchoolService schoolService;
+    private final ExamNameService examNameService;
+    private final StudentFormYearService studentFormYearService;
+    private final TeacherYearFormStreamService teacherYearFormStreamService;
     
 	public MarkController(StudentService studentService, MarkService markService, FormService formService,
 			YearService yearService, TermService termService, SubjectService subjectService, UserService userService,
@@ -112,13 +105,13 @@ public class MarkController {
         
         
        
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("school", school);
         model.addAttribute("subjects", school.getSubjects());
         model.addAttribute("streams", this.streamService.getStreamsInSchool(code));
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("student", student);
         model.addAttribute("examNames", examNames);
-        model.addAttribute("year", (Object)year);
+        model.addAttribute("year", year);
 
       return "examination";
 
@@ -254,9 +247,9 @@ public class MarkController {
             mark.setExamName(examName);
             this.markService.addMarksToSubject(mark);
         }
-        model.addAttribute("success", (Object)"Marks saved successfully");
+        model.addAttribute("success", "Marks saved successfully");
         if (students.size() == 0) {
-            model.addAttribute("fail", (Object)"No student. Cannot add marks");
+            model.addAttribute("fail", "No student. Cannot add marks");
         }
         return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/" + subject + "/streams/" + stream + "/exams/" + exam;
 
@@ -2075,7 +2068,7 @@ public class MarkController {
         }
         String[] grades = new String[]{"A", "Am", "Bp", "B", "Bm", "Cp", "C", "Cm", "Dp", "D", "Dm", "E"};
         String[] gds = new String[]{"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "E"};
-        model.addAttribute("grades", (Object)grades);
+        model.addAttribute("grades", grades);
         model.addAttribute("gradeCounts", gradeCounts);
         Collections.sort(meritLists, new SortByDeviation().reversed());
         if (meritLists.size() > 0) {
@@ -2500,7 +2493,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Eng": {
@@ -2510,7 +2503,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Kis": {
@@ -2520,7 +2513,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Bio": {
@@ -2530,7 +2523,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Chem": {
@@ -2540,7 +2533,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Phy": {
@@ -2550,7 +2543,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Hist": {
@@ -2560,7 +2553,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "C.R.E": {
@@ -2570,7 +2563,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "CreCount", (Object)count);
+                        model.addAttribute(grades[j] + "CreCount", count);
                         continue block148;
                     }
                     case "Geo": {
@@ -2580,7 +2573,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "I.R.E": {
@@ -2590,7 +2583,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "IreCount", (Object)count);
+                        model.addAttribute(grades[j] + "IreCount", count);
                         continue block148;
                     }
                     case "H.R.E": {
@@ -2600,7 +2593,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "HreCount", (Object)count);
+                        model.addAttribute(grades[j] + "HreCount", count);
                         continue block148;
                     }
                     case "Hsci": {
@@ -2610,7 +2603,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "AnD": {
@@ -2620,7 +2613,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Agric": {
@@ -2630,7 +2623,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Comp": {
@@ -2640,7 +2633,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Avi": {
@@ -2650,7 +2643,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Elec": {
@@ -2660,7 +2653,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Pwr": {
@@ -2670,7 +2663,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Wood": {
@@ -2680,7 +2673,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Metal": {
@@ -2690,7 +2683,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Bc": {
@@ -2700,7 +2693,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Fren": {
@@ -2710,7 +2703,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Germ": {
@@ -2720,7 +2713,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Arab": {
@@ -2730,7 +2723,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Msc": {
@@ -2740,7 +2733,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Bs": {
@@ -2750,7 +2743,7 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                         continue block148;
                     }
                     case "Dnd": {
@@ -2760,14 +2753,14 @@ public class MarkController {
                             ++count;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", (Object)count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
                     }
                 }
             }
-            model.addAttribute(grades[j] + "Count", (Object)totalS);
+            model.addAttribute(grades[j] + "Count", totalS);
         }
         for (i = 0; i < students.size(); ++i) {
-            model.addAttribute("Points" + students.get(i).getAdmNo(), (Object)this.getPoints(students.get(i).getKcpeMarks() / 5));
+            model.addAttribute("Points" + students.get(i).getAdmNo(), this.getPoints(students.get(i).getKcpeMarks() / 5));
         }
         
         
@@ -2830,44 +2823,44 @@ public class MarkController {
         model.addAttribute("topStudents", topStudents);
         model.addAttribute("bottomStudents", bottomStudents);
         model.addAttribute("meritLists", meritLists);
-        model.addAttribute("activeUser", (Object)activeUser);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("year", (Object)year);
-        model.addAttribute("form", (Object)form);
-        model.addAttribute("term", (Object)term);
+        model.addAttribute("activeUser", activeUser);
+        model.addAttribute("school", school);
+        model.addAttribute("student", student);
+        model.addAttribute("year", year);
+        model.addAttribute("form", form);
+        model.addAttribute("term", term);
         model.addAttribute("marks", allMarks);
         model.addAttribute("subjects", subjects);
         model.addAttribute("streams", streams);
         model.addAttribute("students", students);
         model.addAttribute("studentsWithoutMarks", studentsWithoutMarks);
-        model.addAttribute("MathsCount", (Object)mathsCount);
-        model.addAttribute("EngCount", (Object)engCount);
-        model.addAttribute("KisCount", (Object)kisCount);
-        model.addAttribute("BioCount", (Object)bioCount);
-        model.addAttribute("ChemCount", (Object)chemCount);
-        model.addAttribute("PhyCount", (Object)phyCount);
-        model.addAttribute("HistCount", (Object)histCount);
-        model.addAttribute("creCount", (Object)creCount);
-        model.addAttribute("GeoCount", (Object)geoCount);
-        model.addAttribute("ireCount", (Object)ireCount);
-        model.addAttribute("hreCount", (Object)hreCount);
-        model.addAttribute("HsciCount", (Object)hsciCount);
-        model.addAttribute("AnDCount", (Object)andCount);
-        model.addAttribute("AgricCount", (Object)agricCount);
-        model.addAttribute("CompCount", (Object)compCount);
-        model.addAttribute("AviCount", (Object)aviCount);
-        model.addAttribute("ElecCount", (Object)elecCount);
-        model.addAttribute("PwrCount", (Object)pwrCount);
-        model.addAttribute("WoodCount", (Object)woodCount);
-        model.addAttribute("MetalCount", (Object)metalCount);
-        model.addAttribute("BcCount", (Object)bcCount);
-        model.addAttribute("FrenCount", (Object)frenCount);
-        model.addAttribute("GermCount", (Object)germCount);
-        model.addAttribute("ArabCount", (Object)arabCount);
-        model.addAttribute("MscCount", (Object)mscCount);
-        model.addAttribute("BsCount", (Object)bsCount);
-        model.addAttribute("DndCount", (Object)dndCount);
+        model.addAttribute("MathsCount", mathsCount);
+        model.addAttribute("EngCount", engCount);
+        model.addAttribute("KisCount", kisCount);
+        model.addAttribute("BioCount", bioCount);
+        model.addAttribute("ChemCount", chemCount);
+        model.addAttribute("PhyCount", phyCount);
+        model.addAttribute("HistCount", histCount);
+        model.addAttribute("creCount", creCount);
+        model.addAttribute("GeoCount", geoCount);
+        model.addAttribute("ireCount", ireCount);
+        model.addAttribute("hreCount", hreCount);
+        model.addAttribute("HsciCount", hsciCount);
+        model.addAttribute("AnDCount", andCount);
+        model.addAttribute("AgricCount", agricCount);
+        model.addAttribute("CompCount", compCount);
+        model.addAttribute("AviCount", aviCount);
+        model.addAttribute("ElecCount", elecCount);
+        model.addAttribute("PwrCount", pwrCount);
+        model.addAttribute("WoodCount", woodCount);
+        model.addAttribute("MetalCount", metalCount);
+        model.addAttribute("BcCount", bcCount);
+        model.addAttribute("FrenCount", frenCount);
+        model.addAttribute("GermCount", germCount);
+        model.addAttribute("ArabCount", arabCount);
+        model.addAttribute("MscCount", mscCount);
+        model.addAttribute("BsCount", bsCount);
+        model.addAttribute("DndCount", dndCount);
 
         return "meritList";
        

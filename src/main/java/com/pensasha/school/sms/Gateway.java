@@ -11,10 +11,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class Gateway {
-    private String mBaseUrl;
-    private int mPartnerId;
-    private String mApiKey;
-    private String mShortCode;
+    private final String mBaseUrl;
+    private final int mPartnerId;
+    private final String mApiKey;
+    private final String mShortCode;
     private HttpURLConnection connection;
 
     public Gateway(String baseUrl, int partnerId, String apiKey, String shortCode) {

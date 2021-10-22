@@ -1,20 +1,11 @@
 package com.pensasha.school.stream;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.school.School;
-import com.pensasha.school.subject.Subject;
 import com.pensasha.school.user.Teacher;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Stream {

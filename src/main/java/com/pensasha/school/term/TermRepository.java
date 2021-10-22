@@ -1,17 +1,17 @@
 package com.pensasha.school.term;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface TermRepository extends JpaRepository<Term, Integer> {
     
-    public List<Term> findByFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(int var1, int var2, int var3);
+    List<Term> findByFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(int var1, int var2, int var3);
 
-    public Term findByTermAndFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(int var1, int var2, int var3, int var4);
+    Term findByTermAndFormsFormAndFormsYearsYearAndFormsYearsSchoolsCode(int var1, int var2, int var3, int var4);
 
-    public Term findByTermAndFormsFormAndFormsYearsSchoolsCode(int var1, int var2, int var3);
+    Term findByTermAndFormsFormAndFormsYearsSchoolsCode(int var1, int var2, int var3);
 
-    public List<Term> findByExamNamesName(String var1);
+    List<Term> findByExamNamesName(String var1);
 
 }

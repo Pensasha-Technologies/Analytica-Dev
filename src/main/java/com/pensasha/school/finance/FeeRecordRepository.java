@@ -1,14 +1,14 @@
 package com.pensasha.school.finance;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface FeeRecordRepository
 extends JpaRepository<FeeRecord, Integer> {
-    public List<FeeRecord> findByStudentSchoolYearsYearAndStudentSchoolCode(int var1, int var2);
+    List<FeeRecord> findByStudentSchoolYearsYearAndStudentSchoolCode(int var1, int var2);
 
-    public List<FeeRecord> findByStudentAdmNo(String var1);
+    List<FeeRecord> findByStudentAdmNo(String var1);
 
-    public List<FeeRecord> findByStudentAdmNoAndFormForm(String var1, int var2);
+    List<FeeRecord> findByStudentAdmNoAndFormForm(String var1, int var2);
 }

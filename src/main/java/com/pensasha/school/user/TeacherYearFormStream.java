@@ -1,12 +1,12 @@
 package com.pensasha.school.user;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.stream.Stream;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.year.Year;
+
+import javax.persistence.*;
 
 @Entity
 public class TeacherYearFormStream {

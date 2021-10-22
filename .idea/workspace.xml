@@ -4,11 +4,107 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating merit list and class list" />
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updating merit list and class list">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/addFees.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/school.iml" beforeDir="false" afterPath="$PROJECT_DIR$/school.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CommandLineAppStartupRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CustomSuccessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/CustomSuccessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/Discipline.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/Discipline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/discipline/DisciplineService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/ExamNameService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/Mark.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/Mark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeRecordService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FeeStructureService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FinanceController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/finance/FinanceController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/Form.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/Form.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/form/FormService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MyErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/role/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/School.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/School.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/school/SchoolService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/sms/Gateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/sms/Gateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/Stream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/Stream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamRespository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamRespository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/stream/StreamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYearRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYearRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYearService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentFormYearService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/Subject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/subject/SubjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/Term.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/Term.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/term/TermService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/Timetable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/Timetable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/timetable/TimetableService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/SchoolUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/Teacher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/Teacher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/Year.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/Year.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/year/YearService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/avataaars.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/img/avataaars.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/sb-admin-2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-brands-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-regular-400.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/fontawesome-free/webfonts/fa-solid-900.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/vendor/jquery/jquery.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/bursarHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/bursarHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/feeStatement.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/feeStatement.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/feeStatements.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/feeStatements.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/teacherHome.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/teacherHome.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/viewFeeStructure.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/viewFeeStructure.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -28,8 +124,11 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -58,10 +157,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in school" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="school" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="school" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pensasha.school.DemoApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -81,6 +198,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1630572743436</updated>
+      <workItem from="1634885884070" duration="5725000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -355,8 +473,25 @@
       <option name="project" value="LOCAL" />
       <updated>1634824603031</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="updating merit list and class list">
+      <created>1634824812923</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1634824812923</updated>
+    </task>
+    <task id="LOCAL-00041" summary="updating merit list and class list">
+      <created>1634825163667</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1634825163667</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

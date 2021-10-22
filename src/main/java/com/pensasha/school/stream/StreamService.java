@@ -1,9 +1,9 @@
 package com.pensasha.school.stream;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class StreamService {
@@ -31,7 +31,7 @@ public class StreamService {
     }
 
     public Stream getStream(int id) {
-        return (Stream)this.streamRespository.findById(id).get();
+        return this.streamRespository.findById(id).get();
     }
 
     public Stream getStreamByStream(String stream) {

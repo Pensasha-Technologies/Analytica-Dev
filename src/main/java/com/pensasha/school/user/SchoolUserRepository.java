@@ -1,11 +1,11 @@
 package com.pensasha.school.user;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SchoolUserRepository extends JpaRepository<SchoolUser, String> {
-    public List<SchoolUser> findBySchoolCode(int var1);
+import java.util.List;
 
-    public SchoolUser findByUsername(String var1);
+public interface SchoolUserRepository extends JpaRepository<SchoolUser, String> {
+    List<SchoolUser> findBySchoolCode(int var1);
+
+    SchoolUser findByUsername(String var1);
 }

@@ -1,13 +1,5 @@
 package com.pensasha.school.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
-
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.school.School;
@@ -20,6 +12,13 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {
@@ -46,8 +45,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         
-        User admin = new User("sobunge", "Samuel", "Odhiambo", "Obunge", encoder.encode((CharSequence)"samuel1995"), 707335375);
-        User admin1 = new User("vmalala", "Victor", "", "Malala", encoder.encode((CharSequence)"victor2020"), 717858286);
+        User admin = new User("sobunge", "Samuel", "Odhiambo", "Obunge", encoder.encode("samuel1995"), 707335375);
+        User admin1 = new User("vmalala", "Victor", "", "Malala", encoder.encode("victor2020"), 717858286);
         
         this.userService.addAdmin(admin);
         this.userService.addAdmin(admin1);

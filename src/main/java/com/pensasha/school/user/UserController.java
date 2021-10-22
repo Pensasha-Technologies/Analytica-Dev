@@ -1,22 +1,5 @@
 package com.pensasha.school.user;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.pensasha.school.role.Role;
 import com.pensasha.school.role.RoleService;
 import com.pensasha.school.school.School;
@@ -26,14 +9,25 @@ import com.pensasha.school.stream.StreamService;
 import com.pensasha.school.student.Student;
 import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class UserController {
-    private UserService userService;
-    private SchoolService schoolService;
-    private RoleService roleService;
-    private SubjectService subjectService;
-    private StreamService streamService;
+    private final UserService userService;
+    private final SchoolService schoolService;
+    private final RoleService roleService;
+    private final SubjectService subjectService;
+    private final StreamService streamService;
 
     public UserController(UserService userService, SchoolService schoolService, RoleService roleService, SubjectService subjectService, StreamService streamService) {
         this.userService = userService;
@@ -48,10 +42,10 @@ public class UserController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         Student student = new Student();
         School school = new School();
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("schools", schools);
-        model.addAttribute("school", (Object)school);
-        model.addAttribute("student", (Object)student);
+        model.addAttribute("school", school);
+        model.addAttribute("student", student);
     }
 
     @GetMapping(value={"/users"})
@@ -64,7 +58,7 @@ public class UserController {
             if (!users.get(i).getRole().getName().contains("ADMIN") && !users.get(i).getRole().getName().contains("FIELDOFFICER") && !users.get(i).getRole().getName().contains("OFFICEASSISTANT") && !users.get(i).getRole().getName().contains("C.E.O")) continue;
             systemUsers.add(users.get(i));
         }
-        model.addAttribute("user", (Object)user);
+        model.addAttribute("user", user);
         model.addAttribute("users", systemUsers);
         return users;
     }
@@ -79,7 +73,7 @@ public class UserController {
             if (!users.get(i).getRole().getName().contains("PRINCIPAL") && !users.get(i).getRole().getName().contains("DEPUTYPRINCIPAL") && !users.get(i).getRole().getName().contains("D.O.S") && !users.get(i).getRole().getName().contains("TEACHER") && !users.get(i).getRole().getName().contains("BURSAR") && !users.get(i).getRole().getName().contains("ACCOUNTSCLERK")) continue;
             schoolUsers.add(users.get(i));
         }
-        model.addAttribute("user", (Object)user);
+        model.addAttribute("user", user);
         model.addAttribute("users", schoolUsers);
         return "schoolUsers";
     }
@@ -87,7 +81,7 @@ public class UserController {
     @PostMapping(value={"/users"})
     public RedirectView addSystemUsers(RedirectAttributes redit, @RequestParam String role, @ModelAttribute User user) {
         if (this.userService.userExists(user.getUsername()).booleanValue()) {
-            redit.addFlashAttribute("fail", (Object)("User with username:" + user.getUsername() + " already exists"));
+            redit.addFlashAttribute("fail", "User with username:" + user.getUsername() + " already exists");
         } else {
             Role roleObj = new Role();
             switch (role) {
@@ -109,12 +103,12 @@ public class UserController {
                 }
             }
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode((CharSequence)user.getUsername()));
-            redit.addFlashAttribute("success", (Object)(user.getUsername() + " saved successfully"));
+            user.setPassword(encoder.encode(user.getUsername()));
+            redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
             user.setRole(roleObj);
             this.roleService.addRole(roleObj);
             this.userService.addUser(user);
-            redit.addFlashAttribute("success", (Object)(user.getUsername() + " successfully added"));
+            redit.addFlashAttribute("success", user.getUsername() + " successfully added");
         }
         RedirectView redirectView = new RedirectView("/users", true);
         return redirectView;
@@ -126,7 +120,7 @@ public class UserController {
         Role roleObj = new Role();
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         if (this.userService.userExists(user.getUsername()).booleanValue()) {
-            redit.addFlashAttribute("fail", (Object)("A user with username " + user.getUsername() + " already exists"));
+            redit.addFlashAttribute("fail", "A user with username " + user.getUsername() + " already exists");
         } else {
             user.setSchool(new School("", code));
             Teacher teacher = new Teacher();
@@ -166,13 +160,13 @@ public class UserController {
             user.setRole(roleObj);
             this.roleService.addRole(roleObj);
             if (user.getRole().getName() == "TEACHER") {
-                teacher.setPassword(encoder.encode((CharSequence)teacher.getUsername()));
+                teacher.setPassword(encoder.encode(teacher.getUsername()));
                 this.userService.addUser(teacher);
             } else {
-                user.setPassword(encoder.encode((CharSequence)user.getUsername()));
+                user.setPassword(encoder.encode(user.getUsername()));
                 this.userService.addUser(user);
             }
-            redit.addFlashAttribute("success", (Object)(user.getUsername() + " saved successfully"));
+            redit.addFlashAttribute("success", user.getUsername() + " saved successfully");
         }
         if (activeUser.getRole().getName().equals("PRINCIPAL")) {
             redirectView = new RedirectView("/schools/principal", true);
@@ -208,25 +202,25 @@ public class UserController {
                     subjects.remove(teacher.getSubjects().get(i));
                 }
                 model.addAttribute("subjects", subjects);
-                model.addAttribute("teacher", (Object)teacher);
+                model.addAttribute("teacher", teacher);
             }
             Student student = new Student();
-            model.addAttribute("school", (Object)school);
-            model.addAttribute("activeUser", (Object)activeUser);
-            model.addAttribute("student", (Object)student);
-            model.addAttribute("user", (Object)user);
+            model.addAttribute("school", school);
+            model.addAttribute("activeUser", activeUser);
+            model.addAttribute("student", student);
+            model.addAttribute("user", user);
             return "userHome";
         }
         Student student = new Student();
         User user = new User();
         List<User> users = this.userService.findAllUsers();
         List<School> schools = this.schoolService.getAllSchools();
-        model.addAttribute("fail", (Object)("User with username:" + username + " does not exist"));
-        model.addAttribute("activeUser", (Object)activeUser);
+        model.addAttribute("fail", "User with username:" + username + " does not exist");
+        model.addAttribute("activeUser", activeUser);
         model.addAttribute("schools", schools);
-        model.addAttribute("user", (Object)user);
-        model.addAttribute("student", (Object)student);
-        model.addAttribute("school", (Object)school);
+        model.addAttribute("user", user);
+        model.addAttribute("student", student);
+        model.addAttribute("school", school);
         model.addAttribute("users", users);
         return "users";
     }
@@ -235,9 +229,9 @@ public class UserController {
     public RedirectView deleteUser(@PathVariable String username, RedirectAttributes redit, Principal principal) {
         if (this.userService.userExists(username).booleanValue()) {
             this.userService.deleteUser(username);
-            redit.addFlashAttribute("success", (Object)(username + " successfully deleted"));
+            redit.addFlashAttribute("success", username + " successfully deleted");
         } else {
-            redit.addFlashAttribute("fail", (Object)("A user with username:" + username + " does not exist"));
+            redit.addFlashAttribute("fail", "A user with username:" + username + " does not exist");
         }
         RedirectView redirectView = new RedirectView("/users", true);
         return redirectView;
@@ -248,9 +242,9 @@ public class UserController {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         if (this.userService.userExists(username).booleanValue()) {
             this.userService.deleteUser(username);
-            redit.addFlashAttribute("success", (Object)(username + " successfully deleted"));
+            redit.addFlashAttribute("success", username + " successfully deleted");
         } else {
-            redit.addFlashAttribute("fail", (Object)("A user with username:" + username + " does not exist"));
+            redit.addFlashAttribute("fail", "A user with username:" + username + " does not exist");
         }
         if (activeUser.getRole().getName().contains("PRINCIPAL")) {
             RedirectView redirectView = new RedirectView("/schools/principal", true);
