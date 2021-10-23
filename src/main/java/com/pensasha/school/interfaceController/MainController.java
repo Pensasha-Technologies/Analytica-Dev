@@ -4,6 +4,9 @@ import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
+import com.pensasha.school.finance.FeeStructure;
+import com.pensasha.school.finance.FeeStructureService;
+import com.pensasha.school.finance.VoteHeadAllocationService;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.role.Role;
@@ -50,11 +53,14 @@ public class MainController {
     private final StreamService streamService;
     private final DisciplineService disciplineService;
     private final TeacherYearFormStreamService teacherYearFormStreamService;
+    private final FeeStructureService feeStructureService;
+    private final VoteHeadAllocationService voteHeadAllocationService;
 
-    public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
+	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
 			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
 			UserService userService, RoleService roleService, StreamService streamService,
-			DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService) {
+			DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService,
+			FeeStructureService feeStructureService, VoteHeadAllocationService voteHeadAllocationService) {
 		super();
 		this.schoolService = schoolService;
 		this.studentService = studentService;
@@ -68,6 +74,8 @@ public class MainController {
 		this.streamService = streamService;
 		this.disciplineService = disciplineService;
 		this.teacherYearFormStreamService = teacherYearFormStreamService;
+		this.feeStructureService = feeStructureService;
+		this.voteHeadAllocationService = voteHeadAllocationService;
 	}
 
 	@GetMapping(value={"index"})
@@ -561,6 +569,7 @@ public class MainController {
 
     @GetMapping(value={"/schools/bursarHome"})
     public String bursarHome(Model model, Principal principal) {
+    	
         SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
@@ -568,6 +577,18 @@ public class MainController {
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Student> students = this.studentService.getAllStudentsInSchool(activeUser.getSchool().getCode());
+        
+        Set<FeeStructure> feeStructures = new HashSet<>();
+        List<FeeStructure> feeStructure = this.feeStructureService.allFeeItemInSchool(school.getCode());
+        List<String> stringFee = new ArrayList<>();
+        for(FeeStructure fee: feeStructure) {	
+        	if(!stringFee.contains(fee.getName())) {
+        		stringFee.add(fee.getName());
+        		feeStructures.add(fee);
+        	}
+        }
+        
+        model.addAttribute("feeStructures", feeStructures);
         model.addAttribute("students", students);
         model.addAttribute("schoolUsers", schoolUsers);
         model.addAttribute("user", user);
@@ -575,7 +596,9 @@ public class MainController {
         model.addAttribute("student", student);
         model.addAttribute("school", school);
         model.addAttribute("streams", streams);
+        
         return "bursarHome";
+        
     }
 
     @GetMapping(value={"/schools/accountsClerkHome"})

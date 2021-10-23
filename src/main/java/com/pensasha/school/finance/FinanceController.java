@@ -21,13 +21,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class FinanceController {
@@ -40,20 +45,27 @@ public class FinanceController {
     private final YearService yearService;
     private final TermService termService;
     private final StreamService streamService;
+    private final VoteHeadAllocationService voteHeadAllocationService;
 
-    public FinanceController(UserService userService, SchoolService schoolService, FeeStructureService feeStructureService, FormService formService, FeeRecordService feeRecordService, StudentService studentService, YearService yearService, TermService termService, StreamService streamService) {
-        this.userService = userService;
-        this.schoolService = schoolService;
-        this.feeStructureService = feeStructureService;
-        this.formService = formService;
-        this.feeRecordService = feeRecordService;
-        this.studentService = studentService;
-        this.yearService = yearService;
-        this.termService = termService;
-        this.streamService = streamService;
-    }
+    public FinanceController(UserService userService, SchoolService schoolService,
+			FeeStructureService feeStructureService, FormService formService, FeeRecordService feeRecordService,
+			StudentService studentService, YearService yearService, TermService termService,
+			StreamService streamService, VoteHeadAllocationService voteHeadAllocationService) {
+		super();
+		this.userService = userService;
+		this.schoolService = schoolService;
+		this.feeStructureService = feeStructureService;
+		this.formService = formService;
+		this.feeRecordService = feeRecordService;
+		this.studentService = studentService;
+		this.yearService = yearService;
+		this.termService = termService;
+		this.streamService = streamService;
+		this.voteHeadAllocationService = voteHeadAllocationService;
+	}
+    
 
-    @PostMapping(value={"/schools/{code}/viewFeeStructure"})
+	@PostMapping(value={"/schools/{code}/viewFeeStructure"})
     public String postViewFeeStructure(@PathVariable int code, @RequestParam int feeYear, @RequestParam int feeTerm, @RequestParam int feeForm) {
         return "redirect:/schools/" + code + "/years/" + feeYear + "/forms/" + feeForm + "/terms/" + feeTerm + "/viewStructure";
     }
@@ -91,6 +103,12 @@ public class FinanceController {
         return "viewFeeStructure";
     }
 
+    @GetMapping(value= {"/schools/{code}/years/{year}/voteHead"})
+    @ResponseBody
+    public List<FeeStructure> getAllVoteHeadsInAParticularYearAndForm(@PathVariable int code, @PathVariable int year){
+    	return this.feeStructureService.allFeeItemInSchoolYear(code, year);
+    }
+    
     @PostMapping(value={"/schools/{code}/createFeeStructure"})
     public String postCreateFeeStructure(@PathVariable int code, @RequestParam int feeYear, @RequestParam int feeTerm, @RequestParam int feeForm, @RequestParam String scholar) {
         return "redirect:/schools/" + code + "/years/" + feeYear + "/forms/" + feeForm + "/scholar/" + scholar + "/terms/" + feeTerm + "/createStructure";
@@ -175,39 +193,18 @@ public class FinanceController {
         return "feeStatements";
     }
 
-    @GetMapping(value={"/school/{code}/feeRecord/addFees"})
-    public String addSchoolFees(@PathVariable String code, Model model, Principal principal){
-
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
-        School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
-        Student student = new Student();
-        User user = new User();
-        List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
-        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
-        List<Student> students = this.studentService.getAllStudentsInSchool(activeUser.getSchool().getCode());
-        model.addAttribute("students", students);
-        model.addAttribute("schoolUsers", schoolUsers);
-        model.addAttribute("user", user);
-        model.addAttribute("activeUser", activeUser);
-        model.addAttribute("student", student);
-        model.addAttribute("school", school);
-        model.addAttribute("streams", streams);
-
-        return "addFees";
-    }
-
     @GetMapping(value={"/schools/{code}/students/{admNo}/statements/{id}"})
     public String getStatementById(@PathVariable int code, @PathVariable String admNo, @PathVariable int id, Model model, Principal principal) {
         SchoolUser activeUser = this.userService.getSchoolUserByUsername(principal.getName());
         School school = this.schoolService.getSchool(code).get();
         Student student = this.studentService.getStudentInSchool(admNo, code);
         FeeRecord feeRecord = this.feeRecordService.getFeeRecord(id).get();
-        List<FeeStructure> feeStructure = this.feeStructureService.allFeeItemInSchoolYear(code, student.getYearAdmitted());
+        
         List<FeeRecord> form1FeeRecords = this.feeRecordService.getAllFeeRecordForStudentByForm(admNo, 1);
         List<FeeRecord> form2FeeRecords = this.feeRecordService.getAllFeeRecordForStudentByForm(admNo, 2);
         List<FeeRecord> form3FeeRecords = this.feeRecordService.getAllFeeRecordForStudentByForm(admNo, 3);
         List<FeeRecord> form4FeeRecords = this.feeRecordService.getAllFeeRecordForStudentByForm(admNo, 4);
-        model.addAttribute("feeStructure", feeStructure);
+        
         model.addAttribute("form1FeeRecords", form1FeeRecords);
         model.addAttribute("form2FeeRecords", form2FeeRecords);
         model.addAttribute("form3FeeRecords", form3FeeRecords);
@@ -217,6 +214,7 @@ public class FinanceController {
         model.addAttribute("school", school);
         model.addAttribute("activeUser", activeUser);
         model.addAttribute("streams", this.streamService.getStreamsInSchool(code));
+        
         return "feeStatement";
     }
 
@@ -249,7 +247,7 @@ public class FinanceController {
     }
 
     @PostMapping(value={"/school/{code}/feeRecord"})
-    public String addFeeRecord(RedirectAttributes redit, @PathVariable int code, @RequestParam String receiptNo, @RequestParam String admNo, @RequestParam int amount) {
+    public String addFeeRecord(RedirectAttributes redit,HttpServletRequest request, @PathVariable int code, @RequestParam String receiptNo, @RequestParam String admNo, @RequestParam int amount) {
         if (this.studentService.ifStudentExists(code + "_" + admNo).booleanValue()) {
             Student student = this.studentService.getStudentInSchool(code + "_" + admNo, code);
             LocalDateTime today = LocalDateTime.now();
@@ -257,9 +255,27 @@ public class FinanceController {
             String datePaid = today.format(dtf);
             Form form = this.formService.getFormByForm(student.getCurrentForm());
             FeeRecord feeRecord = new FeeRecord(receiptNo, amount, datePaid, student, form);
-            this.feeRecordService.saveFeeRecord(feeRecord);
+            FeeRecord fRecord = this.feeRecordService.saveFeeRecord(feeRecord);
             redit.addFlashAttribute("success", "Student finance record saved successfully");
-            return "redirect:/schools/bursarHome";
+            
+            Set<FeeStructure> feeStructures = new HashSet<>();
+            List<FeeStructure> feeStructure = this.feeStructureService.allFeeItemInSchool(code);
+            List<String> stringFee = new ArrayList<>();
+            for(FeeStructure fee: feeStructure) {	
+            	if(!stringFee.contains(fee.getName())) {
+            		stringFee.add(fee.getName());
+            		feeStructures.add(fee);
+            	}
+            }
+            
+            for(FeeStructure fee: feeStructures) {
+            	if (request.getParameter(fee.getName()) == null) continue;
+                VoteHeadAllocations vote  = new VoteHeadAllocations(fee.getName(), Integer.parseInt(request.getParameter(fee.getName())), code);
+                this.voteHeadAllocationService.saveVoteHeadAllocation(vote);
+            }
+            
+            return "redirect:/schools/" + code + "/students/" + code + "_" + admNo + "/statements/" + fRecord.getId();
+           // return "redirect:/schools/bursarHome";
         }
         redit.addFlashAttribute("fail", "Student with admission number " + admNo + " does not exist");
         return "redirect:/schools/bursarHome";
