@@ -417,7 +417,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMaths(sum * 100 / totalOutOf);
-                            gradeCount.setMaths(this.getGrade(meritList.getMaths()));
+                            gradeCount.setMaths(this.getSubjectGrade(meritList.getMaths()));
                             continue block118;
                         }
                         if(sum < 0){
@@ -426,7 +426,7 @@ public class MarkController {
                             meritList.setMaths(sum);
                         }
 
-                        gradeCount.setMaths(this.getGrade(meritList.getMaths()));
+                        gradeCount.setMaths(this.getSubjectGrade(meritList.getMaths()));
                         continue block118;
                     }
                     case "Eng": {
@@ -442,7 +442,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setEng(sum * 100 / totalOutOf);
-                            gradeCount.setEng(this.getGrade(meritList.getEng()));
+                            gradeCount.setEng(this.getSubjectGrade(meritList.getEng()));
                             continue block118;
                         }
 
@@ -452,7 +452,7 @@ public class MarkController {
                             meritList.setEng(sum);
                         }
 
-                        gradeCount.setEng(this.getGrade(meritList.getEng()));
+                        gradeCount.setEng(this.getSubjectGrade(meritList.getEng()));
                         continue block118;
                     }
                     case "Kis": {
@@ -468,7 +468,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setKis(sum * 100 / totalOutOf);
-                            gradeCount.setKis(this.getGrade(meritList.getKis()));
+                            gradeCount.setKis(this.getSubjectGrade(meritList.getKis()));
                             continue block118;
                         }
 
@@ -478,7 +478,7 @@ public class MarkController {
                             meritList.setKis(sum);
                         }
 
-                        gradeCount.setKis(this.getGrade(meritList.getKis()));
+                        gradeCount.setKis(this.getSubjectGrade(meritList.getKis()));
                         continue block118;
                     }
                     case "Bio": {
@@ -494,7 +494,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBio(sum * 100 / totalOutOf);
-                            gradeCount.setBio(this.getGrade(meritList.getBio()));
+                            gradeCount.setBio(this.getSubjectGrade(meritList.getBio()));
                             continue block118;
                         }
 
@@ -504,7 +504,7 @@ public class MarkController {
                             meritList.setBio(sum);
                         }
 
-                        gradeCount.setBio(this.getGrade(meritList.getBio()));
+                        gradeCount.setBio(this.getSubjectGrade(meritList.getBio()));
                         continue block118;
                     }
                     case "Chem": {
@@ -520,7 +520,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setChem(sum * 100 / totalOutOf);
-                            gradeCount.setChem(this.getGrade(meritList.getChem()));
+                            gradeCount.setChem(this.getSubjectGrade(meritList.getChem()));
                             continue block118;
                         }
 
@@ -530,7 +530,7 @@ public class MarkController {
                             meritList.setChem(sum);
                         }
 
-                        gradeCount.setChem(this.getGrade(meritList.getChem()));
+                        gradeCount.setChem(this.getSubjectGrade(meritList.getChem()));
                         continue block118;
                     }
                     case "Phy": {
@@ -546,7 +546,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setPhy(sum * 100 / totalOutOf);
-                            gradeCount.setPhy(this.getGrade(meritList.getPhy()));
+                            gradeCount.setPhy(this.getSubjectGrade(meritList.getPhy()));
                             continue block118;
                         }
 
@@ -556,7 +556,7 @@ public class MarkController {
                             meritList.setChem(sum);
                         }
 
-                        gradeCount.setPhy(this.getGrade(meritList.getPhy()));
+                        gradeCount.setPhy(this.getSubjectGrade(meritList.getPhy()));
                         continue block118;
                     }
                     case "Hist": {
@@ -572,7 +572,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHist(sum * 100 / totalOutOf);
-                            gradeCount.setHist(this.getGrade(meritList.getHist()));
+                            gradeCount.setHist(this.getSubjectGrade(meritList.getHist()));
                             continue block118;
                         }
 
@@ -582,7 +582,7 @@ public class MarkController {
                             meritList.setHist(sum);
                         }
 
-                        gradeCount.setHist(this.getGrade(meritList.getHist()));
+                        gradeCount.setHist(this.getSubjectGrade(meritList.getHist()));
                         continue block118;
                     }
                     case "C.R.E": {
@@ -598,7 +598,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setCre(sum * 100 / totalOutOf);
-                            gradeCount.setCre(this.getGrade(meritList.getCre()));
+                            gradeCount.setCre(this.getSubjectGrade(meritList.getCre()));
                             continue block118;
                         }
 
@@ -608,7 +608,7 @@ public class MarkController {
                             meritList.setCre(sum);
                         }
 
-                        gradeCount.setCre(this.getGrade(meritList.getCre()));
+                        gradeCount.setCre(this.getSubjectGrade(meritList.getCre()));
                         continue block118;
                     }
                     case "Geo": {
@@ -624,7 +624,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setGeo(sum * 100 / totalOutOf);
-                            gradeCount.setGeo(this.getGrade(meritList.getGeo()));
+                            gradeCount.setGeo(this.getSubjectGrade(meritList.getGeo()));
                             continue block118;
                         }
 
@@ -634,7 +634,7 @@ public class MarkController {
                             meritList.setGeo(sum);
                         }
 
-                        gradeCount.setGeo(this.getGrade(meritList.getGeo()));
+                        gradeCount.setGeo(this.getSubjectGrade(meritList.getGeo()));
                         continue block118;
                     }
                     case "I.R.E": {
@@ -650,7 +650,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setIre(sum * 100 / totalOutOf);
-                            gradeCount.setIre(this.getGrade(meritList.getIre()));
+                            gradeCount.setIre(this.getSubjectGrade(meritList.getIre()));
                             continue block118;
                         }
 
@@ -660,7 +660,7 @@ public class MarkController {
                             meritList.setIre(sum);
                         }
 
-                        gradeCount.setIre(this.getGrade(meritList.getIre()));
+                        gradeCount.setIre(this.getSubjectGrade(meritList.getIre()));
                         continue block118;
                     }
                     case "H.R.E": {
@@ -676,7 +676,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHre(sum * 100 / totalOutOf);
-                            gradeCount.setHre(this.getGrade(meritList.getHre()));
+                            gradeCount.setHre(this.getSubjectGrade(meritList.getHre()));
                             continue block118;
                         }
 
@@ -686,7 +686,7 @@ public class MarkController {
                             meritList.setHre(sum);
                         }
 
-                        gradeCount.setHre(this.getGrade(meritList.getHre()));
+                        gradeCount.setHre(this.getSubjectGrade(meritList.getHre()));
                         continue block118;
                     }
                     case "Hsci": {
@@ -702,7 +702,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHsci(sum * 100 / totalOutOf);
-                            gradeCount.setHsci(this.getGrade(meritList.getHsci()));
+                            gradeCount.setHsci(this.getSubjectGrade(meritList.getHsci()));
                             continue block118;
                         }
 
@@ -712,7 +712,7 @@ public class MarkController {
                             meritList.setHsci(sum);
                         }
 
-                        gradeCount.setHsci(this.getGrade(meritList.getHsci()));
+                        gradeCount.setHsci(this.getSubjectGrade(meritList.getHsci()));
                         continue block118;
                     }
                     case "AnD": {
@@ -728,7 +728,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAnD(sum * 100 / totalOutOf);
-                            gradeCount.setAnd(this.getGrade(meritList.getAnD()));
+                            gradeCount.setAnd(this.getSubjectGrade(meritList.getAnD()));
                             continue block118;
                         }
 
@@ -738,7 +738,7 @@ public class MarkController {
                             meritList.setAnD(sum);
                         }
 
-                        gradeCount.setAnd(this.getGrade(meritList.getAnD()));
+                        gradeCount.setAnd(this.getSubjectGrade(meritList.getAnD()));
                         continue block118;
                     }
                     case "Agric": {
@@ -754,7 +754,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAgric(sum * 100 / totalOutOf);
-                            gradeCount.setAgric(this.getGrade(meritList.getAgric()));
+                            gradeCount.setAgric(this.getSubjectGrade(meritList.getAgric()));
                             continue block118;
                         }
 
@@ -764,7 +764,7 @@ public class MarkController {
                             meritList.setAgric(sum);
                         }
 
-                        gradeCount.setAgric(this.getGrade(meritList.getAgric()));
+                        gradeCount.setAgric(this.getSubjectGrade(meritList.getAgric()));
                         continue block118;
                     }
                     case "Comp": {
@@ -780,7 +780,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setComp(sum * 100 / totalOutOf);
-                            gradeCount.setComp(this.getGrade(meritList.getComp()));
+                            gradeCount.setComp(this.getSubjectGrade(meritList.getComp()));
                             continue block118;
                         }
 
@@ -790,7 +790,7 @@ public class MarkController {
                             meritList.setComp(sum);
                         }
 
-                        gradeCount.setComp(this.getGrade(meritList.getComp()));
+                        gradeCount.setComp(this.getSubjectGrade(meritList.getComp()));
                         continue block118;
                     }
                     case "Avi": {
@@ -806,7 +806,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAvi(sum * 100 / totalOutOf);
-                            gradeCount.setAvi(this.getGrade(meritList.getAvi()));
+                            gradeCount.setAvi(this.getSubjectGrade(meritList.getAvi()));
                             continue block118;
                         }
 
@@ -816,7 +816,7 @@ public class MarkController {
                             meritList.setAvi(sum);
                         }
 
-                        gradeCount.setAvi(this.getGrade(meritList.getAvi()));
+                        gradeCount.setAvi(this.getSubjectGrade(meritList.getAvi()));
                         continue block118;
                     }
                     case "Elec": {
@@ -832,7 +832,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setElec(sum * 100 / totalOutOf);
-                            gradeCount.setElec(this.getGrade(meritList.getElec()));
+                            gradeCount.setElec(this.getSubjectGrade(meritList.getElec()));
                             continue block118;
                         }
 
@@ -842,7 +842,7 @@ public class MarkController {
                             meritList.setElec(sum);
                         }
 
-                        gradeCount.setElec(this.getGrade(meritList.getElec()));
+                        gradeCount.setElec(this.getSubjectGrade(meritList.getElec()));
                         continue block118;
                     }
                     case "Pwr": {
@@ -858,7 +858,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setPwr(sum * 100 / totalOutOf);
-                            gradeCount.setPwr(this.getGrade(meritList.getPwr()));
+                            gradeCount.setPwr(this.getSubjectGrade(meritList.getPwr()));
                             continue block118;
                         }
 
@@ -868,7 +868,7 @@ public class MarkController {
                             meritList.setPwr(sum);
                         }
 
-                        gradeCount.setPwr(this.getGrade(meritList.getPwr()));
+                        gradeCount.setPwr(this.getSubjectGrade(meritList.getPwr()));
                         continue block118;
                     }
                     case "Wood": {
@@ -884,7 +884,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setWood(sum * 100 / totalOutOf);
-                            gradeCount.setWood(this.getGrade(meritList.getWood()));
+                            gradeCount.setWood(this.getSubjectGrade(meritList.getWood()));
                             continue block118;
                         }
 
@@ -894,7 +894,7 @@ public class MarkController {
                             meritList.setWood(sum);
                         }
 
-                        gradeCount.setWood(this.getGrade(meritList.getWood()));
+                        gradeCount.setWood(this.getSubjectGrade(meritList.getWood()));
                         continue block118;
                     }
                     case "Metal": {
@@ -910,7 +910,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMetal(sum * 100 / totalOutOf);
-                            gradeCount.setMetal(this.getGrade(meritList.getMetal()));
+                            gradeCount.setMetal(this.getSubjectGrade(meritList.getMetal()));
                             continue block118;
                         }
 
@@ -920,7 +920,7 @@ public class MarkController {
                             meritList.setMetal(sum);
                         }
 
-                        gradeCount.setMetal(this.getGrade(meritList.getMetal()));
+                        gradeCount.setMetal(this.getSubjectGrade(meritList.getMetal()));
                         continue block118;
                     }
                     case "Bc": {
@@ -936,7 +936,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBc(sum * 100 / totalOutOf);
-                            gradeCount.setBc(this.getGrade(meritList.getBc()));
+                            gradeCount.setBc(this.getSubjectGrade(meritList.getBc()));
                             continue block118;
                         }
 
@@ -946,7 +946,7 @@ public class MarkController {
                             meritList.setBc(sum);
                         }
 
-                        gradeCount.setBc(this.getGrade(meritList.getBc()));
+                        gradeCount.setBc(this.getSubjectGrade(meritList.getBc()));
                         continue block118;
                     }
                     case "Fren": {
@@ -962,7 +962,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setFren(sum * 100 / totalOutOf);
-                            gradeCount.setFren(this.getGrade(meritList.getFren()));
+                            gradeCount.setFren(this.getSubjectGrade(meritList.getFren()));
                             continue block118;
                         }
 
@@ -972,7 +972,7 @@ public class MarkController {
                             meritList.setFren(sum);
                         }
 
-                        gradeCount.setFren(this.getGrade(meritList.getFren()));
+                        gradeCount.setFren(this.getSubjectGrade(meritList.getFren()));
                         continue block118;
                     }
                     case "Germ": {
@@ -988,7 +988,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setGerm(sum * 100 / totalOutOf);
-                            gradeCount.setGerm(this.getGrade(meritList.getGerm()));
+                            gradeCount.setGerm(this.getSubjectGrade(meritList.getGerm()));
                             continue block118;
                         }
 
@@ -998,7 +998,7 @@ public class MarkController {
                             meritList.setGerm(sum);
                         }
 
-                        gradeCount.setGerm(this.getGrade(meritList.getGerm()));
+                        gradeCount.setGerm(this.getSubjectGrade(meritList.getGerm()));
                         continue block118;
                     }
                     case "Arab": {
@@ -1014,7 +1014,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setArab(sum * 100 / totalOutOf);
-                            gradeCount.setArab(this.getGrade(meritList.getArab()));
+                            gradeCount.setArab(this.getSubjectGrade(meritList.getArab()));
                             continue block118;
                         }
 
@@ -1024,7 +1024,7 @@ public class MarkController {
                             meritList.setArab(sum);
                         }
 
-                        gradeCount.setArab(this.getGrade(meritList.getArab()));
+                        gradeCount.setArab(this.getSubjectGrade(meritList.getArab()));
                         continue block118;
                     }
                     case "Msc": {
@@ -1040,7 +1040,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMsc(sum * 100 / totalOutOf);
-                            gradeCount.setMsc(this.getGrade(meritList.getMsc()));
+                            gradeCount.setMsc(this.getSubjectGrade(meritList.getMsc()));
                             continue block118;
                         }
 
@@ -1050,7 +1050,7 @@ public class MarkController {
                             meritList.setMsc(sum);
                         }
 
-                        gradeCount.setMsc(this.getGrade(meritList.getMsc()));
+                        gradeCount.setMsc(this.getSubjectGrade(meritList.getMsc()));
                         continue block118;
                     }
                     case "Bs": {
@@ -1066,7 +1066,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBs(sum * 100 / totalOutOf);
-                            gradeCount.setBs(this.getGrade(meritList.getBs()));
+                            gradeCount.setBs(this.getSubjectGrade(meritList.getBs()));
                             continue block118;
                         }
 
@@ -1076,7 +1076,7 @@ public class MarkController {
                             meritList.setBs(sum);
                         }
 
-                        gradeCount.setBs(this.getGrade(meritList.getBs()));
+                        gradeCount.setBs(this.getSubjectGrade(meritList.getBs()));
                         continue block118;
                     }
                     case "Dnd": {
@@ -1092,7 +1092,7 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setDnd(sum * 100 / totalOutOf);
-                            gradeCount.setDnd(this.getGrade(meritList.getDnd()));
+                            gradeCount.setDnd(this.getSubjectGrade(meritList.getDnd()));
                             continue block118;
                         }
 
@@ -1102,7 +1102,7 @@ public class MarkController {
                             meritList.setDnd(sum);
                         }
 
-                        gradeCount.setDnd(this.getGrade(meritList.getDnd()));
+                        gradeCount.setDnd(this.getSubjectGrade(meritList.getDnd()));
                     }
                 }
             }
@@ -1299,20 +1299,23 @@ public class MarkController {
             DecimalFormat df = new DecimalFormat("#.####");
 
             meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
-            int totalPoints = mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints;
+            byte totalPoints = (byte) (mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints);
             
             float average;
             if(form == 1 || form == 2) {
             	 average = (float) totalPoints / 11;
+            	 meritList.setAverage(Float.valueOf(df.format(average)));
+            	 meritList.setGrade(this.getGrades(meritList.getAverage()));
+            	 
             }else {
             	average = (float) totalPoints / 8 ;
+            	meritList.setAverage(Float.valueOf(df.format(average)));
+            	meritList.setGrade(this .getGrades(meritList.getAverage()));
             }
            
-            meritList.setAverage(Float.valueOf(df.format(average)));
-            meritList.setPoints(this.getPoints(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
-            meritList.setGrade(this.getGrade(meritList.getTotal() / studentService.getStudentInSchool(meritList.getAdmNo(), school.getCode()).getSubjects().size()));
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
-
+            meritList.setPoints(totalPoints);
+            
             meritLists.add(meritList);
             gradeCounts.add(gradeCount);
         }
@@ -2867,7 +2870,47 @@ public class MarkController {
        
     }
 
-    public String getGrade(int mark) {
+    public String getGrades(float mark) {
+        if (mark <= 12 && mark >= 11.5) {
+            return "A";
+        }
+        if (mark < 11.5 && mark >= 10.5) {
+            return "A-";
+        }
+        if (mark < 10.5 && mark >= 9.5) {
+            return "B+";
+        }
+        if (mark < 9.5 && mark >= 8.5) {
+            return "B";
+        }
+        if (mark < 8.5 && mark >= 7.5) {
+            return "B-";
+        }
+        if (mark < 7.5 && mark >= 6.5) {
+            return "C+";
+        }
+        if (mark < 6.5 && mark >= 5.5) {
+            return "C";
+        }
+        if (mark < 5.5 && mark >= 4.5) {
+            return "C-";
+        }
+        if (mark < 4.5 && mark >= 3.5) {
+            return "D+";
+        }
+        if (mark < 3.5 && mark >= 2.5) {
+            return "D";
+        }
+        if (mark < 2.5 && mark >= 1.5) {
+            return "D-";
+        }
+        if (mark < 1.5 && mark > 0) {
+            return "E";
+        }
+        return "-";
+    }
+    
+    public String getSubjectGrade(int mark) {
         if (mark <= 100 && mark >= 80) {
             return "A";
         }

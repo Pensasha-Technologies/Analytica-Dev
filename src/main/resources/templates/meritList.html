@@ -211,8 +211,9 @@
 									<td th:text="${meritList.average}">Average</td>
 									<td th:text="${meritList.grade}"> grade </td>
 									<td th:text="${meritList.points}">-</td>
-									<td
-										th:text="${meritList.points - __${'Points' + meritList.admNo}__}"></td>
+									<th:block th:with="va=${meritList.average - __${'Points' + meritList.admNo}__}">
+										<td th:text="${#numbers.formatDecimal(va == null ? 0 : va, 1, 2)}"></td>
+									</th:block>
 									<th scope="row" th:text="${meritList.rank}">1</th>
 								</tr>
 							</tbody>

@@ -39,6 +39,7 @@ public class MeritList {
     private float deviation;
     private int rank;
     private byte points;
+    private float va;
     private String grade;
 
     public MeritList(String firstname, String secondname, String admNo, int kcpe, String stream, int maths, int eng, int kis, int bio, int chem, int phy, int hist, int cre, int geo, int ire, int hre, int hsci, int anD, int agric, int comp, int avi, int elec, int pwr, int wood, int metal, int bc, int fren, int germ, int arab, int msc, int bs, int dnd, int total, float average, float deviation, int rank) {
@@ -433,4 +434,14 @@ public class MeritList {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+	public float getVa() {
+		return va;
+	}
+
+	public void setVa(float va) {
+		this.va = va;
+	}
+    
+    
 }
