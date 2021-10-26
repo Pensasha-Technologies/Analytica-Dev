@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating add Fees">
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating meritList">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MeritList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/com/pensasha/school/DemoApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/pensasha/school/DemoApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,6 +89,8 @@
       <updated>1630572743436</updated>
       <workItem from="1635170335369" duration="604000" />
       <workItem from="1635220920110" duration="516000" />
+      <workItem from="1635268258933" duration="561000" />
+      <workItem from="1635270515881" duration="532000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -371,7 +365,14 @@
       <option name="project" value="LOCAL" />
       <updated>1634824603031</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Updating meritList">
+      <created>1635268799275</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1635268799275</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -390,7 +391,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updating index page" />
     <MESSAGE value="updating deletion of school and stream" />
     <MESSAGE value="deleting unwanted files" />
     <MESSAGE value="Updating adding of student and school image" />
@@ -415,6 +415,7 @@
     <MESSAGE value="update before finance" />
     <MESSAGE value="updating merit list and class list" />
     <MESSAGE value="Updating add Fees" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating add Fees" />
+    <MESSAGE value="Updating meritList" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating meritList" />
   </component>
 </project>
