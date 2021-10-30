@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating meritList">
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" beforeDir="false" afterPath="$PROJECT_DIR$/target/school-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/pensasha/school/DemoApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/pensasha/school/DemoApplicationTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,25 +65,14 @@
     <option name="myCommands">
       <command value="mvn package" />
       <command value="mvn deploy" />
-      <command value="mvn clean" />
       <command value="mvn install" />
-      <command value="mvn package -Dmaven.test.skip" />
       <command value="spring-boot-run" />
       <command value="mvn spring-boot:run" />
+      <command value="mvn clean" />
+      <command value="mvn package -Dmaven.test.skip" />
     </option>
   </component>
   <component name="RunManager" selected="Application.DemoApplication">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DemoApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pensasha.school.DemoApplication" />
       <module name="school" />
@@ -117,6 +112,7 @@
       <workItem from="1635528916943" duration="4271000" />
       <workItem from="1635566057140" duration="2694000" />
       <workItem from="1635593142573" duration="8347000" />
+      <workItem from="1635629084397" duration="574000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -419,7 +415,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635621455871</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Updating meritList">
+      <created>1635626188101</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1635626188101</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
