@@ -646,7 +646,9 @@ public class StudentController {
         model.addAttribute("streams", streams);
         model.addAttribute("school", school);
         model.addAttribute("activeUser", activeUser);
+
         return "editStudent";
+
     }
 
     @PostMapping(value={"/schools/{code}/editStudent/{admNo}"})

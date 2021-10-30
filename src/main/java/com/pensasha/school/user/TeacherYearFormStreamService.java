@@ -15,9 +15,18 @@ public class TeacherYearFormStreamService {
 	public TeacherYearFormStream addTeacherTeachingSubjectToStream(TeacherYearFormStream teacher) {
 		return this.teacherYearFormStreamRepository.save(teacher);
 	}
+
+	public void deleteTeacherTeachingSubject(TeacherYearFormStream teacher){
+		this.teacherYearFormStreamRepository.deleteById(teacher.getId());
+	}
 	
 	//Getting all teacher teaching a subject in a year, form and stream
 	public List<TeacherYearFormStream> getAllTeachersTeachingInYearFormAndStream(int code, int year, int form, int stream){
 		return this.teacherYearFormStreamRepository.findByTeacherSchoolCodeAndYearYearAndFormFormAndStreamId(code, year, form, stream);
+	}
+
+	//Checkking is there is a teacher teaching in a particular stream
+	public Boolean isThereATeacherInStream(int year, int form, int stream, String subject){
+		return this.teacherYearFormStreamRepository.existsByYearYearAndFormFormAndStreamIdAndSubjectInitials(year, form, stream, subject);
 	}
 }

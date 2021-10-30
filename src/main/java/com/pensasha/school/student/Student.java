@@ -73,7 +73,7 @@ public class Student {
     private int g_phoneNumber;
     @JsonIgnore
     private String g_email;
-    @JsonIgnore
+
     private String gender;
     @JsonIgnore
     @Size(max=30)

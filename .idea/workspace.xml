@@ -5,12 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating meritList">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/schImg/Screenshot (26).png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,13 +38,23 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="InvalidFacetManager">
+    <ignored-facets>
+      <facet id="school/invalid/JPA" />
+      <facet id="school/invalid/Spring" />
+      <facet id="school/invalid/Web" />
+    </ignored-facets>
+  </component>
   <component name="ProjectId" id="1xZpyukeC0Kc5bMCoFP3YtvlmgY" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -40,6 +65,7 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -48,10 +74,12 @@
       <command value="mvn clean" />
       <command value="mvn install" />
       <command value="mvn package -Dmaven.test.skip" />
+      <command value="spring-boot-run" />
+      <command value="mvn spring-boot:run" />
     </option>
   </component>
   <component name="RunManager" selected="Application.DemoApplication">
-    <configuration name="DemoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="DemoApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pensasha.school.DemoApplication" />
       <module name="school" />
       <extension name="coverage">
@@ -64,7 +92,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in school" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All in school" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="school" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -72,12 +111,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.DemoApplication" />
-        <item itemvalue="JUnit.All in school" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,7 +123,12 @@
       <workItem from="1635170335369" duration="604000" />
       <workItem from="1635220920110" duration="516000" />
       <workItem from="1635268258933" duration="561000" />
-      <workItem from="1635270515881" duration="532000" />
+      <workItem from="1635270515881" duration="881000" />
+      <workItem from="1635424923107" duration="4549000" />
+      <workItem from="1635445400205" duration="4176000" />
+      <workItem from="1635528916943" duration="4271000" />
+      <workItem from="1635566057140" duration="2694000" />
+      <workItem from="1635593142573" duration="7767000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -372,7 +410,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635268799275</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Updating meritList">
+      <created>1635271111161</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1635271111161</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -391,6 +436,7 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="updating deletion of school and stream" />
     <MESSAGE value="deleting unwanted files" />
     <MESSAGE value="Updating adding of student and school image" />

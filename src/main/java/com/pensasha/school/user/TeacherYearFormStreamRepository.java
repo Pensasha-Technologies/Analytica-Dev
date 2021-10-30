@@ -11,4 +11,5 @@ public interface TeacherYearFormStreamRepository extends JpaRepository<TeacherYe
 	List<TeacherYearFormStream> findByTeacherSchoolCodeAndYearYearAndFormFormAndStreamId(int code, int year, int form,
 			int stream);
 
+    Boolean existsByYearYearAndFormFormAndStreamIdAndSubjectInitials(int year, int form, int stream, String subject);
 }

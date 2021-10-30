@@ -24,13 +24,16 @@
 				th:text="${success}">Staff saved</div>
 
 			<div class="table-responsive">
-				<table class="table" id="allSchools">
+				<table class="table table-bordered table-sm" id="allSchools">
 					<thead>
 						<tr>
 							<th scope="col">Adm No</th>
 							<th scope="col">Name</th>
 							<th scope="col">Class</th>
 							<th scope="col">Stream</th>
+							<th width="50px;"> </th>
+							<th width="50px;"> </th>
+							<th width="50px;"> </th>
 						</tr>
 					</thead>
 					<tbody id="allSchoolsTable">
@@ -46,6 +49,9 @@
 								Name</td>
 							<td th:text="${form}">Class</td>
 							<td th:text="${stream}">Stream</td>
+							<td></td>
+							<td></td>
+							<td></td>
 						</tr>
 					</tbody>
 				</table>

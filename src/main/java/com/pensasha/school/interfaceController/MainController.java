@@ -756,18 +756,18 @@ public class MainController {
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
         for (int i = 0; i < subjects.size(); ++i) {
             if (subjects.get(i).getInitials() == "C.R.E") {
-                model.addAttribute("creTeacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+                model.addAttribute("creTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
                 continue;
             }
             if (subjects.get(i).getInitials() == "H.R.E") {
-                model.addAttribute("hreTeacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+                model.addAttribute("hreTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
                 continue;
             }
             if (subjects.get(i).getInitials() == "I.R.E") {
-                model.addAttribute("ireTeacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+                model.addAttribute("ireTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
                 continue;
             }
-            model.addAttribute(subjects.get(i).getInitials() + "Teacher", this.userService.getAllTeachersBySubjectInitials(subjects.get(i).getInitials()));
+            model.addAttribute(subjects.get(i).getInitials() + "Teacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
         }
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < streams.size(); ++j) {
@@ -821,15 +821,17 @@ public class MainController {
             teacher.setYears(years);
             teacher.setForms(forms);
             teacher.setStreams(streams);
-            
+
             TeacherYearFormStream teacherYearFormStream = new TeacherYearFormStream(teacher, yearObj, formObj, streamObj, subjects.get(i));
-            teacherYearFormStreamService.addTeacherTeachingSubjectToStream(teacherYearFormStream);
-            
-            this.userService.addUser(teacher);
-             
+            if(!this.teacherYearFormStreamService.isThereATeacherInStream(year, form, stream, subjects.get(i).getInitials())) {
+                teacherYearFormStreamService.addTeacherTeachingSubjectToStream(teacherYearFormStream);
+                this.userService.addUser(teacher);
+            }
+
         }
         
        return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
      
     }
+
 }

@@ -30,8 +30,8 @@ public class UserService {
         return this.userRepository.findById(username);
     }
 
-    public List<Teacher> getAllTeachersBySubjectInitials(String initials) {
-        return this.teacherRepository.findBySubjectsInitials(initials);
+    public List<Teacher> getAllTeachersBySubjectInitials(int code, String initials) {
+        return this.teacherRepository.findBySchoolCodeAndSubjectsInitials(code, initials);
     }
 
     public List<Teacher> getAllTeachersByAcademicYearAndSchool(int code, int year) {

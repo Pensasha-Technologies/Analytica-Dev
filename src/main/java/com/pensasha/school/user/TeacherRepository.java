@@ -7,7 +7,7 @@ import java.util.List;
 public interface TeacherRepository extends JpaRepository<Teacher, String> {
     Teacher findByUsername(String var1);
 
-    List<Teacher> findBySubjectsInitials(String var1);
+    List<Teacher> findBySchoolCodeAndSubjectsInitials(int code, String var1);
 
     List<Teacher> findBySchoolCodeAndYearsYear(int var1, int var2);
 

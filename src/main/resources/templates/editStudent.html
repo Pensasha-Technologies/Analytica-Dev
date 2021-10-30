@@ -91,7 +91,7 @@
 								<div class="form-group">
 									<label for="gender"> Gender</label> <input type="text"
 										name="gender" id="gender" placeholder="gender"
-										th:value="${school.gender}" readonly /> <select required
+										th:value="${school.gender}" readonly th:if="${school.gender == 'Male' || school.gender == 'Female'}" /> <select required
 										th:field="*{gender}"
 										th:unless="${school.gender == 'Male' || school.gender == 'Female'}">
 										<option value="">Select Gender ....</option>

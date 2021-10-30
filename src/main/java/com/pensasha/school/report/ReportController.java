@@ -1231,13 +1231,20 @@ public class ReportController {
          	for(int j = 0; j < subjects.size(); j++){
              int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
              List<StreamPoints> streamsMeanPoints = new ArrayList<>();
+             List<Student> studentsDoingSubject = this.studentService.findAllStudentDoingSubject(code, year, form, term, subjects.get(j).getInitials());
+             Set<String> admNumbers = new HashSet<>();
+             for(Student stude : studentsDoingSubject){
+                 admNumbers.add(stude.getAdmNo());
+                }
              
              for(int k = 0; k<meritLists.size(); k++){
              	StreamPoints streamPoints = new StreamPoints();
                  switch (subjects.get(j).getInitials()) {
-                     case "Maths": 
-                         totalPoints += this.getPoints(meritLists.get(k).getMaths());
-                         count++;
+                     case "Maths":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getMaths());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getMaths());
                              fcount++;
@@ -1259,9 +1266,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Eng": 
-                         totalPoints += this.getPoints(meritLists.get(k).getEng());
-                         count++;
+                     case "Eng":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getEng());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getEng());
                              fcount++;
@@ -1282,9 +1291,11 @@ public class ReportController {
 
                          break;
                      
-                     case "Kis": 
-                         totalPoints += this.getPoints(meritLists.get(k).getKis());
-                         count++;
+                     case "Kis":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getKis());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getKis());
                              fcount++;
@@ -1305,9 +1316,11 @@ public class ReportController {
                         
                          break;
                     
-                     case "Bio": 
-                         totalPoints += this.getPoints(meritLists.get(k).getBio());
-                         count++;
+                     case "Bio":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getBio());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getBio());
                              fcount++;
@@ -1328,9 +1341,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Chem": 
-                         totalPoints += this.getPoints(meritLists.get(k).getChem());
-                         count++;
+                     case "Chem":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getChem());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getChem());
                              fcount++;
@@ -1352,9 +1367,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Phy": 
-                         totalPoints += this.getPoints(meritLists.get(k).getPhy());
-                         count++;
+                     case "Phy":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getPhy());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getPhy());
                              fcount++;
@@ -1376,9 +1393,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Hist": 
-                         totalPoints += this.getPoints(meritLists.get(k).getHist());
-                         count++;
+                     case "Hist":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getHist());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getHist());
                              fcount++;
@@ -1399,9 +1418,11 @@ public class ReportController {
 
                          break;
                      
-                     case "C.R.E": 
-                         totalPoints += this.getPoints(meritLists.get(k).getCre());
-                         count++;
+                     case "C.R.E":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getCre());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getCre());
                              fcount++;
@@ -1423,9 +1444,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Geo": 
-                         totalPoints += this.getPoints(meritLists.get(k).getGeo());
-                         count++;
+                     case "Geo":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getGeo());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getGeo());
                              fcount++;
@@ -1447,9 +1470,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "I.R.E": 
-                         totalPoints += this.getPoints(meritLists.get(k).getIre());
-                         count++;
+                     case "I.R.E":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getIre());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getIre());
                              fcount++;
@@ -1471,9 +1496,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "H.R.E": 
-                         totalPoints += this.getPoints(meritLists.get(k).getHre());
-                         count++;
+                     case "H.R.E":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getHre());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getHre());
                              fcount++;
@@ -1495,9 +1522,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Hsci": 
-                         totalPoints += this.getPoints(meritLists.get(k).getHsci());
-                         count++;
+                     case "Hsci":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getHsci());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getHsci());
                              fcount++;
@@ -1519,9 +1548,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "AnD": 
-                         totalPoints += this.getPoints(meritLists.get(k).getAnD());
-                         count++;
+                     case "AnD":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getAnD());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getAnD());
                              fcount++;
@@ -1543,9 +1574,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Agric": 
-                         totalPoints += this.getPoints(meritLists.get(k).getAgric());
-                         count++;
+                     case "Agric":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getAgric());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getAgric());
                              fcount++;
@@ -1567,9 +1600,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Comp": 
-                         totalPoints += this.getPoints(meritLists.get(k).getComp());
-                         count++;
+                     case "Comp":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getComp());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender() == "Female"){
                              femalePoints += this.getPoints(meritLists.get(k).getComp());
                              fcount++;
@@ -1591,9 +1626,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Avi": 
-                         totalPoints += this.getPoints(meritLists.get(k).getAvi());
-                         count++;
+                     case "Avi":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getAvi());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getAvi());
                              fcount++;
@@ -1615,9 +1652,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Elec": 
-                         totalPoints += this.getPoints(meritLists.get(k).getElec());
-                         count++;
+                     case "Elec":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getElec());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getElec());
                              fcount++;
@@ -1639,9 +1678,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Pwr": 
-                         totalPoints += this.getPoints(meritLists.get(k).getPwr());
-                         count++;
+                     case "Pwr":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getPwr());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getPwr());
                              fcount++;
@@ -1663,9 +1704,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Wood": 
-                         totalPoints += this.getPoints(meritLists.get(k).getWood());
-                         count++;
+                     case "Wood":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getWood());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getWood());
                              fcount++;
@@ -1687,9 +1730,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Metal": 
-                         totalPoints += this.getPoints(meritLists.get(k).getMetal());
-                         count++;
+                     case "Metal":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getMetal());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getMetal());
                              fcount++;
@@ -1711,9 +1756,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Bc": 
-                         totalPoints += this.getPoints(meritLists.get(k).getBc());
-                         count++;
+                     case "Bc":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getBc());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getBc());
                              fcount++;
@@ -1735,9 +1782,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Fren": 
-                         totalPoints += this.getPoints(meritLists.get(k).getFren());
-                         count++;
+                     case "Fren":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getFren());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getFren());
                              fcount++;
@@ -1759,9 +1808,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Germ": 
-                         totalPoints += this.getPoints(meritLists.get(k).getGerm());
-                         count++;
+                     case "Germ":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getGerm());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getGerm());
                              fcount++;
@@ -1783,9 +1834,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Arab": 
-                         totalPoints += this.getPoints(meritLists.get(k).getArab());
-                         count++;
+                     case "Arab":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getArab());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getArab());
                              fcount++;
@@ -1807,9 +1860,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Msc": 
-                         totalPoints += this.getPoints(meritLists.get(k).getMsc());
-                         count++;
+                     case "Msc":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getMsc());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getMsc());
                              fcount++;
@@ -1831,9 +1886,11 @@ public class ReportController {
                          
                          break;
                      
-                     case "Bs": 
-                         totalPoints += this.getPoints(meritLists.get(k).getBs());
-                         count++;
+                     case "Bs":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getBs());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getBs());
                              fcount++;
@@ -1854,9 +1911,11 @@ public class ReportController {
                         
                          break;
                      
-                     case "Dnd": 
-                         totalPoints += this.getPoints(meritLists.get(k).getDnd());
-                         count++;
+                     case "Dnd":
+                         if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                             totalPoints += this.getPoints(meritLists.get(k).getDnd());
+                             count++;
+                         }
                          if(meritLists.get(k).getGender().equals("Female")){
                              femalePoints += this.getPoints(meritLists.get(k).getDnd());
                              fcount++;

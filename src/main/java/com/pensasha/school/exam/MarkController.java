@@ -23,14 +23,13 @@ import com.pensasha.school.year.YearService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class MarkController {
@@ -202,7 +201,7 @@ public class MarkController {
     }
 
     @PostMapping(value={"/schools/{code}/stream/{stream}/marks/{exam}"})
-    public String addMarksToStudentSubjects(@PathVariable int code, @PathVariable int stream, @PathVariable int exam, HttpServletRequest request, Model model, Principal principal) {
+    public RedirectView addMarksToStudentSubjects(@PathVariable int code, @PathVariable int stream, @PathVariable int exam, HttpServletRequest request, RedirectAttributes redit, Principal principal) {
         int form = Integer.parseInt(request.getParameter("form"));
         int year = Integer.parseInt(request.getParameter("year"));
         int term = Integer.parseInt(request.getParameter("term"));
@@ -247,11 +246,13 @@ public class MarkController {
             mark.setExamName(examName);
             this.markService.addMarksToSubject(mark);
         }
-        model.addAttribute("success", "Marks saved successfully");
+        redit.addFlashAttribute("success", "Marks saved successfully");
         if (students.size() == 0) {
-            model.addAttribute("fail", "No student. Cannot add marks");
+            redit.addFlashAttribute("fail", "No student. Cannot add marks");
         }
-        return "redirect:/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/" + subject + "/streams/" + stream + "/exams/" + exam;
+        RedirectView redirectView = new RedirectView("/schools/" + code + "/years/" + year + "/forms/" + form + "/terms/" + term + "/subjects/" + subject + "/streams/" + stream + "/exams/" + exam, true);
+
+        return redirectView;
 
     }
 
@@ -1321,18 +1322,25 @@ public class MarkController {
         }
 
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
-       
-       
+
         	for(int j = 0; j < subjects.size(); j++){
-            int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
+            int totalPoints = 0,femalePoints = 0, malePoints = 0, fcount = 0, count = 0, mcount = 0;
             List<StreamPoints> streamsMeanPoints = new ArrayList<>();
-            
+            List<Student> studentsDoingSubject = this.studentService.findAllStudentDoingSubject(code, year, form, term, subjects.get(j).getInitials());
+            Set<String> admNumbers = new HashSet<>();
+            for(Student stude : studentsDoingSubject){
+                admNumbers.add(stude.getAdmNo());
+            }
+
             for(int k = 0; k<meritLists.size(); k++){
+
             	StreamPoints streamPoints = new StreamPoints();
                 switch (subjects.get(j).getInitials()) {
-                    case "Maths": 
-                        totalPoints += this.getPoints(meritLists.get(k).getMaths());
-                        count++;
+                    case "Maths":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getMaths());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getMaths());
                             fcount++;
@@ -1354,9 +1362,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Eng": 
-                        totalPoints += this.getPoints(meritLists.get(k).getEng());
-                        count++;
+                    case "Eng":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getEng());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getEng());
                             fcount++;
@@ -1377,9 +1387,11 @@ public class MarkController {
 
                         break;
                     
-                    case "Kis": 
-                        totalPoints += this.getPoints(meritLists.get(k).getKis());
-                        count++;
+                    case "Kis":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getKis());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getKis());
                             fcount++;
@@ -1400,9 +1412,11 @@ public class MarkController {
                        
                         break;
                    
-                    case "Bio": 
-                        totalPoints += this.getPoints(meritLists.get(k).getBio());
-                        count++;
+                    case "Bio":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getBio());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getBio());
                             fcount++;
@@ -1423,9 +1437,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Chem": 
-                        totalPoints += this.getPoints(meritLists.get(k).getChem());
-                        count++;
+                    case "Chem":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getChem());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getChem());
                             fcount++;
@@ -1447,9 +1463,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Phy": 
-                        totalPoints += this.getPoints(meritLists.get(k).getPhy());
-                        count++;
+                    case "Phy":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getPhy());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getPhy());
                             fcount++;
@@ -1471,9 +1489,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Hist": 
-                        totalPoints += this.getPoints(meritLists.get(k).getHist());
-                        count++;
+                    case "Hist":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getHist());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getHist());
                             fcount++;
@@ -1494,9 +1514,11 @@ public class MarkController {
 
                         break;
                     
-                    case "C.R.E": 
-                        totalPoints += this.getPoints(meritLists.get(k).getCre());
-                        count++;
+                    case "C.R.E":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getCre());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getCre());
                             fcount++;
@@ -1518,9 +1540,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Geo": 
-                        totalPoints += this.getPoints(meritLists.get(k).getGeo());
-                        count++;
+                    case "Geo":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getGeo());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getGeo());
                             fcount++;
@@ -1542,9 +1566,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "I.R.E": 
-                        totalPoints += this.getPoints(meritLists.get(k).getIre());
-                        count++;
+                    case "I.R.E":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getIre());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getIre());
                             fcount++;
@@ -1563,12 +1589,13 @@ public class MarkController {
                         	}
                         }
 
-                        
                         break;
                     
-                    case "H.R.E": 
-                        totalPoints += this.getPoints(meritLists.get(k).getHre());
-                        count++;
+                    case "H.R.E":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getHre());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getHre());
                             fcount++;
@@ -1587,12 +1614,13 @@ public class MarkController {
                         	}
                         }
 
-                       
                         break;
                     
-                    case "Hsci": 
-                        totalPoints += this.getPoints(meritLists.get(k).getHsci());
-                        count++;
+                    case "Hsci":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getHsci());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getHsci());
                             fcount++;
@@ -1614,9 +1642,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "AnD": 
-                        totalPoints += this.getPoints(meritLists.get(k).getAnD());
-                        count++;
+                    case "AnD":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getAnD());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getAnD());
                             fcount++;
@@ -1638,9 +1668,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Agric": 
-                        totalPoints += this.getPoints(meritLists.get(k).getAgric());
-                        count++;
+                    case "Agric":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getAgric());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getAgric());
                             fcount++;
@@ -1662,9 +1694,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Comp": 
-                        totalPoints += this.getPoints(meritLists.get(k).getComp());
-                        count++;
+                    case "Comp":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getComp());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender() == "Female"){
                             femalePoints += this.getPoints(meritLists.get(k).getComp());
                             fcount++;
@@ -1686,9 +1720,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Avi": 
-                        totalPoints += this.getPoints(meritLists.get(k).getAvi());
-                        count++;
+                    case "Avi":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getAvi());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getAvi());
                             fcount++;
@@ -1710,9 +1746,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Elec": 
-                        totalPoints += this.getPoints(meritLists.get(k).getElec());
-                        count++;
+                    case "Elec":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getElec());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getElec());
                             fcount++;
@@ -1734,9 +1772,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Pwr": 
-                        totalPoints += this.getPoints(meritLists.get(k).getPwr());
-                        count++;
+                    case "Pwr":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getPwr());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getPwr());
                             fcount++;
@@ -1758,9 +1798,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Wood": 
-                        totalPoints += this.getPoints(meritLists.get(k).getWood());
-                        count++;
+                    case "Wood":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getWood());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getWood());
                             fcount++;
@@ -1782,9 +1824,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Metal": 
-                        totalPoints += this.getPoints(meritLists.get(k).getMetal());
-                        count++;
+                    case "Metal":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getMetal());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getMetal());
                             fcount++;
@@ -1806,9 +1850,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Bc": 
-                        totalPoints += this.getPoints(meritLists.get(k).getBc());
-                        count++;
+                    case "Bc":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getBc());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getBc());
                             fcount++;
@@ -1830,9 +1876,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Fren": 
-                        totalPoints += this.getPoints(meritLists.get(k).getFren());
-                        count++;
+                    case "Fren":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getFren());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getFren());
                             fcount++;
@@ -1854,9 +1902,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Germ": 
-                        totalPoints += this.getPoints(meritLists.get(k).getGerm());
-                        count++;
+                    case "Germ":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getGerm());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getGerm());
                             fcount++;
@@ -1878,9 +1928,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Arab": 
-                        totalPoints += this.getPoints(meritLists.get(k).getArab());
-                        count++;
+                    case "Arab":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getArab());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getArab());
                             fcount++;
@@ -1902,9 +1954,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Msc": 
-                        totalPoints += this.getPoints(meritLists.get(k).getMsc());
-                        count++;
+                    case "Msc":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getMsc());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getMsc());
                             fcount++;
@@ -1926,9 +1980,11 @@ public class MarkController {
                         
                         break;
                     
-                    case "Bs": 
-                        totalPoints += this.getPoints(meritLists.get(k).getBs());
-                        count++;
+                    case "Bs":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getBs());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getBs());
                             fcount++;
@@ -1949,9 +2005,11 @@ public class MarkController {
                        
                         break;
                     
-                    case "Dnd": 
-                        totalPoints += this.getPoints(meritLists.get(k).getDnd());
-                        count++;
+                    case "Dnd":
+                        if(admNumbers.contains(meritLists.get(k).getAdmNo())) {
+                            totalPoints += this.getPoints(meritLists.get(k).getDnd());
+                            count++;
+                        }
                         if(meritLists.get(k).getGender().equals("Female")){
                             femalePoints += this.getPoints(meritLists.get(k).getDnd());
                             fcount++;
@@ -2487,276 +2545,276 @@ public class MarkController {
         for (int j = 0; j < gds.length; ++j) {
             int totalS = 0;
             block148: for (int i4 = 0; i4 < subjects.size(); ++i4) {
-                int count = 0;
+                int counts = 0;
                 switch (subjects.get(i4).getInitials()) {
                     case "Maths": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getMaths() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Eng": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getEng() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Kis": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getKis() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Bio": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getBio() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Chem": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getChem() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Phy": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getPhy() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Hist": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getHist() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "C.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getCre() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "CreCount", count);
+                        model.addAttribute(grades[j] + "CreCount", counts);
                         continue block148;
                     }
                     case "Geo": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getGeo() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "I.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getIre() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "IreCount", count);
+                        model.addAttribute(grades[j] + "IreCount", counts);
                         continue block148;
                     }
                     case "H.R.E": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getHre() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + "HreCount", count);
+                        model.addAttribute(grades[j] + "HreCount", counts);
                         continue block148;
                     }
                     case "Hsci": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getHsci() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "AnD": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getAnd() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Agric": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getAgric() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Comp": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getComp() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Avi": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getAvi() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Elec": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getElec() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Pwr": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getPwr() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Wood": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getWood() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Metal": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getMetal() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Bc": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getBc() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Fren": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getFren() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Germ": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getGerm() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Arab": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getArab() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Msc": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getMsc() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Bs": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getBs() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                         continue block148;
                     }
                     case "Dnd": {
                         int k;
                         for (k = 0; k < gradeCounts.size(); ++k) {
                             if (gradeCounts.get(k).getDnd() != gds[j]) continue;
-                            ++count;
+                            ++counts;
                             ++totalS;
                         }
-                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", count);
+                        model.addAttribute(grades[j] + subjects.get(i4).getInitials() + "Count", counts);
                     }
                 }
             }
@@ -2770,16 +2828,16 @@ public class MarkController {
 
         Collections.sort(meritLists, new SortByAverage().reversed());
         
-        int count = 0;
+        int counter = 0;
 
         for(int j = 0; j<meritLists.size();j++){
-            count++;
-            if(count>1){
+            counter++;
+            if(counter >1){
                 if(meritLists.get(j).getPoints() == meritLists.get(j-1).getPoints()																																										){
-                    count--;
+                    counter--;
                 }
             }
-            meritLists.get(j).setRank(count);
+            meritLists.get(j).setRank(counter);
         }
 
         List<MeritList> topStudents = new ArrayList<>();
@@ -2866,7 +2924,6 @@ public class MarkController {
         model.addAttribute("DndCount", dndCount);
 
         return "meritList";
-       
        
     }
 
