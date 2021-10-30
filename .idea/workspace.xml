@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating meritList">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/schImg/Screenshot (26).png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/interfaceController/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/TeacherYearFormStreamService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/user/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/classListPdf.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/editStudent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +68,17 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.DemoApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DemoApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.pensasha.school.DemoApplication" />
       <module name="school" />
@@ -88,17 +88,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -128,7 +117,7 @@
       <workItem from="1635445400205" duration="4176000" />
       <workItem from="1635528916943" duration="4271000" />
       <workItem from="1635566057140" duration="2694000" />
-      <workItem from="1635593142573" duration="7767000" />
+      <workItem from="1635593142573" duration="8347000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -417,7 +406,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635271111161</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Updating meritList">
+      <created>1635620490069</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1635620490069</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
