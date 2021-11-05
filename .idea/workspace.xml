@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="Updating">
+    <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="local project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,17 +81,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All in school" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="school" />
       <option name="PACKAGE_NAME" value="" />
@@ -119,7 +108,9 @@
       <workItem from="1635566057140" duration="2694000" />
       <workItem from="1635593142573" duration="8347000" />
       <workItem from="1635629084397" duration="957000" />
-      <workItem from="1635707156012" duration="328000" />
+      <workItem from="1635707156012" duration="620000" />
+      <workItem from="1636014969812" duration="395000" />
+      <workItem from="1636015613153" duration="22000" />
     </task>
     <task id="LOCAL-00001" summary="Setup changes">
       <created>1630580056298</created>
@@ -443,7 +434,14 @@
       <option name="project" value="LOCAL" />
       <updated>1635706886112</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="local project">
+      <created>1635707593337</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1635707593337</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,7 +461,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="deleting unwanted files" />
     <MESSAGE value="Updating adding of student and school image" />
     <MESSAGE value="Updating student reports and merit list" />
     <MESSAGE value="Updating pom.xml removing jasperReport" />
@@ -488,6 +485,7 @@
     <MESSAGE value="Updating add Fees" />
     <MESSAGE value="Updating meritList" />
     <MESSAGE value="Updating" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating" />
+    <MESSAGE value="local project" />
+    <option name="LAST_COMMIT_MESSAGE" value="local project" />
   </component>
 </project>

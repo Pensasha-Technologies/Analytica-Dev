@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'DEPUTYPRINCIPAL'}"><a
+							th:href="@{/schools/deputyPrincipal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}"><a
+							th:href="@{/schools/principal}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'TEACHER'}"><a
+							th:href="@{/schools/teacherHome}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/school/{code}(code=${school.code})}"
+							th:text="${school.name}"> School </a></li>
+						<li class="breadcrumb-item active" aria-current="page">Timetable</li>
+					</ol>
+				</nav>
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-center">
+						<h3 th:text="${school.name}">School Name</h3>
+					</div>
+
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col" style="font-size: 25px; text-align: center;">#</th>
+									<th scope="col">8:20-8:55</th>
+									<th scope="col">8:55-9:30</th>
+									<th scope="col">9:30-9:50</th>
+									<th scope="col">9:50-10:25</th>
+									<th scope="col">10:25-11:00</th>
+									<th scope="col">11:00-11:30</th>
+									<th scope="col">11:30-12:05</th>
+									<th scope="col">12:05-12:40</th>
+									<th scope="col">12:40-1:30</th>
+									<th scope="col">1:30-2:00</th>
+									<th scope="col">2:00-2:35</th>
+									<th scope="col">2:35-3:10</th>
+									<th scope="col">3:10-4:10</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+								
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>

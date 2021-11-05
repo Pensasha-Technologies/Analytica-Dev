@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment2 :: head">
+</head>
+<body>
+
+	<!-- Begin Page Content -->
+	<div class="container">
+
+		<img th:src="@{/studImg/{admNo}(admNo=${student.admNo})}"
+			height="100px" width="100px;"
+			style="display: block; margin-left: auto; margin-right: auto;" />
+
+		<div style="text-align: center;">
+
+			<h4
+				th:text="${student.firstname + ' ' + student.secondname + ' ' + student.thirdname}">Name</h4>
+			<h5 th:text="'Form ' + ${form} + ' Term ' + ${term}">Form and
+				Term</h5>
+			<h6 th:text="'Year ' + ${year}">Year</h6>
+
+		</div>
+
+		<table class="table" style="font-size: 14px;">
+			<thead>
+				<tr>
+					<th scope="col">SUBJECTS</th>
+					<th:block th:each="examName : ${examNames}">
+						<th scope="col" th:text="${examName.name}">CAT 1</th>
+					</th:block>
+					<th scope="col">SUM</th>
+					<th scope="col">GRADE</th>
+					<th scope="col">PNTS</th>
+					<th scope="col">REMARKS</th>
+					<th scope="col">INITIALS</th>
+				</tr>
+			</thead>
+			<div th:unless="${marks} and ${marks.size()}">
+				<br>
+				<p class="text text-center alert alert-warning">No Student marks
+					has been added</p>
+			</div>
+			<tbody>
+				<tr th:each="subject : ${subjects}">
+					<td th:text="${subject.name}">subject name</td>
+					<th:block th:each="mark : ${marks}">
+						<td th:text="${mark.mark}"
+							th:if="${mark.subject.initials == subject.initials}">Exam
+							Marks</td>
+						<td th:unless="${mark.subject.initials == subject.initials}">
+							-</td>
+					</th:block>
+					<td
+						th:text="${#aggregates.sum(marks.?[subject.initials == '__${subject.initials}__'].![mark])}">100</td>
+					<td
+						th:with="isEven=${#aggregates.sum(marks.?[subject.initials == '__${subject.initials}__'].![mark])}">
+						<p th:if="${(isEven<=100 && isEven>=80 )}">A</p>
+						<p th:if="${isEven<80 && isEven>=75}">A-</p>
+						<p th:if="${isEven<75 && isEven>=70}">B+</p>
+						<p th:if="${isEven<70 && isEven>=65}">B</p>
+						<p th:if="${isEven<65 && isEven>=60}">B-</p>
+						<p th:if="${isEven<60 && isEven>=55}">C+</p>
+						<p th:if="${isEven<55 && isEven>=50}">C</p>
+						<p th:if="${isEven<50 && isEven>=45}">C-</p>
+						<p th:if="${isEven<45 && isEven>=40}">D+</p>
+						<p th:if="${isEven<40 && isEven>=35}">D</p>
+						<p th:if="${isEven<35 && isEven>=30}">D-</p>
+						<p th:if="${isEven<30 && isEven>0}">E</p>
+						<p th:if="${isEven<0}">-</p>
+					</td>
+					<td
+						th:with="isOdd = ${#aggregates.sum(marks.?[subject.initials == '__${subject.initials}__'].![mark])}">
+						<p th:if="${isOdd<=100 && isOdd>=80}">12</p>
+						<p th:if="${isOdd<80 && isOdd>=75}">11</p>
+						<p th:if="${isOdd<75 && isOdd>=70}">10</p>
+						<p th:if="${isOdd<70 && isOdd>=65}">9</p>
+						<p th:if="${isOdd<65 && isOdd>=60}">8</p>
+						<p th:if="${isOdd<60 && isOdd>=55}">7</p>
+						<p th:if="${isOdd<55 && isOdd>=50}">6</p>
+						<p th:if="${isOdd<50 && isOdd>=45}">5</p>
+						<p th:if="${isOdd<45 && isOdd>=40}">4</p>
+						<p th:if="${isOdd<40 && isOdd>=35}">3</p>
+						<p th:if="${isOdd<35 && isOdd>=30}">2</p>
+						<p th:if="${isOdd<30 && isOdd>0}">1</p>
+						<p th:if="${isOdd<0}">-</p>
+					</td>
+					<td
+						th:with="isOdd = ${#aggregates.sum(marks.?[subject.initials == '__${subject.initials}__'].![mark])}">
+						<p th:if="${isOdd<=100 && isOdd>=80}">Excellent</p>
+						<p th:if="${isOdd<80 && isOdd>=75}">Very Good</p>
+						<p th:if="${isOdd<75 && isOdd>=70}">Very Good</p>
+						<p th:if="${isOdd<70 && isOdd>=65}">Good</p>
+						<p th:if="${isOdd<65 && isOdd>=60}">Good</p>
+						<p th:if="${isOdd<60 && isOdd>=55}">Good</p>
+						<p th:if="${isOdd<55 && isOdd>=50}">Average</p>
+						<p th:if="${isOdd<50 && isOdd>=45}">Needs Improvement</p>
+						<p th:if="${isOdd<45 && isOdd>=40}">Poor</p>
+						<p th:if="${isOdd<40 && isOdd>=35}">Very Poor</p>
+						<p th:if="${isOdd<35 && isOdd>=30}">Very Poor</p>
+						<p th:if="${isOdd<30 && isOdd>0}">Fail</p>
+						<p th:if="${isOdd<0}">-</p>
+					</td>
+					<th:block th:each="teacher : ${teachers}">
+						<td th:text="${teacher.initials}"
+							th:if="${teacher.subjects.contains(subject)}">-</td>
+					</th:block>
+				</tr>
+			</tbody>
+		</table>
+
+		<div style="margin: 10px;">
+			<h5>Class Teacher's Remarks</h5>
+			<div style="width: 100%; height: 60px; position: relative;"
+				class="border">
+
+				<p style="position: absolute; bottom: -20px; right: 4px;">
+					Teacher's Name</p>
+			</div>
+		</div>
+
+		<div style="margin: 10px;">
+			<h5>Principal's/Head Teacher's Remarks</h5>
+			<div style="width: 100%; height: 60px; position: relative;"
+				class="border">
+
+				<p style="position: absolute; bottom: -20px; right: 4px;">
+					Principal's Name</p>
+			</div>
+		</div>
+
+		<div style="margin: 10px;">
+			<h5>Other special Remarks</h5>
+			<div style="width: 100%; height: 50px;" class="border"></div>
+		</div>
+
+	</div>
+	<!-- /.container-fluid -->
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+		integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+		integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+		crossorigin="anonymous"></script>
+	</script>
+</body>
+</html>

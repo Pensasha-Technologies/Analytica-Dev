@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/adminHome/schools/{code}/students(code=${school.code})}">Students</a></li>
+						<li class="breadcrumb-item"><a th:text="${student.name}"
+							th:href="@{/adminHome/schools/{code}/student/{admNo}(code=${school.code}, admNo=${student.admNo})}">Students</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Progress
+							Report</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<img th:src="@{/img/avataaars.svg}" height="100px" width="100px;"
+						style="display: block; margin-left: auto; margin-right: auto; width: 50%;" />
+
+					<h3 style="text-align: center; margin-top: 10px;"
+						th:text="${school.name}">Ramba High School</h3>
+					<h5 style="text-align: center;">P.O. Box 305 Kisumu</h5>
+					<h5 style="text-align: center;">END OF YEAR ACADEMIC REPORT.
+						YEAR 2020</h5>
+
+					<div class="container-fluid table-responsive">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td th:text="'Name: ' + ${student.name}">Student name</td>
+									<td th:text="'Adm No: ' + ${student.admNo}">Student AdmNo</td>
+									<td><strong> Form: </strong> 3 west</td>
+									<td><strong> House: </strong> Naya</td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><strong> Form position: </strong> 132</td>
+									<td><strong> Out of: </strong> 300</td>
+									<td><strong> Class position: </strong> 30</td>
+									<td><strong> Out of: </strong> 100</td>
+									<td><strong> Mean grade: </strong> B-</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td><strong> Total marks: </strong> 383</td>
+									<td><strong> Out of: </strong> 700</td>
+									<td><strong> Mean marks: 54.741 </strong></td>
+									<td><strong> Total points: </strong> 55</td>
+									<td><strong> Out of: </strong> 84</td>
+									<td><strong> Mean points: </strong> 7.857</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="border" style="padding: 10px;">
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">SUBJECTS</th>
+										<th scope="col">CAT 1</th>
+										<th scope="col">CAT 2</th>
+										<th scope="col">MAIN</th>
+										<th scope="col">GRADE</th>
+										<th scope="col">PNTS</th>
+										<th scope="col">POS</th>
+										<th scope="col">REMARKS</th>
+										<th scope="col">INITIALS</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="subject : ${subjects}">
+										<td th:text="${subject.name}">Mark</td>
+										<td>Otto</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+										<td>@mdo</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<h4 style="text-align: center;">Students Progress Report</h4>
+
+						<div class="table-responsive">
+							<table class="table" style="text-align: center;">
+								<thead>
+									<tr>
+										<th colspan="5">Form 1</th>
+										<th colspan="5">Form 2</th>
+										<th colspan="5">Form 3</th>
+										<th colspan="5">Form 4</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th>Term</th>
+										<th>Pos</th>
+										<th>Out of</th>
+										<th>MG</th>
+										<th>MPTS</th>
+										<th>Term</th>
+										<th>Pos</th>
+										<th>Out of</th>
+										<th>MG</th>
+										<th>MPTS</th>
+										<th>Term</th>
+										<th>Pos</th>
+										<th>Out of</th>
+										<th>MG</th>
+										<th>MPTS</th>
+										<th>Term</th>
+										<th>Pos</th>
+										<th>Out of</th>
+										<th>MG</th>
+										<th>MPTS</th>
+									</tr>
+									<tr>
+										<th>1</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>1</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>1</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>1</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+									</tr>
+									<tr>
+										<th>2</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>2</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>2</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>2</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+									</tr>
+									<tr>
+										<th>3</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>3</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>3</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>3</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+										<th>...</th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div style="text-align: center;">
+
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr class="d-flex">
+											<th scope="col" class="col-2">KCPE MARKS</th>
+											<th scope="col" class="col-3">MIN. EXPECTED MGRADE</th>
+											<th scope="col" class="col-2">Cur. Mean</th>
+											<th scope="col" class="col-2">Prev. Mean</th>
+											<th scope="col" class="col-2">Dev.</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="d-flex">
+											<td scope="col" class="col-2">Mark</td>
+											<td scope="col" class="col-3">Otto</td>
+											<td scope="col" class="col-2">Mark</td>
+											<td scope="col" class="col-2">Otto</td>
+											<td scope="col" class="col-2">Otto</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</div>
+
+						<div style="margin: 20px;">
+							<h4>Class Teacher's Remarks</h4>
+							<div style="width: 100%; height: 70px; position: relative;"
+								class="border">
+
+								<p style="position: absolute; bottom: -20px; right: 4px;">
+									Teacher's Name</p>
+							</div>
+						</div>
+
+						<div style="margin: 20px;">
+							<h4>Principal's/Head Teacher's Remarks</h4>
+							<div style="width: 100%; height: 70px; position: relative;"
+								class="border">
+
+								<p style="position: absolute; bottom: -20px; right: 4px;">
+									Principal's Name</p>
+							</div>
+						</div>
+
+						<div style="margin: 20px;">
+							<h4>Other special Remarks</h4>
+							<div style="width: 100%; height: 70px;" class="border"></div>
+						</div>
+
+					</div>
+
+					<div style="padding: 10px;">
+						<div style="margin-top: 10px;"
+							class="row d-flex justify-content-between">
+							<h5>Fees arrears Kshs:__________</h5>
+							<h5>Next Term fees Kshs:__________</h5>
+							<h5>Total Kshs:__________</h5>
+							<h5>Sign:_____________</h5>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>
