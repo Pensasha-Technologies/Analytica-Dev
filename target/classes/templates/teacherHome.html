@@ -47,9 +47,11 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="d-flex justify-content-end"
 								style="padding-bottom: 20px;">
+								<!-- 
 								<a class="btn btn-primary"
 									th:href="@{/schools/{code}/addStudent(code=${school.code})}">
 									<i class="fas fa-fw fa-plus"></i> Add Student </a>
+								 -->		
 								<button type="button" class="btn btn-primary"
 									th:if="${students} and ${students.size()}" data-toggle="modal"
 									data-target="#addMarksModal" style="margin-left: 10px;"> <i class="fas fa-fw fa-plus"></i> Add
@@ -73,7 +75,7 @@
 									<th scope="col">Third Name</th>
 									<th scope="col">Adm No.</th>
 									<th></th>
-									<th></th>
+									<!-- <th></th> -->
 								</tr>
 							</thead>
 							<tbody>
@@ -94,14 +96,14 @@
 												class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
 										</div>
 									</td>
-									<td>
+									<!--  <td>
 										<div class="d-flex justify-content-center">
 											<a
 											data-toggle="modal" href="#" data-target="#deleteStudentModal"
 												th:data-href="@{/schools/{code}/students/{admNo}(code=${school.code}, admNo=${student.admNo})}"
 												class="btn btn-danger"> Delete <i class="fas fa-fw fa-trash-alt"></i></a>
 										</div>
-									</td>
+									</td> -->
 								</tr>
 							</tbody>
 						</table>

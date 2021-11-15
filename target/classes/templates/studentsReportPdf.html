@@ -25,14 +25,23 @@
 
 						<div class="border border-dark"
 							style="padding: 5px; page-break-before: always;">
-							<img width = 1000px alt=""	th:src="@{/schBanner/{filename}(filename = ${school.banner})}">
-							<div style="text-align: center;">
-								<h3 th:text="${school.name}" style="font-size: 16px;">School
-									Name</h3>
-								<h4 style="font-size: 15px;">P.O Box [[${school.address}]]</h4>
-								<h5 style="font-size: 14px;">Tel:
-									[[${school.contactNumber}]] Email: [[${school.email}]]</h5>
-							</div>
+							<th:block th:if="${school.banner != null}">
+									<img width="640px;" height="150px;" alt=""	th:src="@{/schBanner/{filename}(filename = ${school.banner})}" >			
+							</th:block>
+							<th:block th:if="${school.banner == null}">
+								<div style="text-align: center;">
+									<h3 th:text="${school.name}">School Name</h3>
+									<h4>P.O Box [[${school.address}]]</h4>
+									<section class="d-flex justify-content-between row">
+										<div class="col">
+											<h5>Tel: [[${school.contactNumber}]]</h5>
+										</div>
+										<div class="col">
+											<h5>Email: [[${school.email}]]</h5>
+										</div>
+									</section>
+								</div>
+							</th:block>
 
 							<hr style="border-top: 2px dotted;" />
 

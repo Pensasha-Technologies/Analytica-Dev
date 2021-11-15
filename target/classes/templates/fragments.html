@@ -653,12 +653,13 @@
 			</div>
 		</div>
 
-
+		<!-- 
 		<li class="nav-item"
 			th:if="${activeUser.role.name == 'TEACHER' && school.name != null}"><a
 			class="nav-link"
 			th:href="@{/schools/{code}/addStudent(code=${school.code})}"> <i
 				class="fas fa-fw fa-user-plus"></i> <span> Admit Student </span></a></li>
+		 -->
 
 		<!-- Nav Item - Utilities Collapse Menu -->
 		<li class="nav-item"
@@ -1027,13 +1028,13 @@
 						class="far fa-fw fa-file-pdf"></i> Marks Sheet </a> <a
 						class="collapse-item" data-toggle="modal" style="color: #012237;"
 						data-target="#meritListModal"
-						th:unless="${activeUser.role.name == 'BURSAR'}"> <i
+						th:unless="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'TEACHER'}"> <i
 						class="far fa-fw fa-file-pdf"></i> Merit List
 					</a><a class="collapse-item" data-toggle="modal"
 						data-target="#studentsReportModal" style="color: #012237;"
-						th:unless="${activeUser.role.name == 'BURSAR'}"> <i
+						th:unless="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'TEACHER'}"> <i
 						class="far fa-fw fa-file-pdf"></i> Student Reports
-					</a><a class="collapse-item" data-toggle="modal"
+					</a><a class="collapse-item" data-toggle="modal" th:unless="${activeUser.role.name == 'TEACHER'}"
 						data-target="#feeBalancePdfModal" style="color: #012237;"><i
 						class="far fa-fw fa-file-pdf"></i> Fee Balance </a>
 				</div>

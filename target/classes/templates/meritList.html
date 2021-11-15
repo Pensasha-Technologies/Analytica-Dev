@@ -309,6 +309,7 @@
 								<th:block th:each="subject : ${subjects}">
 									<th th:text="${subject.initials}"> Subject </th>
 								</th:block>
+								<th> Overall </th>
 							</tr>
 							</thead>
 							<tbody>
@@ -329,6 +330,7 @@
 											<td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
 										</th:block>
 									</th:block>
+									<th th:text="${__${stream.stream}__StreamOverall}"> - </th>
 								</tr>
 							</th:block>
 							<th:block th:if="${school.gender == 'Both'}">
@@ -349,6 +351,7 @@
 												<td  th:text="${ireMaleMeanPoints}" > Subject </td>
 											</th:block>
 										</th:block>
+										<th th:text="${overallMalePoints}"></th>
 									</tr>
 								</th:block>
 								<th:block>
@@ -368,6 +371,7 @@
 													<td  th:text="${ireFemaleMeanPoints}" > Subject </td>
 												</th:block>
 										</th:block>
+										<th th:text="${overallFemalePoints}"> </th>
 									</tr>
 								</th:block>
 							</th:block>
@@ -387,6 +391,7 @@
 										<td  th:text="${ireMeanPoints}" > Subject </td>
 									</th:block>
 								</th:block>
+								<th th:text="${Overall}"> - </th> 
 							</tr>
 							</tbody>
 						</table>

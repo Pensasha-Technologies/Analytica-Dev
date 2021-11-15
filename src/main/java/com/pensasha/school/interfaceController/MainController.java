@@ -1,12 +1,34 @@
 package com.pensasha.school.interfaceController;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
 import com.pensasha.school.discipline.Discipline;
 import com.pensasha.school.discipline.DisciplineService;
 import com.pensasha.school.exam.Mark;
 import com.pensasha.school.exam.MarkService;
 import com.pensasha.school.finance.FeeStructure;
 import com.pensasha.school.finance.FeeStructureService;
-import com.pensasha.school.finance.VoteHeadAllocationService;
 import com.pensasha.school.form.Form;
 import com.pensasha.school.form.FormService;
 import com.pensasha.school.role.Role;
@@ -22,22 +44,14 @@ import com.pensasha.school.subject.Subject;
 import com.pensasha.school.subject.SubjectService;
 import com.pensasha.school.term.Term;
 import com.pensasha.school.term.TermService;
-import com.pensasha.school.user.*;
+import com.pensasha.school.user.SchoolUser;
+import com.pensasha.school.user.Teacher;
+import com.pensasha.school.user.TeacherYearFormStream;
+import com.pensasha.school.user.TeacherYearFormStreamService;
+import com.pensasha.school.user.User;
+import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.IOException;
-import java.security.Principal;
-import java.util.*;
 
 @Controller
 public class MainController {
@@ -54,13 +68,12 @@ public class MainController {
     private final DisciplineService disciplineService;
     private final TeacherYearFormStreamService teacherYearFormStreamService;
     private final FeeStructureService feeStructureService;
-    private final VoteHeadAllocationService voteHeadAllocationService;
 
 	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
 			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
 			UserService userService, RoleService roleService, StreamService streamService,
 			DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService,
-			FeeStructureService feeStructureService, VoteHeadAllocationService voteHeadAllocationService) {
+			FeeStructureService feeStructureService) {
 		super();
 		this.schoolService = schoolService;
 		this.studentService = studentService;
@@ -75,7 +88,6 @@ public class MainController {
 		this.disciplineService = disciplineService;
 		this.teacherYearFormStreamService = teacherYearFormStreamService;
 		this.feeStructureService = feeStructureService;
-		this.voteHeadAllocationService = voteHeadAllocationService;
 	}
 
 	@GetMapping(value={"index"})
@@ -335,29 +347,29 @@ public class MainController {
         List<Form> forms = this.formService.studentForms(admNo);
         List<Subject> subjects = this.subjectService.getSubjectDoneByStudent(admNo);
         List<Subject> schoolSubjects = this.subjectService.getAllSubjectInSchool(school.getCode());
-        ArrayList<Subject> group1 = new ArrayList<Subject>();
-        ArrayList<Subject> group2 = new ArrayList<Subject>();
-        ArrayList<Subject> group3 = new ArrayList<Subject>();
-        ArrayList<Subject> group4 = new ArrayList<Subject>();
-        ArrayList<Subject> group5 = new ArrayList<Subject>();
-        for (int i = 0; i < subjects.size(); ++i) {
-            if (subjects.get(i).getName().contains("Mathematics") || subjects.get(i).getName().contains("English") || subjects.get(i).getName().contains("Kiswahili")) {
-                group1.add(subjects.get(i));
+        ArrayList<Subject> group1 = new ArrayList<>();
+        ArrayList<Subject> group2 = new ArrayList<>();
+        ArrayList<Subject> group3 = new ArrayList<>();
+        ArrayList<Subject> group4 = new ArrayList<>();
+        ArrayList<Subject> group5 = new ArrayList<>();
+        for (Subject subject : subjects) {
+            if (subject.getName().contains("Mathematics") || subject.getName().contains("English") || subject.getName().contains("Kiswahili")) {
+                group1.add(subject);
                 continue;
             }
-            if (subjects.get(i).getName().contains("Biology") || subjects.get(i).getName().contains("Physics") || subjects.get(i).getName().contains("Chemistry")) {
-                group2.add(subjects.get(i));
+            if (subject.getName().contains("Biology") || subject.getName().contains("Physics") || subject.getName().contains("Chemistry")) {
+                group2.add(subject);
                 continue;
             }
-            if (subjects.get(i).getInitials().contains("Hist") || subjects.get(i).getInitials().contains("Geo") || subjects.get(i).getInitials().contains("C.R.E") || subjects.get(i).getInitials().contains("I.R.E") || subjects.get(i).getInitials().contains("H.R.E")) {
-                group3.add(subjects.get(i));
+            if (subject.getInitials().contains("Hist") || subject.getInitials().contains("Geo") || subject.getInitials().contains("C.R.E") || subject.getInitials().contains("I.R.E") || subject.getInitials().contains("H.R.E")) {
+                group3.add(subject);
                 continue;
             }
-            if (subjects.get(i).getInitials().contains("Hsci") || subjects.get(i).getInitials().contains("AnD") || subjects.get(i).getInitials().contains("Agric") || subjects.get(i).getInitials().contains("Comp") || subjects.get(i).getInitials().contains("Avi") || subjects.get(i).getInitials().contains("Elec") || subjects.get(i).getInitials().contains("Pwr") || subjects.get(i).getInitials().contains("Wood") || subjects.get(i).getInitials().contains("Metal") || subjects.get(i).getInitials().contains("Bc") || subjects.get(i).getInitials().contains("Dnd")) {
-                group4.add(subjects.get(i));
+            if (subject.getInitials().contains("Hsci") || subject.getInitials().contains("AnD") || subject.getInitials().contains("Agric") || subject.getInitials().contains("Comp") || subject.getInitials().contains("Avi") || subject.getInitials().contains("Elec") || subject.getInitials().contains("Pwr") || subject.getInitials().contains("Wood") || subject.getInitials().contains("Metal") || subject.getInitials().contains("Bc") || subject.getInitials().contains("Dnd")) {
+                group4.add(subject);
                 continue;
             }
-            group5.add(subjects.get(i));
+            group5.add(subject);
         }
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
@@ -385,21 +397,21 @@ public class MainController {
         if (this.studentService.ifStudentExistsInSchool(school.getCode() + "_" + student.getAdmNo(), school.getCode()).booleanValue()) {
             redit.addFlashAttribute("fail", "Student with adm No:" + student.getAdmNo() + " already exists");
         } else {
-            ArrayList<School> schools = new ArrayList<School>();
+            ArrayList<School> schools = new ArrayList<>();
             schools.add(school);
             Stream streamObj = this.streamService.getStream(stream);
             student.setStream(streamObj);
-            ArrayList<Year> years = new ArrayList<Year>();
+            ArrayList<Year> years = new ArrayList<>();
             years.add(new Year(student.getYearAdmitted()));
             student.setYears(years);
-            ArrayList<Term> terms = new ArrayList<Term>();
+            ArrayList<Term> terms = new ArrayList<>();
             terms.add(new Term(1));
             terms.add(new Term(2));
             terms.add(new Term(3));
-            for (int i = 0; i < terms.size(); ++i) {
-                this.termService.addTerm(terms.get(i));
+            for (Term term : terms) {
+                this.termService.addTerm(term);
             }
-            ArrayList<Form> forms = new ArrayList<Form>();
+            ArrayList<Form> forms = new ArrayList<>();
             switch (student.getCurrentForm()) {
                 case 1: {
                     forms.add(new Form(1, terms));
@@ -424,8 +436,8 @@ public class MainController {
                     break;
                 }
             }
-            for (int i = 0; i < forms.size(); ++i) {
-                this.formService.addForm(forms.get(i));
+            for (Form form : forms) {
+                this.formService.addForm(form);
             }
             Year year = new Year(student.getYearAdmitted());
             year.setSchools(schools);
@@ -437,29 +449,29 @@ public class MainController {
             redit.addFlashAttribute("success", "Student with adm No: " + student.getAdmNo() + " added successfully");
         }
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(school.getCode());
-        ArrayList<Subject> group1 = new ArrayList<Subject>();
-        ArrayList<Subject> group2 = new ArrayList<Subject>();
-        ArrayList<Subject> group3 = new ArrayList<Subject>();
-        ArrayList<Subject> group4 = new ArrayList<Subject>();
-        ArrayList<Subject> group5 = new ArrayList<Subject>();
-        for (int i = 0; i < subjects.size(); ++i) {
-            if (subjects.get(i).getName().contains("Mathematics") || subjects.get(i).getName().contains("English") || subjects.get(i).getName().contains("Kiswahili")) {
-                group1.add(subjects.get(i));
+        ArrayList<Subject> group1 = new ArrayList<>();
+        ArrayList<Subject> group2 = new ArrayList<>();
+        ArrayList<Subject> group3 = new ArrayList<>();
+        ArrayList<Subject> group4 = new ArrayList<>();
+        ArrayList<Subject> group5 = new ArrayList<>();
+        for (Subject subject : subjects) {
+            if (subject.getName().contains("Mathematics") || subject.getName().contains("English") || subject.getName().contains("Kiswahili")) {
+                group1.add(subject);
                 continue;
             }
-            if (subjects.get(i).getName().contains("Biology") || subjects.get(i).getName().contains("Physics") || subjects.get(i).getName().contains("Chemistry")) {
-                group2.add(subjects.get(i));
+            if (subject.getName().contains("Biology") || subject.getName().contains("Physics") || subject.getName().contains("Chemistry")) {
+                group2.add(subject);
                 continue;
             }
-            if (subjects.get(i).getInitials().contains("Hist") || subjects.get(i).getInitials().contains("Geo") || subjects.get(i).getInitials().contains("C.R.E") || subjects.get(i).getInitials().contains("I.R.E") || subjects.get(i).getInitials().contains("H.R.E")) {
-                group3.add(subjects.get(i));
+            if (subject.getInitials().contains("Hist") || subject.getInitials().contains("Geo") || subject.getInitials().contains("C.R.E") || subject.getInitials().contains("I.R.E") || subject.getInitials().contains("H.R.E")) {
+                group3.add(subject);
                 continue;
             }
-            if (subjects.get(i).getInitials().contains("Hsci") || subjects.get(i).getInitials().contains("AnD") || subjects.get(i).getInitials().contains("Agric") || subjects.get(i).getInitials().contains("Comp") || subjects.get(i).getInitials().contains("Avi") || subjects.get(i).getInitials().contains("Elec") || subjects.get(i).getInitials().contains("Pwr") || subjects.get(i).getInitials().contains("Wood") || subjects.get(i).getInitials().contains("Metal") || subjects.get(i).getInitials().contains("Bc") || subjects.get(i).getInitials().contains("Dnd")) {
-                group4.add(subjects.get(i));
+            if (subject.getInitials().contains("Hsci") || subject.getInitials().contains("AnD") || subject.getInitials().contains("Agric") || subject.getInitials().contains("Comp") || subject.getInitials().contains("Avi") || subject.getInitials().contains("Elec") || subject.getInitials().contains("Pwr") || subject.getInitials().contains("Wood") || subject.getInitials().contains("Metal") || subject.getInitials().contains("Bc") || subject.getInitials().contains("Dnd")) {
+                group4.add(subject);
                 continue;
             }
-            group5.add(subjects.get(i));
+            group5.add(subject);
         }
         return "redirect:/teacherHome";
     }
@@ -569,7 +581,7 @@ public class MainController {
 
     @GetMapping(value={"/schools/bursarHome"})
     public String bursarHome(Model model, Principal principal) {
-    	
+
         SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
@@ -577,17 +589,17 @@ public class MainController {
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
         List<Student> students = this.studentService.getAllStudentsInSchool(activeUser.getSchool().getCode());
-        
+
         Set<FeeStructure> feeStructures = new HashSet<>();
         List<FeeStructure> feeStructure = this.feeStructureService.allFeeItemInSchool(school.getCode());
         List<String> stringFee = new ArrayList<>();
-        for(FeeStructure fee: feeStructure) {	
+        for(FeeStructure fee: feeStructure) {
         	if(!stringFee.contains(fee.getName())) {
         		stringFee.add(fee.getName());
         		feeStructures.add(fee);
         	}
         }
-        
+
         model.addAttribute("feeStructures", feeStructures);
         model.addAttribute("students", students);
         model.addAttribute("schoolUsers", schoolUsers);
@@ -596,9 +608,9 @@ public class MainController {
         model.addAttribute("student", student);
         model.addAttribute("school", school);
         model.addAttribute("streams", streams);
-        
+
         return "bursarHome";
-        
+
     }
 
     @GetMapping(value={"/schools/accountsClerkHome"})
@@ -748,30 +760,30 @@ public class MainController {
 
     @GetMapping(value={"/schools/{code}/years/{year}/assignTeacher"})
     public String assignTeachers(Model model, Principal principal, @PathVariable int code, @PathVariable int year) {
-    	
+
         User user = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         List<Stream> streams = this.streamService.getStreamsInSchool(code);
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
-        for (int i = 0; i < subjects.size(); ++i) {
-            if (subjects.get(i).getInitials() == "C.R.E") {
-                model.addAttribute("creTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
+        for (Subject subject : subjects) {
+            if (subject.getInitials() == "C.R.E") {
+                model.addAttribute("creTeacher", this.userService.getAllTeachersBySubjectInitials(code, subject.getInitials()));
                 continue;
             }
-            if (subjects.get(i).getInitials() == "H.R.E") {
-                model.addAttribute("hreTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
+            if (subject.getInitials() == "H.R.E") {
+                model.addAttribute("hreTeacher", this.userService.getAllTeachersBySubjectInitials(code, subject.getInitials()));
                 continue;
             }
-            if (subjects.get(i).getInitials() == "I.R.E") {
-                model.addAttribute("ireTeacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
+            if (subject.getInitials() == "I.R.E") {
+                model.addAttribute("ireTeacher", this.userService.getAllTeachersBySubjectInitials(code, subject.getInitials()));
                 continue;
             }
-            model.addAttribute(subjects.get(i).getInitials() + "Teacher", this.userService.getAllTeachersBySubjectInitials(code, subjects.get(i).getInitials()));
+            model.addAttribute(subject.getInitials() + "Teacher", this.userService.getAllTeachersBySubjectInitials(code, subject.getInitials()));
         }
         for (int i = 0; i < 4; ++i) {
-            for (int j = 0; j < streams.size(); ++j) {
-                model.addAttribute("f" + i + streams.get(j).getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code,  year, i, streams.get(j).getId()));
+            for (Stream stream : streams) {
+                model.addAttribute("f" + i + stream.getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code,  year, i, stream.getId()));
             }
         }
         model.addAttribute("activeUser", user);
@@ -780,20 +792,20 @@ public class MainController {
         model.addAttribute("streams", streams);
         model.addAttribute("subjects", subjects);
         model.addAttribute("year", year);
-        
+
         return "assignTeachers";
-       
+
     }
 
     @PostMapping(value={"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher"})
     public String assignTeachers(RedirectAttributes redit, HttpServletRequest request, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int stream) {
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
-        
+
         for (int i = 0; i < subjects.size(); ++i) {
             Teacher teacher = this.userService.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
-            
+
             if (teacher == null) continue;
-            
+
             List<Form> UpdatedForms = this.formService.getAllFormsByTeacher(teacher.getUsername());
             Form formObj = this.formService.getForm(form, year, code).get();
             UpdatedForms.add(formObj);
@@ -801,7 +813,7 @@ public class MainController {
             frms.addAll(UpdatedForms);
             List<Form> forms = new ArrayList<>();
             forms.addAll(frms);
-            
+
             List<Year> UpdatedYears = this.yearService.getAllYearsByTeacher(teacher.getUsername());
             Year yearObj = this.yearService.getYearFromSchool(year, code).get();
             UpdatedYears.add(yearObj);
@@ -809,7 +821,7 @@ public class MainController {
             yrs.addAll(UpdatedYears);
             List<Year> years = new ArrayList<>();
             years.addAll(yrs);
-            
+
             List<Stream> UpdatedStreams = this.streamService.getAllStreamOfTeacher(teacher.getUsername());
             Stream streamObj = this.streamService.getStream(stream);
             UpdatedStreams.add(streamObj);
@@ -817,7 +829,7 @@ public class MainController {
             strms.addAll(UpdatedStreams);
             List<Stream> streams = new ArrayList<>();
             streams.addAll(strms);
-            
+
             teacher.setYears(years);
             teacher.setForms(forms);
             teacher.setStreams(streams);
@@ -829,9 +841,9 @@ public class MainController {
             }
 
         }
-        
+
        return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
-     
+
     }
 
 }

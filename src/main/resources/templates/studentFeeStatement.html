@@ -34,6 +34,9 @@
 							th:if="${activeUser.role.name == 'BURSAR'}">Home</a> <a
 							th:href="@{/schools/principal}"
 							th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a></li>
+						<li class="breadcrumb-item"><a
+							th:href="@{/school/{code}(code=${school.code})}"
+							th:text="${school.name}">School</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Student's
 							Fee Statement</li>
 					</ol>
@@ -135,8 +138,11 @@
 													<th scope="col"></th>
 													<th scope="col"></th>
 													<th scope="col"></th>
-													<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
+													<th:block th:if="${form != null}">
+														<th scope="col" th:text="${ 'Ksh ' + form + '/-'}">KSh
 														1000 /-</th>
+													</th:block>
+													<th:block th:if="${form == null}"> <th scope="col"> - </th> </th:block>
 													<th></th>
 													<th></th>
 												</tr>
@@ -147,8 +153,12 @@
 													<th scope="col"></th>
 													<th scope="col"></th>
 													<th scope="col"></th>
-													<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-
-													</th>
+													<th:block th:if="${form != null}">
+														<th scope="col">Ksh <span th:text="${form} - ${total}">1000</span>/-</th>
+													</th:block>
+													<th:block th:if="${form == null}">
+														<th scope="col" th:text="${0 - total}">  -  </th>
+													</th:block>
 													<th></th>
 													<th></th>
 												</tr>

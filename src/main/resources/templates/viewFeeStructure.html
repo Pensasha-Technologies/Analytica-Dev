@@ -51,7 +51,7 @@
 					<div>
 
 						<th:block th:if="${school.banner != null}" style="text-align:center;">
-							<img width = 100% alt=""	th:src="@{/schBanner/{filename}(filename = ${school.banner})}">
+							<img width = 100% height=200px alt=""	th:src="@{/schBanner/{filename}(filename = ${school.banner})}">
 						</th:block>						
 						
 						<th:block th:if="${school.banner == null}">
