@@ -5,8 +5,8 @@
         <!-- Custom styles for this template-->
         <title>Analytica Soft</title>
         <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
-        
-        
+
+
     </head>
 
     <body id="page-top">
@@ -93,174 +93,174 @@
                                         <th scope="col">Name</th>
                                         <th scope="col">K.C.P.E</th>
                                         <th scope="col">Strm</th>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th scope="col" th:text="${subject.initials}">subject</th>
-                                </th:block>
-                                <th scope="col">Tot</th>
-                                <th scope="col">Mean</th>
-                                <th scope="col">Grd</th>
-                                <th scope="col">Pnts</th>
-                                <th scope="col">V.A</th>
-                                <th scope="col">Rank</th>
-                                </tr>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th scope="col" th:text="${subject.initials}">subject</th>
+                                        </th:block>
+                                        <th scope="col">Tot</th>
+                                        <th scope="col">Mean</th>
+                                        <th scope="col">Grd</th>
+                                        <th scope="col">Pnts</th>
+                                        <th scope="col">V.A</th>
+                                        <th scope="col">Rank</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <div th:unless="${meritLists} and ${meritLists.size()}">
-                                    <br>
-                                    <p class="text text-center alert alert-warning">No Student
-                                        Marks has been added</p>
-                                </div>
-                                <tr th:each="meritList, rank : ${meritLists}">
-                                    <td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
-                                    <td
-                                        th:text="${meritList.firstname + ' ' + meritList.secondname}"></td>
-                                <th:block th:with="isEven=${meritList.kcpe/5}">
-                                    <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.kcpe} + ' A'">A</td>
-                                    <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.kcpe} + ' A-'">A-</td>
-                                    <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.kcpe} + ' B+'">B+</td>
-                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.kcpe} + ' B'">B</td>
-                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.kcpe} + ' B-'">B-</td>
-                                    <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.kcpe} + ' C+'">C+</td>
-                                    <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.kcpe} + ' C'">C</td>
-                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.kcpe} + ' C-'">C-</td>
-                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.kcpe} + ' D+'">D+</td>
-                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.kcpe} + ' D'">D</td>
-                                    <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.kcpe} + ' D-'">D-</td>
-                                    <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.kcpe} + ' E'">E</td>
-                                    <td th:if="${isEven <= 0 }">...</td>
-                                </th:block>
-                                <td th:text="${meritList.stream}">stream</td>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th:block th:if="${subject.initials == 'C.R.E'}">
-                                        <th:block th:if="${meritList.cre >= 0}">
-                                            <th:block th:with="isEven=${meritList.cre}">
-                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.cre} + ' A'">A</td>
-                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.cre} + ' A-'">A-</td>
-                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.cre} + ' B+'">B+</td>
-                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.cre} + ' B'">B</td>
-                                                <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.cre} + ' B-'">B-</td>
-                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.cre} + ' C+'">C+</td>
-                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.cre} + ' C'">C</td>
-                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.cre} + ' C-'">C-</td>
-                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.cre} + ' D+'">D+</td>
-                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.cre} + ' D'">D</td>
-                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.cre} + ' D-'">D-</td>
-                                                <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.cre} + ' E'">E</td>
-                                                <td th:if="${isEven <= 0 }">...</td>
-                                            </th:block>
+                                    <div th:unless="${meritLists} and ${meritLists.size()}">
+                                        <br>
+                                            <p class="text text-center alert alert-warning">No Student
+                                                Marks has been added</p>
+                                    </div>
+                                    <tr th:each="meritList, rank : ${meritLists}">
+                                        <td th:text="${#strings.substringAfter(meritList.admNo,'_')}"></td>
+                                        <td
+                                            th:text="${meritList.firstname + ' ' + meritList.secondname}"></td>
+                                        <th:block th:with="isEven=${meritList.kcpe/5}">
+                                            <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.kcpe} + ' A'">A</td>
+                                            <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.kcpe} + ' A-'">A-</td>
+                                            <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.kcpe} + ' B+'">B+</td>
+                                            <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.kcpe} + ' B'">B</td>
+                                            <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.kcpe} + ' B-'">B-</td>
+                                            <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.kcpe} + ' C+'">C+</td>
+                                            <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.kcpe} + ' C'">C</td>
+                                            <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.kcpe} + ' C-'">C-</td>
+                                            <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.kcpe} + ' D+'">D+</td>
+                                            <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.kcpe} + ' D'">D</td>
+                                            <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.kcpe} + ' D-'">D-</td>
+                                            <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.kcpe} + ' E'">E</td>
+                                            <td th:if="${isEven <= 0 }">...</td>
                                         </th:block>
-                                        <td th:if="${meritList.cre < 0}"> - </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'H.R.E'}">
-                                        <th:block th:if="${meritList.hre >= 0}">
-                                            <th:block th:with="isEven=${meritList.hre}">
-                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.hre} + ' A'">A</td>
-                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.hre} + ' A-'">A-</td>
-                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.hre} + ' B+'">B+</td>
-                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.hre} + ' B'">B</td>
-                                                <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.hre} + ' B-'">B-</td>
-                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.hre} + ' C+'">C+</td>
-                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.hre} + ' C'">C</td>
-                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.hre} + ' C-'">C-</td>
-                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.hre} + ' D+'">D+</td>
-                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.hre} + ' D'">D</td>
-                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.hre} + ' D-'">D-</td>
-                                                <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.hre} + ' E'">E</td>
-                                                <td th:if="${isEven <= 0 }">...</td>
-                                            </th:block>
-                                        </th:block>
-                                        <td th:if="${meritList.hre < 0}"> - </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'I.R.E'}">
-                                        <th:block th:if="${meritList.ire >= 0}">
-                                            <th:block th:with="isEven=${meritList.ire}">
-                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.ire} + ' A'">A</td>
-                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.ire} + ' A-'">A-</td>
-                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.ire} + ' B+'">B+</td>
-                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.ire} + ' B'">B</td>
-                                                <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.ire} + ' B-'">B-</td>
-                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.ire} + ' C+'">C+</td>
-                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.ire} + ' C'">C</td>
-                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.ire} + ' C-'">C-</td>
-                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.ire} + ' D+'">D+</td>
-                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.ire} + ' D'">D</td>
-                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.ire} + ' D-'">D-</td>
-                                                <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.ire} + ' E'">E</td>
-                                                <td th:if="${isEven <= 0 }">...</td>
-                                            </th:block>
-                                        </th:block>
-                                        <td th:if="${meritList.ire < 0}"> - </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                        <th:block th:if="${meritList.__${subject.initials}__ >= 0}" >
-                                            <th:block th:if="${subject.initials == 'Maths' || subject.initials == 'Bio' || subject.initials  ==  'Phy' || subject.initials  ==  'Chem'}">
-                                                <th:block th:with="isEven=${meritList.__${subject.initials}__}">
-                                                    <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
-                                                    <td th:if="${isEven<80 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
-                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
-                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
-                                                    <td th:if="${isEven<60 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
-                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
-                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
-                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
-                                                    <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
-                                                    <td th:if="${isEven<30 && isEven>=25}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
-                                                    <td th:if="${isEven<25 && isEven>=20}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
-                                                    <td th:if="${isEven<20 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
-                                                    <td th:if="${isEven <= 0 }">...</td>
+                                        <td th:text="${meritList.stream}">stream</td>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                <th:block th:if="${meritList.cre >= 0}">
+                                                    <th:block th:with="isEven=${meritList.cre}">
+                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.cre} + ' A'">A</td>
+                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.cre} + ' A-'">A-</td>
+                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.cre} + ' B+'">B+</td>
+                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.cre} + ' B'">B</td>
+                                                        <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.cre} + ' B-'">B-</td>
+                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.cre} + ' C+'">C+</td>
+                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.cre} + ' C'">C</td>
+                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.cre} + ' C-'">C-</td>
+                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.cre} + ' D+'">D+</td>
+                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.cre} + ' D'">D</td>
+                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.cre} + ' D-'">D-</td>
+                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.cre} + ' E'">E</td>
+                                                        <td th:if="${isEven <= 0 }">...</td>
+                                                    </th:block>
                                                 </th:block>
+                                                <td th:if="${meritList.cre < 0}"> - </td>
                                             </th:block>
-                                            <th:block th:if="${subject.initials == 'Eng' || subject.initials == 'Kis' || subject.initials == 'Hist' || subject.initials == 'Geo'}">
-                                                <th:block th:with="isEven=${meritList.__${subject.initials}__}">
-                                                    <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
-                                                    <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
-                                                    <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
-                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
-                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
-                                                    <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
-                                                    <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
-                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
-                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
-                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
-                                                    <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
-                                                    <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
-                                                    <td th:if="${isEven <= 0 }">...</td>
+                                            <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                <th:block th:if="${meritList.hre >= 0}">
+                                                    <th:block th:with="isEven=${meritList.hre}">
+                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.hre} + ' A'">A</td>
+                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.hre} + ' A-'">A-</td>
+                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.hre} + ' B+'">B+</td>
+                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.hre} + ' B'">B</td>
+                                                        <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.hre} + ' B-'">B-</td>
+                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.hre} + ' C+'">C+</td>
+                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.hre} + ' C'">C</td>
+                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.hre} + ' C-'">C-</td>
+                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.hre} + ' D+'">D+</td>
+                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.hre} + ' D'">D</td>
+                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.hre} + ' D-'">D-</td>
+                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.hre} + ' E'">E</td>
+                                                        <td th:if="${isEven <= 0 }">...</td>
+                                                    </th:block>
                                                 </th:block>
+                                                <td th:if="${meritList.hre < 0}"> - </td>
                                             </th:block>
-                                            <th:block th:if="${subject.initials == 'Hsci' || subject.initials == 'AnD' || subject.initials == 'Agric' || subject.initials  == 'Wood' ||
-                                                      subject.initials  == 'Metal' || subject.initials  ==  'Bc' || subject.initials  == 'Pwr' || subject.initials  == 'Elec' || subject.initials  == 'Dnd'
-                                                      || subject.initials  == 'Avi' || subject.initials  ==  'Comp' || subject.initials  == 'Fren' || subject.initials  ==  'Germ' || subject.initials  == 'Arab'
-                                                      || subject.initials  == 'Msc' || subject.initials  == 'Bs'}">
-                                                <th:block th:with="isEven=${meritList.__${subject.initials}__}">
-                                                    <td th:if="${(isEven<=100 && isEven>=85 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
-                                                    <td th:if="${isEven<85 && isEven>=80}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
-                                                    <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
-                                                    <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
-                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
-                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
-                                                    <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
-                                                    <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
-                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
-                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
-                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
-                                                    <td th:if="${isEven<35 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
-                                                    <td th:if="${isEven <= 0 }">...</td>
+                                            <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                <th:block th:if="${meritList.ire >= 0}">
+                                                    <th:block th:with="isEven=${meritList.ire}">
+                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.ire} + ' A'">A</td>
+                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.ire} + ' A-'">A-</td>
+                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.ire} + ' B+'">B+</td>
+                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.ire} + ' B'">B</td>
+                                                        <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.ire} + ' B-'">B-</td>
+                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.ire} + ' C+'">C+</td>
+                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.ire} + ' C'">C</td>
+                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.ire} + ' C-'">C-</td>
+                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.ire} + ' D+'">D+</td>
+                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.ire} + ' D'">D</td>
+                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.ire} + ' D-'">D-</td>
+                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.ire} + ' E'">E</td>
+                                                        <td th:if="${isEven <= 0 }">...</td>
+                                                    </th:block>
                                                 </th:block>
+                                                <td th:if="${meritList.ire < 0}"> - </td>
                                             </th:block>
-                                        </th:block>
-                                        <td th:if="${meritList.__${subject.initials}__ < 0}"> - </td>
-                                    </th:block>
+                                            <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                <th:block th:if="${meritList.__${subject.initials}__ >= 0}" >
+                                                    <th:block th:if="${subject.initials == 'Maths' || subject.initials == 'Bio' || subject.initials  ==  'Phy' || subject.initials  ==  'Chem'}">
+                                                        <th:block th:with="isEven=${meritList.__${subject.initials}__}">
+                                                            <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
+                                                            <td th:if="${isEven<80 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
+                                                            <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
+                                                            <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
+                                                            <td th:if="${isEven<60 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
+                                                            <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
+                                                            <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
+                                                            <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
+                                                            <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
+                                                            <td th:if="${isEven<30 && isEven>=25}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
+                                                            <td th:if="${isEven<25 && isEven>=20}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
+                                                            <td th:if="${isEven<20 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
+                                                            <td th:if="${isEven <= 0 }">...</td>
+                                                        </th:block>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'Eng' || subject.initials == 'Kis' || subject.initials == 'Hist' || subject.initials == 'Geo'}">
+                                                        <th:block th:with="isEven=${meritList.__${subject.initials}__}">
+                                                            <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
+                                                            <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
+                                                            <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
+                                                            <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
+                                                            <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
+                                                            <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
+                                                            <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
+                                                            <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
+                                                            <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
+                                                            <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
+                                                            <td th:if="${isEven<35 && isEven>=30}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
+                                                            <td th:if="${isEven<30 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
+                                                            <td th:if="${isEven <= 0 }">...</td>
+                                                        </th:block>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'Hsci' || subject.initials == 'AnD' || subject.initials == 'Agric' || subject.initials  == 'Wood' ||
+                                                              subject.initials  == 'Metal' || subject.initials  ==  'Bc' || subject.initials  == 'Pwr' || subject.initials  == 'Elec' || subject.initials  == 'Dnd'
+                                                              || subject.initials  == 'Avi' || subject.initials  ==  'Comp' || subject.initials  == 'Fren' || subject.initials  ==  'Germ' || subject.initials  == 'Arab'
+                                                              || subject.initials  == 'Msc' || subject.initials  == 'Bs'}">
+                                                        <th:block th:with="isEven=${meritList.__${subject.initials}__}">
+                                                            <td th:if="${(isEven<=100 && isEven>=85 )}" th:text="${meritList.__${subject.initials}__} + ' A'">A</td>
+                                                            <td th:if="${isEven<85 && isEven>=80}" th:text="${meritList.__${subject.initials}__} + ' A-'">A-</td>
+                                                            <td th:if="${isEven<80 && isEven>=75}" th:text="${meritList.__${subject.initials}__} + ' B+'">B+</td>
+                                                            <td th:if="${isEven<75 && isEven>=70}" th:text="${meritList.__${subject.initials}__} + ' B'">B</td>
+                                                            <td th:if="${isEven<70 && isEven>=65}" th:text="${meritList.__${subject.initials}__} + ' B-'">B-</td>
+                                                            <td th:if="${isEven<65 && isEven>=60}" th:text="${meritList.__${subject.initials}__} + ' C+'">C+</td>
+                                                            <td th:if="${isEven<60 && isEven>=55}" th:text="${meritList.__${subject.initials}__} + ' C'">C</td>
+                                                            <td th:if="${isEven<55 && isEven>=50}" th:text="${meritList.__${subject.initials}__} + ' C-'">C-</td>
+                                                            <td th:if="${isEven<50 && isEven>=45}" th:text="${meritList.__${subject.initials}__} + ' D+'">D+</td>
+                                                            <td th:if="${isEven<45 && isEven>=40}" th:text="${meritList.__${subject.initials}__} + ' D'">D</td>
+                                                            <td th:if="${isEven<40 && isEven>=35}" th:text="${meritList.__${subject.initials}__} + ' D-'">D-</td>
+                                                            <td th:if="${isEven<35 && isEven>0}" th:text="${meritList.__${subject.initials}__} + ' E'">E</td>
+                                                            <td th:if="${isEven <= 0 }">...</td>
+                                                        </th:block>
+                                                    </th:block>
+                                                </th:block>
+                                                <td th:if="${meritList.__${subject.initials}__ < 0}"> - </td>
+                                            </th:block>
 
-                                </th:block>
-                                <td th:text="${meritList.total}"></td>
-                                <td th:text="${meritList.average}">Average</td>
-                                <td th:text="${meritList.grade}"> grade </td>
-                                <td th:text="${meritList.points}">-</td>
-                                <th:block th:with="va=${meritList.average - __${'Points' + meritList.admNo}__}">
-                                    <td th:text="${#numbers.formatDecimal(va == null ? 0 : va, 1, 2)}"></td>
-                                </th:block>
-                                <th scope="row" th:text="${meritList.rank}">1</th>
-                                </tr>
+                                        </th:block>
+                                        <td th:text="${meritList.total}"></td>
+                                        <td th:text="${meritList.average}">Average</td>
+                                        <td th:text="${meritList.grade}"> grade </td>
+                                        <td th:text="${meritList.points}">-</td>
+                                        <th:block th:with="va=${meritList.average - __${'Points' + meritList.admNo}__}">
+                                            <td th:text="${#numbers.formatDecimal(va == null ? 0 : va, 1, 2)}"></td>
+                                        </th:block>
+                                        <th scope="row" th:text="${meritList.rank}">1</th>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -276,48 +276,48 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th scope="col" th:text="${subject.initials}">subject</th>
-                                </th:block>
-                                </tr>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th scope="col" th:text="${subject.initials}">subject</th>
+                                        </th:block>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>Average</td>
-                                <th:block th:each="subject : ${subjects}">
-                                    <td scope="col"
-                                        th:text="${(#aggregates.sum(meritLists.![cre]))/creCount}"
-                                        th:if="${subject.initials == 'C.R.E' && creCount > 0}">-</td>
-                                    <td scope="col"
-                                        th:text="${(#aggregates.sum(meritLists.![hre]))/hreCount}"
-                                        th:if="${subject.initials == 'H.R.E' && hreCount > 0}">-</td>
-                                    <td scope="col"
-                                        th:text="${(#aggregates.sum(meritLists.![ire]))/ireCount}"
-                                        th:if="${subject.initials == 'I.R.E' && ireCount > 0}">-</td>
-                                    <th:block
-                                        th:unless="${subject.initials == 'C.R.E' || subject.initials == 'H.R.E' || subject.initials == 'I.R.E'}">
-                                        <td scope="col"
-                                            th:text="${(#aggregates.sum(meritLists.?[__${subject.initials}__ >= 0].![__${subject.initials}__]))/__${subject.initials}__Count}"
-                                            th:if="${__${subject.initials}__Count > 0}">-</td>
-                                        <td th:if="${__${subject.initials}__Count == 0}">-</td>
-                                    </th:block>
-                                </th:block>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <td scope="col"
+                                                th:text="${(#aggregates.sum(meritLists.![cre]))/creCount}"
+                                                th:if="${subject.initials == 'C.R.E' && creCount > 0}">-</td>
+                                            <td scope="col"
+                                                th:text="${(#aggregates.sum(meritLists.![hre]))/hreCount}"
+                                                th:if="${subject.initials == 'H.R.E' && hreCount > 0}">-</td>
+                                            <td scope="col"
+                                                th:text="${(#aggregates.sum(meritLists.![ire]))/ireCount}"
+                                                th:if="${subject.initials == 'I.R.E' && ireCount > 0}">-</td>
+                                            <th:block
+                                                th:unless="${subject.initials == 'C.R.E' || subject.initials == 'H.R.E' || subject.initials == 'I.R.E'}">
+                                                <td scope="col"
+                                                    th:text="${(#aggregates.sum(meritLists.?[__${subject.initials}__ >= 0].![__${subject.initials}__]))/__${subject.initials}__Count}"
+                                                    th:if="${__${subject.initials}__Count > 0}">-</td>
+                                                <td th:if="${__${subject.initials}__Count == 0}">-</td>
+                                            </th:block>
+                                        </th:block>
 
-                                </tr>
-                                <tr>
-                                    <td>Entry</td>
-                                <th:block th:each="subject : ${subjects}">
-                                    <td th:text="${creCount}"
-                                        th:if="${subject.initials == 'C.R.E'}">C.R.E</td>
-                                    <td th:text="${ireCount}"
-                                        th:if="${subject.initials == 'I.R.E'}">I.R.E</td>
-                                    <td th:text="${hreCount}"
-                                        th:if="${subject.initials == 'H.R.E'}">H.R.E</td>
-                                    <td th:text="${__${subject.initials}__Count}"
-                                        th:unless="${subject.initials == 'C.R.E' || subject.initials == 'I.R.E' || subject.initials == 'H.R.E'}"></td>
-                                </th:block>
+                                    </tr>
+                                    <tr>
+                                        <td>Entry</td>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <td th:text="${creCount}"
+                                                th:if="${subject.initials == 'C.R.E'}">C.R.E</td>
+                                            <td th:text="${ireCount}"
+                                                th:if="${subject.initials == 'I.R.E'}">I.R.E</td>
+                                            <td th:text="${hreCount}"
+                                                th:if="${subject.initials == 'H.R.E'}">H.R.E</td>
+                                            <td th:text="${__${subject.initials}__Count}"
+                                                th:unless="${subject.initials == 'C.R.E' || subject.initials == 'I.R.E' || subject.initials == 'H.R.E'}"></td>
+                                        </th:block>
 
-                                </tr>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -352,93 +352,93 @@
                                 <thead>
                                     <tr>
                                         <th>S/S</th>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th th:text="${subject.initials}"> Subject </th>
-                                </th:block>
-                                <th> Overall </th>
-                                </tr>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th th:text="${subject.initials}"> Subject </th>
+                                        </th:block>
+                                        <th> Overall </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each="stream : ${streams}">
+                                    <th:block th:each="stream : ${streams}">
+                                        <tr>
+                                            <th th:text="${stream.stream}"> Stream Name </th>
+                                            <th:block th:each="subject : ${subjects}">
+                                                <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                    <td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                    <td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                    <td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                    <td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                            </th:block>
+                                            <th th:text="${__${stream.stream}__StreamOverall}"> - </th>
+                                        </tr>
+                                    </th:block>
+                                    <th:block th:if="${school.gender == 'Both'}">
+                                        <th:block>
+                                            <tr>
+                                                <th> Male </th>
+                                                <th:block th:each="subject : ${subjects}">
+                                                    <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                        <td th:text="${__${subject.initials}__MaleMeanPoints}"> Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                        <td th:text="${creMaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                        <td th:text="${hreMaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                        <td  th:text="${ireMaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                </th:block>
+                                                <th th:text="${overallMalePoints}"></th>
+                                            </tr>
+                                        </th:block>
+                                        <th:block>
+                                            <tr>
+                                                <th> Female </th>
+                                                <th:block th:each="subject : ${subjects}">
+                                                    <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                        <td th:text="${__${subject.initials}__FemaleMeanPoints}"> Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                        <td th:text="${creFemaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                        <td th:text="${hreFemaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                    <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                        <td  th:text="${ireFemaleMeanPoints}" > Subject </td>
+                                                    </th:block>
+                                                </th:block>
+                                                <th th:text="${overallFemalePoints}"> </th>
+                                            </tr>
+                                        </th:block>
+                                    </th:block>
                                     <tr>
-                                        <th th:text="${stream.stream}"> Stream Name </th>
-                                    <th:block th:each="subject : ${subjects}">
-                                        <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                            <td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
+                                        <th> C/MN </th>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                <td th:text="${__${subject.initials}__MeanPoints}"> Subject </td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                <td th:text="${creMeanPoints}" > Subject </td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                <td th:text="${hreMeanPoints}" > Subject </td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                <td  th:text="${ireMeanPoints}" > Subject </td>
+                                            </th:block>
                                         </th:block>
-                                        <th:block th:if="${subject.initials == 'C.R.E'}">
-                                            <td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'H.R.E'}">
-                                            <td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'I.R.E'}">
-                                            <td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                    </th:block>
-                                    <th th:text="${__${stream.stream}__StreamOverall}"> - </th>
+                                        <th th:text="${Overall}"> - </th> 
                                     </tr>
-                                </th:block>
-                                <th:block th:if="${school.gender == 'Both'}">
-                                    <th:block>
-                                        <tr>
-                                            <th> Male </th>
-                                        <th:block th:each="subject : ${subjects}">
-                                            <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                                <td th:text="${__${subject.initials}__MaleMeanPoints}"> Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'C.R.E'}">
-                                                <td th:text="${creMaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'H.R.E'}">
-                                                <td th:text="${hreMaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'I.R.E'}">
-                                                <td  th:text="${ireMaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                        </th:block>
-                                        <th th:text="${overallMalePoints}"></th>
-                                        </tr>
-                                    </th:block>
-                                    <th:block>
-                                        <tr>
-                                            <th> Female </th>
-                                        <th:block th:each="subject : ${subjects}">
-                                            <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                                <td th:text="${__${subject.initials}__FemaleMeanPoints}"> Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'C.R.E'}">
-                                                <td th:text="${creFemaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'H.R.E'}">
-                                                <td th:text="${hreFemaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                            <th:block th:if="${subject.initials == 'I.R.E'}">
-                                                <td  th:text="${ireFemaleMeanPoints}" > Subject </td>
-                                            </th:block>
-                                        </th:block>
-                                        <th th:text="${overallFemalePoints}"> </th>
-                                        </tr>
-                                    </th:block>
-                                </th:block>
-                                <tr>
-                                    <th> C/MN </th>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                        <td th:text="${__${subject.initials}__MeanPoints}"> Subject </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'C.R.E'}">
-                                        <td th:text="${creMeanPoints}" > Subject </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'H.R.E'}">
-                                        <td th:text="${hreMeanPoints}" > Subject </td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'I.R.E'}">
-                                        <td  th:text="${ireMeanPoints}" > Subject </td>
-                                    </th:block>
-                                </th:block>
-                                <th th:text="${Overall}"> - </th> 
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -458,36 +458,36 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th:block th:each="stream : ${streams}">
+                                    <th:block th:each="subject : ${subjects}">
+                                        <th:block th:each="stream : ${streams}">
+                                            <tr>
+                                                <td th:text="${stream.stream}"></td>
+                                                <td th:text="${subject.initials}"></td>
+                                                <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                    <td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                    <td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                    <td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                                <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                    <td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
+                                                </th:block>
+                                                <th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
+                                                <th:block th:if="${teachers.size() != 0}">
+                                                    <td th:each = "teacher : ${teachers}" th:if="${teacher.subject.equals(subject) && teacher.stream.equals(stream)}" th:text="${teacher.teacher.initials}" >-</td>
+                                                </th:block>
+                                            </tr>
+                                        </th:block>
                                         <tr>
-                                            <td th:text="${stream.stream}"></td>
-                                            <td th:text="${subject.initials}"></td>
-                                        <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                            <td th:text="${__${subject.initials}____${stream.stream}__MeanPoints}"> stream mean points </td>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'C.R.E'}">
-                                            <td th:text="${cre__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'H.R.E'}">
-                                            <td th:text="${hre__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'I.R.E'}">
-                                            <td th:text="${ire__${stream.stream}__MeanPoints}"> Subject </td>
-                                        </th:block>
-                                        <th:block th:if="${teachers.size() == 0}"> <td> - </td>  </th:block>
-                                        <th:block th:if="${teachers.size() != 0}">
-                                            <td th:each = "teacher : ${teachers}" th:if="${teacher.subject.equals(subject) && teacher.stream.equals(stream)}" th:text="${teacher.teacher.initials}" >-</td>
-                                        </th:block>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </th:block>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </th:block>
                                 </tbody>
                             </table>
                         </div>
@@ -501,11 +501,11 @@
                                 <thead>
                                     <tr>
                                         <th>Grade</th>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th scope="col" th:text="${subject.initials}">subject</th>
-                                </th:block>
-                                <th>Total</th>
-                                </tr>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th scope="col" th:text="${subject.initials}">subject</th>
+                                        </th:block>
+                                        <th>Total</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="grade : ${grades}">
@@ -519,44 +519,44 @@
                                         <td
                                             th:if="${grade != 'Am' && grade != 'Bp' && grade != 'Bm' && grade != 'Cp' && grade != 'Cm' && grade != 'Dp' && grade != 'Dm'}"
                                             th:text="${grade}"></td>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th:block
-                                        th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                        <td th:text="${__${grade + subject.initials + 'Count'}__}">
-                                            -</td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'C.R.E'}">
-                                        <td th:text="${__${grade + 'CreCount'}__}">-</td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'H.R.E'}">
-                                        <td th:text="${__${grade + 'HreCount'}__}">-</td>
-                                    </th:block>
-                                    <th:block th:if="${subject.initials == 'I.R.E'}">
-                                        <td th:text="${__${grade + 'IreCount'}__}">-</td>
-                                    </th:block>
-                                </th:block>
-                                <th:block>
-                                    <td th:text="${__${grade + 'Count'}__}">Entry</td>
-                                </th:block>
-                                </tr>
-                                <tr>
-                                    <td><strong> Total </strong></td>
-                                <th:block th:each="subject : ${subjects}">
-                                    <th:block
-                                        th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
-                                        <td th:text="${__${subject.initials}__Count}">-</td>
-                                    </th:block>
-                                    <td th:if="${subject.initials == 'C.R.E'}"
-                                        th:text="${creCount}"></td>
-                                    <td th:if="${subject.initials == 'H.R.E'}"
-                                        th:text="${hreCount}"></td>
-                                    <td th:if="${subject.initials == 'I.R.E'}"
-                                        th:text="${ireCount}"></td>
-                                </th:block>
-                                <td
-                                    th:text="${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}"></td>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th:block
+                                                th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                <td th:text="${__${grade + subject.initials + 'Count'}__}">
+                                                    -</td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                <td th:text="${__${grade + 'CreCount'}__}">-</td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                <td th:text="${__${grade + 'HreCount'}__}">-</td>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                <td th:text="${__${grade + 'IreCount'}__}">-</td>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block>
+                                            <td th:text="${__${grade + 'Count'}__}">Entry</td>
+                                        </th:block>
+                                    </tr>
+                                    <tr>
+                                        <td><strong> Total </strong></td>
+                                        <th:block th:each="subject : ${subjects}">
+                                            <th:block
+                                                th:if="${subject.initials != 'C.R.E' && subject.initials != 'H.R.E' && subject.initials != 'I.R.E'}">
+                                                <td th:text="${__${subject.initials}__Count}">-</td>
+                                            </th:block>
+                                            <td th:if="${subject.initials == 'C.R.E'}"
+                                                th:text="${creCount}"></td>
+                                            <td th:if="${subject.initials == 'H.R.E'}"
+                                                th:text="${hreCount}"></td>
+                                            <td th:if="${subject.initials == 'I.R.E'}"
+                                                th:text="${ireCount}"></td>
+                                        </th:block>
+                                        <td
+                                            th:text="${MathsCount + EngCount + KisCount + BioCount + ChemCount + PhyCount + HistCount + creCount + GeoCount + ireCount + hreCount + HsciCount + AnDCount + AgricCount + CompCount + AviCount + ElecCount + PwrCount + WoodCount + MetalCount + BcCount + FrenCount + GermCount + ArabCount + MscCount + BsCount + DndCount}"></td>
 
-                                </tr>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -594,18 +594,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <div th:if="${mostImproved == null}">
-                                    <br>
-                                    <p class="text text-center alert alert-warning">No Student
-                                        Marks has been added</p>
-                                </div>
-                                <tr th:if="${mostImproved != null}">
-                                    <td th:text="${mostImproved.firstname} + ' ' + ${mostImproved.secondname}"> Name</td>
-                                    <td th:text="${mostImproved.stream}">Stream</td>
-                                    <td
-                                        th:text="${#strings.substringAfter(mostImproved.admNo,'_')}">Adm
-                                        No</td>
-                                </tr>
+                                    <div th:if="${mostImproved == null}">
+                                        <br>
+                                            <p class="text text-center alert alert-warning">No Student
+                                                Marks has been added</p>
+                                    </div>
+                                    <tr th:if="${mostImproved != null}">
+                                        <td th:text="${mostImproved.firstname} + ' ' + ${mostImproved.secondname}"> Name</td>
+                                        <td th:text="${mostImproved.stream}">Stream</td>
+                                        <td
+                                            th:text="${#strings.substringAfter(mostImproved.admNo,'_')}">Adm
+                                            No</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -630,130 +630,169 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <th:block th:unless="${meritLists} and ${meritLists.size()}">
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </th:block>
-                                    <th:block th:if="${meritLists} and ${meritLists.size()}">
-                                        <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
-                                            <th:block th:each = "subjectGiant, iterStat : ${__${subject.initials}__Giants}">
-                                                <th:block th:if="${subjectGiant.__${subject.initials}__ > 0}">
-                                                    <tr>
-                                                        <td th:text="${iterStat.index+1}"> No </td>
-                                                        <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-                                                        <td th:text="${subjectGiant.firstname} + ' ' + ${subjectGiant.secondname}"> Student Name </td>
-                                                        <td th:text="${subjectGiant.stream}"> Stream </td>
-                                                        <!-- Marks from 0 -100 -->
-                                                    <th:block th:with="isEven=${subjectGiant.__${subject.initials}__}">
-                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
-                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
-                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
-                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
-                                                        <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
-                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
-                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
-                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
-                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
-                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
-                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
-                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
-                                                        <td th:if="${isEven <= 0 }">...</td>
+                                        <th:block th:unless="${meritLists} and ${meritLists.size()}">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </th:block>
+                                        <th:block th:if="${meritLists} and ${meritLists.size()}">
+                                            <th:block th:if="${subject.initials != 'C.R.E' && subject.initials != 'I.R.E' && subject.initials != 'H.R.E'}">
+                                                <th:block th:each = "subjectGiant, iterStat : ${__${subject.initials}__Giants}">
+                                                    <th:block th:if="${subjectGiant.__${subject.initials}__ > 0}">
+                                                        <tr>
+                                                            <td th:text="${iterStat.index+1}"> No </td>
+                                                            <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+                                                            <td th:text="${subjectGiant.firstname} + ' ' + ${subjectGiant.secondname}"> Student Name </td>
+                                                            <td th:text="${subjectGiant.stream}"> Stream </td>
+                                                            <!-- Marks from 0 -100 -->
+                                                            <th:block th:if="${subject.initials == 'Maths' || subject.initials == 'Bio' || subject.initials  ==  'Phy' || subject.initials  ==  'Chem'}">
+                                                                <th:block th:with="isEven=${subjectGiant.__${subject.initials}__}">
+                                                                    <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + ' A'">A</td>
+                                                                    <td th:if="${isEven<80 && isEven>=70}" th:text="${isEven} + ' A-'">A-</td>
+                                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + ' B+'">B+</td>
+                                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${isEven} + ' B'">B</td>
+                                                                    <td th:if="${isEven<60 && isEven>=50}" th:text="${isEven} + ' B-'">B-</td>
+                                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + ' C+'">C+</td>
+                                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + ' C'">C</td>
+                                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + ' C-'">C-</td>
+                                                                    <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + ' D+'">D+</td>
+                                                                    <td th:if="${isEven<30 && isEven>=25}" th:text="${isEven} + ' D'">D</td>
+                                                                    <td th:if="${isEven<25 && isEven>=20}" th:text="${isEven} + ' D-'">D-</td>
+                                                                    <td th:if="${isEven<20 && isEven>0}" th:text="${isEven} + ' E'">E</td>
+                                                                    <td th:if="${isEven <= 0 }">...</td>
+                                                                </th:block>
+                                                            </th:block>
+                                                            <th:block th:if="${subject.initials == 'Eng' || subject.initials == 'Kis' || subject.initials == 'Hist' || subject.initials == 'Geo'}">
+                                                                <th:block th:with="isEven=${subjectGiant.__${subject.initials}__}">
+                                                                    <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + ' A'">A</td>
+                                                                    <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + ' A-'">A-</td>
+                                                                    <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + ' B+'">B+</td>
+                                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + ' B'">B</td>
+                                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${isEven} + ' B-'">B-</td>
+                                                                    <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + ' C+'">C+</td>
+                                                                    <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + ' C'">C</td>
+                                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + ' C-'">C-</td>
+                                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + ' D+'">D+</td>
+                                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + ' D'">D</td>
+                                                                    <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + ' D-'">D-</td>
+                                                                    <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + ' E'">E</td>
+                                                                    <td th:if="${isEven <= 0 }">...</td>
+                                                                </th:block>
+                                                            </th:block>
+                                                            <th:block th:if="${subject.initials == 'Hsci' || subject.initials == 'AnD' || subject.initials == 'Agric' || subject.initials  == 'Wood' ||
+                                                                      subject.initials  == 'Metal' || subject.initials  ==  'Bc' || subject.initials  == 'Pwr' || subject.initials  == 'Elec' || subject.initials  == 'Dnd'
+                                                                      || subject.initials  == 'Avi' || subject.initials  ==  'Comp' || subject.initials  == 'Fren' || subject.initials  ==  'Germ' || subject.initials  == 'Arab'
+                                                                      || subject.initials  == 'Msc' || subject.initials  == 'Bs'}">
+                                                                <th:block th:with="isEven=${subjectGiant.__${subject.initials}__}">
+                                                                    <td th:if="${(isEven<=100 && isEven>=85 )}" th:text="${isEven} + ' A'">A</td>
+                                                                    <td th:if="${isEven<85 && isEven>=80}" th:text="${isEven} + ' A-'">A-</td>
+                                                                    <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + ' B+'">B+</td>
+                                                                    <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + ' B'">B</td>
+                                                                    <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + ' B-'">B-</td>
+                                                                    <td th:if="${isEven<65 && isEven>=60}" th:text="${isEven} + ' C+'">C+</td>
+                                                                    <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + ' C'">C</td>
+                                                                    <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + ' C-'">C-</td>
+                                                                    <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + ' D+'">D+</td>
+                                                                    <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + ' D'">D</td>
+                                                                    <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + ' D-'">D-</td>
+                                                                    <td th:if="${isEven<35 && isEven>0}" th:text="${isEven} + ' E'">E</td>
+                                                                    <td th:if="${isEven <= 0 }">...</td>
+                                                                </th:block>
+                                                            </th:block>
+                                                        </tr>
                                                     </th:block>
-                                                    </tr>
                                                 </th:block>
                                             </th:block>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'C.R.E'}">
-                                            <th:block th:each = "subjectGiant : ${CreGiants}">
-                                                <th:block th:if="${subjectGiant.cre > 0}">
-                                                    <tr>
-                                                        <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-                                                        <td th:text="${subjectGiant.firstname}"> First Name </td>
-                                                        <td th:text="${subjectGiant.secondname}"> Third Name </td>
-                                                        <td th:text="${subjectGiant.stream}"> Stream </td>
+                                            <th:block th:if="${subject.initials == 'C.R.E'}">
+                                                <th:block th:each = "subjectGiant : ${CreGiants}">
+                                                    <th:block th:if="${subjectGiant.cre > 0}">
+                                                        <tr>
+                                                            <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+                                                            <td th:text="${subjectGiant.firstname}"> First Name </td>
+                                                            <td th:text="${subjectGiant.secondname}"> Third Name </td>
+                                                            <td th:text="${subjectGiant.stream}"> Stream </td>
 
-                                                        <!-- Marks from 0 -100 -->
-                                                    <th:block th:with="isEven=${subjectGiant.cre}">
-                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
-                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
-                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
-                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
-                                                        <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
-                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
-                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
-                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
-                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
-                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
-                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
-                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
-                                                        <td th:if="${isEven <= 0 }">...</td>
+                                                            <!-- Marks from 0 -100 -->
+                                                            <th:block th:with="isEven=${subjectGiant.cre}">
+                                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
+                                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
+                                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
+                                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
+                                                                <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
+                                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
+                                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
+                                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
+                                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
+                                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
+                                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
+                                                                <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
+                                                                <td th:if="${isEven <= 0 }">...</td>
+                                                            </th:block>
+                                                        </tr>
                                                     </th:block>
-                                                    </tr>
+                                                </th:block>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'H.R.E'}">
+                                                <th:block th:each = "subjectGiant : ${HreGiants}">
+                                                    <th:block th:if="${subjectGiant.hre > 0}">
+                                                        <tr>
+                                                            <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+                                                            <td th:text="${subjectGiant.firstname}"> First Name </td>
+                                                            <td th:text="${subjectGiant.secondname}"> Third Name </td>
+                                                            <td th:text="${subjectGiant.stream}"> Stream </td>
+                                                            <!-- Marks from 0 -100 -->
+                                                            <th:block th:with="isEven=${subjectGiant.hre}">
+                                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
+                                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
+                                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
+                                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
+                                                                <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
+                                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
+                                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
+                                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
+                                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
+                                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
+                                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
+                                                                <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
+                                                                <td th:if="${isEven <= 0 }">...</td>
+                                                            </th:block>
+                                                        </tr>
+                                                    </th:block>
+                                                </th:block>
+                                            </th:block>
+                                            <th:block th:if="${subject.initials == 'I.R.E'}">
+                                                <th:block th:each = "subjectGiant : ${IreGiants}">
+                                                    <th:block th:if="${subjectGiant.ire > 0}">
+                                                        <tr>
+                                                            <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
+                                                            <td th:text="${subjectGiant.firstname}"> First Name </td>
+                                                            <td th:text="${subjectGiant.secondname}"> Third Name </td>
+                                                            <td th:text="${subjectGiant.stream}"> Stream </td>
+                                                            <!-- Marks from 0 -100 -->
+                                                            <th:block th:with="isEven=${subjectGiant.ire}">
+                                                                <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
+                                                                <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
+                                                                <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
+                                                                <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
+                                                                <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
+                                                                <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
+                                                                <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
+                                                                <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
+                                                                <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
+                                                                <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
+                                                                <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
+                                                                <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
+                                                                <td th:if="${isEven <= 0 }">...</td>
+                                                            </th:block>
+                                                        </tr>
+                                                    </th:block>
                                                 </th:block>
                                             </th:block>
                                         </th:block>
-                                        <th:block th:if="${subject.initials == 'H.R.E'}">
-                                            <th:block th:each = "subjectGiant : ${HreGiants}">
-                                                <th:block th:if="${subjectGiant.hre > 0}">
-                                                    <tr>
-                                                        <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-                                                        <td th:text="${subjectGiant.firstname}"> First Name </td>
-                                                        <td th:text="${subjectGiant.secondname}"> Third Name </td>
-                                                        <td th:text="${subjectGiant.stream}"> Stream </td>
-                                                        <!-- Marks from 0 -100 -->
-                                                    <th:block th:with="isEven=${subjectGiant.hre}">
-                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
-                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
-                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
-                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
-                                                        <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
-                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
-                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
-                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
-                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
-                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
-                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
-                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
-                                                        <td th:if="${isEven <= 0 }">...</td>
-                                                    </th:block>
-                                                    </tr>
-                                                </th:block>
-                                            </th:block>
-                                        </th:block>
-                                        <th:block th:if="${subject.initials == 'I.R.E'}">
-                                            <th:block th:each = "subjectGiant : ${IreGiants}">
-                                                <th:block th:if="${subjectGiant.ire > 0}">
-                                                    <tr>
-                                                        <td th:text="${#strings.substringAfter(subjectGiant.admNo,'_')}"> Adm No. </td>
-                                                        <td th:text="${subjectGiant.firstname}"> First Name </td>
-                                                        <td th:text="${subjectGiant.secondname}"> Third Name </td>
-                                                        <td th:text="${subjectGiant.stream}"> Stream </td>
-                                                        <!-- Marks from 0 -100 -->
-                                                    <th:block th:with="isEven=${subjectGiant.ire}">
-                                                        <td th:if="${(isEven<=100 && isEven>=80 )}" th:text="${isEven} + '  A'">A</td>
-                                                        <td th:if="${isEven<80 && isEven>=75}" th:text="${isEven} + '  A-'">A-</td>
-                                                        <td th:if="${isEven<75 && isEven>=70}" th:text="${isEven} + '  B+'">B+</td>
-                                                        <td th:if="${isEven<70 && isEven>=65}" th:text="${isEven} + '  B'">B</td>
-                                                        <td th:if="${isEven<65 && isEven>=60}"  th:text="${isEven} + '  B-'">B-</td>
-                                                        <td th:if="${isEven<60 && isEven>=55}" th:text="${isEven} + '  C+'">C+</td>
-                                                        <td th:if="${isEven<55 && isEven>=50}" th:text="${isEven} + '  C'">C</td>
-                                                        <td th:if="${isEven<50 && isEven>=45}" th:text="${isEven} + '  C-'">C-</td>
-                                                        <td th:if="${isEven<45 && isEven>=40}" th:text="${isEven} + '  D+'">D+</td>
-                                                        <td th:if="${isEven<40 && isEven>=35}" th:text="${isEven} + '  D'">D</td>
-                                                        <td th:if="${isEven<35 && isEven>=30}" th:text="${isEven} + '  D-'">D-</td>
-                                                        <td th:if="${isEven<30 && isEven>0}" th:text="${isEven} + '  E'">E</td>
-                                                        <td th:if="${isEven <= 0 }">...</td>
-                                                    </th:block>
-                                                    </tr>
-                                                </th:block>
-                                            </th:block>
-                                        </th:block>
-                                    </th:block>
                                     </tbody>
                                 </table>
                             </div>
@@ -776,14 +815,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each = "topStudent, iterStat : ${topStudents}">
-                                    <tr>
-                                        <th scope="row" th:text="${iterStat.index + 1}">1</th>
-                                        <td th:text="${topStudent.firstname} + ' ' + ${topStudent.secondname}">Name</td>
-                                        <td th:text="${topStudent.average}">Average</td>
-                                        <td th:text="${topStudent.grade}">Grade</td>
-                                    </tr>
-                                </th:block>
+                                    <th:block th:each = "topStudent, iterStat : ${topStudents}">
+                                        <tr>
+                                            <th scope="row" th:text="${iterStat.index + 1}">1</th>
+                                            <td th:text="${topStudent.firstname} + ' ' + ${topStudent.secondname}">Name</td>
+                                            <td th:text="${topStudent.average}">Average</td>
+                                            <td th:text="${topStudent.grade}">Grade</td>
+                                        </tr>
+                                    </th:block>
                                 </tbody>
                             </table>
                         </div>
@@ -810,14 +849,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each = "bottomStudent, iterStat : ${bottomStudents}">
-                                    <tr>
-                                        <th scope="row" th:text="${iterStat.index + 1}">1</th>
-                                        <td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>
-                                        <td th:text="${bottomStudent.average}">Average</td>
-                                        <td th:text="${bottomStudent.grade}">Grade</td>
-                                    </tr>
-                                </th:block>
+                                    <th:block th:each = "bottomStudent, iterStat : ${bottomStudents}">
+                                        <tr>
+                                            <th scope="row" th:text="${iterStat.index + 1}">1</th>
+                                            <td th:text="${bottomStudent.firstname} + ' ' + ${bottomStudent.secondname}">Name</td>
+                                            <td th:text="${bottomStudent.average}">Average</td>
+                                            <td th:text="${bottomStudent.grade}">Grade</td>
+                                        </tr>
+                                    </th:block>
                                 </tbody>
                             </table>
                         </div>
