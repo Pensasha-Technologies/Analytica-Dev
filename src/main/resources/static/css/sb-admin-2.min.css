@@ -4960,8 +4960,7 @@ a.badge-dark.focus, a.badge-dark:focus {
 	color: #18181c
 }
 
-@
--webkit-keyframes progress-bar-stripes {
+@-webkit-keyframes progress-bar-stripes {
 	from {background-position: 1rem 0
 }
 
@@ -4970,8 +4969,7 @@ to {
 }
 
 }
-@
-keyframes progress-bar-stripes {
+@keyframes progress-bar-stripes {
 	from {background-position: 1rem 0
 }
 
@@ -6111,14 +6109,12 @@ a.close.disabled {
 	text-align: center
 }
 
-@
--webkit-keyframes spinner-border {
+@-webkit-keyframes spinner-border {
 	to {transform: rotate(360deg)
 }
 
 }
-@
-keyframes spinner-border {
+@keyframes spinner-border {
 	to {transform: rotate(360deg)
 }
 
@@ -6141,48 +6137,23 @@ keyframes spinner-border {
 	border-width: .2em
 }
 
-@
--webkit-keyframes spinner-grow { 0%{
+@-webkit-keyframes spinner-grow { 0%{
 	transform: scale(0)
 }
 
-50
-
-
-%
-{
-opacity
-
-
-:
-
-
-1
-
-
+    50%{
+    opacity:1}
 }
-}
-@
-keyframes spinner-grow { 0%{
+
+@keyframes spinner-grow { 0%{
 	transform: scale(0)
 }
 
-50
-
-
-%
-{
-opacity
-
-
-:
-
-
-1
-
-
+    50%
+    {
+    opacity:1}
 }
-}
+
 .spinner-grow {
 	display: inline-block;
 	width: 2rem;
@@ -7318,16 +7289,14 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover
 	z-index: 1030
 }
 
-@
-supports ((position:-webkit-sticky) or (position:sticky)) { .
+@supports ((position:-webkit-sticky) or (position:sticky)) { .
 	sticky-top {position: -webkit-sticky;
 	position: sticky;
 	top: 0;
 	z-index: 1020
 }
 
-}
-.sr-only {
+}.sr-only {
 	position: absolute;
 	width: 1px;
 	height: 1px;
@@ -9249,84 +9218,29 @@ a:focus {
 	font-weight: 800
 }
 
-@
--webkit-keyframes growIn { 0%{
+@-webkit-keyframes growIn { 0%{
 	transform: scale(.9);
 	opacity: 0
 }
 
-100
-
-
-%
+100%
 {
-transform
-
-
-:
-
-
-scale
-(
-
-
-1
-
-
-)
-;
-
-
-opacity
-
-
-:
-
-
-1
-
-
+    transform:scale(1);
+    opacity:1
 }
 }
-@
-keyframes growIn { 0%{
+
+@keyframes growIn { 0%{
 	transform: scale(.9);
 	opacity: 0
 }
 
-100
-
-
-%
+100%
 {
-transform
-
-
-:
-
-
-scale
-(
-
-
-1
-
-
-)
-;
-
-
-opacity
-
-
-:
-
-
-1
-
-
+transform: scale(1);
+opacity:1}
 }
-}
+
 .animated--grow-in, .sidebar .nav-item .collapse {
 	-webkit-animation-name: growIn;
 	animation-name: growIn;
@@ -9338,46 +9252,24 @@ opacity
 		opacity cubic-bezier(0, 1, .4, 1)
 }
 
-@
--webkit-keyframes fadeIn { 0%{
+@-webkit-keyframes fadeIn { 0%{
 	opacity: 0
 }
 
-100
-
-
-%
+100%
 {
-opacity
-
-
-:
-
-
-1
-
+    opacity:1
+}
 
 }
-}
-@
-keyframes fadeIn { 0%{
+
+@keyframes fadeIn { 0%{
 	opacity: 0
 }
 
-100
-
-
-%
+100%
 {
-opacity
-
-
-:
-
-
-1
-
-
+    opacity:1
 }
 }
 .animated--fade-in {
@@ -10421,574 +10313,51 @@ form.user .btn-user {
 	width: 12.5rem
 }
 
-@
--webkit-keyframes noise-anim { 0%{
-	clip: rect(32px, 9999px, 16px, 0)
+@-webkit-keyframes noise-anim { 
+    0%{	clip: rect(32px, 9999px, 16px, 0)}
+
+    5%{ clip: rect(5px, 9999px, 24px, 0)}
+    
+    10%{ clip: rect(77px, 9999px, 87px, 0)}
+    
+    15%{ clip: rect(91px, 9999px, 95px, 0)}
+    
+    20%{ clip: rect(74px, 9999px, 9px, 0)}
+
+    25%{ clip: rect(37px, 9999px, 32px, 0)}
+    
+    30%{ clip: rect(56px, 9999px, 27px, 0)}
+    
+    35%{ clip: rect(35px, 9999px, 33px, 0)}
+    
+    40%{ clip: rect(89px, 9999px, 6px, 0)}
+
+    45%{ clip: rect(81px, 9999px, 77px, 0)}
+    
+    50%{ clip: rect(64px, 9999px, 69px, 0)}
+    
+    55%{ clip: rect(12px, 9999px, 11px, 0)}
+    
+    60%{ clip: rect(59px, 9999px, 11px, 0)}
+    
+    65%{ clip: rect(69px, 9999px, 59px, 0)}
+    
+    70%{ clip: rect(74px, 9999px, 65px, 0)}
+    
+    75%{ clip: rect(56px, 9999px, 79px, 0)}
+
+    80%{ clip: rect(80px, 9999px, 64px, 0)}
+
+    85%{ clip: rect(87px, 9999px, 29px, 0)}
+    
+    90%{ clip: rect(16px, 9999px, 21px, 0)}
+    
+    95%{clip: rect(69px, 9999px, 43px, 0)}
+
+    100%{clip: rect(75px, 9999px, 63px, 0)}
 }
 
-5
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-5px
-,
-9999px
-,
-24px
-,
-0
-
-
-)
-
-
-}
-10
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-77px
-,
-9999px
-,
-87px
-,
-0
-
-
-)
-
-
-}
-15
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-91px
-,
-9999px
-,
-95px
-,
-0
-
-
-)
-
-
-}
-20
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-74px
-,
-9999px
-,
-9px
-,
-0
-
-
-)
-
-
-}
-25
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-37px
-,
-9999px
-,
-32px
-,
-0
-
-
-)
-
-
-}
-30
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-56px
-,
-9999px
-,
-27px
-,
-0
-
-
-)
-
-
-}
-35
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-35px
-,
-9999px
-,
-33px
-,
-0
-
-
-)
-
-
-}
-40
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-89px
-,
-9999px
-,
-6px
-,
-0
-
-
-)
-
-
-}
-45
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-81px
-,
-9999px
-,
-77px
-,
-0
-
-
-)
-
-
-}
-50
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-64px
-,
-9999px
-,
-69px
-,
-0
-
-
-)
-
-
-}
-55
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-12px
-,
-9999px
-,
-11px
-,
-0
-
-
-)
-
-
-}
-60
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-59px
-,
-9999px
-,
-11px
-,
-0
-
-
-)
-
-
-}
-65
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-69px
-,
-9999px
-,
-59px
-,
-0
-
-
-)
-
-
-}
-70
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-74px
-,
-9999px
-,
-65px
-,
-0
-
-
-)
-
-
-}
-75
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-56px
-,
-9999px
-,
-79px
-,
-0
-
-
-)
-
-
-}
-80
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-80px
-,
-9999px
-,
-64px
-,
-0
-
-
-)
-
-
-}
-85
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-87px
-,
-9999px
-,
-29px
-,
-0
-
-
-)
-
-
-}
-90
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-16px
-,
-9999px
-,
-21px
-,
-0
-
-
-)
-
-
-}
-95
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-69px
-,
-9999px
-,
-43px
-,
-0
-
-
-)
-
-
-}
-100
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-75px
-,
-9999px
-,
-63px
-,
-0
-
-
-)
-
-
-}
-}
-@
-keyframes noise-anim { 0%{
+@keyframes noise-anim { 0%{
 	clip: rect(32px, 9999px, 16px, 0)
 }
 
@@ -12132,8 +11501,7 @@ rect
 
 }
 }
-@
-keyframes noise-anim-2 { 0%{
+@keyframes noise-anim-2 { 0%{
 	clip: rect(12px, 9999px, 52px, 0)
 }
 
@@ -12529,174 +11897,18 @@ rect
 
 
 }
-75
 
+75%{clip: rect(6px,9999px,85px,0)}
 
-%
-{
-clip
+80%{clip: rect(96px,9999px,58px,0)}
 
+85%{clip: rect(16px,9999px,24px,0)}
 
-:
+90%{clip: rect(40px,9999px,31px,0)}
 
+95%{clip: rect(91px,9999px,34px,0)}
 
-rect
-(
-
-
-6px
-,
-9999px
-,
-85px
-,
-0
-
-
-)
-
-
-}
-80
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-96px
-,
-9999px
-,
-58px
-,
-0
-
-
-)
-
-
-}
-85
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-16px
-,
-9999px
-,
-24px
-,
-0
-
-
-)
-
-
-}
-90
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-40px
-,
-9999px
-,
-31px
-,
-0
-
-
-)
-
-
-}
-95
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-91px
-,
-9999px
-,
-34px
-,
-0
-
-
-)
-
-
-}
-100
-
-
-%
-{
-clip
-
-
-:
-
-
-rect
-(
-
-
-87px
-,
-9999px
-,
-26px
-,
-0
-
-
-)
-
-
-}
+100%{clip: rect(87px,9999px,26px,0)}
 }
 .error:before {
 	content: attr(data-text);

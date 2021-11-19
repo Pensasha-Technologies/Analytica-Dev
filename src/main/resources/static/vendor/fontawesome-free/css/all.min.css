@@ -123,8 +123,7 @@
 	animation: fa-spin 1s steps(8) infinite
 }
 
-@
--webkit-keyframes fa-spin { 0%{
+@-webkit-keyframes fa-spin { 0%{
 	-webkit-transform: rotate(0deg);
 	transform: rotate(0deg)
 }
@@ -135,8 +134,8 @@ to {
 }
 
 }
-@
-keyframes fa-spin { 0%{
+
+@keyframes fa-spin { 0%{
 	-webkit-transform: rotate(0deg);
 	transform: rotate(0deg)
 }

@@ -3,14 +3,10 @@ package com.pensasha.school.report;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -96,8 +92,8 @@ public class ReportController {
     @Autowired
     ServletContext servletContext;
 
-    //private final String baseUrl = "http://localhost:8080/";
-    private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
+    private final String baseUrl = "http://localhost:8080/";
+    //private final String baseUrl = "http://analytica-env.eba-iigws4mq.us-east-2.elasticbeanstalk.com/";
 
     public ReportController(UserService userService, SubjectService subjectService, TermService termService,
 			YearService yearService, FormService formService, SchoolService schoolService, StreamService streamService,
@@ -282,40 +278,17 @@ public class ReportController {
          ArrayList<MeritList> meritLists = new ArrayList<>();
          ArrayList<GradeCount> gradeCounts = new ArrayList<>();
 
-         int mathsCount = 0;
-         int engCount = 0;
-         int kisCount = 0;
-         int bioCount = 0;
-         int chemCount = 0;
-         int phyCount = 0;
-         int histCount = 0;
-         int creCount = 0;
-         int geoCount = 0;
-         int ireCount = 0;
-         int hreCount = 0;
-         int hsciCount = 0;
-         int andCount = 0;
-         int agricCount = 0;
-         int compCount = 0;
-         int aviCount = 0;
-         int elecCount = 0;
-         int pwrCount = 0;
-         int woodCount = 0;
-         int metalCount = 0;
-         int bcCount = 0;
-         int frenCount = 0;
-         int germCount = 0;
-         int arabCount = 0;
-         int mscCount = 0;
-         int bsCount = 0;
-         int dndCount = 0;
-         
-         int overallCount = 0; 
+
+        int mathsCount = 0, engCount = 0, kisCount = 0, bioCount =  0, chemCount = 0, phyCount = 0, histCount = 0,
+                creCount = 0, geoCount = 0, ireCount = 0, hreCount = 0, hsciCount = 0, andCount = 0, agricCount = 0,
+                compCount = 0, aviCount = 0, elecCount = 0, pwrCount = 0, woodCount = 0, metalCount = 0, bcCount = 0,
+                frenCount = 0, germCount = 0, arabCount = 0, mscCount = 0, bsCount = 0, dndCount = 0, overallCount = 0,
+                overallFCount = 0, overallMCount = 0;
 
          for (i2 = 0; i2 < studentsWithMarks.size(); ++i2) {
              gradeCount = new GradeCount();
              MeritList meritList = new MeritList();
-             int count = 0;
+             int count = 0,  fcount = 0, mcount = 0;
              block118: for (Subject subject : subjects) {
                  meritList.setFirstname(students.get(i2).getFirstname());
                  meritList.setSecondname(students.get(i2).getThirdname());
@@ -340,6 +313,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++mathsCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setMaths(sum * 100 / totalOutOf);
@@ -365,6 +343,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++engCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setEng(sum * 100 / totalOutOf);
@@ -391,6 +374,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++kisCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setKis(sum * 100 / totalOutOf);
@@ -417,6 +405,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++bioCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setBio(sum * 100 / totalOutOf);
@@ -443,6 +436,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++chemCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setChem(sum * 100 / totalOutOf);
@@ -469,6 +467,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++phyCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setPhy(sum * 100 / totalOutOf);
@@ -495,6 +498,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++histCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setHist(sum * 100 / totalOutOf);
@@ -521,6 +529,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++creCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setCre(sum * 100 / totalOutOf);
@@ -547,6 +560,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++geoCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setGeo(sum * 100 / totalOutOf);
@@ -573,6 +591,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++ireCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setIre(sum * 100 / totalOutOf);
@@ -599,6 +622,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++hreCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setHre(sum * 100 / totalOutOf);
@@ -625,6 +653,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++hsciCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setHsci(sum * 100 / totalOutOf);
@@ -651,6 +684,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++andCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setAnD(sum * 100 / totalOutOf);
@@ -677,6 +715,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++agricCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setAgric(sum * 100 / totalOutOf);
@@ -703,6 +746,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++compCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setComp(sum * 100 / totalOutOf);
@@ -729,6 +777,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++aviCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setAvi(sum * 100 / totalOutOf);
@@ -755,6 +808,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++elecCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setElec(sum * 100 / totalOutOf);
@@ -781,6 +839,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++pwrCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setPwr(sum * 100 / totalOutOf);
@@ -807,6 +870,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++woodCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setWood(sum * 100 / totalOutOf);
@@ -833,6 +901,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++metalCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setMetal(sum * 100 / totalOutOf);
@@ -859,6 +932,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++bcCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setBc(sum * 100 / totalOutOf);
@@ -885,6 +963,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++frenCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setFren(sum * 100 / totalOutOf);
@@ -911,6 +994,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++germCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setGerm(sum * 100 / totalOutOf);
@@ -937,6 +1025,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++arabCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setArab(sum * 100 / totalOutOf);
@@ -963,6 +1056,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++mscCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setMsc(sum * 100 / totalOutOf);
@@ -989,6 +1087,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++bsCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setBs(sum * 100 / totalOutOf);
@@ -1015,6 +1118,11 @@ public class ReportController {
                          if (sum > 0) {
                              ++count;
                              ++dndCount;
+                             if(meritList.getGender().equals("Female")) {
+                                 fcount++;
+                             }else if(meritList.getGender().equals("Male")){
+                                 mcount++;
+                             }
                          }
                          if (totalOutOf > 0) {
                              meritList.setDnd(sum * 100 / totalOutOf);
@@ -1250,9 +1358,9 @@ public class ReportController {
          }
 
          List<Stream> streams = this.streamService.getStreamsInSchool(code);
-         
-         List<StreamPoints> overallStreamPoints = new ArrayList<>();
-         int overallTotalPoints = 0, overallFemalePoints = 0, overallMalePoints = 0, overallFCount = 0, overallMCount = 0;
+
+        List<StreamPoints> overallStreamPoints = new ArrayList<>();
+        int overallTotalPoints = 0, overallFemalePoints = 0, overallMalePoints = 0;
 
          	for(int j = 0; j < subjects.size(); j++){
              int totalPoints = 0,femalePoints = 0, malePoints = 0, count = 0,fcount = 0, mcount = 0;
@@ -1268,126 +1376,130 @@ public class ReportController {
                  switch (subjects.get(j).getInitials()) {
                      case "Maths":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getMaths());
-                             count++;
+                             if(meritList.getMaths() > 0) {
+                                 totalPoints += this.getPoints(meritList.getMaths());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
-                             femalePoints += this.getPoints(meritList.getMaths());
-                             fcount++;
+                             if(meritList.getMaths() >= 0) {
+                                 femalePoints += this.getPoints(meritList.getMaths());
+                             }
                          }else if(meritList.getGender().equals("Male")){
-                             malePoints += this.getPoints(meritList.getMaths());
-                             mcount++;
+                             if(meritList.getMaths() >= 0) {
+                                 malePoints += this.getPoints(meritList.getMaths());
+                             }
                          }
 
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getMaths()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "Eng":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getEng());
-                             count++;
+                             if(meritList.getEng() > 0) {
+                                 totalPoints += this.getPoints(meritList.getEng());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getEng());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getEng());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getEng()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "Kis":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getKis());
-                             count++;
+                             if(meritList.getKis() > 0) {
+                                 totalPoints += this.getPoints(meritList.getKis());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getKis());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getKis());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getKis()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "Bio":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getBio());
-                             count++;
+                             if(meritList.getBio() > 0) {
+                                 totalPoints += this.getPoints(meritList.getBio());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getBio());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getBio());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getBio()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "Chem":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getChem());
-                             count++;
+                             if(meritList.getChem() > 0) {
+                                 totalPoints += this.getPoints(meritList.getChem());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getChem());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getChem());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getChem()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1395,25 +1507,25 @@ public class ReportController {
 
                      case "Phy":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getPhy());
-                             count++;
+                             if(meritList.getPhy() > 0) {
+                                 totalPoints += this.getPoints(meritList.getPhy());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getPhy());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getPhy());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getPhy()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1421,50 +1533,50 @@ public class ReportController {
 
                      case "Hist":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getHist());
-                             count++;
+                             if(meritList.getHist() > 0) {
+                                 totalPoints += this.getPoints(meritList.getHist());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getHist());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getHist());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getHist()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "C.R.E":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getCre());
-                             count++;
+                             if(meritList.getCre() > 0) {
+                                 totalPoints += this.getPoints(meritList.getCre());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getCre());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getCre());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getCre()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1472,25 +1584,25 @@ public class ReportController {
 
                      case "Geo":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getGeo());
-                             count++;
+                             if(meritList.getGeo() > 0) {
+                                 totalPoints += this.getPoints(meritList.getGeo());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getGeo());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getGeo());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getGeo()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1498,77 +1610,75 @@ public class ReportController {
 
                      case "I.R.E":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getIre());
-                             count++;
+                             if(meritList.getIre() > 0) {
+                                 totalPoints += this.getPoints(meritList.getIre());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getIre());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getIre());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getIre()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
-
 
                          break;
 
                      case "H.R.E":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getHre());
-                             count++;
+                             if(meritList.getHre() > 0) {
+                                 totalPoints += this.getPoints(meritList.getHre());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getHre());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getHre());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getHre()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
-
 
                          break;
 
                      case "Hsci":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getHsci());
-                             count++;
+                             if(meritList.getHsci() > 0){
+                                 totalPoints += this.getPoints(meritList.getHsci());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getHsci());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getHsci());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getHsci()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1576,25 +1686,25 @@ public class ReportController {
 
                      case "AnD":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getAnD());
-                             count++;
+                             if(meritList.getAnD() > 0) {
+                                 totalPoints += this.getPoints(meritList.getAnD());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getAnD());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getAnD());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getAnD()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1602,25 +1712,25 @@ public class ReportController {
 
                      case "Agric":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getAgric());
-                             count++;
+                             if(meritList.getAgric() > 0) {
+                                 totalPoints += this.getPoints(meritList.getAgric());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getAgric());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getAgric());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getAgric()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1628,25 +1738,25 @@ public class ReportController {
 
                      case "Comp":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getComp());
-                             count++;
+                             if(meritList.getComp() > 0) {
+                                 totalPoints += this.getPoints(meritList.getComp());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender() == "Female"){
                              femalePoints += this.getPoints(meritList.getComp());
-                             fcount++;
                          }else if(meritList.getGender() == "Male"){
                              malePoints += this.getPoints(meritList.getComp());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getComp()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1654,25 +1764,25 @@ public class ReportController {
 
                      case "Avi":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getAvi());
-                             count++;
+                             if(meritList.getAvi() > 0) {
+                                 totalPoints += this.getPoints(meritList.getAvi());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getAvi());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getAvi());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getAvi()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1680,25 +1790,25 @@ public class ReportController {
 
                      case "Elec":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getElec());
-                             count++;
+                             if(meritList.getElec() > 0) {
+                                 totalPoints += this.getPoints(meritList.getElec());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getElec());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getElec());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getElec()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1706,25 +1816,25 @@ public class ReportController {
 
                      case "Pwr":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getPwr());
-                             count++;
+                             if(meritList.getPwr() > 0) {
+                                 totalPoints += this.getPoints(meritList.getPwr());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getPwr());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getPwr());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getPwr()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1732,25 +1842,25 @@ public class ReportController {
 
                      case "Wood":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getWood());
-                             count++;
+                             if(meritList.getWood() > 0) {
+                                 totalPoints += this.getPoints(meritList.getWood());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getWood());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getWood());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getWood()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1758,25 +1868,25 @@ public class ReportController {
 
                      case "Metal":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getMetal());
-                             count++;
+                             if(meritList.getMetal() > 0) {
+                                 totalPoints += this.getPoints(meritList.getMetal());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getMetal());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getMetal());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getMetal()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1784,25 +1894,25 @@ public class ReportController {
 
                      case "Bc":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getBc());
-                             count++;
+                             if(meritList.getBc() > 0) {
+                                 totalPoints += this.getPoints(meritList.getBc());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getBc());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getBc());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getBc()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1810,25 +1920,25 @@ public class ReportController {
 
                      case "Fren":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getFren());
-                             count++;
+                             if(meritList.getFren() > 0) {
+                                 totalPoints += this.getPoints(meritList.getFren());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getFren());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getFren());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getFren()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1836,25 +1946,25 @@ public class ReportController {
 
                      case "Germ":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getGerm());
-                             count++;
+                             if(meritList.getGerm() > 0) {
+                                 totalPoints += this.getPoints(meritList.getGerm());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getGerm());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getGerm());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getGerm()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1862,25 +1972,25 @@ public class ReportController {
 
                      case "Arab":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getArab());
-                             count++;
+                             if(meritList.getArab() > 0) {
+                                 totalPoints += this.getPoints(meritList.getArab());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getArab());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getArab());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getArab()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1888,25 +1998,25 @@ public class ReportController {
 
                      case "Msc":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getMsc());
-                             count++;
+                             if(meritList.getMsc() > 0) {
+                                 totalPoints += this.getPoints(meritList.getMsc());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getMsc());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getMsc());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getMsc()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
 
@@ -1914,50 +2024,50 @@ public class ReportController {
 
                      case "Bs":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getBs());
-                             count++;
+                             if(meritList.getBs() > 0) {
+                                 totalPoints += this.getPoints(meritList.getBs());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getBs());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getBs());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getBs()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
 
                      case "Dnd":
                          if(admNumbers.contains(meritList.getAdmNo())) {
-                             totalPoints += this.getPoints(meritList.getDnd());
-                             count++;
+                             if(meritList.getDnd() > 0) {
+                                 totalPoints += this.getPoints(meritList.getDnd());
+                                 count++;
+                             }
                          }
                          if(meritList.getGender().equals("Female")){
                              femalePoints += this.getPoints(meritList.getDnd());
-                             fcount++;
                          }else if(meritList.getGender().equals("Male")){
                              malePoints += this.getPoints(meritList.getDnd());
-                             mcount++;
                          }
                          for(int l = 0; l<streams.size();l++){
-                         	if(meritList.getStream().equals(streams.get(l).getStream())) {
+                             if(meritList.getStream().equals(streams.get(l).getStream())) {
 
                                  streamPoints.setStream(streams.get(l).getStream());
                                  streamPoints.setPoints(this.getPoints(meritList.getDnd()));
                                  streamPoints.setCount(1);
 
                                  streamsMeanPoints.add(streamPoints);
-                         	}
+                             }
                          }
 
                          break;
@@ -1966,15 +2076,12 @@ public class ReportController {
 
 
              }
-             
-             overallStreamPoints.addAll(streamsMeanPoints);
-             overallTotalPoints = overallTotalPoints + totalPoints;
-             
-             overallFemalePoints = overallFemalePoints + femalePoints;
-             overallFCount = overallFCount + fcount;
-             
-             overallMalePoints = overallMalePoints + malePoints;
-             overallMCount = overallMCount + mcount;
+
+                overallStreamPoints.addAll(streamsMeanPoints);
+                overallTotalPoints += totalPoints;
+
+                overallFemalePoints += femalePoints;
+                overallMalePoints += malePoints;
 
              DecimalFormat df = new DecimalFormat("#.####");
              float avg = (float) 0.000;
@@ -1999,8 +2106,10 @@ public class ReportController {
 
                  for (StreamPoints streamsMeanPoint : streamsMeanPoints) {
                      if(stream.getStream().equals(streamsMeanPoint.getStream())){
-                         sPoints += streamsMeanPoint.getPoints();
-                         sCount += streamsMeanPoint.getCount();
+                         if(streamsMeanPoint.getPoints() > 0) {
+                             sPoints += streamsMeanPoint.getPoints();
+                             sCount += streamsMeanPoint.getCount();
+                         }
                      }
                  }
 
@@ -2317,31 +2426,31 @@ public class ReportController {
 
              context.setVariable("AnDGiants", andGiant);
          }
-         List<MeritList> agricMerits = this.getSubjectMeritList(code, year, form, term, "Agric", meritLists);
-         Collections.sort(agricMerits, new SortByAgric().reversed());
-         if (agricMerits.size() > 0) {
+      
+         Collections.sort(meritLists, new SortByAgric().reversed());
+         if (meritLists.size() > 0) {
 
              List<MeritList> agricGiant = new ArrayList<>();
 
-             int mostMarks = agricMerits.get(0).getAgric();
-             for(int j=0;j<agricMerits.size();j++){
-                 if(agricMerits.get(j).getAgric() == mostMarks){
-                     agricGiant.add(agricMerits.get(j));
+             int mostMarks = meritLists.get(0).getAgric();
+             for(int j=0;j<meritLists.size();j++){
+                 if(meritLists.get(j).getAgric() == mostMarks){
+                     agricGiant.add(meritLists.get(j));
                  }
              }
 
              context.setVariable("AgricGiants", agricGiant);
          }
-         List<MeritList> compMerits = this.getSubjectMeritList(code, year, form, term, "Comp", meritLists);
-         Collections.sort(compMerits, new SortByComp().reversed());
-         if (compMerits.size() > 0) {
+
+         Collections.sort(meritLists, new SortByComp().reversed());
+         if (meritLists.size() > 0) {
 
              List<MeritList> compGiant = new ArrayList<>();
 
-             int mostMarks = compMerits.get(0).getComp();
-             for(int j=0;j<compMerits.size();j++){
-                 if(compMerits.get(j).getComp() == mostMarks){
-                     compGiant.add(compMerits.get(j));
+             int mostMarks = meritLists.get(0).getComp();
+             for(int j=0;j<meritLists.size();j++){
+                 if(meritLists.get(j).getComp() == mostMarks){
+                     compGiant.add(meritLists.get(j));
                  }
              }
              context.setVariable("CompGiants", compGiant);
@@ -3298,6 +3407,23 @@ public class ReportController {
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object)bytes);
     }
 
+    @GetMapping("/users/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        List<User> listUsers = userService.findAllUsers();
+
+        MeritListExcelExport excelExporter = new MeritListExcelExport(listUsers);
+
+        excelExporter.export(response);
+    }
+
     public List<MeritList> getSubjectMeritList(int code, int year, int form, int term, String initials, List<MeritList> meritLists) {
         List<Student> subjectStudents = this.studentService.findAllStudentDoingSubject(code, year, form, term, initials);
         ArrayList<MeritList> subjectMerits = new ArrayList<>();
@@ -3307,10 +3433,10 @@ public class ReportController {
                 subjectMerits.add(meritList);
                 break;
             }
-            for (Student subjectStudent : subjectStudents) {
-                if (meritList2.getAdmNo() != subjectStudent.getAdmNo()) continue;
+            //for (Student subjectStudent : subjectStudents) {
+                //if (meritList2.getAdmNo() != subjectStudent.getAdmNo()) continue;
                 subjectMerits.add(meritList2);
-            }
+            //}
         }
         return subjectMerits;
     }
