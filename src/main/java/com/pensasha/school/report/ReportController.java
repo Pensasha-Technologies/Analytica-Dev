@@ -3551,6 +3551,47 @@ public class ReportController {
         return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
     }
 
+    @GetMapping(value = {"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/contactList/pdf"})
+    public ResponseEntity<?> getContactListPdf(@PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable String stream, HttpServletRequest request, HttpServletResponse response, Principal principal) {
+
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
+        Student student = new Student();
+        User user = new User();
+        List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
+        List<Year> years = this.yearService.getAllYearsInSchool(school.getCode());
+        List<Stream> streams = this.streamService.getStreamsInSchool(school.getCode());
+        Set<Student> orderedStudents = new HashSet<>();
+        List<Student> students = new ArrayList<>();
+        List<StudentFormYear> studentsFormYear = this.studentFormYearService.getAllStudentFormYearbyFormYearandStream(code, year, form, stream);
+        for (StudentFormYear studentFormYear : studentsFormYear) {
+            orderedStudents.add(studentFormYear.getStudent());
+        }
+        students.addAll(orderedStudents);
+        List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
+        WebContext context = new WebContext(request, response, this.servletContext);
+        context.setVariable("subjects", subjects);
+        context.setVariable("form", form);
+        context.setVariable("stream", stream);
+        context.setVariable("year", year);
+        context.setVariable("students", students);
+        context.setVariable("streams", streams);
+        context.setVariable("years", years);
+        context.setVariable("schoolUsers", schoolUsers);
+        context.setVariable("user", user);
+        context.setVariable("activeUser", activeUser);
+        context.setVariable("student", student);
+        context.setVariable("school", school);
+        String classListHtml = this.templateEngine.process("contactListPdf", context);
+        ByteArrayOutputStream target = new ByteArrayOutputStream();
+        ConverterProperties converterProperties = new ConverterProperties();
+        converterProperties.setBaseUri(baseUrl);
+        HtmlConverter.convertToPdf(classListHtml, target, converterProperties);
+        byte[] bytes = target.toByteArray();
+        return ResponseEntity.ok().contentType(org.springframework.http.MediaType.APPLICATION_PDF).body((Object) bytes);
+
+    }
+
     @GetMapping("/users/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
         response.setContentType("application/octet-stream");

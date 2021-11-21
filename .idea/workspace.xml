@@ -5,28 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89a14926-777d-4809-b680-00d66f76de14" name="Default Changelist" comment="updates">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_virtuald_curvesapi_1_05.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_collections4_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_compress_1_18.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_math3_3_6_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_4_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_4_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_4_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_3_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/MeritListExcelExport.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.classpath" beforeDir="false" afterPath="$PROJECT_DIR$/.classpath" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/school.iml" beforeDir="false" afterPath="$PROJECT_DIR$/school.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/exam/MarkController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbactions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbactions.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/report/ReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/pensasha/school/student/StudentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meritListPdf.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/MarkController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAgric.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/exam/SortByAnd.class" afterDir="false" />
@@ -92,10 +74,6 @@
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/SortByWood.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/StreamPoints.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/StreamPoints.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/report/getMeritList.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/pensasha/school/student/StudentService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritList.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/meritListPdf.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
