@@ -41,6 +41,7 @@ import com.pensasha.school.user.User;
 import com.pensasha.school.user.UserService;
 import com.pensasha.school.year.Year;
 import com.pensasha.school.year.YearService;
+import java.util.Arrays;
 
 @Controller
 public class MarkController {
@@ -376,6 +377,10 @@ public class MarkController {
                 overallFCount = 0, overallMCount = 0;
 
         for (i2 = 0; i2 < studentsWithMarks.size(); ++i2) {
+            List<SubjectMarks> compulsoryMarks = new ArrayList<>();
+            List<SubjectMarks> scienceMarks = new ArrayList<>();
+            List<SubjectMarks> humanitiesMarks = new ArrayList<>();
+            List<SubjectMarks> technicalMarks = new ArrayList<>();
             gradeCount = new GradeCount();
             MeritList meritList = new MeritList();
             int count = 0, fcount = 0, mcount = 0;
@@ -391,6 +396,7 @@ public class MarkController {
                 gradeCount.setSecondname(students.get(i2).getThirdname());
                 gradeCount.setAdmNo(students.get(i2).getAdmNo());
                 List<Mark> marks = new ArrayList<>();
+                SubjectMarks subjectMarks;
                 int sum = 0;
                 int totalOutOf = 0;
                 switch (subject.getInitials()) {
@@ -412,6 +418,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMaths(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Maths", meritList.getMaths());
+                            compulsoryMarks.add(subjectMarks);
                             gradeCount.setMaths(this.getSubjectGrade(meritList.getMaths(), "Maths"));
                             continue block118;
                         }
@@ -442,6 +450,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setEng(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Eng", meritList.getEng());
+                            compulsoryMarks.add(subjectMarks);
                             gradeCount.setEng(this.getSubjectGrade(meritList.getEng(), "Eng"));
                             continue block118;
                         }
@@ -473,6 +483,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setKis(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Kis", meritList.getKis());
+                            compulsoryMarks.add(subjectMarks);
                             gradeCount.setKis(this.getSubjectGrade(meritList.getKis(), "Kis"));
                             continue block118;
                         }
@@ -504,6 +516,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBio(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Bio", meritList.getBio());
+                            scienceMarks.add(subjectMarks);
                             gradeCount.setBio(this.getSubjectGrade(meritList.getBio(), "Bio"));
                             continue block118;
                         }
@@ -535,6 +549,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setChem(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Chem", meritList.getChem());
+                            scienceMarks.add(subjectMarks);
                             gradeCount.setChem(this.getSubjectGrade(meritList.getChem(), "Chem"));
                             continue block118;
                         }
@@ -566,6 +582,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setPhy(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Phy", meritList.getPhy());
+                            scienceMarks.add(subjectMarks);
                             gradeCount.setPhy(this.getSubjectGrade(meritList.getPhy(), "Phy"));
                             continue block118;
                         }
@@ -597,6 +615,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHist(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Hist", meritList.getHist());
+                            humanitiesMarks.add(subjectMarks);
                             gradeCount.setHist(this.getSubjectGrade(meritList.getHist(), "Hist"));
                             continue block118;
                         }
@@ -628,6 +648,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setCre(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("C.R.E", meritList.getCre());
+                            humanitiesMarks.add(subjectMarks);
                             gradeCount.setCre(this.getSubjectGrade(meritList.getCre(), "C.R.E"));
                             continue block118;
                         }
@@ -659,6 +681,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setGeo(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Geo", meritList.getGeo());
+                            humanitiesMarks.add(subjectMarks);
                             gradeCount.setGeo(this.getSubjectGrade(meritList.getGeo(), "Geo"));
                             continue block118;
                         }
@@ -690,6 +714,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setIre(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("I.R.E", meritList.getIre());
+                            humanitiesMarks.add(subjectMarks);
                             gradeCount.setIre(this.getSubjectGrade(meritList.getIre(), "I.R.E"));
                             continue block118;
                         }
@@ -721,6 +747,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHre(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("H.R.E", meritList.getHre());
+                            humanitiesMarks.add(subjectMarks);
                             gradeCount.setHre(this.getSubjectGrade(meritList.getHre(), "H.R.E"));
                             continue block118;
                         }
@@ -752,6 +780,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setHsci(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Hsci", meritList.getHsci());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setHsci(this.getSubjectGrade(meritList.getHsci(), "Hsci"));
                             continue block118;
                         }
@@ -783,6 +813,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAnD(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("AnD", meritList.getAnD());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setAnd(this.getSubjectGrade(meritList.getAnD(), "AnD"));
                             continue block118;
                         }
@@ -814,6 +846,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAgric(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Agric", meritList.getAgric());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setAgric(this.getSubjectGrade(meritList.getAgric(), "Agric"));
                             continue block118;
                         }
@@ -845,6 +879,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setComp(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Comp", meritList.getComp());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setComp(this.getSubjectGrade(meritList.getComp(), "Comp"));
                             continue block118;
                         }
@@ -876,6 +912,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setAvi(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Avi", meritList.getAvi());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setAvi(this.getSubjectGrade(meritList.getAvi(), "Avi"));
                             continue block118;
                         }
@@ -907,6 +945,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setElec(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Elec", meritList.getElec());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setElec(this.getSubjectGrade(meritList.getElec(), "Elec"));
                             continue block118;
                         }
@@ -938,6 +978,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setPwr(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Pwr", meritList.getPwr());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setPwr(this.getSubjectGrade(meritList.getPwr(), "Pwr"));
                             continue block118;
                         }
@@ -969,6 +1011,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setWood(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Wood", meritList.getWood());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setWood(this.getSubjectGrade(meritList.getWood(), "Wood"));
                             continue block118;
                         }
@@ -1000,6 +1044,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMetal(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Metal", meritList.getMetal());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setMetal(this.getSubjectGrade(meritList.getMetal(), "Metal"));
                             continue block118;
                         }
@@ -1031,6 +1077,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBc(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Bc", meritList.getBc());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setBc(this.getSubjectGrade(meritList.getBc(), "Bc"));
                             continue block118;
                         }
@@ -1062,6 +1110,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setFren(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Fren", meritList.getFren());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setFren(this.getSubjectGrade(meritList.getFren(), "Fren"));
                             continue block118;
                         }
@@ -1093,6 +1143,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setGerm(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Germ", meritList.getGerm());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setGerm(this.getSubjectGrade(meritList.getGerm(), "Germ"));
                             continue block118;
                         }
@@ -1124,6 +1176,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setArab(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Arab", meritList.getArab());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setArab(this.getSubjectGrade(meritList.getArab(), "Arab"));
                             continue block118;
                         }
@@ -1155,6 +1209,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setMsc(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Msc", meritList.getMsc());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setMsc(this.getSubjectGrade(meritList.getMsc(), "Msc"));
                             continue block118;
                         }
@@ -1186,6 +1242,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setBs(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Bs", meritList.getBs());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setBs(this.getSubjectGrade(meritList.getBs(), "Bs"));
                             continue block118;
                         }
@@ -1217,6 +1275,8 @@ public class MarkController {
                         }
                         if (totalOutOf > 0) {
                             meritList.setDnd(sum * 100 / totalOutOf);
+                            subjectMarks = new SubjectMarks("Dnd", meritList.getDnd());
+                            technicalMarks.add(subjectMarks);
                             gradeCount.setDnd(this.getSubjectGrade(meritList.getDnd(), "Dnd"));
                             continue block118;
                         }
@@ -1422,9 +1482,62 @@ public class MarkController {
             }
 
             DecimalFormat df = new DecimalFormat("#.####");
+            byte totalPoints = 0;
+            int totalMarks = 0;
 
-            meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
-            byte totalPoints = (byte) (mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints);
+            if (form == 3 || form == 4) {
+
+                List<Integer> addingTotals = new ArrayList<>();
+
+                for (SubjectMarks sMarks : compulsoryMarks) {
+                    totalMarks += sMarks.getMark();
+                }
+
+                if (scienceMarks.size() > 2) {
+                    if (humanitiesMarks.size() > 1) {
+                        for (SubjectMarks sMarks : scienceMarks) {
+                            addingTotals.add(sMarks.getMark());
+                        }
+                        for (SubjectMarks sMarks : humanitiesMarks) {
+                            addingTotals.add(sMarks.getMark());
+                        }
+
+                    } else {
+                        for(SubjectMarks sMarks : humanitiesMarks){
+                            totalMarks += sMarks.getMark();
+                        }
+                        for (SubjectMarks sMarks : scienceMarks) {
+                            addingTotals.add(sMarks.getMark());
+                        }
+                        for (SubjectMarks sMarks : technicalMarks) {
+                            addingTotals.add(sMarks.getMark());
+                        }
+
+                    }
+                } else {
+                    for(SubjectMarks sMarks : scienceMarks){
+                        totalMarks += sMarks.getMark();
+                    }
+                    for (SubjectMarks sMarks : humanitiesMarks) {
+                        addingTotals.add(sMarks.getMark());
+                    }
+                    for (SubjectMarks sMarks : technicalMarks) {
+                        addingTotals.add(sMarks.getMark());
+                    }
+                }
+                Collections.sort(addingTotals);
+                for(int k = 1; k<addingTotals.size(); k++){
+                    totalMarks += addingTotals.get(k);
+                }
+
+                meritList.setTotal(totalMarks);
+
+            } else {
+
+                meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
+                totalPoints = (byte) (mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints);
+
+            }
 
             float average;
             if (form == 1 || form == 2) {

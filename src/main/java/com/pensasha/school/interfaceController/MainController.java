@@ -7,6 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -282,9 +286,10 @@ public class MainController {
     }
 
     @GetMapping(value={"/schools/{code}/sms"})
-    public String schoolSms(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
-        School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
+    public String schoolSms(@PathVariable int code, Model model, Principal principal) {
+        //SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        User activeUser = this.userService.getByUsername(principal.getName()).get();
+        School school = this.schoolService.getSchool(code).get();
         Student student = new Student();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
         User user = new User();
@@ -304,18 +309,78 @@ public class MainController {
 
     @PostMapping(value={"/schools/{code}/sms"})
     public String sendSchoolSms(RedirectAttributes redit, @PathVariable int code, Principal principal, @RequestParam String recipientPhoneNumber, @RequestParam String message) {
-        String baseUrl = "https://mysms.celcomafrica.com/api/services/sendsms/";
-        int partnerId = 1989;
-        String apiKey = "da383ff9c9edfb614bc7d1abfe8b1599";
-        String shortCode = "analytica";
-        Gateway gateway = new Gateway(baseUrl, partnerId, apiKey, shortCode);
-        try {
-            String res = gateway.sendSingleSms("Hello From Single sms Java", "0707335375");
-            System.out.println(res);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        	// Your apikey key
+		String apiKey = "c2d53e12fda16949112964997b1d1e170ff14310";
+		// OR
+		String userId = "analytica";
+		String password = "xsnggpmG";
+
+		// Message type text/unicode/flash
+		String msgType = "text";
+
+		// Multiple mobiles numbers separated by comma
+		String mobile = "254707335375";
+		// Your approved sender id
+		String senderId = "SENDER";
+		// Your message to terminate, URLEncode the content
+		String msg = "This is a test message in Java";
+		// DLT PE ID
+		String dltEntityId = "xxxxxxxxxxxxx";
+		// DLT Template ID
+		String dltTemplateId = "xxxxxxxxxxxxx";
+		// response format
+		String output = "json";
+
+		// Prepare Url
+		URLConnection myURLConnection = null;
+		URL myURL = null;
+		BufferedReader reader = null;
+
+		// URL encode message
+		String urlencodedmsg = "";
+		try {
+			urlencodedmsg = URLEncoder.encode(msg, "UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Exception while encoding msg");
+			e1.printStackTrace();
+		}
+
+		// API End Point
+		String mainUrl = "https://portal.zettatel.com/SMSApi/send?";
+
+		// API Paramters
+		StringBuilder sendSmsData = new StringBuilder(mainUrl);
+		sendSmsData.append("apikey=" + apiKey);
+		sendSmsData.append("&userid=" + userId);
+		sendSmsData.append("&password=" + password);
+		sendSmsData.append("&type=" + msgType);
+		sendSmsData.append("&mobile=" + mobile);
+		sendSmsData.append("&senderid=" + senderId);
+		sendSmsData.append("&text=" + urlencodedmsg);
+
+		sendSmsData.append("&dltEntityId=" + dltEntityId);
+		sendSmsData.append("&dltTemplateId=" + dltTemplateId);
+		sendSmsData.append("&output=" + output);
+		// final string
+		mainUrl = sendSmsData.toString();
+		try {
+			// prepare connection
+			myURL = new URL(mainUrl);
+			myURLConnection = myURL.openConnection();
+			myURLConnection.connect();
+			reader = new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
+			// reading response
+			String response;
+			while ((response = reader.readLine()) != null)
+				// print response
+				System.out.println(response);
+
+			// finally close connection
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         redit.addFlashAttribute("success", "Message sent successfully");
         return "redirect:/principalHome";
     }
