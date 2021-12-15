@@ -1484,71 +1484,92 @@ public class MarkController {
             DecimalFormat df = new DecimalFormat("#.####");
             byte totalPoints = 0;
             int totalMarks = 0;
+            float average;
 
             if (form == 3 || form == 4) {
-
-                List<Integer> addingTotals = new ArrayList<>();
-
+                boolean status = false;
+                int tempCount = 0;
                 for (SubjectMarks sMarks : compulsoryMarks) {
-                    totalMarks += sMarks.getMark();
+                    if (sMarks.getMark() > 0) {
+                        tempCount++;
+                    }
                 }
 
-                if (scienceMarks.size() > 2) {
-                    if (humanitiesMarks.size() > 1) {
-                        for (SubjectMarks sMarks : scienceMarks) {
-                            addingTotals.add(sMarks.getMark());
-                        }
-                        for (SubjectMarks sMarks : humanitiesMarks) {
-                            addingTotals.add(sMarks.getMark());
-                        }
+                if (tempCount == 3) {
 
-                    } else {
-                        for(SubjectMarks sMarks : humanitiesMarks){
-                            totalMarks += sMarks.getMark();
-                        }
-                        for (SubjectMarks sMarks : scienceMarks) {
-                            addingTotals.add(sMarks.getMark());
-                        }
-                        for (SubjectMarks sMarks : technicalMarks) {
-                            addingTotals.add(sMarks.getMark());
-                        }
+                    List<SubjectMarks> addingTotals = new ArrayList<>();
 
-                    }
-                } else {
-                    for(SubjectMarks sMarks : scienceMarks){
+                    for (SubjectMarks sMarks : compulsoryMarks) {
                         totalMarks += sMarks.getMark();
+                        totalPoints += this.getSubjectPoints(sMarks.getMark(), sMarks.getName());
                     }
-                    for (SubjectMarks sMarks : humanitiesMarks) {
-                        addingTotals.add(sMarks.getMark());
-                    }
-                    for (SubjectMarks sMarks : technicalMarks) {
-                        addingTotals.add(sMarks.getMark());
-                    }
-                }
-                Collections.sort(addingTotals);
-                for(int k = 1; k<addingTotals.size(); k++){
-                    totalMarks += addingTotals.get(k);
-                }
 
-                meritList.setTotal(totalMarks);
+                    if (scienceMarks.size() > 2) {
+                        if (humanitiesMarks.size() > 1) {
+                            for (SubjectMarks sMarks : scienceMarks) {
+                                addingTotals.add(sMarks);
+                            }
+                            for (SubjectMarks sMarks : humanitiesMarks) {
+                                addingTotals.add(sMarks);
+                            }
+
+                        } else {
+                            for (SubjectMarks sMarks : humanitiesMarks) {
+                                totalMarks += sMarks.getMark();
+                                totalPoints += this.getSubjectPoints(sMarks.getMark(), sMarks.getName());
+                            }
+                            for (SubjectMarks sMarks : scienceMarks) {
+                                addingTotals.add(sMarks);
+                            }
+                            for (SubjectMarks sMarks : technicalMarks) {
+                                addingTotals.add(sMarks);
+                            }
+
+                        }
+                    } else {
+                        for (SubjectMarks sMarks : scienceMarks) {
+                            totalMarks += sMarks.getMark();
+                            totalPoints += this.getSubjectPoints(sMarks.getMark(), sMarks.getName());
+                        }
+                        if (humanitiesMarks.size() > 1) {
+                            for (SubjectMarks sMarks : humanitiesMarks) {
+                                addingTotals.add(sMarks);
+                            }
+                            for (SubjectMarks sMarks : technicalMarks) {
+                                addingTotals.add(sMarks);
+                            }
+                        } else {
+                            for (SubjectMarks sMarks : humanitiesMarks) {
+                                totalMarks += sMarks.getMark();
+                            }
+                            for (SubjectMarks sMarks : technicalMarks) {
+                                totalMarks += sMarks.getMark();
+                            }
+                        }
+                    }
+                    Collections.sort(addingTotals, new SortByMarks());
+                    for (int k = 1; k < addingTotals.size(); k++) {
+                        totalMarks += addingTotals.get(k).getMark();
+                        totalPoints += this.getSubjectPoints(addingTotals.get(k).getMark(), addingTotals.get(k).getName());
+                    }
+
+                    meritList.setTotal(totalMarks);
+                    average = (float) totalPoints / 7;
+                    meritList.setAverage(Float.valueOf(df.format(average)));
+                    meritList.setGrade(this.getGrades(meritList.getAverage()));
+                } else {
+                    meritList.setTotal(0);
+                }
 
             } else {
 
                 meritList.setTotal(maths01 + eng01 + kis01 + bio01 + chem01 + phy01 + hist01 + cre01 + geo01 + ire01 + hre01 + hsci01 + and01 + agric01 + comp01 + avi01 + elec01 + pwr01 + wood01 + metal01 + bc01 + fren01 + germ01 + arab01 + msc01 + bs01 + dnd01);
                 totalPoints = (byte) (mathsPoints + engPoints + kisPoints + bioPoints + chemPoints + phyPoints + histPoints + crePoints + geoPoints + irePoints + hrePoints + hsciPoints + andPoints + agricPoints + compPoints + aviPoints + elecPoints + pwrPoints + woodPoints + metalPoints + bcPoints + frenPoints + germPoints + arabPoints + mscPoints + bsPoints + dndPoints);
 
-            }
-
-            float average;
-            if (form == 1 || form == 2) {
                 average = (float) totalPoints / 11;
                 meritList.setAverage(Float.valueOf(df.format(average)));
                 meritList.setGrade(this.getGrades(meritList.getAverage()));
 
-            } else {
-                average = (float) totalPoints / 8;
-                meritList.setAverage(Float.valueOf(df.format(average)));
-                meritList.setGrade(this.getGrades(meritList.getAverage()));
             }
 
             meritList.setDeviation(meritList.getAverage() - students.get(i2).getKcpeMarks() / 5);
@@ -3298,21 +3319,18 @@ public class MarkController {
         //Bottom Students
         if (meritLists.size() > 10 && meritLists.size() < 15) {
             for (int j = meritLists.size() - 3; j < meritLists.size() - 1; j++) {
-                if (meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
-                }
+                
             }
         } else if (meritLists.size() > 15 && meritLists.size() < 40) {
             for (int j = meritLists.size() - 5; j < meritLists.size() - 1; j++) {
-                if (meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
-                }
+                    
             }
         } else if (meritLists.size() > 40) {
             for (int j = meritLists.size() - 10; j < meritLists.size() - 1; j++) {
-                if (meritLists.get(j).getTotal() > 0) {
                     bottomStudents.add(meritLists.get(j));
-                }
+                
             }
         }
 
@@ -3954,6 +3972,14 @@ class SortByDeviation implements Comparator<MeritList> {
     @Override
     public int compare(MeritList a, MeritList b) {
         return (int) (a.getDeviation() - b.getDeviation());
+    }
+}
+
+class SortByMarks implements Comparator<SubjectMarks> {
+
+    @Override
+    public int compare(SubjectMarks a, SubjectMarks b) {
+        return a.getMark() - b.getMark();
     }
 }
 

@@ -1533,7 +1533,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="classList"
-                                      th:action="@{/schools/{code}/sendResults(code=${school.code})}"
+                                      th:action="@{/schools/{code}/sms(code=${school.code})}"
                                       method="post">
                                     <div class="form-group fadeIn first">
                                         <label for="year">Choose Academic Year:</label> <select name="year"
@@ -1606,7 +1606,7 @@
                             </div>
                             <div class="modal-body">
                                 <form class="classList"
-                                      th:action="@{/schools/{code}/sendBalance(code=${school.code})}"
+                                      th:action="@{/schools/{code}/sms(code=${school.code})}"
                                       method="post">
                                     <div class="form-group fadeIn first">
                                         <label for="year">Choose Academic Year:</label> <select name="year"

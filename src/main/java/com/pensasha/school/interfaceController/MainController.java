@@ -59,6 +59,7 @@ import com.pensasha.school.year.YearService;
 
 @Controller
 public class MainController {
+
     private final SchoolService schoolService;
     private final StudentService studentService;
     private final TermService termService;
@@ -73,49 +74,49 @@ public class MainController {
     private final TeacherYearFormStreamService teacherYearFormStreamService;
     private final FeeStructureService feeStructureService;
 
-	public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
-			SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
-			UserService userService, RoleService roleService, StreamService streamService,
-			DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService,
-			FeeStructureService feeStructureService) {
-		super();
-		this.schoolService = schoolService;
-		this.studentService = studentService;
-		this.termService = termService;
-		this.subjectService = subjectService;
-		this.formService = formService;
-		this.yearService = yearService;
-		this.markService = markService;
-		this.userService = userService;
-		this.roleService = roleService;
-		this.streamService = streamService;
-		this.disciplineService = disciplineService;
-		this.teacherYearFormStreamService = teacherYearFormStreamService;
-		this.feeStructureService = feeStructureService;
-	}
+    public MainController(SchoolService schoolService, StudentService studentService, TermService termService,
+            SubjectService subjectService, FormService formService, YearService yearService, MarkService markService,
+            UserService userService, RoleService roleService, StreamService streamService,
+            DisciplineService disciplineService, TeacherYearFormStreamService teacherYearFormStreamService,
+            FeeStructureService feeStructureService) {
+        super();
+        this.schoolService = schoolService;
+        this.studentService = studentService;
+        this.termService = termService;
+        this.subjectService = subjectService;
+        this.formService = formService;
+        this.yearService = yearService;
+        this.markService = markService;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.streamService = streamService;
+        this.disciplineService = disciplineService;
+        this.teacherYearFormStreamService = teacherYearFormStreamService;
+        this.feeStructureService = feeStructureService;
+    }
 
-	@GetMapping(value={"index"})
+    @GetMapping(value = {"index"})
     public String index(Principal principal, Model model) {
         User user = new User();
         model.addAttribute("activeUser", user);
         return "index";
     }
 
-    @GetMapping(value={"login"})
+    @GetMapping(value = {"login"})
     public String login(Principal principal, Model model) {
         User user = new User();
         model.addAttribute("activeUser", user);
         return "login";
     }
 
-    @GetMapping(value={"changePassword"})
+    @GetMapping(value = {"changePassword"})
     public String changePassword(Model model) {
         User user = new User();
         model.addAttribute("activeUser", user);
         return "changePassword";
     }
 
-    @PostMapping(value={"/resetPassword/{username}"})
+    @PostMapping(value = {"/resetPassword/{username}"})
     public String postResetPassword(RedirectAttributes redit, @PathVariable String username, @RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String confirmNewPassword) {
         User user = this.userService.getByUsername(username).get();
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -131,7 +132,7 @@ public class MainController {
         return "redirect:/profile/" + username;
     }
 
-    @PostMapping(value={"/changePassword"})
+    @PostMapping(value = {"/changePassword"})
     public String postChangePassword(Model model, @RequestParam int phoneNumber, @RequestParam String username) {
         User user = new User();
         model.addAttribute("activeUser", user);
@@ -151,8 +152,7 @@ public class MainController {
                 try {
                     String res = gateway.sendSingleSms("Your Username is: " + testUser.getUsername() + " password is: " + otp + "Thanks for Registering with Analytica Soft.", Integer.toString(testUser.getPhoneNumber()));
                     System.out.println(res);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 model.addAttribute("success", "Password send to phone Number");
@@ -165,7 +165,7 @@ public class MainController {
         return "changePassword";
     }
 
-    @GetMapping(value={"/adminHome"})
+    @GetMapping(value = {"/adminHome"})
     public String allSchool(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<School> schools = this.schoolService.getAllSchools();
@@ -178,7 +178,7 @@ public class MainController {
         return "adminHome";
     }
 
-    @GetMapping(value={"/schools/{code}/student/{admNo}/progress"})
+    @GetMapping(value = {"/schools/{code}/student/{admNo}/progress"})
     public String viewStudentsProgressReport(@PathVariable int code, @PathVariable String admNo, Model model, Principal principal) {
         School school = this.schoolService.getSchool(code).get();
         Student student = this.studentService.getStudentInSchool(admNo, code);
@@ -191,7 +191,7 @@ public class MainController {
         return "progressReport";
     }
 
-    @GetMapping(value={"/schools/{code}/student/{admNo}/yearly"})
+    @GetMapping(value = {"/schools/{code}/student/{admNo}/yearly"})
     public String getYearlyReport(@PathVariable int code, @PathVariable String admNo, Model model, Principal principal) {
         School school = this.schoolService.getSchool(code).get();
         Student student = this.studentService.getStudentInSchool(admNo, code);
@@ -210,7 +210,7 @@ public class MainController {
         return "yearlyReport";
     }
 
-    @GetMapping(value={"/ceoHome"})
+    @GetMapping(value = {"/ceoHome"})
     public String ceoHomepage(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<School> schools = this.schoolService.getAllSchools();
@@ -223,7 +223,7 @@ public class MainController {
         return "ceoHome";
     }
 
-    @GetMapping(value={"/officeAssistantHome"})
+    @GetMapping(value = {"/officeAssistantHome"})
     public String officeAssistantHomepage(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<School> schools = this.schoolService.getAllSchools();
@@ -236,7 +236,7 @@ public class MainController {
         return "officeAssistantHome";
     }
 
-    @GetMapping(value={"/fieldOfficerHome"})
+    @GetMapping(value = {"/fieldOfficerHome"})
     public String fieldOfficerHomepage(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         List<School> schools = this.schoolService.getAllSchools();
@@ -249,7 +249,7 @@ public class MainController {
         return "fieldOfficerHome";
     }
 
-    @GetMapping(value={"/schools/users/{username}"})
+    @GetMapping(value = {"/schools/users/{username}"})
     public String deleteSchoolUser(@PathVariable String username, RedirectAttributes redit, Principal principal) {
         if (this.userService.userExists(username).booleanValue()) {
             if (username.contentEquals(principal.getName())) {
@@ -264,9 +264,9 @@ public class MainController {
         return "redirect:/principalHome";
     }
 
-    @GetMapping(value={"/schools/principal"})
+    @GetMapping(value = {"/schools/principal"})
     public String principalHome(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         User user = new User();
@@ -285,7 +285,7 @@ public class MainController {
         return "principalHome";
     }
 
-    @GetMapping(value={"/schools/{code}/sms"})
+    @GetMapping(value = {"/schools/{code}/sms"})
     public String schoolSms(@PathVariable int code, Model model, Principal principal) {
         //SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
         User activeUser = this.userService.getByUsername(principal.getName()).get();
@@ -307,87 +307,111 @@ public class MainController {
         return "smsHome";
     }
 
-    @PostMapping(value={"/schools/{code}/sms"})
-    public String sendSchoolSms(RedirectAttributes redit, @PathVariable int code, Principal principal, @RequestParam String recipientPhoneNumber, @RequestParam String message) {
-        	// Your apikey key
-		String apiKey = "c2d53e12fda16949112964997b1d1e170ff14310";
-		// OR
-		String userId = "analytica";
-		String password = "xsnggpmG";
+    @PostMapping(value = {"/schools/{code}/sms"})
+    public String sendSchoolSms(RedirectAttributes redit, @PathVariable int code, Principal principal /*, @RequestParam String recipientPhoneNumber, @RequestParam String message*/) {
 
-		// Message type text/unicode/flash
-		String msgType = "text";
+        User activeUser = userService.findOneUser(principal.getName()).get();
+        /*
+        // Your apikey key
+        String apiKey = "c2d53e12fda16949112964997b1d1e170ff14310";
+        // OR
+        String userId = "analytica";
+        String password = "xsnggpmG";
 
-		// Multiple mobiles numbers separated by comma
-		String mobile = "254707335375";
-		// Your approved sender id
-		String senderId = "SENDER";
-		// Your message to terminate, URLEncode the content
-		String msg = "This is a test message in Java";
-		// DLT PE ID
-		String dltEntityId = "xxxxxxxxxxxxx";
-		// DLT Template ID
-		String dltTemplateId = "xxxxxxxxxxxxx";
-		// response format
-		String output = "json";
+        // Message type text/unicode/flash
+        String msgType = "text";
 
-		// Prepare Url
-		URLConnection myURLConnection = null;
-		URL myURL = null;
-		BufferedReader reader = null;
+        // Multiple mobiles numbers separated by comma
+        String mobile = "254707335375";
+        // Your approved sender id
+        String senderId = "SENDER";
+        // Your message to terminate, URLEncode the content
+        String msg = "This is a test message in Java";
+        // DLT PE ID
+        String dltEntityId = "xxxxxxxxxxxxx";
+        // DLT Template ID
+        String dltTemplateId = "xxxxxxxxxxxxx";
+        // response format
+        String output = "json";
 
-		// URL encode message
-		String urlencodedmsg = "";
-		try {
-			urlencodedmsg = URLEncoder.encode(msg, "UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Exception while encoding msg");
-			e1.printStackTrace();
-		}
+        // Prepare Url
+        URLConnection myURLConnection = null;
+        URL myURL = null;
+        BufferedReader reader = null;
 
-		// API End Point
-		String mainUrl = "https://portal.zettatel.com/SMSApi/send?";
+        // URL encode message
+        String urlencodedmsg = "";
+        try {
+            urlencodedmsg = URLEncoder.encode(msg, "UTF-8");
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            System.out.println("Exception while encoding msg");
+            e1.printStackTrace();
+        }
 
-		// API Paramters
-		StringBuilder sendSmsData = new StringBuilder(mainUrl);
-		sendSmsData.append("apikey=" + apiKey);
-		sendSmsData.append("&userid=" + userId);
-		sendSmsData.append("&password=" + password);
-		sendSmsData.append("&type=" + msgType);
-		sendSmsData.append("&mobile=" + mobile);
-		sendSmsData.append("&senderid=" + senderId);
-		sendSmsData.append("&text=" + urlencodedmsg);
+        // API End Point
+        String mainUrl = "https://portal.zettatel.com/SMSApi/send?";
 
-		sendSmsData.append("&dltEntityId=" + dltEntityId);
-		sendSmsData.append("&dltTemplateId=" + dltTemplateId);
-		sendSmsData.append("&output=" + output);
-		// final string
-		mainUrl = sendSmsData.toString();
-		try {
-			// prepare connection
-			myURL = new URL(mainUrl);
-			myURLConnection = myURL.openConnection();
-			myURLConnection.connect();
-			reader = new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
-			// reading response
-			String response;
-			while ((response = reader.readLine()) != null)
-				// print response
-				System.out.println(response);
+        // API Paramters
+        StringBuilder sendSmsData = new StringBuilder(mainUrl);
+        sendSmsData.append("apikey=" + apiKey);
+        sendSmsData.append("&userid=" + userId);
+        sendSmsData.append("&password=" + password);
+        sendSmsData.append("&type=" + msgType);
+        sendSmsData.append("&mobile=" + mobile);
+        sendSmsData.append("&senderid=" + senderId);
+        sendSmsData.append("&text=" + urlencodedmsg);
 
-			// finally close connection
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        redit.addFlashAttribute("success", "Message sent successfully");
-        return "redirect:/principalHome";
+        sendSmsData.append("&dltEntityId=" + dltEntityId);
+        sendSmsData.append("&dltTemplateId=" + dltTemplateId);
+        sendSmsData.append("&output=" + output);
+        // final string
+        mainUrl = sendSmsData.toString();
+        try {
+            // prepare connection
+            myURL = new URL(mainUrl);
+            myURLConnection = myURL.openConnection();
+            myURLConnection.connect();
+            reader = new BufferedReader(new InputStreamReader(myURLConnection.getInputStream()));
+            // reading response
+            String response;
+            while ((response = reader.readLine()) != null) // print response
+            {
+                System.out.println(response);
+            }
+
+            // finally close connection
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+         */
+     
+        redit.addFlashAttribute("fail", "Message not sent due to missed API data");
+
+        switch (activeUser.getRole().getName()) {
+            case "BURSAR":
+                return "redirect:/bursarHome";
+            case "D.O.S":
+                return "redirect:/dosHome";
+            case "DEPUTYPRINCIPAL":
+                return "redirect:/deputyPrincipalHome";
+            case "FIELDOFFICER":
+                return "redirect:/fieldOfficerHome";
+            case "OFFICEASSISTANT":
+                return "redirect:/officeAssistantHome";
+            case "PRINCIPAL":
+                return "redirect:/principalHome";
+            default:
+                return "redirect:/adminHome";
+
+        }
+
     }
 
-    @GetMapping(value={"/schools/students"})
+    @GetMapping(value = {"/schools/students"})
     public String schoolStudents(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         List<Student> students = this.studentService.getAllStudentsInSchool(school.getCode());
@@ -404,9 +428,9 @@ public class MainController {
         return "students";
     }
 
-    @GetMapping(value={"/schools/students/{admNo}"})
+    @GetMapping(value = {"/schools/students/{admNo}"})
     public String schoolStudents(Model model, Principal principal, @PathVariable String admNo) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         List<Form> forms = this.formService.studentForms(admNo);
@@ -454,9 +478,9 @@ public class MainController {
         return "student";
     }
 
-    @PostMapping(value={"/schools/students"})
+    @PostMapping(value = {"/schools/students"})
     public String addSchoolStudents(RedirectAttributes redit, @Valid Student student, BindingResult bindingResult, Principal principal, @RequestParam int stream) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         student.setSchool(school);
         if (this.studentService.ifStudentExistsInSchool(school.getCode() + "_" + student.getAdmNo(), school.getCode()).booleanValue()) {
@@ -541,9 +565,9 @@ public class MainController {
         return "redirect:/teacherHome";
     }
 
-    @GetMapping(value={"/school/teachers"})
+    @GetMapping(value = {"/school/teachers"})
     public String schoolTeachers(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         SchoolUser user = new SchoolUser();
@@ -558,7 +582,7 @@ public class MainController {
         return "teachers";
     }
 
-    @GetMapping(value={"/schools/{code}/teachers"})
+    @GetMapping(value = {"/schools/{code}/teachers"})
     public String teachers(Model model, Principal principal, @PathVariable int code) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(code).get();
@@ -575,7 +599,7 @@ public class MainController {
         return "teachers";
     }
 
-    @PostMapping(value={"/school/teachers"})
+    @PostMapping(value = {"/school/teachers"})
     public String addTeacher(RedirectAttributes redit, @RequestParam String role, @RequestParam int code, @ModelAttribute SchoolUser user, Principal principal, HttpServletRequest request) {
         Teacher teacher = new Teacher(user.getUsername(), user.getFirstname(), user.getSecondname(), user.getThirdname(), user.getPassword(), user.getEmail(), user.getPhoneNumber(), user.getAddress());
         teacher.setSchool(user.getSchool());
@@ -598,7 +622,7 @@ public class MainController {
         return "redirect:/schools/" + code + "/teachers";
     }
 
-    @GetMapping(value={"/school/teachers/{username}"})
+    @GetMapping(value = {"/school/teachers/{username}"})
     public String deleteTeacher(@PathVariable String username, RedirectAttributes redit, Principal principal) {
         if (this.userService.userExists(username).booleanValue()) {
             if (username.contentEquals(principal.getName())) {
@@ -613,9 +637,9 @@ public class MainController {
         return "redirect:/school/teachers";
     }
 
-    @GetMapping(value={"/schools/deputyPrincipal"})
+    @GetMapping(value = {"/schools/deputyPrincipal"})
     public String deputyHome(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         User user = new User();
@@ -628,9 +652,9 @@ public class MainController {
         return "deputyPrincipal";
     }
 
-    @GetMapping(value={"/schools/dosHome"})
+    @GetMapping(value = {"/schools/dosHome"})
     public String dosHome(Model model, Principal principal) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = activeUser.getSchool();
         Student student = new Student();
         User user = new User();
@@ -644,10 +668,10 @@ public class MainController {
         return "dosHome";
     }
 
-    @GetMapping(value={"/schools/bursarHome"})
+    @GetMapping(value = {"/schools/bursarHome"})
     public String bursarHome(Model model, Principal principal) {
 
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         User user = new User();
@@ -658,11 +682,11 @@ public class MainController {
         Set<FeeStructure> feeStructures = new HashSet<>();
         List<FeeStructure> feeStructure = this.feeStructureService.allFeeItemInSchool(school.getCode());
         List<String> stringFee = new ArrayList<>();
-        for(FeeStructure fee: feeStructure) {
-        	if(!stringFee.contains(fee.getName())) {
-        		stringFee.add(fee.getName());
-        		feeStructures.add(fee);
-        	}
+        for (FeeStructure fee : feeStructure) {
+            if (!stringFee.contains(fee.getName())) {
+                stringFee.add(fee.getName());
+                feeStructures.add(fee);
+            }
         }
 
         model.addAttribute("feeStructures", feeStructures);
@@ -678,10 +702,10 @@ public class MainController {
 
     }
 
-    @GetMapping(value={"/schools/accountsClerkHome"})
+    @GetMapping(value = {"/schools/accountsClerkHome"})
     public String accountsClerkHome(Model model, Principal principal) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
-        School school = this.schoolService.getSchool(((SchoolUser)activeUser).getSchool().getCode()).get();
+        School school = this.schoolService.getSchool(((SchoolUser) activeUser).getSchool().getCode()).get();
         Student student = new Student();
         User user = new User();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
@@ -699,7 +723,7 @@ public class MainController {
         return "accountsClerkHome";
     }
 
-    @GetMapping(value={"/teacherHome"})
+    @GetMapping(value = {"/teacherHome"})
     public String teacherHome(Model model, Principal principal) {
         SchoolUser activeUser = this.userService.getSchoolUserByUsername(principal.getName());
         School school = activeUser.getSchool();
@@ -717,10 +741,10 @@ public class MainController {
         return "teacherHome";
     }
 
-    @GetMapping(value={"/schools/teachers/{username}"})
+    @GetMapping(value = {"/schools/teachers/{username}"})
     public String teacherProfile(Principal principal, Model model) {
         User activeUser = this.userService.getByUsername(principal.getName()).get();
-        School school = ((SchoolUser)activeUser).getSchool();
+        School school = ((SchoolUser) activeUser).getSchool();
         model.addAttribute("activeUser", activeUser);
         if (this.userService.userExists(activeUser.getUsername()).booleanValue()) {
             Student student = new Student();
@@ -747,9 +771,9 @@ public class MainController {
         return "teacherHome";
     }
 
-    @GetMapping(value={"/schools/{code}/discipline"})
+    @GetMapping(value = {"/schools/{code}/discipline"})
     public String disciplineReports(@PathVariable int code, Principal principal, Model model) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Student student = new Student();
         List<SchoolUser> schoolUsers = this.userService.getUsersBySchoolCode(school.getCode());
@@ -770,9 +794,9 @@ public class MainController {
         return "discipline";
     }
 
-    @GetMapping(value={"/schools/{code}/discipline/{id}"})
+    @GetMapping(value = {"/schools/{code}/discipline/{id}"})
     public String disciplineReport(@PathVariable int code, @PathVariable int id, Principal principal, Model model) {
-        SchoolUser activeUser = (SchoolUser)this.userService.getByUsername(principal.getName()).get();
+        SchoolUser activeUser = (SchoolUser) this.userService.getByUsername(principal.getName()).get();
         School school = this.schoolService.getSchool(activeUser.getSchool().getCode()).get();
         Discipline discipline = this.disciplineService.getDisciplineReportById(id).get();
         Student student = discipline.getStudent();
@@ -791,7 +815,7 @@ public class MainController {
         return "viewDiscipline";
     }
 
-    @GetMapping(value={"/schools/{code}/disciplines/{id}"})
+    @GetMapping(value = {"/schools/{code}/disciplines/{id}"})
     public RedirectView deleteDisciplineReport(@PathVariable int code, @PathVariable int id, RedirectAttributes redit) {
         this.disciplineService.deleteDisciplineReport(id);
         RedirectView redirectView = new RedirectView("/schools/" + code + "/discipline", true);
@@ -799,7 +823,7 @@ public class MainController {
         return redirectView;
     }
 
-    @PostMapping(value={"/schools/{code}/discipline"})
+    @PostMapping(value = {"/schools/{code}/discipline"})
     public RedirectView addDisciplineReport(@PathVariable int code, RedirectAttributes redit, @RequestParam int admNo, @RequestParam String type, @RequestParam String depature, @RequestParam String arrival, @RequestParam String reason) {
         if (this.studentService.ifStudentExistsInSchool(code + "_" + admNo, code).booleanValue()) {
             Student student = this.studentService.getStudentInSchool(code + "_" + admNo, code);
@@ -813,17 +837,17 @@ public class MainController {
         return redirectView;
     }
 
-    @GetMapping(value={"/comingSoon"})
+    @GetMapping(value = {"/comingSoon"})
     public String comingSoon() {
         return "comingSoon";
     }
 
-    @PostMapping(value={"/schools/{code}/assignTeacher"})
+    @PostMapping(value = {"/schools/{code}/assignTeacher"})
     public String getYearAssignment(Model model, Principal principal, @PathVariable int code, @RequestParam int year) {
         return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
     }
 
-    @GetMapping(value={"/schools/{code}/years/{year}/assignTeacher"})
+    @GetMapping(value = {"/schools/{code}/years/{year}/assignTeacher"})
     public String assignTeachers(Model model, Principal principal, @PathVariable int code, @PathVariable int year) {
 
         User user = this.userService.getByUsername(principal.getName()).get();
@@ -848,7 +872,7 @@ public class MainController {
         }
         for (int i = 0; i < 4; ++i) {
             for (Stream stream : streams) {
-                model.addAttribute("f" + i + stream.getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code,  year, i, stream.getId()));
+                model.addAttribute("f" + i + stream.getId() + "Teachers", this.teacherYearFormStreamService.getAllTeachersTeachingInYearFormAndStream(code, year, i, stream.getId()));
             }
         }
         model.addAttribute("activeUser", user);
@@ -862,14 +886,16 @@ public class MainController {
 
     }
 
-    @PostMapping(value={"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher"})
+    @PostMapping(value = {"/schools/{code}/years/{year}/forms/{form}/streams/{stream}/assignTeacher"})
     public String assignTeachers(RedirectAttributes redit, HttpServletRequest request, @PathVariable int code, @PathVariable int year, @PathVariable int form, @PathVariable int stream) {
         List<Subject> subjects = this.subjectService.getAllSubjectInSchool(code);
 
         for (int i = 0; i < subjects.size(); ++i) {
             Teacher teacher = this.userService.gettingTeacherByUsername(request.getParameter(subjects.get(i).getInitials() + "Teacher"));
 
-            if (teacher == null) continue;
+            if (teacher == null) {
+                continue;
+            }
 
             List<Form> UpdatedForms = this.formService.getAllFormsByTeacher(teacher.getUsername());
             Form formObj = this.formService.getForm(form, year, code).get();
@@ -900,14 +926,14 @@ public class MainController {
             teacher.setStreams(streams);
 
             TeacherYearFormStream teacherYearFormStream = new TeacherYearFormStream(teacher, yearObj, formObj, streamObj, subjects.get(i));
-            if(!this.teacherYearFormStreamService.isThereATeacherInStream(year, form, stream, subjects.get(i).getInitials())) {
+            if (!this.teacherYearFormStreamService.isThereATeacherInStream(year, form, stream, subjects.get(i).getInitials())) {
                 teacherYearFormStreamService.addTeacherTeachingSubjectToStream(teacherYearFormStream);
                 this.userService.addUser(teacher);
             }
 
         }
 
-       return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
+        return "redirect:/schools/" + code + "/years/" + year + "/assignTeacher";
 
     }
 
