@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid" style="background-color:white;">
+				
+					<div>
+
+						<div class="table-responsive">
+							<table class="table">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">AdmNo</th>
+										<th scope="col">First Name</th>
+										<th scope="col">Last Name</th>
+										<th scope="col">Depature Date</th>
+										<th scope="col">Return Date</th>
+										<th scope="col">Type</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<th:block th:unless="${disciplines} and ${disciplines.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No
+											Discipline Report has been added</p>
+									</th:block>
+									<tr th:each="discipline, iter : ${disciplines}">
+										<th scope="row" th:text="${iter.index +1}">index</th>
+										<td
+											th:utext="${#strings.substringAfter(discipline.student.admNo,'_')}">Adm
+											No.</td>
+										<td th:text="${discipline.student.firstname}">First Name</td>
+										<td th:text="${discipline.student.thirdname}">Last Name</td>
+										<td th:text="${discipline.depature}">Depature date</td>
+										<td th:text="${discipline.arrival}">Arrival</td>
+										<td th:text="${discipline.type}">Type</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>

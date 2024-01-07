@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a
+							th:href="@{/schools/bursarHome}"
+							th:if="${activeUser.role.name == 'BURSAR'}">Home</a>
+							<a th:href="@{/schools/accountsClerkHome}"
+									th:if="${activeUser.role.name == 'ACCOUNTSCLERK'}">Home</a><a
+							th:href="@{/schools/principal}"
+							th:if="${activeUser.role.name == 'PRINCIPAL'}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">FeeStatement</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-between">
+						<section>
+							<h3>School Fee Statement</h3>
+						</section>
+						<nav class="navbar navbar-expand navbar-light"
+							th:if="${activeUser.role.name == 'BURSAR' || activeUser.role.name == 'ACCOUNTSCLERK'}">
+							<div class="d-flex justify-content-end">
+								<button type="button" class="btn btn-primary"
+									data-toggle="modal" data-target="#addFeeModal"><i class="fas fa-fw fa-plus"></i> Add
+									Fees</button>
+							</div>
+						</nav>
+					</div>
+
+					<div>
+
+						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+							Staff exists</div>
+
+						<div class="alert alert-success" th:if="${success}"
+							th:text="${success}">Staff saved</div>
+
+						<div class="table-responsive">
+							<div>
+								<table class="table" id="allSchools">
+									<thead>
+										<tr>
+											<th scope="col">First Name</th>
+											<th scope="col">Last Name</th>
+											<th scope="col">Adm No.</th>
+											<th scope="col">Amount</th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody id="allSchoolsTable">
+										<th:block th:unless="${feeRecords} and ${feeRecords.size()}">
+											<br>
+											<p class="text text-center alert alert-warning">No Fee
+												has been paid</p>
+										</th:block>
+
+										<tr th:each="feeRecord : ${feeRecords}">
+											<td th:text="${feeRecord.student.firstname}">Student
+												first name</td>
+											<td th:text="${feeRecord.student.thirdname}">Student
+												third name</td>
+											<td
+												th:text="${#strings.substringAfter(feeRecord.student.admNo,'_')}">Student
+												adm no.</td>
+											<td th:text="'Ksh ' + ${feeRecord.amount} + '/-'">Amount</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a
+														th:href="@{/schools/{code}/students/{admNo}/statements(code=${school.code},admNo=${feeRecord.student.admNo})}"
+														class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
+												</div>
+											</td>
+											<td>
+												<div class="d-flex justify-content-center">
+													<a
+														th:href="@{/schools/{code}/statement/{id}(code=${school.code}, id=${feeRecord.id})}"
+														class="btn btn-danger"> Delete <i class="fas fa-fw fa-trash-alt"></i></a>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+				
+				
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+</body>
+
+</html>

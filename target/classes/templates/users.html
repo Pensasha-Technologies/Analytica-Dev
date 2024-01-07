@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragment2 :: head">
+<!-- Custom styles for this template-->
+<link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+		<ul th:replace="fragments :: sidebar"></ul>
+		<!-- End of Sidebar -->
+
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<!-- Main Content -->
+			<div id="content">
+
+				<!-- Sidebar Toggle (Topbar) -->
+				<button id="sidebarToggleTop"
+					class="btn btn-link d-md-none rounded-circle mr-3">
+					<i class="fa fa-bars"></i>
+				</button>
+
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'ADMIN'}"><a
+							th:href="@{/adminHome}">Home</a></li>
+						<li class="breadcrumb-item"
+							th:if="${activeUser.role.name == 'C.E.O'}"><a
+							th:href="@{/ceoHome}">Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">System
+							Users</li>
+					</ol>
+				</nav>
+
+				<!-- Begin Page Content -->
+				<div class="container-fluid">
+
+					<div class="d-flex justify-content-between">
+						<section>
+							<h3>System Users</h3>
+						</section>
+						<nav class="navbar navbar-expand-lg navbar-light">
+							<div class="d-flex justify-content-end"
+								style="padding-bottom: 20px;">
+								<button type="button" class="btn btn-success"
+									data-toggle="modal" data-target="#addSchoolModal"><i class="fas fa-fw fa-plus"></i> Add
+									User </button>
+							</div>
+						</nav>
+					</div>
+
+					<div>
+
+						<div class="alert alert-danger" th:if="${fail}" th:text="${fail}">
+							User exists</div>
+
+						<div class="alert alert-success" th:if="${success}"
+							th:text="${success}">User saved</div>
+
+						<div class="table-responsive">
+							<table class="table" id="allSchools">
+								<thead>
+									<tr>
+										<th scope="col">First Name</th>
+										<th scope="col">Second Name</th>
+										<th scope="col">Third Name</th>
+										<th scope="col">Role</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="allSchoolsTable">
+									<div th:unless="${users} and ${users.size()}">
+										<br>
+										<p class="text text-center alert alert-warning">No user
+											has been added</p>
+									</div>
+
+									<tr th:each="user : ${users}">
+										<td th:text="${user.firstname}">User name</td>
+										<td th:text="${user.secondname}">User name</td>
+										<td th:text="${user.thirdname}">User name</td>
+										<td th:text="${user.role.name}">User role</td>
+										<td>
+											<div class="d-flex justify-content-center">
+												<a
+													th:href="@{profile/{username}(username = ${user.username})}"
+													class="btn btn-primary"> View <i class="fas fa-fw fa-book-reader"></i></a>
+											</div>
+										</td>
+										<td>
+											<div class="d-flex justify-content-center">
+												<a th:if="${activeUser.username} != ${user.username}"
+													data-toggle="modal" href="#" data-target="#deleteCampUserModal"
+													th:data-href="@{/user/{username}(username = ${user.username})}"
+													class="btn btn-danger"> Delete <i class="fas fa-fw fa-trash-alt"></i></a>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</div>
+			<!-- End of Main Content -->
+
+			<!-- Footer -->
+			<footer th:replace="fragments :: footer2"></footer>
+			<!-- End of Footer -->
+
+			<!-- Add school model -->
+			<div class="modal fade" id="addSchoolModal" tabindex="-1"
+				role="dialog" aria-labelledby="addSchoolModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addSchoolModalLabel">Add User</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="d-flex justify-content-center">
+								<div id="formContent" style="margin-top: -2px; padding: 10px;">
+									<!-- Login Form -->
+									<form class="addUserForm" th:action="@{/users}"
+										onsubmit="return systemUserEntryValidation()" method="post"
+										th:object="${user}">
+										<div class="form-group fadeIn first">
+											<label for="firstname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												First Name</label> <input type="text" id="firstname" required
+												th:field="*{firstname}" class="fadeIn first"
+												name="firstname" placeholder="Enter First Name" />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="secondname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Second Name</label> <input type="text" id="secondname" required
+												th:field="*{secondname}" class="fadeIn first"
+												name="secondname" placeholder="Enter Second Name" />
+										</div>
+										<div class="form-group fadeIn first">
+											<label for="thirdname"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Third Name</label> <input type="text" id="thirdname" required
+												th:field="*{thirdname}" class="fadeIn first"
+												name="thirdname" placeholder="Enter Third Name" />
+										</div>
+										<div class="form-group fadeIn second">
+											<label for="username"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												username</label> <input type="text" id="username" required
+												th:field="*{username}" class="fadeIn second" name="username"
+												placeholder="Enter username" />
+										</div>
+										<div class="form-group fadeIn third">
+											<label for="phoneNumber"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Phone Number</label> <input type="text" id="phoneNumber" required
+												th:field="*{phoneNumber}" class="fadeIn third"
+												name="phoneNumber" placeholder="Enter Phone Number" />
+										</div>
+										<div class="form-group fadeIn third">
+											<label for="email"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Email</label> <input type="email" id="email" th:field="*{email}"
+												class="fadeIn third" name="email" placeholder="Enter Email" />
+										</div>
+										<div class="form-group fadeIn third">
+											<label for="address"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												Address</label> <input type="text" id="address"
+												th:field="*{address}" class="fadeIn third" name="address"
+												placeholder="Enter Address" />
+										</div>
+										<div class="form-group fadeIn fourth">
+											<label for="role"
+												style="display: block; text-align: left; margin-bottom: -5px;">Enter
+												role </label> <select class="fadeIn fourth" name="role" id="role"
+												required><option value="">Select Role ...</option>
+												<option value="admin">System Admin</option>
+												<option value="ceo">C.E.O</option>
+												<option value="officeAssistant">Office Assistant</option>
+												<option value="fieldAssistant">Field Assistant</option>
+											</select>
+										</div>
+
+										<button class="btn btn-success fadeIn fourth" type="submit"
+											style="margin-top: 10px;"> <i class="fas fa-fw fa-plus"></i> Add User</button>
+									</form>
+								</div>
+
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger"
+								data-dismiss="modal">Close <i class="fas fa-fw fa-times"></i> </button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Delete Company User Model -->
+			<div class="modal fade" id="deleteCampUserModal" tabindex="-1" role="dialog"
+				aria-labelledby="deleteCampUserModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-danger" id="deleteCampUserModalLabel">Delete
+								User</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p class="text-danger">All user details and information
+								will be deleted and will not be recovered. Are you sure you want
+								to delete?</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success"
+								data-dismiss="modal">No! Don't Delete <i class="fas fa-fw fa-times"></i></button>
+							<a class="btn btn-danger ok-button">Yes! Delete <i class="fas fa-fw fa-trash-alt"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- End of Content Wrapper -->
+
+	</div>
+	<!-- End of Page Wrapper -->
+
+	<!-- Scroll to Top Button-->
+	<a th:replace="fragments :: scroll"></a>
+
+	<!-- Logout modal -->
+	<div th:replace="fragments :: logoutModal"></div>
+
+	<div th:replace="fragments :: endScript"></div>
+
+	<script>
+		function systemUserEntryValidation() {
+			var firstname, secondname, thirdname, username, password, phoneNumber, email, address, role;
+
+			// Get the value of the input field with id="numb"
+			firstname = document.getElementById("firstname").value;
+			secondname = document.getElementById("secondname").value;
+			thirdname = document.getElementById("thirdname").value;
+			username = document.getElementById("username").value;
+			password = document.getElementById("password").value;
+			phoneNumber = document.getElementById("phoneNumber").value;
+			email = document.getElementById("email").value;
+			address = document.getElementById("address").value;
+			role = document.getElementById("role").value;
+
+			if (firstname == "") {
+				alert("First Name must be filled out");
+				return false;
+			} else if (firstname.length < 3) {
+				alert("First Name must be greater than 2 characters");
+				document.getElementById("firstname").value = '';
+				return false;
+			} else if (firstname.length > 24) {
+				alert("First Name must be less than 24 characters");
+				document.getElementById("firstname").value = '';
+				return false;
+			} else if (!isNaN(firstname)) {
+				alert("First Name must be a character");
+				document.getElementById("firstname").value = '';
+				return false;
+			}
+
+			if (secondname.length > 24) {
+				alert("Second Name must be less than 24 characters");
+				document.getElementById("secondname").value = '';
+				return false;
+			}
+
+			if (thirdname == "") {
+				alert("Third Name must be filled out");
+				return false;
+			} else if (thirdname.length < 3) {
+				alert("Third Name must be greater than 2 characters");
+				document.getElementById("thirdname").value = '';
+				return false;
+			} else if (thirdname.length > 24) {
+				alert("Third Name must be less than 24 characters");
+				document.getElementById("thirdname").value = '';
+				return false;
+			} else if (!isNaN(thirdname)) {
+				alert("Third Name must be a character");
+				document.getElementById("thirdname").value = '';
+				return false;
+			}
+
+			if (username == "") {
+				alert("Username must be filled out");
+				return false;
+			} else if (username.length < 3) {
+				alert("Username must be greater than 2 characters");
+				document.getElementById("username").value = '';
+				return false;
+			} else if (username.length > 24) {
+				alert("Username must be less than 24 characters");
+				document.getElementById("username").value = '';
+				return false;
+			} else if (!isNaN(username)) {
+				alert("Username must be a character");
+				document.getElementById("username").value = '';
+				return false;
+			}
+
+			if (password == "") {
+				alert("Password must be filled out");
+				return false;
+			} else if (password.length < 3) {
+				alert("Password must be greater than 2 characters");
+				document.getElementById("password").value = '';
+				return false;
+			} else if (password.length > 24) {
+				alert("Password must be less than 24 characters");
+				document.getElementById("password").value = '';
+				return false;
+			}
+
+			if (phoneNumber == "") {
+				alert("Phone Number must be filled out");
+				document.getElementById("phoneNumber").value = 0;
+				return false;
+			} else if (isNaN(phoneNumber)) {
+				alert("Phone number should be a number");
+				document.getElementById("phoneNumber").value = 0;
+				return false;
+			} else if (phoneNumber.length != 10) {
+				alert("Phone number has the wrong format");
+				document.getElementById("phoneNumber").value = 0;
+				return false;
+			}
+
+			if (role == "") {
+				alert("Role must be filled out");
+				document.getElementById("role").value = 0;
+				return false;
+			}
+		}
+		
+		$('#deleteCampUserModal').on(
+				'show.bs.modal',
+				function(e) {
+					$(this).find('.ok-button').attr('href',
+							$(e.relatedTarget).data('href'));
+				});
+		
+
+	</script>
+
+</body>
+
+</html>
