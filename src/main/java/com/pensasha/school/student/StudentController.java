@@ -1288,7 +1288,7 @@ public class StudentController {
     }
 
     @PostMapping(value = {"/schools/{code}/students"})
-    public String addStudent(@RequestParam(value = "file") MultipartFile file, @PathVariable int code, @ModelAttribute @Valid Student student, BindingResult bindingResult, RedirectAttributes redit, Principal principal, @RequestParam int stream) throws IOException {
+    public String addStudent(@RequestParam MultipartFile file, @PathVariable int code, @ModelAttribute @Valid Student student, BindingResult bindingResult, RedirectAttributes redit, Principal principal, @RequestParam int stream) throws IOException {
 
         String view;
         String[] admString = student.getAdmNo().split("_");

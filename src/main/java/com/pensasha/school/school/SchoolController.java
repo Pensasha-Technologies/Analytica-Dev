@@ -105,7 +105,7 @@ public class SchoolController {
     }
 
     @PostMapping(value={"/editSchool/{s_code}"})
-    public RedirectView saveSchoolEdits(@Valid School school, BindingResult bindingResult, @RequestParam(value="file") MultipartFile file, RedirectAttributes redit, @PathVariable int s_code) throws IOException {
+    public RedirectView saveSchoolEdits(@Valid School school, BindingResult bindingResult, @RequestParam MultipartFile file, RedirectAttributes redit, @PathVariable int s_code) throws IOException {
         
     	School updatedSchool = schoolService.getSchool(school.getCode()).get();
     	updatedSchool.setName(school.getName());
@@ -159,7 +159,7 @@ public class SchoolController {
     }
 
     @PostMapping(value={"/schools"})
-    public RedirectView addSchool(@RequestParam(value="file") MultipartFile file,  @RequestParam(value="file") MultipartFile banner, @Valid School school, BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
+    public RedirectView addSchool(@RequestParam MultipartFile file,  @RequestParam(value="file") MultipartFile banner, @Valid School school, BindingResult bindingResult, RedirectAttributes redit, Principal principal) throws IOException {
         User user = this.userService.getByUsername(principal.getName()).get();
         RedirectView redirectView = new RedirectView();
         if (bindingResult.hasErrors()) {
